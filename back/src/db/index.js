@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { User } from "./models/User";
+import { Exercise } from "./models/Exercise";
 
 const DB_URL =
   process.env.MONGODB_URL ||
