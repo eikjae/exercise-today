@@ -7,8 +7,8 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
     }
     html {
-        font-size: 62.5%;
-        background-color: #222222;
+        /* font-size: 62.5%; */
+        /* background-color: #222222; */
     }
     ul {
         list-style: none;
