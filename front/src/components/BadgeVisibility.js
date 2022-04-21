@@ -16,13 +16,13 @@ export default function BadgeVisibility({ food }) {
         display: "flex",
         flexDirection: "column",
         "& .MuiBadge-root": {
-          marginRight: 3,
+          marginRight: 2,
         },
       }}
     >
-      <div style={{ marginBottom: "20px" }}>
+      <div style={{ marginBottom: "20px", marginRight: "20px" }}>
         <label style={{ fontSize: "15px" }}>{food}</label>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;
         <Badge color="primary" badgeContent={count}>
           <RestaurantIcon />
         </Badge>
