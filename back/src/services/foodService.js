@@ -1,20 +1,10 @@
 import { Food } from "../db";
 
 class foodService {
-  static async getFood({ category }) {
-    const food = await Food.findByCategory({ category });
-    if (!food) {
-      const errorMessage =
-        "해당 카테고리 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      return { errorMessage };
-    }
-
-    return food;
-  }
-
   static async getFoods() {
     const foods = await Food.findAll();
-    return foods;
+    const foodsCategory = foods.map(x => x["category"])
+    return foodsCategory;
   }
 
   static calculateCalories({ foodsInfo }) {

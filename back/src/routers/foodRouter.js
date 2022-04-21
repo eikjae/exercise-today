@@ -4,33 +4,18 @@ import { foodService } from "../services/foodService";
 const foodRouter = Router();
 
 foodRouter.get(
-    "/food",
-    async function (req, res, next) {
-      try {
-        const { category } = req.body;
-        
-        const food = await foodService.getFood({ category });
-        res.status(200).send(food);
-      } catch (error) {
-        next(error);
-      }
-    }
-);
-
-
-foodRouter.get(
-  "/foodlist",
+  "/foods",
   async function (req, res, next) {
     try {
-      const foods = await foodService.getFoods();
-      res.status(200).send(foods);
+      const foodsCategory = await foodService.getFoods();
+      res.status(200).send(foodsCategory);
     } catch (error) {
       next(error);
     }
   }
 );
 
-foodRouter.get(
+foodRouter.post(
     "/foods/calories",
     async function (req, res, next) {
       try {
