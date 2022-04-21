@@ -21,7 +21,7 @@ musicRouter.get("/musics/by",
             const filteredMusics=await musicService.getMusicsBy({filter,mode})
             res.status(200).json(filteredMusics)
         }catch(error){
-            res.status(400)
+            res.status(200)
         }
     }
 )
