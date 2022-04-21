@@ -23,4 +23,24 @@ exerciseRouter.post("/exercise/bmi", async function (req, res, next) {
   }
 });
 
+exerciseRouter.post("/exercise/calories", async function (req, res, next) {
+  try {
+    const weight = req.body.weight;
+    const exercise = req.body.exercise;
+
+    const newCalories = await exerciseService.calculateCalories({
+      weight,
+      exercise,
+    });
+
+    if (newCalories.errorMessage) {
+      throw new Error(newCalories.errorMessage);
+    }
+
+    res.status(200).json(newCalories);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export { exerciseRouter };
