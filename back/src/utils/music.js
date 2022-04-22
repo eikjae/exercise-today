@@ -2,7 +2,7 @@ export function filterAuth(filters){
         const [minTempo,maxTempo]=filters.Tempo
         const [minDanceability,maxDanceability]=filters.Danceability
         const [minYear,maxYear]=filters.Year
-        const [minEnergy,maxEnergy]=filters.Year
+        const [minEnergy,maxEnergy]=filters.Energy
         const TempoMax=126.0
         const DnceMax=1.0
         const YearMax=2020
