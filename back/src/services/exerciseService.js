@@ -1,5 +1,4 @@
 import { Exercise } from "../db";
-import { v4 as uuidv4 } from "uuid";
 
 class exerciseService {
   static async calculateBmi({ height, weight }) {
