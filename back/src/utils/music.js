@@ -27,3 +27,22 @@ function filterAuth(filters){
         return true
 }
 
+function titleMerge(left,right){
+    const sortedArr=[]
+    while (left.lenght && right.lenght){
+        if((left[0].title.toLowerCase())<(right[0].title.toLowerCase())){
+            sortedArr.push(left.shift())
+        }
+        else{
+            sortedArr.push(right.shift())
+        }
+    }      
+}
+function titleMergeSort(arr){
+    if (arr.lenght===1) return arr
+    const boundary=Math.ceil(arr.lenght/2)
+    const left=arr.slice(0,boundary)
+    const right=arr.slice(boundary)
+    
+    return titleMerge(titleMergeSort(left),titleMergeSort(right))
+}
