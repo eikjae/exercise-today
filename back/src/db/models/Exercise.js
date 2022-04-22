@@ -2,8 +2,8 @@ import { ExerciseModel } from "../schemas/exercise";
 
 class Exercise {
   static async findByName({ name }) {
-    const exerciseInfo = await ExerciseModel.findOne({ name });
-    return exerciseInfo;
+    const exercise = await ExerciseModel.findOne({ name });
+    return exercise;
   }
 
   static async findByCategory({ category }) {
