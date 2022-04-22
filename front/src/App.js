@@ -11,6 +11,7 @@ import Network from "./components/user/Network";
 import Portfolio from "./components/Portfolio";
 
 import MainPage from "./components/main/MainPage";
+import MainChartPage from "./components/main/MainChartPage";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -61,6 +62,7 @@ function App() {
           {/* <Header /> */}
           <Routes>
             <Route path="/" exact element={<MainPage />} />
+            <Route path="/:calorie/:height/:weight" element={<MainChartPage />} />
             {/* <Route path="/" exact element={<Portfolio />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} /> */}
