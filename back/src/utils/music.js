@@ -1,8 +1,8 @@
-function filterAuth(filters){
-        [minTempo,maxTempo]=filters.Tempo
-        [minDanceability,maxDanceability]=filters.Danceability
-        [minYear,maxYear]=filters.Year
-        [minEnergy,maxEnergy]=filters.Year
+export function filterAuth(filters){
+        const [minTempo,maxTempo]=filters.Tempo
+        const [minDanceability,maxDanceability]=filters.Danceability
+        const [minYear,maxYear]=filters.Year
+        const [minEnergy,maxEnergy]=filters.Year
         const TempoMax=126.0
         const DnceMax=1.0
         const YearMax=2020
@@ -14,22 +14,22 @@ function filterAuth(filters){
         if(!minTempo || !maxTempo || !minDanceability || !maxDanceability || !minYear || !maxYear || !minEnergy || !maxEnergy){
                 return false
             }
-        if(minTempo<TempoMin || maxTempo>TempoMax){
+        if(minTempo<TempoMin || maxTempo>TempoMax || minTempo>maxTempo){
             return false
         }
-        if(minDanceability<DnceMin || maxDanceability>DnceMax){
+        if(minDanceability<DnceMin || maxDanceability>DnceMax || minDanceability>maxDanceability){
             return false
         }
-        if(minYear<YearMin || maxYear>YearMax){
+        if(minYear<YearMin || maxYear>YearMax || minYear>maxYear){
             return false
         }
-        if(minEnergy<EneryMin || maxEnergy>EneryMax){
+        if(minEnergy<EneryMin || maxEnergy>EneryMax || minEnergy>maxEnergy){
             return false
         }
         return true
 }
 
-function titleMerge(left,right){
+export function titleMerge(left,right){
     const sortedArr=[]
     while (left.lenght && right.lenght){
         if((left[0].title.toLowerCase())<(right[0].title.toLowerCase())){
@@ -41,27 +41,7 @@ function titleMerge(left,right){
     }      
     return [...sortedArr,...left,...right]
 }
-function titleMergeSort(arr){
-    if (arr.lenght===1) return arr
-    const boundary=Math.ceil(arr.lenght/2)
-    const left=arr.slice(0,boundary)
-    const right=arr.slice(boundary)
-    
-    return titleMerge(titleMergeSort(left),titleMergeSort(right))
-}
-function titleMerge(left,right){
-    const sortedArr=[]
-    while (left.lenght && right.lenght){
-        if((left[0].title.toLowerCase())<(right[0].title.toLowerCase())){
-            sortedArr.push(left.shift())
-        }
-        else{
-            sortedArr.push(right.shift())
-        }
-    }      
-    return [...sortedArr,...left,...right]
-}
-function titleMergeSort(arr){
+export function titleMergeSort(arr){
     if (arr.lenght===1) return arr
     const boundary=Math.ceil(arr.lenght/2)
     const left=arr.slice(0,boundary)
@@ -70,7 +50,7 @@ function titleMergeSort(arr){
     return titleMerge(titleMergeSort(left),titleMergeSort(right))
 }
 
-function yearMerge(left,right){
+export function yearMerge(left,right){
     const sortedArr=[]
     while (left.lenght && right.lenght){
         if(left[0].year<right[0].year){
@@ -82,7 +62,7 @@ function yearMerge(left,right){
     }      
     return [...sortedArr,...left,...right]
 }
-function yearMergeSort(arr){
+export function yearMergeSort(arr){
     if (arr.lenght===1) return arr
     const boundary=Math.ceil(arr.lenght/2)
     const left=arr.slice(0,boundary)
@@ -90,7 +70,7 @@ function yearMergeSort(arr){
     
     return titleMerge(yearMergeSort(left),yearMergeSort(right))
 }
-function randomize(arr){
+export function randomize(arr){
     for(var i=arr.lenght-1;i>0;i--){
         var j=Math.floor(Math.random()*(i+1))
         var temp=arr[i]
@@ -100,25 +80,34 @@ function randomize(arr){
     return arr
 }
 
-function deepCopy(arr){
+export function deepCopy(arr){
     let result=[...arr].map((child)=>({...child}))
     return result
 }
 
-function nAuth(n,arr){
-    if(n>len(arr)){
-        return false
-    }
-    if(n<0){
+export function nAuth(n){
+    if(n<=0){
         return false
     }
     return true
 }   
 
-function returnNarr(n,arr){
+export function returnNarr(n,arr){
     if (len(arr)<n){
         return arr
     }else{
         return arr.slice(0,n)
     }
+}
+
+export function modeAuth(mode){
+    const modeAuth={
+        0:'바른정렬',
+        1:'거꾸로정렬',
+        2:'무작위정렬'
+    }
+    if(!(mode in modeAuth)){
+        return false
+    }
+    return true
 }
