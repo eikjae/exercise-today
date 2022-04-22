@@ -31,10 +31,10 @@ class exerciseService {
     const exerciseList = await Exercise.findByCategory({
       category,
     });
-    console.log("exerciseList:", exerciseList);
+
     const timeList = exerciseList.map((exercise) => {
       const name = exercise.name;
-      console.log("name:", name);
+
       // 1시간 기준 소모되는 칼로리 = 몸무게(kg) * 2.205 * (1시간 기준 소모 칼로리 / 1 lb)
       const CaloriesPerLb = exercise.CaloriesPerLb;
       const caloriesBurned = weight * 2.205 * CaloriesPerLb;
@@ -42,7 +42,7 @@ class exerciseService {
       const time = calories / caloriesBurned;
       return { name, time };
     });
-    console.log("timeList:", timeList);
+
     if (exerciseList == []) {
       const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
       return { errorMessage };
