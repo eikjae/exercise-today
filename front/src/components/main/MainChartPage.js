@@ -1,5 +1,5 @@
 import { FormControlLabel, FormGroup, Switch } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import styled, {css} from 'styled-components';
@@ -25,7 +25,7 @@ const StyledInfoWrapper = styled.div`
 `
 
 const StyledSwitchWrapper = styled.div`
-    background-color: #222222;
+    background-color: #f8eaf1;
 `
 
 const StyledBottom = styled.div`
@@ -39,8 +39,9 @@ const StyledBottom = styled.div`
 
 
 const MainChartPage = (props) => {
+    const [selectSwitch, setSelectSwitch] = useState([true, false, false])
     const {calorie, height, weight} = useParams();
-
+  
     const data = {
         labels: ["January", "February", "March", "April", "May", "June", "July"],
         // labels 대신 아래와 같이 각각의 데이터의 x값을 개별적으로 전달해줍니다.
@@ -60,20 +61,31 @@ const MainChartPage = (props) => {
           },
         ],
       };
+      const handleOnClick = (e) => {
+        setSelectSwitch(() => {
+          const newSwitch = selectSwitch.map(s => false)
+          newSwitch[e.target.value] = true
+          setSelectSwitch(newSwitch)
+          
+        })
+      }
     return (
         <StyledGrid >
             <StyledInfoWrapper>
-              키 : 180
-              몸무게 :80
+              칼로리: {calorie}
+              키 : {height}
+              몸무게 :{weight}
             </StyledInfoWrapper>
             <StyledSwitchWrapper>
             <FormGroup>
-                <FormControlLabel control={<Switch defaultChecked />} label="Label" />
+                {selectSwitch?.map((s, index) => {
+                  return <FormControlLabel control={<Switch checked={s === true} color="secondary" />} label="Label" value={index} onClick={handleOnClick}/>
+                })}
             </FormGroup>
             </StyledSwitchWrapper>
             <StyledBottom>
                 <LineChart data={data} />
-            </StyledBottom>
+            </StyledBottom>            
         </StyledGrid>
     )
 };
