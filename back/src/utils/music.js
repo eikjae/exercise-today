@@ -101,12 +101,12 @@ export function returnNarr(n,arr){
 }
 
 export function modeAuth(mode){
-    const modeAuth={
+    const modes={
         0:'바른정렬',
         1:'거꾸로정렬',
         2:'무작위정렬'
     }
-    if(!(mode in modeAuth)){
+    if(!(mode in modes)){
         return false
     }
     return true
