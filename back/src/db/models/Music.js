@@ -6,11 +6,11 @@ class Music{
         return music
     }
 
-    static async findByFilter({filters}){
-        [minTempo,maxTempo]=filters.Tempo
-        [minDanceability,maxDanceability]=filters.Danceability
-        [minYear,maxYear]=filters.Year
-        [minEnergy,maxEnergy]=filters.Year
+    static async findByFilter({filter}){
+        const [minTempo,maxTempo]=filter.Tempo
+        const [minDanceability,maxDanceability]=filter.Danceability
+        const [minYear,maxYear]=filter.Year
+        const [minEnergy,maxEnergy]=filter.Energy
 
         const filteredMusics=await MusicModel.find(
             { $and :
