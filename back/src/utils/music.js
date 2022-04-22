@@ -31,7 +31,7 @@ export function filterAuth(filter){
 
 export function titleMerge(left,right){
     const sortedArr=[]
-    while (left.lenght && right.lenght){
+    while (left.length && right.length){
         if((left[0].title.toLowerCase())<(right[0].title.toLowerCase())){
             sortedArr.push(left.shift())
         }
@@ -42,11 +42,12 @@ export function titleMerge(left,right){
     return [...sortedArr,...left,...right]
 }
 export function titleMergeSort(arr){
-    if (arr.lenght===1) return arr
-    const boundary=Math.ceil(arr.lenght/2)
+    if (arr.length<=1){
+        return arr
+    } 
+    const boundary=Math.ceil(arr.length/2)
     const left=arr.slice(0,boundary)
     const right=arr.slice(boundary)
-    
     return titleMerge(titleMergeSort(left),titleMergeSort(right))
 }
 
