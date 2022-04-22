@@ -2,11 +2,8 @@ import cors from "cors";
 import express from "express";
 import { errorMiddleware } from "./middlewares/errorMiddleware";
 import { userAuthRouter } from "./routers/userRouter";
-<<<<<<< HEAD
 import { exerciseRouter } from "./routers/exerciseRouter";
-=======
 import { foodRouter } from "./routers/foodRouter";
->>>>>>> origin/front-prototype-2
 
 const app = express();
 
