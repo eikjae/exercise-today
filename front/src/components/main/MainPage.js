@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import * as Api from "../../api";
 import { Container, Grid } from "@mui/material";
 import styled from "styled-components";
 import BadgeVisibility from "./BadgeVisibility";
@@ -23,15 +25,21 @@ export default function MainPage() {
     margin-bottom: 50px;
   `;
 
-  const foods = [
-    "케이크",
-    "주류",
-    "육류",
-    "해산물",
-    "패스트푸드",
-    "아이스크림",
-    "사탕",
-  ];
+  const [foods, setFoods] = useState([]);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const res = await Api.get("foods");
+        console.log(res.data);
+        // setFoods()
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetch();
+  }, [foods]);
+
   return (
     // 여러 props 적용 확인
     <StyledContainer>
