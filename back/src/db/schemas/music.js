@@ -1,4 +1,4 @@
-import {Schema,model} from "mongoos"
+import {Schema,model} from "mongoose"
 
 const MusicSchema=new Schema(
     {
