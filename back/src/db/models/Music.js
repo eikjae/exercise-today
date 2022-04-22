@@ -10,13 +10,15 @@ class Music{
         [minTempo,maxTempo]=filters.Tempo
         [minDanceability,maxDanceability]=filters.Danceability
         [minYear,maxYear]=filters.Year
+        [minEnergy,maxEnergy]=filters.Year
 
         const filteredMusics=await MusicModel.find(
             { $and :
                 [
                     {"tempo":{$gte : minTempo,$lte :maxTempo}},
                     {"danceability":{$gte : minDanceability,$lte:maxDanceability}},
-                    {"year":{$gte:minYear,$lte:minYear}}
+                    {"year":{$gte:minYear,$lte:maxYear}},
+                    {"energy":{$gte:minEnergy,$lte:maxEnergy}}
                 ]
             }
         )
