@@ -34,12 +34,11 @@ class exerciseService {
     });
     console.log("exerciseList:", exerciseList);
     const timeList = exerciseList.map((exercise) => {
-      console.log("exercise:", exercise);
-      const name = exercise["name"];
+      const name = exercise.name;
       console.log("name:", name);
       // 1시간 기준 소모되는 칼로리 = 몸무게(kg) * 2.205 * (1시간 기준 소모 칼로리 / 1 lb)
-      const caloriesPerLb = exercise.caloriesPerLb;
-      const caloriesBurned = weight * 2.205 * caloriesPerLb;
+      const CaloriesPerLb = exercise.CaloriesPerLb;
+      const caloriesBurned = weight * 2.205 * CaloriesPerLb;
       // 운동을 해야하는 시간 = 먹은 칼로리 / 1시간 기준 소모되는 칼로리
       const time = calories / caloriesBurned;
       return { name, time };

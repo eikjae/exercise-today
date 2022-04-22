@@ -1,16 +1,16 @@
 import { Schema, model } from "mongoose";
 
 const ExerciseSchema = new Schema({
-  exercise: {
+    name: {
     type: String,
     required: true,
   },
-  calories_per_lb: {
+  CaloriesPerLb: {
     type: Number,
     required: true,
   },
-  weather_influence: {
-    type: Number,
+  category: {
+    type: String,
     required: true,
   },
 });
