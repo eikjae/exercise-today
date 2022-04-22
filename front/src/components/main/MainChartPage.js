@@ -162,13 +162,13 @@ const MainChartPage = (props) => {
       };
       const handleOnClick = async (e) => {
         try {
-          const exerciseInfo = await post('exercise/timeinfo', {
+          await post('exercise/timeinfo', {
             weight: Number(weight),
             category: e.target.value,
             calories: Number(calorie)
           })
-          setGraphData(exerciseInfo)
-          console.log(exerciseInfo);
+          // setGraphData(exerciseInfo)
+          // console.log(exerciseInfo);
           setSelectSwitch(() => {
           const newSwitch = selectSwitch.map(s => {
             const newS = {...s};
