@@ -12,12 +12,12 @@ class exerciseService {
     return refindBmi;
   }
 
-  static async calculateCalories({ weight, exercise }) {
+  static async calculateCalories({ weight, name }) {
     const calorieInfo = await Exercise.findCaloriesByExercise({
-      exercise,
+        name,
     });
 
-    const caloriesPerLb = calorieInfo.calories_per_lb;
+    const caloriesPerLb = calorieInfo.CaloriesPerLb;
     // 1 kg == 2.205 lb
     const caloriesPerHour = weight * 2.205 * caloriesPerLb;
     const refindCaloriesPerHour = caloriesPerHour.toFixed(2);
