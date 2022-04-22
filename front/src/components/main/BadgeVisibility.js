@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -83,7 +83,7 @@ export default function BadgeVisibility({
                 setCount((current) => {
                   return Math.max(current - 1, 0);
                 });
-                handleFoodInfo();
+                // handleFoodInfo();
               }}
             >
               <RemoveIcon fontSize="small" />
@@ -93,8 +93,8 @@ export default function BadgeVisibility({
               onClick={() => {
                 setCount((current) => {
                   return current + 1;
-                });
-                handleFoodInfo();
+                }, () => handleFoodInfo());
+                // handleFoodInfo();
               }}
             >
               <AddIcon fontSize="small" />
