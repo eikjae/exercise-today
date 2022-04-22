@@ -24,10 +24,10 @@ function Header() {
   return (
     <Nav activeKey={location.pathname}>
       <Nav.Item className="me-auto mb-5">
-        <Nav.Link disabled>안녕하세요, 포트폴리오 공유 서비스입니다.</Nav.Link>
+        <Nav.Link disabled>오늘도 운동</Nav.Link>
       </Nav.Item>
       <Nav.Item>
-        <Nav.Link onClick={() => navigate("/")}>나의 페이지</Nav.Link>
+        <Nav.Link onClick={() => navigate("/")}>마이페이지</Nav.Link>
       </Nav.Item>
       <Nav.Item>
         <Nav.Link onClick={() => navigate("/network")}>네트워크</Nav.Link>

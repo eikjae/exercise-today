@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { User } from "./models/User";
 import { Exercise } from "./models/Exercise";
+import { Food } from "./models/Food";
 
 const DB_URL =
   process.env.MONGODB_URL ||
@@ -17,3 +18,4 @@ db.on("error", (error) =>
 );
 
 export { User, Exercise };
+export { User, Food };
