@@ -9,7 +9,7 @@ class musicService{
             "노래가 비어있습니다.";
         return { errorMessage };
         }
-        console.log(musics)
+        
         const resultMusics=musics.map((music)=>{
             const {id,title,artists,artists_ids}=music
             return {
