@@ -97,3 +97,8 @@ function randomize(arr){
     }
     return arr
 }
+
+function deepCopy(arr){
+    let result=[...arr].map((child)=>({...child}))
+    return result
+}
