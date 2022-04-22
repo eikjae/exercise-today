@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import * as Api from "../../api";
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -12,7 +11,6 @@ import styled from "styled-components";
 const StyledWrapper = styled.div`
   display: flex;
   align-items: center;
-  /* width: 50%; */
   min-width: 270px;
   height: 60px;
   background-color: #e7f0ff;
@@ -36,8 +34,31 @@ const FoodBadge = styled(Badge)`
   margin-left: 10px;
 `;
 
-export default function BadgeVisibility({ food, setFoodInfo }) {
+export default function BadgeVisibility({
+  foodIdx,
+  food,
+  foodInfo,
+  setFoodInfo,
+}) {
   const [count, setCount] = useState(0);
+
+  const handleFoodInfo = () => {
+    const existIdx = foodInfo.findIndex((current) => current.category === food);
+    if (existIdx === -1) {
+      setFoodInfo(
+        foodInfo.concat([
+          {
+            category: food,
+            volume: count,
+          },
+        ])
+      );
+    } else {
+      let copyFoodInfo = [...foodInfo];
+      copyFoodInfo[existIdx] = { ...copyFoodInfo[existIdx], volume: count };
+      setFoodInfo(copyFoodInfo);
+    }
+  };
 
   return (
     <StyledWrapper>
@@ -59,7 +80,10 @@ export default function BadgeVisibility({ food, setFoodInfo }) {
             <Button
               aria-label="reduce"
               onClick={() => {
-                setCount(Math.max(count - 1, 0));
+                setCount((current) => {
+                  return Math.max(current - 1, 0);
+                });
+                handleFoodInfo();
               }}
             >
               <RemoveIcon fontSize="small" />
@@ -67,7 +91,10 @@ export default function BadgeVisibility({ food, setFoodInfo }) {
             <Button
               aria-label="increase"
               onClick={() => {
-                setCount(count + 1);
+                setCount((current) => {
+                  return current + 1;
+                });
+                handleFoodInfo();
               }}
             >
               <AddIcon fontSize="small" />

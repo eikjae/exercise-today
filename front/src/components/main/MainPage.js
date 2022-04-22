@@ -23,6 +23,21 @@ const FoodWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
+const SubmitButton = styled.button`
+  margin-top: 10px;
+  border-radius: 15px;
+  padding: 5px;
+  min-width: 120px;
+  color: BLACK;
+  font-weight: bold;
+  -webkit-appearance: none;
+  cursor: pointer;
+  &:active,
+  &:foucus {
+    outline: none;
+  }
+`;
+
 const CalorieWrapper = styled.div`
   margin-top: 40px;
   display: flex;
@@ -44,6 +59,17 @@ export default function MainPage() {
   const [foodInfo, setFoodInfo] = useState([]);
   const [calories, setCalories] = useState(0);
 
+  // 클릭 시, 선택된 카테고리와 수를 보내여 계산된 칼로리 값을 받아옴
+  const handleClick = async (e) => {
+    try {
+      const res = await Api.post("foods/calories", { foodInfo });
+      setCalories(res.data.calories);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // 음식 데이터를 받아와서 화면에 표시
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -65,12 +91,19 @@ export default function MainPage() {
         <Title>🍴 오늘 무엇을 드셨나요? 🍴</Title>
       </header>
       <Grid container justifyContent="center" alignItems="center">
-        {foods.map((food) => (
-          <FoodWrapper item key={food}>
-            <BadgeVisibility key={food} food={food} setFoodInfo={setFoodInfo} />
+        {foods.map((food, foodIdx) => (
+          <FoodWrapper item key={foodIdx}>
+            <BadgeVisibility
+              key={foodIdx}
+              foodIdx={foodIdx}
+              food={food}
+              foodInfo={foodInfo}
+              setFoodInfo={setFoodInfo}
+            />
           </FoodWrapper>
         ))}
       </Grid>
+      <SubmitButton onClick={handleClick}>칼로리 계산하기</SubmitButton>
       <CalorieWrapper>
         <CalorieResult>{calories}</CalorieResult>
       </CalorieWrapper>
