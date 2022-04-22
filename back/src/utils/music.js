@@ -37,6 +37,7 @@ function titleMerge(left,right){
             sortedArr.push(right.shift())
         }
     }      
+    return [...sortedArr,...left,...right]
 }
 function titleMergeSort(arr){
     if (arr.lenght===1) return arr
@@ -45,4 +46,45 @@ function titleMergeSort(arr){
     const right=arr.slice(boundary)
     
     return titleMerge(titleMergeSort(left),titleMergeSort(right))
+}
+function titleMerge(left,right){
+    const sortedArr=[]
+    while (left.lenght && right.lenght){
+        if((left[0].title.toLowerCase())<(right[0].title.toLowerCase())){
+            sortedArr.push(left.shift())
+        }
+        else{
+            sortedArr.push(right.shift())
+        }
+    }      
+    return [...sortedArr,...left,...right]
+}
+function titleMergeSort(arr){
+    if (arr.lenght===1) return arr
+    const boundary=Math.ceil(arr.lenght/2)
+    const left=arr.slice(0,boundary)
+    const right=arr.slice(boundary)
+    
+    return titleMerge(titleMergeSort(left),titleMergeSort(right))
+}
+
+function yearMerge(left,right){
+    const sortedArr=[]
+    while (left.lenght && right.lenght){
+        if(left[0].year<right[0].year){
+            sortedArr.push(left.shift())
+        }
+        else{
+            sortedArr.push(right.shift())
+        }
+    }      
+    return [...sortedArr,...left,...right]
+}
+function yearMergeSort(arr){
+    if (arr.lenght===1) return arr
+    const boundary=Math.ceil(arr.lenght/2)
+    const left=arr.slice(0,boundary)
+    const right=arr.slice(boundary)
+    
+    return titleMerge(yearMergeSort(left),yearMergeSort(right))
 }
