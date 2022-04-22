@@ -13,7 +13,7 @@ musicRouter.get("/musics",
     }
 )
 
-musicRouter.get("/musics/by",
+musicRouter.post("/musics/by",
     async function(req,res,next){
         try{
             filter=req.body.filter
