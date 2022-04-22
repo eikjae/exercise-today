@@ -66,13 +66,20 @@ class exerciseService {
       const CaloriesPerLb = exercise.CaloriesPerLb;
       const caloriesBurned = weight * 2.205 * CaloriesPerLb;
       // 운동을 해야하는 시간 = 먹은 칼로리 / 1시간 기준 소모되는 칼로리
-      const time = calories / caloriesBurned;
+      const time = String(calories / caloriesBurned);
       return { name, time };
     });
 
     // 시간 순으로 정렬
     timeList.sort((a, b) => {
       return a.time - b.time;
+    });
+
+    // 시간을 "1시간 23분"과 같은 형식으로 저장
+    timeList = timeList.map((v) => {
+      const hour = parseInt(v.time);
+      const minute = parseInt((parseFloat(v.time) % 1) * 60);
+      return { name: v.name, time: `${hour}시간 ${minute}분` };
     });
 
     return timeList;
