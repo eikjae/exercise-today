@@ -11,7 +11,9 @@ function filterAuth(filters){
         const DnceMin=0.62
         const YearMin=2014
         const EneryMin=0.7
-
+        if(!minTempo || !maxTempo || !minDanceability || !maxDanceability || !minYear || !maxYear || !minEnergy || !maxEnergy){
+                return true
+            }
         if(minTempo<TempoMin || maxTempo>TempoMax){
             return false
         }
@@ -101,4 +103,12 @@ function randomize(arr){
 function deepCopy(arr){
     let result=[...arr].map((child)=>({...child}))
     return result
+}
+
+function returnNarr(n,arr){
+    if (len(arr)<n){
+        return arr
+    }else{
+        return arr.slice(0,n)
+    }
 }
