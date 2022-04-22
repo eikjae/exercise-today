@@ -203,7 +203,10 @@ const MainChartPage = (props) => {
                   </StyledSwitchContainer>
                </StyledSwitchWrapper>
         </StyledTopGrid>
-
+            <h2 style={{textAlign: "center"}}>칼로리 소비를 위해 얼마나 운동해야 할까요?</h2>
+            <StyledBottom>
+                <LineChart data={data} />
+            </StyledBottom>
         </StyledContainer>
     )
 };
