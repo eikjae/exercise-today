@@ -28,11 +28,38 @@ class exerciseService {
   }
 
   static async timeinfo({ weight, category, calories }) {
-    const exerciseList = await Exercise.findByCategory({
+    const categoryList = [
+      "유산소",
+      "무산소",
+      "구기",
+      "라켓",
+      "육상",
+      "수상",
+      "댄스",
+      "사이클",
+      "양궁",
+      "복싱",
+      "격투",
+      "기타",
+    ];
+    if (categoryList.includes(category) == false) {
+      const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    let exerciseList = await Exercise.findByCategory({
       category,
     });
 
-    const timeList = exerciseList.map((exercise) => {
+    const length = exerciseList.length;
+
+    // 최대 8개의 exercise를 랜덤하게 원소로 저장
+    exerciseList.sort(() => Math.random() - Math.random());
+    if (length > 8) {
+      exerciseList = exerciseList.slice(0, 8);
+    }
+
+    let timeList = exerciseList.map((exercise) => {
       const name = exercise.name;
 
       // 1시간 기준 소모되는 칼로리 = 몸무게(kg) * 2.205 * (1시간 기준 소모 칼로리 / 1 lb)
@@ -43,10 +70,11 @@ class exerciseService {
       return { name, time };
     });
 
-    if (exerciseList == []) {
-      const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
-      return { errorMessage };
-    }
+    // 시간 순으로 정렬
+    timeList.sort((a, b) => {
+      return a.time - b.time;
+    });
+
     return timeList;
   }
 }

@@ -56,7 +56,7 @@ exerciseRouter.post("/exercise/timeinfo", async function (req, res, next) {
     });
 
     if (exerciseList.errorMessage) {
-      throw new Error(newBmi.errorMessage);
+      throw new Error(exerciseList.errorMessage);
     }
 
     res.status(200).json(exerciseList);
