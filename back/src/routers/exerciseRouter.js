@@ -43,4 +43,26 @@ exerciseRouter.post("/exercise/calories", async function (req, res, next) {
   }
 });
 
+exerciseRouter.post("/exercise/timeinfo", async function (req, res, next) {
+  try {
+    const weight = req.body.weight;
+    const category = req.body.category;
+    const calories = req.body.calories;
+
+    const exerciseList = await exerciseService.timeinfo({
+      weight,
+      category,
+      calories,
+    });
+
+    if (exerciseList.errorMessage) {
+      throw new Error(newBmi.errorMessage);
+    }
+
+    res.status(200).json(exerciseList);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export { exerciseRouter };
