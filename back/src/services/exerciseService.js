@@ -28,6 +28,25 @@ class exerciseService {
   }
 
   static async timeinfo({ weight, category, calories }) {
+    const categoryList = [
+      "유산소",
+      "무산소",
+      "구기",
+      "라켓",
+      "육상",
+      "수상",
+      "댄스",
+      "사이클",
+      "양궁",
+      "복싱",
+      "격투",
+      "기타",
+    ];
+    if (categoryList.includes(category) == false) {
+      const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
     const exerciseList = await Exercise.findByCategory({
       category,
     });
@@ -42,11 +61,6 @@ class exerciseService {
       const time = calories / caloriesBurned;
       return { name, time };
     });
-
-    if (exerciseList == []) {
-      const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
-      return { errorMessage };
-    }
     return timeList;
   }
 }
