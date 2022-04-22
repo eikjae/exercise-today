@@ -6,9 +6,10 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
         padding: 0;
     }
-    html {
+    html, body {
         /* font-size: 62.5%; */
         /* background-color: #222222; */
+        font-family: "Elice Digital Baeum", sans-serif;
     }
     ul {
         list-style: none;
