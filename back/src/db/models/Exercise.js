@@ -7,8 +7,8 @@ class Exercise {
   }
 
   static async findByCategory({ category }) {
-    const exerciseInfo = await ExerciseModel.find({ category });
-    return exerciseInfo;
+    const exercise = await ExerciseModel.find({ category });
+    return exercise;
   }
 }
 
