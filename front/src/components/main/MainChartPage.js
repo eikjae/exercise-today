@@ -79,62 +79,62 @@ const StyledFormControlLabel = styled.div`
 const MainChartPage = (props) => {
     const [selectSwitch, setSelectSwitch] = useState([
       { 
-        id: 1,
+        id: 0,
         isSelected: true,
         name: "유산소"
       },
       { 
-        id: 2,
+        id: 1,
         isSelected: false,
         name: "무산소"
       },
       { 
-        id: 3,
+        id: 2,
         isSelected: false,
         name: "구기"
       },
       { 
-        id: 4,
+        id: 3,
         isSelected: false,
         name: "라켓"
       },
       { 
-        id: 5,
+        id: 4,
         isSelected: false,
         name: "육상"
       },
       { 
-        id: 6,
+        id: 5,
         isSelected: false,
         name: "수상"
       },
       { 
-        id: 7,
+        id: 6,
         isSelected: false,
         name: "댄스"
       },
       { 
-        id: 8,
+        id: 7,
         isSelected: false,
         name: "사이클"
       },
       { 
-        id: 9,
+        id: 8,
         isSelected: false,
         name: "양궁"
       },
       { 
-        id: 10,
+        id: 9,
         isSelected: false,
         name: "복싱"
       },
       { 
-        id: 11,
+        id: 10,
         isSelected: false,
         name: "격투"
       },
       { 
-        id: 12,
+        id: 11,
         isSelected: false,
         name: "기타"
       },
@@ -161,21 +161,24 @@ const MainChartPage = (props) => {
         ],
       };
       const handleOnClick = async (e) => {
+        const name = e.target.value;
+        const index = e.target.id;
+        console.log(e.target);
         try {
-          await post('exercise/timeinfo', {
+          const exerciseInfo = await post('exercise/timeinfo', {
             weight: Number(weight),
-            category: e.target.value,
+            category: name,
             calories: Number(calorie)
           })
-          // setGraphData(exerciseInfo)
-          // console.log(exerciseInfo);
+          setGraphData(exerciseInfo)
+          console.log(exerciseInfo);
           setSelectSwitch(() => {
           const newSwitch = selectSwitch.map(s => {
             const newS = {...s};
             newS.isSelected = false
             return newS
           })
-          newSwitch[e.target.value].isSelected = true
+          newSwitch[index].isSelected = true
           setSelectSwitch(newSwitch)          
         })
         } catch(e) {
@@ -196,7 +199,7 @@ const MainChartPage = (props) => {
                       {selectSwitch?.map((s, index) => {                        
                           return (
                             <StyledFormControlLabel key={s.id}>
-                                <FormControlLabel control={<Switch color="secondary" onClick={handleOnClick}/>} checked={s.isSelected === true} label={s.name} value={s.name}/>
+                                <FormControlLabel control={<Switch color="secondary" onClick={handleOnClick} value={s.name} id={String(index)}/>} checked={s.isSelected === true} label={s.name}/>
                             </StyledFormControlLabel>
                           )
                       })}
