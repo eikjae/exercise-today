@@ -6,7 +6,7 @@ export default function MainPage() {
   const StyledContainer = styled(Container)`
     max-width: 1000px;
     height: 1000px;
-    background-color: lightgrey;
+    background-color: white;
     ${({ theme }) => theme.tablet`
     background-color: blue;
   `}
@@ -20,9 +20,18 @@ export default function MainPage() {
   const Title = styled.h1`
     text-align: center;
     margin-top: 100px;
+    margin-bottom: 50px;
   `;
 
-  const foods = ["케이크", "주류", "육류", "해산물", "패스트푸드"];
+  const foods = [
+    "케이크",
+    "주류",
+    "육류",
+    "해산물",
+    "패스트푸드",
+    "아이스크림",
+    "사탕",
+  ];
   return (
     // 여러 props 적용 확인
     <StyledContainer>
@@ -37,6 +46,8 @@ export default function MainPage() {
           </Grid>
         ))}
       </Grid>
+      <br />
+      <h2 style={{ textAlign: "center" }}>(칼로리 결과)</h2>
     </StyledContainer>
   );
 }

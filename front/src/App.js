@@ -10,7 +10,7 @@ import Network from "./components/user/Network";
 // import RegisterForm from "./components/user/RegisterForm";
 import Portfolio from "./components/Portfolio";
 
-import MainPage from "./components/MainPage";
+import MainPage from "./components/main/MainPage";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
