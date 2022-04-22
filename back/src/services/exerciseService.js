@@ -59,7 +59,7 @@ class exerciseService {
       exerciseList = exerciseList.slice(0, 8);
     }
 
-    const timeList = exerciseList.map((exercise) => {
+    let timeList = exerciseList.map((exercise) => {
       const name = exercise.name;
 
       // 1시간 기준 소모되는 칼로리 = 몸무게(kg) * 2.205 * (1시간 기준 소모 칼로리 / 1 lb)
@@ -69,6 +69,12 @@ class exerciseService {
       const time = calories / caloriesBurned;
       return { name, time };
     });
+
+    // 시간 순으로 정렬
+    timeList.sort((a, b) => {
+      return a.time - b.time;
+    });
+
     return timeList;
   }
 }
