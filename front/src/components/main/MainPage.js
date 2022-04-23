@@ -14,7 +14,6 @@ const StyledContainer = styled(Container)`
 
 const Title = styled.h1`
   text-align: center;
-  margin-top: 50px;
   margin-bottom: 50px;
   color: #281461;
 `;
@@ -27,7 +26,7 @@ const FoodWrapper = styled.div`
 `;
 
 const SubmitButton = styled.button`
-  margin-top: 10px;
+  /* margin-top: 10px; */
   border-radius: 15px;
   padding: 5px;
   width: 300px;
@@ -48,13 +47,20 @@ const SubmitButton = styled.button`
 
 const BodyInfoWrapper = styled(Grid)`
   display: flex;
-  /* flex-direction: row; */
+  /* flex-direction: column; */
   justify-content: center;
   align-items: center;
   /* background-color: lightgray; */
   padding-bottom: 40px;
   width: 80%;
   border-radius: 10px;
+`;
+
+const ExplainLabel = styled.h6`
+  justify-content: center;
+  align-items: center;
+  color: "#281461";
+  margin-top: -15px;
 `;
 
 const BodyInfoGrid = styled(Grid)`
@@ -164,9 +170,14 @@ export default function MainPage() {
         ))}
       </Grid>
       <BodyInfoWrapper container>
-        <BodyInfoGrid item xs="auto">
-          <h1 style={{ color: "#281461" }}>키와 몸무게를 입력해주세요</h1>
-        </BodyInfoGrid>
+        <div style={{ display: "block", textAlign: "center" }}>
+          <ExplainLabel>100g(ml) 단위로 평균 칼로리가 계산됩니다.</ExplainLabel>
+          <BodyInfoGrid item xs="auto">
+            <h1 style={{ color: "#281461", marginBottom: "-10px" }}>
+              키와 몸무게를 입력해주세요
+            </h1>
+          </BodyInfoGrid>
+        </div>
         <BodyInfoGrid item xs="auto">
           <BodyInfoInput
             id="outlined-basic"
@@ -187,8 +198,10 @@ export default function MainPage() {
       <SubmitButton onClick={handleClick} disabled={isDisabled}>
         운동 추천받기
       </SubmitButton>
-      {isDisabled && (
+      {isDisabled ? (
         <WarningText>음식 선택 및 입력을 완료해주세요!</WarningText>
+      ) : (
+        <WarningText style={{ visibility: "hidden" }}>입력 완료</WarningText>
       )}
       {/* <CalorieWrapper>
         <CalorieResult>{calories} kcal</CalorieResult>
