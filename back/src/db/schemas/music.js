@@ -13,7 +13,7 @@ const MusicSchema = new Schema({
         type: String,
         required: true,
     },
-    artists_ids: {
+    artist_ids: {
         type: String,
         required: true,
     },
