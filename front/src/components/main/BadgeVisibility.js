@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -37,26 +37,28 @@ const FoodBadge = styled(Badge)`
 export default function BadgeVisibility({
   foodIdx,
   food,
-  foodInfo,
-  setFoodInfo,
+  foodsInfo,
+  setFoodsInfo,
 }) {
   const [count, setCount] = useState(0);
 
-  const handleFoodInfo = () => {
-    const existIdx = foodInfo.findIndex((current) => current.category === food);
+  const handleFoodsInfo = (params) => {
+    const existIdx = foodsInfo.findIndex(
+      (current) => current.category === food
+    );
     if (existIdx === -1) {
-      setFoodInfo(
-        foodInfo.concat([
+      setFoodsInfo(
+        foodsInfo.concat([
           {
             category: food,
-            volume: count,
+            volume: params,
           },
         ])
       );
     } else {
-      let copyFoodInfo = [...foodInfo];
-      copyFoodInfo[existIdx] = { ...copyFoodInfo[existIdx], volume: count };
-      setFoodInfo(copyFoodInfo);
+      let copyFoodsInfo = [...foodsInfo];
+      copyFoodsInfo[existIdx] = { ...copyFoodsInfo[existIdx], volume: params };
+      setFoodsInfo(copyFoodsInfo);
     }
   };
 
@@ -80,10 +82,12 @@ export default function BadgeVisibility({
             <Button
               aria-label="reduce"
               onClick={() => {
+                let params;
                 setCount((current) => {
-                  return Math.max(current - 1, 0);
+                  params = Math.max(current - 1, 0);
+                  return params;
                 });
-                // handleFoodInfo();
+                handleFoodsInfo(params);
               }}
             >
               <RemoveIcon fontSize="small" />
@@ -91,10 +95,12 @@ export default function BadgeVisibility({
             <Button
               aria-label="increase"
               onClick={() => {
+                let params;
                 setCount((current) => {
-                  return current + 1;
-                }, () => handleFoodInfo());
-                // handleFoodInfo();
+                  params = current + 1;
+                  return params;
+                });
+                handleFoodsInfo(params);
               }}
             >
               <AddIcon fontSize="small" />

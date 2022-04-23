@@ -13,8 +13,8 @@ const StyledContainer = styled(Container)`
 
 const Title = styled.h1`
   text-align: center;
-  margin-top: 100px;
-  margin-bottom: 70px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 `;
 
 const FoodWrapper = styled.div`
@@ -56,13 +56,13 @@ const CalorieResult = styled.h2`
 
 export default function MainPage() {
   const [foods, setFoods] = useState([]);
-  const [foodInfo, setFoodInfo] = useState([]);
+  const [foodsInfo, setFoodsInfo] = useState([]);
   const [calories, setCalories] = useState(0);
 
   // 클릭 시, 선택된 카테고리와 수를 보내여 계산된 칼로리 값을 받아옴
   const handleClick = async (e) => {
     try {
-      const res = await Api.post("foods/calories", { foodInfo });
+      const res = await Api.post("foods/calories", foodsInfo);
       setCalories(res.data.calories);
     } catch (err) {
       console.error(err);
@@ -82,7 +82,7 @@ export default function MainPage() {
     fetch();
   }, []);
 
-  // + 버튼이 눌리면 일단 foodInfo에 정보를 넣음
+  // + 버튼이 눌리면 일단 foodsInfo에 정보를 넣음
   // submit(계산) 버튼을 누를시 volumne이 0인 값은 배열 filter하여 제거하고 POST 요청
 
   return (
@@ -97,16 +97,17 @@ export default function MainPage() {
               key={foodIdx}
               foodIdx={foodIdx}
               food={food}
-              foodInfo={foodInfo}
-              setFoodInfo={setFoodInfo}
+              foodsInfo={foodsInfo}
+              setFoodsInfo={setFoodsInfo}
             />
           </FoodWrapper>
         ))}
       </Grid>
       <SubmitButton onClick={handleClick}>칼로리 계산하기</SubmitButton>
       <CalorieWrapper>
-        <CalorieResult>{calories}</CalorieResult>
+        <CalorieResult>{calories} kcal</CalorieResult>
       </CalorieWrapper>
+      <h2 style={{ marginTop: "20px" }}>(키, 체중 입력 추가 예정)</h2>
     </StyledContainer>
   );
 }
