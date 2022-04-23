@@ -4,7 +4,7 @@ import { targetExerciseService } from "../services/targetExerciseService";
 const targetExerciseRouter = Router();
 
 targetExerciseRouter.post(
-  "/exercise/findtarget",
+  "/exercise/findtargets",
   async function (req, res, next) {
     try {
       const bodyPart = req.body.bodyPart;
@@ -25,7 +25,7 @@ targetExerciseRouter.post(
 );
 
 targetExerciseRouter.post(
-  "/exercise/findequipment",
+  "/exercise/findequipments",
   async function (req, res, next) {
     try {
       const bodyPart = req.body.bodyPart;
@@ -48,7 +48,7 @@ targetExerciseRouter.post(
 );
 
 targetExerciseRouter.post(
-  "/exercise/partandtool",
+  "/exercise/findpartexercises",
   async function (req, res, next) {
     try {
       const bodyPart = req.body.bodyPart;
