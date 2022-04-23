@@ -14,7 +14,7 @@ const StyledContainer = styled(Container)`
 
 const Title = styled.h1`
   text-align: center;
-  margin-top: 50px;
+  margin-top: 10px;
   margin-bottom: 50px;
   color: #281461;
 `;
@@ -187,8 +187,10 @@ export default function MainPage() {
       <SubmitButton onClick={handleClick} disabled={isDisabled}>
         운동 추천받기
       </SubmitButton>
-      {isDisabled && (
+      {isDisabled ? (
         <WarningText>음식 선택 및 입력을 완료해주세요!</WarningText>
+      ) : (
+        <WarningText style={{ visibility: "hidden" }}>입력 완료</WarningText>
       )}
       {/* <CalorieWrapper>
         <CalorieResult>{calories} kcal</CalorieResult>
