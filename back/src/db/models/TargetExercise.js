@@ -10,6 +10,21 @@ class TargetExercise {
 
     return targetExerciseList;
   }
+
+  static async findByBodyPart({ bodyPart }) {
+    const exercises = await TargetExerciseModel.find({
+      bodyPart,
+    });
+    return exercises;
+  }
+
+  static async findByBodyPartAndTarget({ bodyPart, target }) {
+    const exercises = await TargetExerciseModel.find({
+      bodyPart,
+      target,
+    });
+    return exercises;
+  }
 }
 
 export { TargetExercise };
