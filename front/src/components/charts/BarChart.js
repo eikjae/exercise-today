@@ -47,7 +47,10 @@ const data = [
             data={data?.map(d => {
                 const time = d.time.split('시간')
                 const hour = Number(time[0]);
-                let min = (Number(time[1].replace('분', '')) / 60).toFixed(2)
+                let min = Number((Number(time[1].replace('분', '')) / 60).toFixed(2))
+                console.log(hour);
+                console.log(min);
+                console.log(hour + min);
                 return {
                     name: d.name,
                     hour: hour + min
