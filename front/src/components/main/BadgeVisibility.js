@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Badge from "@mui/material/Badge";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -34,29 +34,28 @@ const FoodBadge = styled(Badge)`
   margin-left: 10px;
 `;
 
-export default function BadgeVisibility({
-  foodIdx,
-  food,
-  foodInfo,
-  setFoodInfo,
-}) {
+export default function BadgeVisibility({ food, foodsInfo, setFoodsInfo }) {
   const [count, setCount] = useState(0);
 
-  const handleFoodInfo = () => {
-    const existIdx = foodInfo.findIndex((current) => current.category === food);
+  const handleFoodsInfo = (params) => {
+    // 이미 foodsInfo에 존재한다면 해당 인덱스를 사용하여 volume 업데이트
+    const existIdx = foodsInfo.findIndex(
+      (current) => current.category === food
+    );
+    // 존재하지 않을 경우 새로 추가
     if (existIdx === -1) {
-      setFoodInfo(
-        foodInfo.concat([
+      setFoodsInfo(
+        foodsInfo.concat([
           {
             category: food,
-            volume: count,
+            volume: params,
           },
         ])
       );
     } else {
-      let copyFoodInfo = [...foodInfo];
-      copyFoodInfo[existIdx] = { ...copyFoodInfo[existIdx], volume: count };
-      setFoodInfo(copyFoodInfo);
+      let copyFoodsInfo = [...foodsInfo];
+      copyFoodsInfo[existIdx] = { ...copyFoodsInfo[existIdx], volume: params };
+      setFoodsInfo(copyFoodsInfo);
     }
   };
 
@@ -80,10 +79,12 @@ export default function BadgeVisibility({
             <Button
               aria-label="reduce"
               onClick={() => {
+                let params;
                 setCount((current) => {
-                  return Math.max(current - 1, 0);
+                  params = Math.max(current - 1, 0);
+                  return params;
                 });
-                // handleFoodInfo();
+                handleFoodsInfo(params);
               }}
             >
               <RemoveIcon fontSize="small" />
@@ -91,10 +92,12 @@ export default function BadgeVisibility({
             <Button
               aria-label="increase"
               onClick={() => {
+                let params;
                 setCount((current) => {
-                  return current + 1;
-                }, () => handleFoodInfo());
-                // handleFoodInfo();
+                  params = current + 1;
+                  return params;
+                });
+                handleFoodsInfo(params);
               }}
             >
               <AddIcon fontSize="small" />
