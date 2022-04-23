@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart as Barchart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart as Barchart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LabelList } from 'recharts';
 const data = [
     {
       name: 'Page A',
@@ -47,12 +47,10 @@ const data = [
             data={data?.map(d => {
                 const time = d.time.split('시간')
                 const hour = Number(time[0]);
-                const min = Number(time[1].replace('분', ''))
-                console.log("hour: ", hour);
-                console.log(min);
+                let min = (Number(time[1].replace('분', '')) / 60).toFixed(2)
                 return {
                     name: d.name,
-                    hour
+                    hour: hour + min
                 }
             })}
             margin={{
@@ -67,7 +65,9 @@ const data = [
             <YAxis label={{value: 'hour', angle: -90, position: 'insideLeft'}}/>
             <Tooltip />
             <Legend />
-            <Bar dataKey="hour" fill="#8884d8" barSize={40}/>
+            <Bar dataKey="hour" fill="#8884d8" barSize={40}>
+                <LabelList dataKey="hour" position="top"></LabelList>
+            </Bar>
           </Barchart>
         </ResponsiveContainer>
       );
