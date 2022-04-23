@@ -1,15 +1,12 @@
 import { Music } from '../db';
 import {
     filterAuth,
-    titleMerge,
     titleMergeSort,
-    yearMerge,
     yearMergeSort,
     randomize,
-    deepCopy,
     nAuth,
-    returnNarr,
-    modeAuth,
+    orderbyAuth,
+    getRequiredComponentMusics,
 } from '../utils/music';
 
 class musicService {
@@ -20,20 +17,11 @@ class musicService {
             const errorMessage = '노래가 비어있습니다.';
             return { errorMessage };
         }
-
-        const resultMusics = musics.map((music) => {
-            const { id, title, artists, artists_ids } = music;
-            return {
-                id,
-                title,
-                artists,
-                artists_ids,
-            };
-        });
+        const resultMusics = getRequiredComponentMusics(musics);
         return { musics: resultMusics };
     }
 
-    static async getMusicsBy({ filter, mode, limit }) {
+    static async getMusicsBy({ filter, orderby, limit }) {
         limit = Math.ceil(limit);
         if (!filterAuth(filter)) {
             const errorMessage =
@@ -41,8 +29,8 @@ class musicService {
             return { errorMessage };
         }
 
-        if (!modeAuth(mode)) {
-            const errorMessage = '존재하지 않는 mode값입니다.';
+        if (!orderbyAuth(orderby)) {
+            const errorMessage = 'orderby 값이 유효하지 않습니다.';
             return { errorMessage };
         }
         if (!nAuth(limit)) {
@@ -50,10 +38,23 @@ class musicService {
             return { errorMessage };
         }
         const filteredMusics = await Music.findByFilter({ filter });
+        const limitedMusics = filteredMusics.slice(0, limit);
+        let orderbyMusics;
+        if (orderby === 'title') {
+            orderbyMusics = titleMergeSort(limitedMusics);
+        } else if (orderby === '-title') {
+            orderbyMusics = titleMergeSort(limitedMusics).reverse();
+        } else if (orderby === 'year') {
+            orderbyMusics = yearMergeSort(limitedMusics);
+        } else if (orderby === '-year') {
+            orderbyMusics = yearMergeSort(limitedMusics).reverse;
+        } else {
+            orderbyMusics = randomize(limitedMusics);
+        }
+        console.log(orderbyMusics);
+        const resultMusics = getRequiredComponentMusics(orderbyMusics);
 
-        let result = titleMergeSort(filteredMusics);
-
-        return filteredMusics;
+        return { musics: resultMusics };
     }
 }
 export { musicService };
