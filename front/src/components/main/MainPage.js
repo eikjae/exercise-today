@@ -35,9 +35,12 @@ const SubmitButton = styled.button`
   color: white;
   border: none;
   background-color: #281461;
+  /* background-color: ${(props) =>
+    props.isDisabled ? "white" : "#281461"}; */
   font-weight: bold;
   -webkit-appearance: none;
   cursor: pointer;
+  /* ${(props) => !props.isDisabled && `cursor: pointer;`}; */
   &:hover {
     background-color: #785dc0;
   }
@@ -76,6 +79,11 @@ const BodyInfoLabel = styled.label`
   width: 20px;
 `;
 
+const WarningText = styled.h6`
+  color: #e45454;
+  margin-top: 10px;
+`;
+
 // 이후에 칼로리 계산기로 재사용
 // const CalorieWrapper = styled.div`
 //   margin-top: 40px;
@@ -97,15 +105,25 @@ export default function MainPage() {
   const navigate = useNavigate();
   const [foods, setFoods] = useState([]);
   const [foodsInfo, setFoodsInfo] = useState([]);
-  const [calories, setCalories] = useState(0);
+  // const [calories, setCalories] = useState(0);
   const [height, setHeight] = useState(0);
   const [weight, setWeight] = useState(0);
+
+  const isHeightValid = height.length > 0;
+  const isWeightValid = weight.length > 0;
+  const isDisabled = !isHeightValid || !isWeightValid;
 
   // 클릭 시, 선택된 카테고리와 수를 보내여 계산된 칼로리 값을 받아옴
   const handleClick = async (e) => {
     try {
-      const res = await Api.post("foods/calories", foodsInfo);
-      setCalories(res.data.calories);
+      // filter를 통해 volume이 0인 값 배열에서 제거함
+      let copyFoodsInfo = [...foodsInfo];
+      copyFoodsInfo = copyFoodsInfo.filter((foodInfo) => foodInfo.volume > 0);
+
+      // POST 요청을 통해 칼로리 계산값을 받아옴
+      const res = await Api.post("foods/calories", copyFoodsInfo);
+      setFoodsInfo(copyFoodsInfo);
+      // setCalories(res.data.calories);
       navigate(`/${res.data.calories}/${height}/${weight}`);
     } catch (err) {
       console.error(err);
@@ -166,7 +184,12 @@ export default function MainPage() {
           <BodyInfoLabel>kg</BodyInfoLabel>
         </BodyInfoGrid>
       </BodyInfoWrapper>
-      <SubmitButton onClick={handleClick}>운동 추천받기</SubmitButton>
+      <SubmitButton onClick={handleClick} disabled={isDisabled}>
+        운동 추천받기
+      </SubmitButton>
+      {isDisabled && (
+        <WarningText>음식 선택 및 입력을 완료해주세요!</WarningText>
+      )}
       {/* <CalorieWrapper>
         <CalorieResult>{calories} kcal</CalorieResult>
       </CalorieWrapper> */}
