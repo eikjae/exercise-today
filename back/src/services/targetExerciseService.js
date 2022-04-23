@@ -1,10 +1,11 @@
 import { TargetExercise } from "../db";
 
 class targetExerciseService {
-  static async fromPartAndTool({ bodyPart, equipment }) {
+  static async fromPartAndTool({ bodyPart, equipment, target }) {
     const targetExerciseList = await TargetExercise.findByPartAndTool({
       bodyPart,
       equipment,
+      target
     });
 
     if (targetExerciseList == []) {
@@ -12,6 +13,35 @@ class targetExerciseService {
       return { errorMessage };
     }
     return targetExerciseList;
+  }
+
+  static async extractTarget({ bodyPart }) {
+    const exercises = await TargetExercise.findByBodyPart({
+      bodyPart,
+    });
+
+    if (exercises == []) {
+      const errorMessage = "부위를 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    const targetList = [...new Set(exercises.map(x => x["target"]))]
+    return targetList;
+  }
+
+  static async extractEquipment({ bodyPart, target }) {
+    const exercises = await TargetExercise.findByBodyPartAndTarget({
+      bodyPart,
+      target
+    });
+
+    if (exercises == []) {
+      const errorMessage = "부위를 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    const equipmentList = [...new Set(exercises.map(x => x["equipment"]))]
+    return equipmentList;
   }
 }
 
