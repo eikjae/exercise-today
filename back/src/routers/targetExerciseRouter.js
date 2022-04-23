@@ -9,10 +9,12 @@ targetExerciseRouter.post(
     try {
       const bodyPart = req.body.bodyPart;
       const equipment = req.body.equipment;
+      const target = req.body.target;
 
       const targetExerciseList = await targetExerciseService.fromPartAndTool({
         bodyPart,
         equipment,
+        target,
       });
 
       if (targetExerciseList.errorMessage) {
