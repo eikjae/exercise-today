@@ -38,6 +38,7 @@ class musicService {
             return { errorMessage };
         }
         const filteredMusics = await Music.findByFilter({ filter });
+
         const limitedMusics = filteredMusics.slice(0, limit);
         let orderbyMusics;
         if (orderby === 'title') {
@@ -49,9 +50,9 @@ class musicService {
         } else if (orderby === '-year') {
             orderbyMusics = yearMergeSort(limitedMusics).reverse;
         } else {
-            orderbyMusics = randomize(limitedMusics);
+            orderbyMusics = randomize(filteredMusics).slice(0, limit);
         }
-        console.log(orderbyMusics);
+
         const resultMusics = getRequiredComponentMusics(orderbyMusics);
 
         return { musics: resultMusics };
