@@ -53,7 +53,8 @@ const data = [
                 console.log(hour + min);
                 return {
                     name: d.name,
-                    hour: hour + min
+                    hour: hour + min,
+                    hours: d.time
                 }
             })}
             margin={{
@@ -69,7 +70,7 @@ const data = [
             <Tooltip />
             <Legend />
             <Bar dataKey="hour" fill="#8884d8" barSize={40}>
-                <LabelList dataKey="hour" position="top"></LabelList>
+                {/* <LabelList dataKey="hours" position="top"></LabelList> */}
             </Bar>
           </Barchart>
         </ResponsiveContainer>

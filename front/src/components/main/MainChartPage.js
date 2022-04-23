@@ -57,7 +57,6 @@ const StyledSwitchContainer = styled.div`
 const StyledBottom = styled.div`
     background-color: lightblue;
     grid-column: 1/3;
-    padding: 30px;
     display: flex;
     justify-content: center;
     align-items: start;
