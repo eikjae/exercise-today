@@ -34,18 +34,15 @@ const FoodBadge = styled(Badge)`
   margin-left: 10px;
 `;
 
-export default function BadgeVisibility({
-  foodIdx,
-  food,
-  foodsInfo,
-  setFoodsInfo,
-}) {
+export default function BadgeVisibility({ food, foodsInfo, setFoodsInfo }) {
   const [count, setCount] = useState(0);
 
   const handleFoodsInfo = (params) => {
+    // 이미 foodsInfo에 존재한다면 해당 인덱스를 사용하여 volume 업데이트
     const existIdx = foodsInfo.findIndex(
       (current) => current.category === food
     );
+    // 존재하지 않을 경우 새로 추가
     if (existIdx === -1) {
       setFoodsInfo(
         foodsInfo.concat([

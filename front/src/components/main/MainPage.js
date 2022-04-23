@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as Api from "../../api";
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, TextField } from "@mui/material";
 import styled from "styled-components";
 import BadgeVisibility from "./BadgeVisibility";
 
@@ -15,55 +16,97 @@ const Title = styled.h1`
   text-align: center;
   margin-top: 50px;
   margin-bottom: 50px;
+  color: #281461;
 `;
 
 const FoodWrapper = styled.div`
   display: flex;
-  justify-content: start;
-  flex-wrap: wrap;
+  justify-content: center;
+  /* flex-wrap: wrap; */
+  margin-top: -10px;
 `;
 
 const SubmitButton = styled.button`
   margin-top: 10px;
   border-radius: 15px;
   padding: 5px;
-  min-width: 120px;
-  color: BLACK;
+  width: 300px;
+  height: 40px;
+  color: white;
+  border: none;
+  background-color: #281461;
   font-weight: bold;
   -webkit-appearance: none;
   cursor: pointer;
-  &:active,
-  &:foucus {
-    outline: none;
+  &:hover {
+    background-color: #785dc0;
   }
 `;
 
-const CalorieWrapper = styled.div`
-  margin-top: 40px;
+const BodyInfoWrapper = styled(Grid)`
   display: flex;
+  /* flex-direction: row; */
+  justify-content: center;
   align-items: center;
-  justify-content: flex-end;
-  width: 50%;
-  height: 100px;
-  background-color: #61ac77;
+  /* background-color: lightgray; */
+  padding-bottom: 40px;
+  width: 80%;
   border-radius: 10px;
 `;
 
-const CalorieResult = styled.h2`
-  margin-right: 30px;
-  font-weight: bold;
+const BodyInfoGrid = styled(Grid)`
+  display: flex;
+  /* flex-direction: row; */
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
 `;
 
+const BodyInfoInput = styled(TextField)`
+  margin-left: 30px;
+  margin-right: 20px;
+  height: 35px;
+`;
+
+const BodyInfoLabel = styled.label`
+  display: flex;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-top: 15px;
+  width: 20px;
+`;
+
+// 이후에 칼로리 계산기로 재사용
+// const CalorieWrapper = styled.div`
+//   margin-top: 40px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: flex-end;
+//   width: 50%;
+//   height: 100px;
+//   background-color: #61ac77;
+//   border-radius: 10px;
+// `;
+
+// const CalorieResult = styled.h2`
+//   margin-right: 30px;
+//   font-weight: bold;
+// `;
+
 export default function MainPage() {
+  const navigate = useNavigate();
   const [foods, setFoods] = useState([]);
   const [foodsInfo, setFoodsInfo] = useState([]);
   const [calories, setCalories] = useState(0);
+  const [height, setHeight] = useState(0);
+  const [weight, setWeight] = useState(0);
 
   // 클릭 시, 선택된 카테고리와 수를 보내여 계산된 칼로리 값을 받아옴
   const handleClick = async (e) => {
     try {
       const res = await Api.post("foods/calories", foodsInfo);
       setCalories(res.data.calories);
+      navigate(`/${res.data.calories}/${height}/${weight}`);
     } catch (err) {
       console.error(err);
     }
@@ -95,7 +138,6 @@ export default function MainPage() {
           <FoodWrapper item key={foodIdx}>
             <BadgeVisibility
               key={foodIdx}
-              foodIdx={foodIdx}
               food={food}
               foodsInfo={foodsInfo}
               setFoodsInfo={setFoodsInfo}
@@ -103,11 +145,31 @@ export default function MainPage() {
           </FoodWrapper>
         ))}
       </Grid>
-      <SubmitButton onClick={handleClick}>칼로리 계산하기</SubmitButton>
-      <CalorieWrapper>
+      <BodyInfoWrapper container>
+        <BodyInfoGrid item xs="auto">
+          <h1 style={{ color: "#281461" }}>키와 몸무게를 입력해주세요</h1>
+        </BodyInfoGrid>
+        <BodyInfoGrid item xs="auto">
+          <BodyInfoInput
+            id="outlined-basic"
+            label="신장"
+            onChange={(e) => setHeight(e.target.value)}
+          />
+          <BodyInfoLabel>cm</BodyInfoLabel>
+        </BodyInfoGrid>
+        <BodyInfoGrid item xs="auto">
+          <BodyInfoInput
+            id="outlined-basic"
+            label="체중"
+            onChange={(e) => setWeight(e.target.value)}
+          />
+          <BodyInfoLabel>kg</BodyInfoLabel>
+        </BodyInfoGrid>
+      </BodyInfoWrapper>
+      <SubmitButton onClick={handleClick}>운동 추천받기</SubmitButton>
+      {/* <CalorieWrapper>
         <CalorieResult>{calories} kcal</CalorieResult>
-      </CalorieWrapper>
-      <h2 style={{ marginTop: "20px" }}>(키, 체중 입력 추가 예정)</h2>
+      </CalorieWrapper> */}
     </StyledContainer>
   );
 }
