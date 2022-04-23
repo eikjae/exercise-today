@@ -42,7 +42,7 @@ export function filterAuth(filter) {
     return true;
 }
 
-export function titleMerge(left, right) {
+function titleMerge(left, right) {
     const sortedArr = [];
     while (left.length && right.length) {
         if (left[0].title.toLowerCase() < right[0].title.toLowerCase()) {
@@ -63,7 +63,7 @@ export function titleMergeSort(arr) {
     return titleMerge(titleMergeSort(left), titleMergeSort(right));
 }
 
-export function yearMerge(left, right) {
+function yearMerge(left, right) {
     const sortedArr = [];
     while (left.length && right.length) {
         if (left[0].year < right[0].year) {
@@ -75,12 +75,12 @@ export function yearMerge(left, right) {
     return [...sortedArr, ...left, ...right];
 }
 export function yearMergeSort(arr) {
-    if (arr.lenght === 1) return arr;
+    if (arr.length <= 1) return arr;
     const boundary = Math.ceil(arr.length / 2);
     const left = arr.slice(0, boundary);
     const right = arr.slice(boundary);
 
-    return titleMerge(yearMergeSort(left), yearMergeSort(right));
+    return yearMerge(yearMergeSort(left), yearMergeSort(right));
 }
 export function randomize(arr) {
     for (var i = arr.length - 1; i > 0; i--) {
@@ -112,14 +112,24 @@ export function returnNarr(n, arr) {
     }
 }
 
-export function modeAuth(mode) {
-    const modes = {
-        0: '바른정렬',
-        1: '거꾸로정렬',
-        2: '무작위정렬',
-    };
-    if (!(mode in modes)) {
+export function orderbyAuth(orderby) {
+    const orders = ['title', '-title', 'year', '-year', 'random'];
+    if (!orders.includes(orderby)) {
         return false;
     }
     return true;
+}
+
+export function getRequiredComponentMusics(arr) {
+    const result = arr.map((music) => {
+        const { id, title, artists, artist_ids, year } = music;
+        return {
+            id,
+            title,
+            artists,
+            artist_ids,
+            year,
+        };
+    });
+    return result;
 }
