@@ -9,7 +9,8 @@ class targetExerciseService {
     });
 
     if (targetExerciseList == []) {
-      const errorMessage = "부위와 장비 이름을 다시 한 번 확인해 주세요.";
+      const errorMessage =
+        "부위와 장비 이름, 타켓 이름을 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 
@@ -17,6 +18,35 @@ class targetExerciseService {
       targetExerciseList = targetExerciseList.slice(0, 5);
     }
     return targetExerciseList;
+  }
+
+  static async extractTarget({ bodyPart }) {
+    const exercises = await TargetExercise.findByBodyPart({
+      bodyPart,
+    });
+
+    if (exercises == []) {
+      const errorMessage = "부위를 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    const targetList = [...new Set(exercises.map((x) => x["target"]))];
+    return targetList;
+  }
+
+  static async extractEquipment({ bodyPart, target }) {
+    const exercises = await TargetExercise.findByBodyPartAndTarget({
+      bodyPart,
+      target,
+    });
+
+    if (exercises == []) {
+      const errorMessage = "부위와 타겟 이름을 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    const equipmentList = [...new Set(exercises.map((x) => x["equipment"]))];
+    return equipmentList;
   }
 }
 
