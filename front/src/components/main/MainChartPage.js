@@ -1,4 +1,4 @@
-import { FormControlLabel, Switch } from "@mui/material";
+import { Container, FormControlLabel, Switch } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -6,7 +6,7 @@ import { MainPageChip } from "../chips/StyledChip";
 import { post } from "../../api";
 import BarChart from "../charts/BarChart";
 
-const StyledContainer = styled.div`
+const StyledContainer = styled(Container)`
   max-width: 1200px;
   max-height: 1000px;
   margin: auto;
@@ -21,13 +21,14 @@ const StyledTopGrid = styled.div`
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
     `}
+
+  text-align: center;
 `;
 
 const StyledInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  text-align: center;
 
   background-color: gray;
 
@@ -90,7 +91,6 @@ const StyledTextWrapper = styled.div`
 `;
 
 const StyledText = styled.h2`
-  text-align: center;
   color: #281461;
 `;
 
@@ -234,7 +234,7 @@ const MainChartPage = (props) => {
             <MainPageChip title={"몸무게"} content={`${weight}kg`} />
           </StyledInfoWrapper>
           <StyledSwitchWrapper>
-            <h2 style={{ textAlign: "center" }}>원하는 운동을 선택해주세요</h2>
+            <h2>원하는 운동을 선택해주세요</h2>
             <StyledSwitchContainer>
               {selectSwitch?.map((s, index) => {
                 return (
