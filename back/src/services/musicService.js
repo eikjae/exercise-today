@@ -52,7 +52,7 @@ class musicService {
         } else {
             orderbyMusics = randomize(filteredMusics).slice(0, limit);
         }
-
+        console.log(orderbyMusics);
         const resultMusics = getRequiredComponentMusics(orderbyMusics);
 
         return { musics: resultMusics };
