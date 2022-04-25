@@ -22,8 +22,6 @@ const BarChart = ({ data }) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <Barchart
-        width={500}
-        height={300}
         key={Math.round(Math.random() * 10000)}
         data={data?.map((d) => {
           const time = d.time.split("시간");

@@ -1,86 +1,16 @@
-import { Container, FormControlLabel, Switch } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { MainPageChip } from "../chips/StyledChip";
-import { post } from "../../api";
-import BarChart from "../charts/BarChart";
-
-const StyledContainer = styled(Container)`
-  max-width: 1200px;
-  max-height: 1000px;
-  margin: auto;
-  padding: 20px;
-`;
-
-const StyledTopGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  max-width: 1200px;
-  ${({ theme }) => theme.tablet`
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr;
-    `}
-
-  text-align: center;
-`;
-
-const StyledInfoWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  background-color: gray;
-
-  padding: 30px;
-  margin: 10px;
-
-  border-radius: 10px;
-`;
-
-const StyledSwitchWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StyledSwitchContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  background-color: #f8eaf1;
-  height: 100%;
-
-  padding: 30px;
-  margin: 10px;
-
-  border-radius: 10px;
-`;
-
-const StyledBottom = styled.div`
-  background-color: lightblue;
-  grid-column: 1/3;
-  display: flex;
-  justify-content: center;
-  align-items: start;
-
-  padding: 30px;
-  margin: 10px;
-
-  border-radius: 10px;
-  height: 50vh;
-`;
-
-const StyledFormControlLabel = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 20%;
-`;
-
-const StyledFooter = styled.div`
-  justify-content: center;
-  margin-top: 300px;
-  margin-bottom: 330px;
-`;
+import { post } from "../../../api";
+import InformationSection from "./informationSection/InformationSection";
+import SelectExerciseSection from "./selectExerciseSection/SelectExerciseSection";
+import ChartSection from "./chartSection/ChartSection";
+import {
+  StyledBottomSection,
+  StyledContainer,
+  StyledSubTitle,
+  StyledTopSection,
+} from "./MainChartPage.style";
 
 const StyledTextWrapper = styled.div`
   align-items: center;
@@ -224,47 +154,25 @@ const MainChartPage = (props) => {
   return (
     <>
       <StyledContainer>
-        <StyledTopGrid>
-          <StyledInfoWrapper>
-            <MainPageChip
-              title={"오늘 섭취한 칼로리"}
-              content={`${calorie}kcal`}
-            />
-            <MainPageChip title={"키"} content={`${height}cm`} />
-            <MainPageChip title={"몸무게"} content={`${weight}kg`} />
-          </StyledInfoWrapper>
-          <StyledSwitchWrapper>
-            <h2>원하는 운동을 선택해주세요</h2>
-            <StyledSwitchContainer>
-              {selectSwitch?.map((s, index) => {
-                return (
-                  <StyledFormControlLabel key={s.id}>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          color="secondary"
-                          onClick={handleOnClick}
-                          value={s.name}
-                          id={String(index)}
-                        />
-                      }
-                      checked={s.isSelected === true}
-                      label={s.name}
-                    />
-                  </StyledFormControlLabel>
-                );
-              })}
-            </StyledSwitchContainer>
-          </StyledSwitchWrapper>
-        </StyledTopGrid>
-        <h2 style={{ textAlign: "center" }}>
-          칼로리 소비를 위해 얼마나 운동해야 할까요?
-        </h2>
-        <StyledBottom>
-          <BarChart data={graphData?.data} />
-        </StyledBottom>
+        <StyledTopSection>
+          <InformationSection
+            calorie={calorie}
+            height={height}
+            weight={weight}
+          />
+          <SelectExerciseSection
+            selectSwitch={selectSwitch}
+            handleOnClick={handleOnClick}
+          />
+        </StyledTopSection>
+        <StyledBottomSection>
+          <StyledSubTitle>
+            칼로리 소비를 위해 얼마나 운동해야 할까요?
+          </StyledSubTitle>
+          <ChartSection data={graphData?.data} />
+        </StyledBottomSection>
       </StyledContainer>
-      <StyledFooter>
+      <StyledContainer>
         <StyledTextWrapper>
           <StyledText>운동과 함께할 음악도 추천해드려요!</StyledText>
           <StyledButton>운동에 맞는 음악 추천받기</StyledButton>
@@ -275,7 +183,7 @@ const MainChartPage = (props) => {
             부위별 운동 추천받기
           </StyledButton>
         </StyledTextWrapper>
-      </StyledFooter>
+      </StyledContainer>
     </>
   );
 };
