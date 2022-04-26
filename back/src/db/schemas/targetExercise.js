@@ -22,6 +22,7 @@ const TargetExerciseSchema = new Schema({
   },
   target: {
     type: String,
+    index: true,
   },
 });
 
