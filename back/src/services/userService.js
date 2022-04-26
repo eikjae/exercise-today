@@ -2,6 +2,7 @@ import { User } from "../db";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
+import sendMail from "../utils/send-mail";
 
 class userAuthService {
   static async addUser({ name, email, password }) {
@@ -139,6 +140,20 @@ class userAuthService {
       return { errorMessage };
     }
     return true;
+  }
+
+  static async nodeMailer({ email, name, password }) {
+    const message = sendMail(
+      email,
+      "오늘도 운동 임시 비밀번호입니다.",
+      `안녕하세요 ${name}님, 임시 비밀번호는: ${password} 입니다. 로그인 후 비밀번호를 꼭 변경해주세요!`
+    );
+
+    return message;
+  }
+  static async findUserByEmail({ email }) {
+    const user = await User.findByEmail({ email });
+    return user;
   }
 }
 
