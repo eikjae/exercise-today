@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const ExerciseSchema = new Schema({
-    name: {
+  name: {
     type: String,
     required: true,
   },
@@ -12,6 +12,7 @@ const ExerciseSchema = new Schema({
   category: {
     type: String,
     required: true,
+    index: true,
   },
 });
 
