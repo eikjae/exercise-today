@@ -8,6 +8,7 @@ const TargetExerciseSchema = new Schema({
   bodyPart: {
     type: String,
     required: true,
+    index: true,
   },
   equipment: {
     type: String,
