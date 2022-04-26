@@ -2,7 +2,7 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
-
+import generateRandomPassword from "../utils/generate-random-password";
 const userAuthRouter = Router();
 
 userAuthRouter.post("/user/register", async function (req, res, next) {
@@ -182,5 +182,32 @@ userAuthRouter.put(
     }
   }
 );
+
+userAuthRouter.post("/reset_password", async function (req, res, next) {
+  try {
+    const email = req.body.email;
+    const user = await userAuthService.findUserByEmail({ email });
+
+    if (!user) {
+      throw new Error("해당 메일로 가입된 사용자가 없습니다.");
+    }
+
+    const name = user.name;
+    const user_id = user.id;
+    const password = generateRandomPassword();
+    const toUpdate = { password };
+    const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
+
+    if (updatedUser.errorMessage) {
+      throw new Error(updatedUser.errorMessage);
+    }
+
+    await userAuthService.nodeMailer({ email, name, password });
+
+    res.status(200).send("임시 비밀번호가 전송되었습니다.");
+  } catch (err) {
+    next(err);
+  }
+});
 
 export { userAuthRouter };
