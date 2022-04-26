@@ -66,7 +66,7 @@ class exerciseService {
       const CaloriesPerLb = exercise.CaloriesPerLb;
       const caloriesBurned = weight * 2.205 * CaloriesPerLb;
       // 운동을 해야하는 시간 = 먹은 칼로리 / 1시간 기준 소모되는 칼로리
-      const time = String(calories / caloriesBurned);
+      const time = (calories / caloriesBurned).toString();
       return { name, time };
     });
 
