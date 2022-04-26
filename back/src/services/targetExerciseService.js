@@ -37,7 +37,7 @@ class targetExerciseService {
       target,
     });
 
-    if (targetExerciseList == []) {
+    if (!targetExerciseList || targetExerciseList.length === 0) {
       const errorMessage =
         "부위와 장비 이름, 타켓 이름을 다시 한 번 확인해 주세요.";
       return { errorMessage };
