@@ -10,9 +10,6 @@ html {
   tab-size: 4;
 }
 
-#root {
-  height: 100vh;
-}
 
 *,
 ::before,

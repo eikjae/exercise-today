@@ -161,7 +161,7 @@ const MainChartPage = (props) => {
 
   return (
     <>
-      <StyledContainer className="fullpage">
+      <StyledContainer fixed>
         <StyledTopSection>
           <InformationSection
             calorie={calorie}
@@ -180,10 +180,12 @@ const MainChartPage = (props) => {
           <ChartSection data={graphData?.data} />
         </StyledBottomSection>
       </StyledContainer>
-      <StyledContainer>
+      <StyledContainer fixed>
         <StyledTextWrapper>
           <StyledText>운동과 함께할 음악도 추천해드려요!</StyledText>
-          <StyledButton>운동에 맞는 음악 추천받기</StyledButton>
+          <StyledButton onClick={() => navigate("/music")}>
+            운동에 맞는 음악 추천받기
+          </StyledButton>
         </StyledTextWrapper>
         <StyledTextWrapper>
           <StyledText>원하는 운동이 없나요?!</StyledText>

@@ -13,6 +13,7 @@ import Portfolio from "./components/Portfolio";
 import MainPage from "./components/main/MainPage";
 import MainChartPage from "./components/main/mainChartPage/MainChartPage";
 import BodyPartPage from "./components/main/BodyPartPage";
+import MusicPage from "./components/main/musicPage/MusicPage";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -67,6 +68,7 @@ function App() {
               path="/:calorie/:height/:weight"
               element={<MainChartPage />}
             />
+            <Route path="/music" element={<MusicPage />} />
             {/* <Route path="/" exact element={<Portfolio />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} /> */}
