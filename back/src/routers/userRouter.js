@@ -147,4 +147,40 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
     );
 });
 
+userAuthRouter.put(
+  "/change_password",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.currentUserId;
+      const currentPassword = req.body.currentPassword;
+
+      const checkPassword = await userAuthService.checkPassword({
+        user_id,
+        password: currentPassword,
+      });
+
+      if (checkPassword.errorMessage) {
+        throw new Error(checkPassword.errorMessage);
+      }
+
+      const newPassword = req.body.newPassword;
+      const toUpdate = { password: newPassword };
+
+      const updated_result = await userAuthService.setUser({
+        user_id,
+        toUpdate,
+      });
+
+      if (updated_result.errorMessage) {
+        throw new Error(updated_result.errorMessage);
+      }
+
+      res.status(200).json("비밀번호가 변경되었습니다.");
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 export { userAuthRouter };
