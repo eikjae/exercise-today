@@ -21,7 +21,7 @@ class targetExerciseService {
       target,
     });
 
-    if (exercises == []) {
+    if (exercises === []) {
       const errorMessage = "부위와 타겟 이름을 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
