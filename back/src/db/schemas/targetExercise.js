@@ -13,6 +13,7 @@ const TargetExerciseSchema = new Schema({
   equipment: {
     type: String,
     required: true,
+    index: true,
   },
   gifUrl: {
     type: String,
