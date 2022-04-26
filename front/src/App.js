@@ -5,10 +5,14 @@ import * as Api from "./api";
 import { loginReducer } from "./reducer";
 
 import Header from "./components/Header";
-import LoginForm from "./components/user/LoginForm";
+// import LoginForm from "./components/user/LoginForm";
 import Network from "./components/user/Network";
-import RegisterForm from "./components/user/RegisterForm";
+// import RegisterForm from "./components/user/RegisterForm";
 import Portfolio from "./components/Portfolio";
+
+import MainPage from "./components/main/MainPage";
+import MainChartPage from "./components/main/mainChartPage/MainChartPage";
+import BodyPartPage from "./components/main/BodyPartPage";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -58,9 +62,15 @@ function App() {
         <Router>
           <Header />
           <Routes>
-            <Route path="/" exact element={<Portfolio />} />
+            <Route path="/" exact element={<MainPage />} />
+            <Route
+              path="/:calorie/:height/:weight"
+              element={<MainChartPage />}
+            />
+            {/* <Route path="/" exact element={<Portfolio />} />
             <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
+            <Route path="/register" element={<RegisterForm />} /> */}
+            <Route path="/exercise" element={<BodyPartPage />} />
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />
             <Route path="*" element={<Portfolio />} />
