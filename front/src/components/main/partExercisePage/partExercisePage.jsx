@@ -51,7 +51,7 @@ const StyledMuscleFormControl = styled(FormControl)`
   width: 100%;
 `;
 
-export default function BodyPartPage() {
+export default function PartExercisePage() {
   return (
     <StyledContainer>
       <StyledLeftContainer>
