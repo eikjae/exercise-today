@@ -7,6 +7,9 @@ import Select from "@mui/material/Select";
 import { Container } from "@mui/material";
 import styled from "styled-components";
 
+import { ReactComponent as BodyPart } from "./body/body.svg";
+import { ReactComponent as AbsPart } from "./body/abs.svg";
+
 // const StyledContainer = styled(Container)`
 //   display: flex;
 //   justify-content: end;
@@ -55,7 +58,7 @@ export default function PartExercisePage() {
   return (
     <StyledContainer>
       <StyledLeftContainer>
-        <h2>운동을 원하는 부위를 선택해주세여</h2>
+        <h2>운동을 원하는 부위를 선택해주세요</h2>
         <StyledSelectBodyContainer>
           <StyledBodyFormControl>
             <InputLabel id="demo-simple-select-label">Front</InputLabel>
@@ -82,7 +85,11 @@ export default function PartExercisePage() {
             </Select>
           </StyledBodyFormControl>
         </StyledSelectBodyContainer>
-        <img src="/imgs/body.png" alt="임시 이미지" style={{ width: "100%" }} />
+        {/* <img src="/imgs/body.png" alt="임시 이미지" style={{ width: "100%" }} /> */}
+        {/* <div> */}
+        <BodyPart fill="orange" />
+        <AbsPart fill="#FF6666" />
+        {/* </div> */}
       </StyledLeftContainer>
       <StyledRightContainer>
         <h2>사용할 도구를 선택해주세요</h2>
