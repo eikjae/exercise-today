@@ -5,6 +5,7 @@ import { userAuthRouter } from './routers/userRouter';
 import { exerciseRouter } from './routers/exerciseRouter';
 import { foodRouter } from './routers/foodRouter';
 import { targetExerciseRouter } from './routers/targetExerciseRouter';
+import { musicRouter } from './routers/musicRouter';
 
 const app = express();
 
