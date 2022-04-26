@@ -4,6 +4,7 @@ const ExerciseSchema = new Schema({
   name: {
     type: String,
     required: true,
+    index: true,
   },
   CaloriesPerLb: {
     type: Number,
