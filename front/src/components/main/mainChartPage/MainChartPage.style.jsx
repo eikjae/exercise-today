@@ -9,7 +9,6 @@ export const StyledContainer = styled(Container)`
   margin: auto;
   padding: 2rem;
   border: 2px solid black;
-  margin-bottom: 3rem;
 `;
 
 export const StyledSubTitle = styled.h2`

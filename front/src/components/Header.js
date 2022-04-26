@@ -22,7 +22,7 @@ function Header() {
   };
 
   return (
-    <Nav activeKey={location.pathname}>
+    <Nav activeKey={location.pathname} style={{ height: "10vh" }}>
       <Nav.Item className="me-auto mb-5">
         <Nav.Link disabled style={{ fontSize: "30px" }}>
           오늘도 운동
