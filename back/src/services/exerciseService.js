@@ -20,7 +20,7 @@ class exerciseService {
     // 1 kg == 2.205 lb
     const caloriesPerHour = weight * 2.205 * caloriesPerLb;
     const refindCaloriesPerHour = caloriesPerHour.toFixed(2);
-    if (refindCaloriesPerHour == "NaN") {
+    if (refindCaloriesPerHour === "NaN") {
       const errorMessage = "몸무게와 운동 이름을 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
