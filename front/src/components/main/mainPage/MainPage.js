@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as Api from "../../api";
+import * as Api from "../../../api";
 import { Container, Grid, TextField } from "@mui/material";
 import styled from "styled-components";
-import BadgeVisibility from "./BadgeVisibility";
+import BadgeVisibility from "./badgeVisibility/BadgeVisibility";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -47,7 +47,7 @@ const SubmitButton = styled.button`
 
 const BodyInfoWrapper = styled(Grid)`
   display: flex;
-  /* flex-direction: column; */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   /* background-color: lightgray; */
@@ -119,11 +119,13 @@ export default function MainPage() {
   const isWeightValid = weight.length > 0;
   const isDisabled = !isHeightValid || !isWeightValid;
 
+  const deepClone = (arg) => JSON.parse(JSON.stringify(arg));
+
   // 클릭 시, 선택된 카테고리와 수를 보내여 계산된 칼로리 값을 받아옴
   const handleClick = async (e) => {
     try {
       // filter를 통해 volume이 0인 값 배열에서 제거함
-      let copyFoodsInfo = [...foodsInfo];
+      let copyFoodsInfo = deepClone(foodsInfo);
       copyFoodsInfo = copyFoodsInfo.filter((foodInfo) => foodInfo.volume > 0);
 
       // POST 요청을 통해 칼로리 계산값을 받아옴
@@ -170,7 +172,7 @@ export default function MainPage() {
         ))}
       </Grid>
       <BodyInfoWrapper container>
-        <div style={{ display: "block", textAlign: "center" }}>
+        <div style={{ textAlign: "center" }}>
           <ExplainLabel>100g(ml) 단위로 평균 칼로리가 계산됩니다.</ExplainLabel>
           <BodyInfoGrid item xs="auto">
             <h1 style={{ color: "#281461", marginBottom: "-10px" }}>
@@ -178,22 +180,24 @@ export default function MainPage() {
             </h1>
           </BodyInfoGrid>
         </div>
-        <BodyInfoGrid item xs="auto">
-          <BodyInfoInput
-            id="outlined-basic"
-            label="신장"
-            onChange={(e) => setHeight(e.target.value)}
-          />
-          <BodyInfoLabel>cm</BodyInfoLabel>
-        </BodyInfoGrid>
-        <BodyInfoGrid item xs="auto">
-          <BodyInfoInput
-            id="outlined-basic"
-            label="체중"
-            onChange={(e) => setWeight(e.target.value)}
-          />
-          <BodyInfoLabel>kg</BodyInfoLabel>
-        </BodyInfoGrid>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <BodyInfoGrid item xs="auto">
+            <BodyInfoInput
+              id="outlined-basic"
+              label="신장"
+              onChange={(e) => setHeight(e.target.value)}
+            />
+            <BodyInfoLabel>cm</BodyInfoLabel>
+          </BodyInfoGrid>
+          <BodyInfoGrid item xs="auto">
+            <BodyInfoInput
+              id="outlined-basic"
+              label="체중"
+              onChange={(e) => setWeight(e.target.value)}
+            />
+            <BodyInfoLabel>kg</BodyInfoLabel>
+          </BodyInfoGrid>
+        </div>
       </BodyInfoWrapper>
       <SubmitButton onClick={handleClick} disabled={isDisabled}>
         운동 추천받기

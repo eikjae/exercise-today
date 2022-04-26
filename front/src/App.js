@@ -10,9 +10,9 @@ import Network from "./components/user/Network";
 // import RegisterForm from "./components/user/RegisterForm";
 import Portfolio from "./components/Portfolio";
 
-import MainPage from "./components/main/MainPage";
+import MainPage from "./components/main/mainPage/MainPage";
 import MainChartPage from "./components/main/mainChartPage/MainChartPage";
-import BodyPartPage from "./components/main/BodyPartPage";
+import partExercisePage from "./components/main/partExercisePage/partExercisePage";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -70,7 +70,7 @@ function App() {
             {/* <Route path="/" exact element={<Portfolio />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} /> */}
-            <Route path="/exercise" element={<BodyPartPage />} />
+            <Route path="/exercise" element={<partExercisePage />} />
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />
             <Route path="*" element={<Portfolio />} />

@@ -36,6 +36,7 @@ const FoodBadge = styled(Badge)`
 
 export default function BadgeVisibility({ food, foodsInfo, setFoodsInfo }) {
   const [count, setCount] = useState(0);
+  const deepClone = (arg) => JSON.parse(JSON.stringify(arg));
 
   const handleFoodsInfo = (params) => {
     // 이미 foodsInfo에 존재한다면 해당 인덱스를 사용하여 volume 업데이트
@@ -53,7 +54,7 @@ export default function BadgeVisibility({ food, foodsInfo, setFoodsInfo }) {
         ])
       );
     } else {
-      let copyFoodsInfo = [...foodsInfo];
+      let copyFoodsInfo = deepClone(foodsInfo);
       copyFoodsInfo[existIdx] = { ...copyFoodsInfo[existIdx], volume: params };
       setFoodsInfo(copyFoodsInfo);
     }
