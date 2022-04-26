@@ -13,6 +13,7 @@ export const StyledSubTitle = styled.h2`
 export const StyledInfoLayout = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   flex: 0.4;
 
   background-color: gray;
