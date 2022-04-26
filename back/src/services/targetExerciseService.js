@@ -6,7 +6,7 @@ class targetExerciseService {
       bodyPart,
     });
 
-    if (exercises === []) {
+    if (!exercises || exercises.length === 0) {
       const errorMessage = "부위를 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
