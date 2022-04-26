@@ -33,4 +33,9 @@ export class User {
     );
     return updatedUser;
   }
+
+  static async findByEmail({ email }) {
+    const user = await UserModel.findOne({ email });
+    return user;
+  }
 }
