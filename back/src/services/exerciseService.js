@@ -42,7 +42,7 @@ class exerciseService {
       "격투",
       "기타",
     ];
-    if (categoryList.includes(category) == false) {
+    if (categoryList.includes(category) === false) {
       const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
