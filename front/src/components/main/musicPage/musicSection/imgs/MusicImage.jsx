@@ -9,7 +9,6 @@ const MusicImage = ({ music }) => {
   const filpFunc = () => {
     setFilp((cur) => !cur);
   };
-  console.log(music);
 
   return (
     <StyledCardContainer

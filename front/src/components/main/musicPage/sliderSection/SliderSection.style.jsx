@@ -1,4 +1,4 @@
-import { Button, RadioGroup } from "@mui/material";
+import { Button, FormControl, RadioGroup } from "@mui/material";
 import styled from "styled-components";
 
 export const StyledTopSection = styled.section`
@@ -33,6 +33,7 @@ export const StyledSliderTitle = styled.h4`
 
 export const StyledOrderListContainer = styled(RadioGroup)`
   display: flex;
+  justify-content: center;
   flex-direction: row;
 `;
 
@@ -56,4 +57,9 @@ export const StyledButton = styled(Button)`
     background-color: #52af77;
     color: white;
   }
+`;
+
+export const StyledFormControl = styled(FormControl)`
+  margin-top: 2rem;
+  margin-bottom: 1rem;
 `;

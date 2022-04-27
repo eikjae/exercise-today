@@ -3,12 +3,15 @@ import {
   FormControlLabel,
   formHelperTextClasses,
   FormLabel,
+  InputAdornment,
+  OutlinedInput,
   Radio,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import MusicSlider from "../../../slider/MusicSlider";
 import {
   StyledButton,
+  StyledFormControl,
   StyledOrderListContainer,
   StyledSliderContainer,
   StyledSliderTitle,
@@ -22,6 +25,7 @@ const SliderSection = ({ handleSetMusics }) => {
   const [danceability, setDanceability] = useState([0.62, 1.0]);
   const [year, setYear] = useState([2014, 2020]);
   const [order, setOrder] = useState("title");
+  const [limit, setLimit] = useState(0);
 
   const handleOnChangeEnergy = (value) => {
     setEnergy(value);
@@ -43,6 +47,15 @@ const SliderSection = ({ handleSetMusics }) => {
     setOrder(e.target.value);
   };
 
+  const handleOnChangeLimits = (e) => {
+    if (isNaN(Number(e.target.value))) {
+      alert("숫자만 입력해주세여!");
+      setLimit(0);
+    } else {
+      setLimit(Number(e.target.value));
+    }
+  };
+
   const handloeOnClickSearch = async () => {
     try {
       const res = await post("musics/filtered", {
@@ -53,7 +66,7 @@ const SliderSection = ({ handleSetMusics }) => {
           Year: year,
           Energy: energy,
         },
-        limit: 9,
+        limit,
       });
       handleSetMusics(res.data.musics);
     } catch (e) {
@@ -124,7 +137,7 @@ const SliderSection = ({ handleSetMusics }) => {
           value={year}
         />
       </StyledSliderContainer>
-      <FormControl>
+      <StyledFormControl>
         <FormLabel id="orderlist-radio-buttons-group-label">Order</FormLabel>
         <StyledOrderListContainer
           aria-labelledby="orderlist-radio-buttons-group-label"
@@ -146,6 +159,15 @@ const SliderSection = ({ handleSetMusics }) => {
           />
           <FormControlLabel value="random" control={<Radio />} label="무작위" />
         </StyledOrderListContainer>
+      </StyledFormControl>
+      <FormControl sx={{ m: 1, width: "10rem" }} variant="outlined">
+        <OutlinedInput
+          id="outlined-adornment-limit"
+          style={{ paddingLeft: "3rem" }}
+          value={limit}
+          onChange={handleOnChangeLimits}
+          endAdornment={<InputAdornment position="start">곡</InputAdornment>}
+        />
       </FormControl>
       <StyledButton onClick={handloeOnClickSearch}>검색</StyledButton>
     </StyledTopSection>
