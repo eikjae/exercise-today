@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { musicService } from "../services/musicService";
+import { music_filtered_validation } from "../utils/music";
 const musicRouter = Router();
 
 musicRouter.get("/musics", async function (req, res, next) {
@@ -13,9 +14,12 @@ musicRouter.get("/musics", async function (req, res, next) {
 
 musicRouter.post("/musics/filtered/", async function (req, res, next) {
   try {
+    music_filtered_validation(req.body);
+
     const filter = req.body.filter;
     const orderby = req.body.orderby;
     const limit = req.body.limit;
+
     const filteredMusics = await musicService.getMusicsBy({
       filter,
       orderby,

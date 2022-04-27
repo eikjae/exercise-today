@@ -1,45 +1,81 @@
-export function filterAuth(filter) {
+import assert from "assert";
+
+function filterAuth(arr) {
+  for (var i = 0; i < arr.length; i++) {
+    if (typeof arr[i] !== "number") {
+      return false;
+    }
+  }
+  return true;
+}
+
+export function music_filtered_validation(body) {
+  const { orderby, filter, limit } = body;
+  assert(
+    typeof orderby === "string" && orderbyAuth(orderby),
+    "oderby is not valid"
+  );
+  assert(typeof filter === "object", "filter is not valid");
+  assert(
+    typeof limit === "number" && Math.ceil(limit) >= 1,
+    "limit is not valid"
+  );
+  const { Tempo, Danceability, Year, Energy } = filter;
+  assert(
+    typeof Tempo === "object" && Tempo.length === 2 && filterAuth(Tempo),
+    "Tempo is not valid"
+  );
+  assert(
+    typeof Danceability === "object" &&
+      Danceability.length === 2 &&
+      filterAuth(Danceability),
+    "Danceability is not valid"
+  );
+  assert(
+    typeof Year === "object" && Year.length === 2 && filterAuth(Year),
+    "Year is not valid"
+  );
+  assert(
+    typeof Energy === "object" && Energy.length === 2 && filterAuth(Energy),
+    "Energy is not valid"
+  );
   const [minTempo, maxTempo] = filter.Tempo;
   const [minDanceability, maxDanceability] = filter.Danceability;
   const [minYear, maxYear] = filter.Year;
   const [minEnergy, maxEnergy] = filter.Energy;
+
   const TempoMax = 126.0;
   const DnceMax = 1.0;
   const YearMax = 2020;
-  const EneryMax = 1.0;
+  const EnergyMax = 1.0;
   const TempoMin = 110.0;
   const DnceMin = 0.62;
   const YearMin = 2014;
-  const EneryMin = 0.7;
-  if (
-    !minTempo ||
-    !maxTempo ||
-    !minDanceability ||
-    !maxDanceability ||
-    !minYear ||
-    !maxYear ||
-    !minEnergy ||
-    !maxEnergy
-  ) {
-    return false;
+  const EnergyMin = 0.7;
+  assert(minTempo >= TempoMin, `minTempo should be upper than ${TempoMin}`);
+  assert(maxTempo <= TempoMax, `maxTempo should be downer than ${TempoMax}`);
+  assert(
+    minDanceability >= DnceMin,
+    `minDanceability should be upper than ${DnceMin}`
+  );
+  assert(
+    maxDanceability <= DnceMax,
+    `maxDanceability should be downer than ${DnceMax}`
+  );
+  assert(minYear >= YearMin, `minYear should be upper than ${YearMin}`);
+  assert(maxYear <= YearMax, `maxYear should be downer than ${YearMax}`);
+
+  assert(minEnergy >= EnergyMin, `minEnergy should be upper than ${EnergyMin}`);
+  assert(
+    maxEnergy <= EnergyMax,
+    `maxEnergy should be downer than ${EnergyMax}`
+  );
+  for (const [key, value] of Object.entries(filter)) {
+    assert(
+      value[0] <= value[1],
+      `${key}'s minValue should position on left index in array`
+    );
   }
-  if (minTempo < TempoMin || maxTempo > TempoMax || minTempo > maxTempo) {
-    return false;
-  }
-  if (
-    minDanceability < DnceMin ||
-    maxDanceability > DnceMax ||
-    minDanceability > maxDanceability
-  ) {
-    return false;
-  }
-  if (minYear < YearMin || maxYear > YearMax || minYear > maxYear) {
-    return false;
-  }
-  if (minEnergy < EneryMin || maxEnergy > EneryMax || minEnergy > maxEnergy) {
-    return false;
-  }
-  return true;
 }
 
 function titleMerge(left, right) {
@@ -53,6 +89,7 @@ function titleMerge(left, right) {
   }
   return [...sortedArr, ...left, ...right];
 }
+
 export function titleMergeSort(arr) {
   if (arr.length <= 1) {
     return arr;
@@ -111,8 +148,7 @@ export function returnNarr(n, arr) {
     return arr.slice(0, n);
   }
 }
-
-export function orderbyAuth(orderby) {
+function orderbyAuth(orderby) {
   const orders = ["title", "-title", "year", "-year", "random"];
   if (!orders.includes(orderby)) {
     return false;
