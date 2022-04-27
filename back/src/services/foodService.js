@@ -1,4 +1,5 @@
 import { Food } from "../db";
+import assert from "assert";
 
 class foodService {
   static async getFoods() {
@@ -8,21 +9,28 @@ class foodService {
   }
 
   static async calculateCalories({ foodsInfo }) {
-    const calories = await foodsInfo.reduce(async (acc, cur, idx, arr) => {
+    if (!foodsInfo || Object.keys(foodsInfo).length === 0) {
+      const errorMessage = "음식정보를 입력해 주세요.";
+      throw new Error(errorMessage);
+    }
+
+    for (let i = 0; i < foodsInfo.length; i++) {
+      const food = await Food.findByCategory({
+        category: foodsInfo[i]["category"],
+      });
+      if (!food) {
+        const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
+        throw new Error(errorMessage);
+      }
+    }
+
+    const calories = foodsInfo.reduce(async (acc, cur) => {
       const sum = await acc;
       const food = await Food.findByCategory({
         category: cur["category"],
       });
-      if (!food) {
-        return;
-      }
       return sum + food["calories"] * cur["volume"];
     }, 0);
-
-    if (!calories) {
-      const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
-      return { errorMessage };
-    }
 
     return calories;
   }
