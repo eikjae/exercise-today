@@ -85,6 +85,41 @@ class dietService {
       throw new Error(errorMessage);
     }
 
+    const typeList = ["breakfast", "lunch", "dinner"];
+
+    if (!typeList.includes(toUpdate.type)) {
+      const errorMessage = "breakfast, lunch, dinner 중에서만 입력해주세요";
+      throw new Error(errorMessage);
+    }
+
+    const categoryList = [
+      "견과류",
+      "치즈",
+      "잼/버터",
+      "케이크류",
+      "면류",
+      "빵류",
+      "육류",
+      "유제품",
+      "채소",
+      "콩류",
+      "주류",
+      "해산물",
+      "과일",
+      "스프",
+      "사탕",
+      "패스트푸드",
+      "음료(알코올x)",
+      "시리얼",
+      "아이스크림",
+      "감자류",
+    ];
+
+    if (!categoryList.includes(toUpdate.category)) {
+      const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
+      throw new Error(errorMessage);
+    }
+
     if (toUpdate.whenDate) {
       const fieldToUpdate = "whenDate";
       const newValue = toUpdate.whenDate;
