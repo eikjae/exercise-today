@@ -9,6 +9,7 @@ export default function Abs({ fill, onClick, onMouseOver, onMouseLeave }) {
         stroke: "gray",
         strokeMiterlimit: "1",
         // visibility: "hidden",
+        cursor: "pointer",
       }}
       onClick={onClick}
     >

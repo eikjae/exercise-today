@@ -1,4 +1,12 @@
 import React from "react";
+import styled from "styled-components";
+
+const styledSvg = styled.g`
+  fill-opacity: 1;
+  stroke: "gray";
+  stroke-miterlimit: "1";
+  cursor: pointer;
+`;
 
 export default function Lats({ fill, onClick, onMouseOver, onMouseLeave }) {
   return (
@@ -8,7 +16,9 @@ export default function Lats({ fill, onClick, onMouseOver, onMouseLeave }) {
         fillOpacity: 1,
         stroke: "gray",
         strokeMiterlimit: "1",
+        cursor: "pointer",
       }}
+      onClick={onClick}
     >
       <path
         class="bt1"

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-pascal-case */
 import React, { useState, useEffect } from "react";
 import InputLabel from "@mui/material/InputLabel";
@@ -9,10 +10,29 @@ import * as Api from "../../../api";
 import { Container } from "@mui/material";
 import styled from "styled-components";
 
-// import { ReactComponent as BodyPart } from "./body/body.svg";
-// import { ReactComponent as AbsPart } from "./body/abs.svg";
-
-import { Abs, Left, Delts } from "./body/all_body";
+import {
+  Body,
+  Abs,
+  Puads,
+  Lats,
+  Claves,
+  Pectorals,
+  Glutes,
+  Hamstring,
+  Adductors,
+  Triceps,
+  Cardiovascular,
+  Spine,
+  Upper_back,
+  Biceps,
+  Delts,
+  Forearms,
+  Traps,
+  Serratus_anterior,
+  Abductors,
+  Levator_scapulae,
+  Left,
+} from "./body/all_body";
 
 // const StyledContainer = styled(Container)`
 //   display: flex;
@@ -20,6 +40,13 @@ import { Abs, Left, Delts } from "./body/all_body";
 //   align-items: center;
 //   flex-direction: column;
 // `;
+
+const styledSvg = styled.svg`
+  fill-opacity: 1;
+  stroke: "gray";
+  stroke-miterlimit: "1";
+  cursor: pointer;
+`;
 
 const StyledContainer = styled(Container)`
   display: grid;
@@ -44,11 +71,13 @@ const StyledSelectBodyContainer = styled.div`
 
 const StyledSvgContainer = styled.div`
   width: 100%;
+  height: 100%;
   display: flex;
-  /* justify-content: center; */
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
   /* display: inline-block; */
-  /* vertical-align: text-top; */
-  align-items: flex-start;
+  vertical-align: text-top;
 `;
 
 const StyledRightContainer = styled.div`
@@ -81,11 +110,35 @@ export default function PartExercisePage() {
   // 처음 렌더링시 GET 요청으로 bodyPart 카테고리를 가져옴
   useEffect(() => {
     const fetch = async () => {
-      const res = await Api.get("exercise/bodypartlist");
-      setBodyPartList(res.data);
+      try {
+        const res = await Api.get("exercise/bodypartlist");
+        setBodyPartList(res.data);
+      } catch (err) {
+        console.error(err);
+      }
     };
     fetch();
   }, []);
+
+  useEffect(async () => {
+    // 처음 렌더링시 실행되지 않음
+    if (bodyPart !== "" && target !== "") {
+      try {
+        let res = await Api.post("exercise/findtargets", {
+          bodyPart,
+        });
+        setTargetList(res.data);
+
+        res = await Api.post("exercise/findequipments", {
+          bodyPart,
+          target,
+        });
+        setEquipmentList(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }, [bodyPart]);
 
   // POST 요청으로 target 카테고리를 가져옴
   const handleChangeBodyPart = async (e) => {
@@ -174,13 +227,40 @@ export default function PartExercisePage() {
             </Select>
           </StyledBodyFormControl>
         </StyledSelectBodyContainer>
-        {/* <img src="/imgs/body.png" alt="임시 이미지" style={{ width: "100%" }} /> */}
         <StyledSvgContainer>
-          <svg style={{ width: "100%" }}>
-            <Abs fill="#FF6666" onClick={() => console.log("test")} />
-
-            <Left onClick={() => console.log("left")} />
-            <Delts fill="#FF6666" onClick={() => console.log("Delts")} />
+          <svg style={{ width: "100%", height: "100%" }}>
+            <Body />
+            <Cardiovascular />
+            <Puads />
+            <Claves />
+            <Pectorals />
+            <Glutes />
+            <Hamstring />
+            <Adductors />
+            <Triceps />
+            <Spine />
+            <Upper_back />
+            <Biceps />
+            <Delts />
+            <Forearms />
+            <Traps />
+            <Serratus_anterior />
+            <Abductors />
+            <Levator_scapulae />
+            <Abs
+              fill="#20a15a"
+              onClick={() => {
+                setBodyPart("waist");
+                setTarget("abs");
+              }}
+            />
+            <Lats
+              fill="#FF6666"
+              onClick={() => {
+                setBodyPart("back");
+                setTarget("lats");
+              }}
+            />
           </svg>
         </StyledSvgContainer>
       </StyledLeftContainer>

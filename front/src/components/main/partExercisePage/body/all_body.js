@@ -1,3 +1,4 @@
+export { default as Body } from "./Body";
 export { default as Abs } from "./Abs";
 export { default as Puads } from "./Puads";
 export { default as Lats } from "./Lats";
