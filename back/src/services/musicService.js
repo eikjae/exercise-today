@@ -48,7 +48,7 @@ class musicService {
     } else if (orderby === "year") {
       orderbyMusics = yearMergeSort(limitedMusics);
     } else if (orderby === "-year") {
-      orderbyMusics = yearMergeSort(limitedMusics).reverse;
+      orderbyMusics = yearMergeSort(limitedMusics).reverse();
     } else {
       orderbyMusics = randomize(filteredMusics).slice(0, limit);
     }
