@@ -4,8 +4,12 @@ import styled from "styled-components";
 export const StyledSliderContainer = styled.div`
   display: flex;
   align-items: center;
-  position: relative;
   flex: 0.7;
+
+  position: relative;
+
+  background-color: whitesmoke;
+  border-radius: 0.5rem;
 `;
 
 export const StyledSliderLeft = styled.span`

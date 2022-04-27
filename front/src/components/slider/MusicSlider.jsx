@@ -6,18 +6,23 @@ import {
   StyledSliderRight,
 } from "./StyledSlider";
 
-const MusicSlider = (props) => {
+const MusicSlider = ({ min, max, step, handleOnChange, energy }) => {
+  const handleChange = (event, newValue) => {
+    handleOnChange(newValue);
+  };
+
   return (
     <StyledSliderContainer>
       <StyledSliderLeft>low</StyledSliderLeft>
       <StyledSliderRight>high</StyledSliderRight>
       <StyledMusicSlider
-        defaultValue={50}
-        aria-label="Default"
         valueLabelDisplay="auto"
-        onChange={(e) => {
-          console.log(e.target.value);
-        }}
+        marks
+        value={energy}
+        step={step}
+        min={min}
+        max={max}
+        onChange={handleChange}
       />
     </StyledSliderContainer>
   );
