@@ -10,7 +10,6 @@ html {
   tab-size: 4;
 }
 
-
 *,
 ::before,
 ::after {

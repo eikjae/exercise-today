@@ -4,8 +4,18 @@ export const StyledContainer = styled.div`
   max-width: 1200px;
   margin: auto;
   padding: 2rem;
-  min-height: 90vh;
+  min-height: 95vh;
   border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  ${({ theme }) => theme.tablet`
+        padding-top: 0;
+    `}
+  ${({ theme }) => theme.miniTablet`
+        padding-top: 0;
+  `}
 `;
 
 export const StyledSubTitle = styled.h2`
@@ -31,8 +41,7 @@ export const StyledTopSection = styled.section`
 export const StyledBottomSection = styled.section`
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  border: 2px solid black;
+
   height: 60vh;
   ${({ theme }) => theme.tablet`
         height: 40vh;

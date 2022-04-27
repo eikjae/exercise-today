@@ -1,3 +1,4 @@
+import { Button, RadioGroup } from "@mui/material";
 import styled from "styled-components";
 
 export const StyledTopSection = styled.section`
@@ -28,4 +29,31 @@ export const StyledSliderContainer = styled.article`
 export const StyledSliderTitle = styled.h4`
   margin: 0;
   flex: 0.2;
+`;
+
+export const StyledOrderListContainer = styled(RadioGroup)`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const StyledButton = styled(Button)`
+  width: 20rem;
+  height: 3rem;
+
+  color: #52af77;
+
+  border: 2px solid #52af77;
+  border-radius: 10px;
+
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  font-size: 1.3rem;
+  font-weight: 600;
+
+  transition: background-color 0.3s ease-in;
+  &:hover {
+    background-color: #52af77;
+    color: white;
+  }
 `;

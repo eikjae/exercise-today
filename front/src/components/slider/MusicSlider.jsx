@@ -6,7 +6,7 @@ import {
   StyledSliderRight,
 } from "./StyledSlider";
 
-const MusicSlider = ({ min, max, step, handleOnChange, energy }) => {
+const MusicSlider = ({ min, max, step, handleOnChange, value }) => {
   const handleChange = (event, newValue) => {
     handleOnChange(newValue);
   };
@@ -18,7 +18,7 @@ const MusicSlider = ({ min, max, step, handleOnChange, energy }) => {
       <StyledMusicSlider
         valueLabelDisplay="auto"
         marks
-        value={energy}
+        value={value}
         step={step}
         min={min}
         max={max}

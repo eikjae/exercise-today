@@ -152,13 +152,6 @@ const MainChartPage = (props) => {
     }
   }, [calorie, weight]);
 
-  const onCheckScroll = () => {
-    const page = document.querySelectorAll(".MuiContainer-root");
-  };
-  useEffect(() => {
-    window.addEventListener("scroll", onCheckScroll);
-  });
-
   return (
     <>
       <StyledContainer fixed>

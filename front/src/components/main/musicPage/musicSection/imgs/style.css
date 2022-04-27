@@ -1,0 +1,7 @@
+.card-container.flipped .front {
+  transform: rotateY(180deg);
+}
+
+.card-container.flipped .back {
+  transform: rotateY(0deg);
+}
