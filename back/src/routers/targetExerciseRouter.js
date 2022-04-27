@@ -72,4 +72,28 @@ targetExerciseRouter.post(
   }
 );
 
+targetExerciseRouter.get(
+  "/exercise/bodypartlist",
+  async function (req, res, next) {
+    try {
+      const bodypartList = [
+        "waist",
+        "upper legs",
+        "lower legs",
+        "back",
+        "chest",
+        "upper arms",
+        "lower arms",
+        "cardio",
+        "shoulders",
+        "neck",
+      ];
+
+      res.status(200).json(bodypartList);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { targetExerciseRouter };
