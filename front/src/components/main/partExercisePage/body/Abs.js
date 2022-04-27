@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Abs_pt({ fill, onClick, onMouseOver, onMouseLeave }) {
+export default function Abs({ fill, onClick, onMouseOver, onMouseLeave }) {
   return (
     <svg
       style={{

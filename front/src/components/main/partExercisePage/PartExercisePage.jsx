@@ -11,7 +11,7 @@ import styled from "styled-components";
 // import { ReactComponent as BodyPart } from "./body/body.svg";
 // import { ReactComponent as AbsPart } from "./body/abs.svg";
 
-import { Abs_pt, Left } from "./body/all_body";
+import { Abs, Left, Delts } from "./body/all_body";
 
 // const StyledContainer = styled(Container)`
 //   display: flex;
@@ -103,8 +103,10 @@ export default function PartExercisePage() {
         {/* <AbsPart fill="#FF6666" /> */}
         <StyledSvgContainer>
           <svg style={{ width: "100%" }}>
-            <Abs_pt fill="#FF6666" />
+            <Abs fill="#FF6666" />
             <Left fill="#FF6666" />
+            <Delts />
+            {/* <Delts_bt /> */}
           </svg>
         </StyledSvgContainer>
         {/* </div> */}
