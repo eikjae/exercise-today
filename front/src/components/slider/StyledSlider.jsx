@@ -2,8 +2,10 @@ import { Slider } from "@mui/material";
 import styled from "styled-components";
 
 export const StyledSliderContainer = styled.div`
+  display: flex;
+  align-items: center;
   position: relative;
-  flex: 0.8;
+  flex: 0.7;
 `;
 
 export const StyledSliderLeft = styled.span`

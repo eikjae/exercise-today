@@ -35,4 +35,10 @@ export const StyledBottomSection = styled.section`
   /* justify-content: center; */
   border: 2px solid black;
   height: 60vh;
+  ${({ theme }) => theme.tablet`
+        height: 40vh;
+    `}
+  ${({ theme }) => theme.miniTablet`
+        height: 30vh;
+    `}
 `;

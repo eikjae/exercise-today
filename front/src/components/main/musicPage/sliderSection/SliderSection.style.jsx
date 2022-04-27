@@ -17,9 +17,8 @@ export const StyledTopSection = styled.section`
 
 export const StyledSliderContainer = styled.article`
   display: flex;
-  justify-content: space-between;
-  align-items: cente;
-
+  justify-content: space-around;
+  align-items: center;
   position: relative;
 
   width: 100%;
