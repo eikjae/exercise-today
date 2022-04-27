@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import React from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -7,8 +8,10 @@ import Select from "@mui/material/Select";
 import { Container } from "@mui/material";
 import styled from "styled-components";
 
-import { ReactComponent as BodyPart } from "./body/body.svg";
-import { ReactComponent as AbsPart } from "./body/abs.svg";
+// import { ReactComponent as BodyPart } from "./body/body.svg";
+// import { ReactComponent as AbsPart } from "./body/abs.svg";
+
+import { Abs_pt, Left } from "./body/all_body";
 
 // const StyledContainer = styled(Container)`
 //   display: flex;
@@ -36,6 +39,15 @@ const StyledSelectBodyContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+`;
+
+const StyledSvgContainer = styled.div`
+  width: 100%;
+  display: flex;
+  /* justify-content: center; */
+  /* display: inline-block; */
+  /* vertical-align: text-top; */
+  align-items: flex-start;
 `;
 
 const StyledRightContainer = styled.div`
@@ -87,8 +99,14 @@ export default function PartExercisePage() {
         </StyledSelectBodyContainer>
         {/* <img src="/imgs/body.png" alt="임시 이미지" style={{ width: "100%" }} /> */}
         {/* <div> */}
-        <BodyPart fill="orange" />
-        <AbsPart fill="#FF6666" />
+        {/* <BodyPart fill="orange" /> */}
+        {/* <AbsPart fill="#FF6666" /> */}
+        <StyledSvgContainer>
+          <svg style={{ width: "100%" }}>
+            <Abs_pt fill="#FF6666" />
+            <Left fill="#FF6666" />
+          </svg>
+        </StyledSvgContainer>
         {/* </div> */}
       </StyledLeftContainer>
       <StyledRightContainer>
