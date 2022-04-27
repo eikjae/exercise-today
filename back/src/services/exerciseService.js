@@ -11,7 +11,7 @@ class exerciseService {
     return refindBmi;
   }
 
-  static async calculateCalories({ weight, name }) {
+  static async calculateCalories({ weight, name, time }) {
     const exercise = await Exercise.findByName({
       name,
     });
@@ -19,12 +19,12 @@ class exerciseService {
     const caloriesPerLb = exercise.CaloriesPerLb;
     // 1 kg == 2.205 lb
     const caloriesPerHour = weight * 2.205 * caloriesPerLb;
-    const refindCaloriesPerHour = caloriesPerHour.toFixed(2);
-    if (refindCaloriesPerHour === "NaN") {
+    const calories = (caloriesPerHour * time).toFixed(2);
+    if (calories === "NaN") {
       const errorMessage = "몸무게와 운동 이름을 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
-    return refindCaloriesPerHour;
+    return calories;
   }
 
   static async timeinfo({ weight, category, calories }) {
