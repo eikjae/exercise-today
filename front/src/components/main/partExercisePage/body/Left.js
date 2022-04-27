@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Left({ fill, onClick, onMouseOver, onMouseLeave }) {
   return (
-    <>
+    <svg onClick={onClick}>
       <path
         class="pt1"
         d="M153.4,209.5c0.4-8.8,0.7-17.4,1.1-26.1c0.2-4.1,1.7-8.1,0-12.2c-3.3-7.7-6.8-15.4-10.3-23.5
@@ -901,6 +901,6 @@ export default function Left({ fill, onClick, onMouseOver, onMouseLeave }) {
 		C349.1,302.3,348.5,302.9,347.8,302.9z"
         />
       </g>
-    </>
+    </svg>
   );
 }

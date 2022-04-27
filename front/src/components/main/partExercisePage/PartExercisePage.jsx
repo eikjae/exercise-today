@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-pascal-case */
-import React from "react";
+import React, { useState, useEffect } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import * as Api from "../../../api";
 
 import { Container } from "@mui/material";
 import styled from "styled-components";
@@ -67,62 +68,136 @@ const StyledMuscleFormControl = styled(FormControl)`
 `;
 
 export default function PartExercisePage() {
+  const [bodyPartList, setBodyPartList] = useState([]);
+  const [bodyPart, setBodyPart] = useState("");
+  const [targetList, setTargetList] = useState([]);
+  const [target, setTarget] = useState("");
+  const [equipmentList, setEquipmentList] = useState([]);
+  const [equipment, setEquipment] = useState("");
+  const [exerciseList, setExerciseList] = useState([]);
+  const [exercise, setExercise] = useState("");
+  const [exerciseImg, setExerciseImg] = useState(null);
+
+  // 처음 렌더링시 GET 요청으로 bodyPart 카테고리를 가져옴
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await Api.get("exercise/bodypartlist");
+      setBodyPartList(res.data);
+    };
+    fetch();
+  }, []);
+
+  // POST 요청으로 target 카테고리를 가져옴
+  const handleChangeBodyPart = async (e) => {
+    try {
+      setBodyPart(e.target.value);
+      const res = await Api.post("exercise/findtargets", {
+        bodyPart: e.target.value,
+      });
+      setTargetList(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // POST 요청으로 equipment 카테고리를 가져옴
+  const handleChangeTarget = async (e) => {
+    try {
+      setTarget(e.target.value);
+      const res = await Api.post("exercise/findequipments", {
+        bodyPart,
+        target: e.target.value,
+      });
+      setEquipmentList(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // POST 요청으로 exercise 카테고리를 가져옴
+  const handleChangeEquipment = async (e) => {
+    try {
+      setEquipment(e.target.value);
+      const res = await Api.post("exercise/findpartexercises", {
+        bodyPart,
+        equipment: e.target.value,
+        target,
+      });
+      setExerciseList(res.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // exercise를 선택하면 이미지를 세팅함
+  const handleChangeExercise = async (e) => {
+    try {
+      setExercise(e.target.value);
+      setExerciseImg(e.target.value.gifUrl);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // 맨 밑에 전체 인체 svg를 깔아놓고 특정 근육을 visibility 주는 방식을 사용 시도
   return (
     <StyledContainer>
       <StyledLeftContainer>
         <h2>운동을 원하는 부위를 선택해주세요</h2>
         <StyledSelectBodyContainer>
           <StyledBodyFormControl>
-            <InputLabel id="demo-simple-select-label">Front</InputLabel>
+            <InputLabel id="demo-simple-select-label">BodyPart</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              label="Age"
+              label="BodyPart"
+              value={bodyPart}
+              onChange={handleChangeBodyPart}
             >
-              <MenuItem value={10}>근육1</MenuItem>
-              <MenuItem value={20}>근육2</MenuItem>
-              <MenuItem value={30}>근육3</MenuItem>
+              {bodyPartList.map((bodyPart) => (
+                <MenuItem value={bodyPart}>{bodyPart}</MenuItem>
+              ))}
             </Select>
           </StyledBodyFormControl>
           <StyledBodyFormControl>
-            <InputLabel id="demo-simple-select-label">Back</InputLabel>
+            <InputLabel id="demo-simple-select-label">Target</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              label="Age"
+              label="Target"
+              value={target}
+              onChange={handleChangeTarget}
             >
-              <MenuItem value={10}>근육1</MenuItem>
-              <MenuItem value={20}>근육2</MenuItem>
-              <MenuItem value={30}>근육3</MenuItem>
+              {targetList.map((target) => (
+                <MenuItem value={target}>{target}</MenuItem>
+              ))}
             </Select>
           </StyledBodyFormControl>
         </StyledSelectBodyContainer>
         {/* <img src="/imgs/body.png" alt="임시 이미지" style={{ width: "100%" }} /> */}
-        {/* <div> */}
-        {/* <BodyPart fill="orange" /> */}
-        {/* <AbsPart fill="#FF6666" /> */}
         <StyledSvgContainer>
           <svg style={{ width: "100%" }}>
-            <Abs fill="#FF6666" />
-            <Left fill="#FF6666" />
-            <Delts />
-            {/* <Delts_bt /> */}
+            <Abs fill="#FF6666" onClick={() => console.log("test")} />
+
+            <Left onClick={() => console.log("left")} />
+            <Delts fill="#FF6666" onClick={() => console.log("Delts")} />
           </svg>
         </StyledSvgContainer>
-        {/* </div> */}
       </StyledLeftContainer>
       <StyledRightContainer>
         <h2>사용할 도구를 선택해주세요</h2>
         <StyledMuscleFormControl>
-          <InputLabel id="demo-simple-select-label">Machine</InputLabel>
+          <InputLabel id="demo-simple-select-label">Equipment</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            label="Age"
+            label="Equipment"
+            value={equipment}
+            onChange={handleChangeEquipment}
           >
-            <MenuItem value={10}>머신1</MenuItem>
-            <MenuItem value={20}>머신2</MenuItem>
-            <MenuItem value={30}>머신3</MenuItem>
+            {equipmentList.map((equipment) => (
+              <MenuItem value={equipment}>{equipment}</MenuItem>
+            ))}
           </Select>
         </StyledMuscleFormControl>
         <h2>추천 운동</h2>
@@ -131,18 +206,24 @@ export default function PartExercisePage() {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            label="Age"
+            label="Exercise"
+            value={exercise.name}
+            onChange={handleChangeExercise}
           >
-            <MenuItem value={10}>운동1</MenuItem>
-            <MenuItem value={20}>운동2</MenuItem>
-            <MenuItem value={30}>운동3</MenuItem>
+            {exerciseList.map((exercise) => (
+              <MenuItem value={exercise}>{exercise.name}</MenuItem>
+            ))}
           </Select>
         </StyledMuscleFormControl>
-        <img
-          src="/imgs/muscle.png"
-          alt="임시 이미지"
-          style={{ width: "100%" }}
-        />
+        {exerciseImg !== null ? (
+          <img src={exerciseImg} alt="임시 이미지" style={{ width: "100%" }} />
+        ) : (
+          <img
+            src="http://d205bpvrqc9yn1.cloudfront.net/0150.gif"
+            alt="빈 이미지"
+            style={{ visibility: "hidden" }}
+          />
+        )}
       </StyledRightContainer>
     </StyledContainer>
   );
