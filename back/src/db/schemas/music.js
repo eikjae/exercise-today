@@ -33,6 +33,10 @@ const MusicSchema = new Schema({
     type: Number,
     required: true,
   },
+  image_link: {
+    type: String,
+    required: true,
+  },
 });
 const MusicModel = model("Music", MusicSchema);
 

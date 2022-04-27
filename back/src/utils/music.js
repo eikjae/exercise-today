@@ -122,13 +122,14 @@ export function orderbyAuth(orderby) {
 
 export function getRequiredComponentMusics(arr) {
   const result = arr.map((music) => {
-    const { id, title, artists, artist_ids, year } = music;
+    const { id, title, artists, artist_ids, year, image_link } = music;
     return {
       id,
       title,
       artists,
       artist_ids,
       year,
+      image_link,
     };
   });
   return result;
