@@ -5,6 +5,7 @@ import { userAuthRouter } from "./routers/userRouter";
 import { exerciseRouter } from "./routers/exerciseRouter";
 import { foodRouter } from "./routers/foodRouter";
 import { targetExerciseRouter } from "./routers/targetExerciseRouter";
+import { dietRouter } from "./routers/dietRouter";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(userAuthRouter);
 app.use(exerciseRouter);
 app.use(foodRouter);
 app.use(targetExerciseRouter);
+app.use(dietRouter);
 
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
 app.use(errorMiddleware);
