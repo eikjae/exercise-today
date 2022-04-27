@@ -1,9 +1,11 @@
 import { Schema, model } from "mongoose";
 
 const MusicSchema = new Schema({
-  id: {
+  musicId: {
     type: String,
     required: true,
+    index: true,
+    unique: true,
   },
   title: {
     type: String,
