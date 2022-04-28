@@ -41,12 +41,40 @@ class likeService {
       exercisesInfo.push(toUpdate.exercise);
     }
     newValue = exercisesInfo;
-    console.log("newValue:", newValue);
     const updatedLike = await Like.update({ user_id, fieldToUpdate, newValue });
 
     return updatedLike;
   }
 
+  static async setLikeFood({ user_id, toUpdate }) {
+    let likeInfo = await Like.findByUserId({ user_id });
+
+    if (!likeInfo) {
+      const errorMessage =
+        "정보가 없습니다. user_id 값을 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    const fieldToUpdate = "foods";
+    let foodsInfo = likeInfo.foods;
+    let newValue = {};
+    if (foodsInfo.includes(toUpdate.food)) {
+      const d = foodsInfo.length;
+      for (let i = 0; i < d; i++) {
+        if (foodsInfo[i] == toUpdate.food) {
+          foodsInfo.splice(i, 1);
+          break;
+        }
+      }
+      newValue = foodsInfo;
+    } else {
+      foodsInfo.push(toUpdate.food);
+    }
+    newValue = foodsInfo;
+    const updatedLike = await Like.update({ user_id, fieldToUpdate, newValue });
+
+    return updatedLike;
+  }
 }
 
 export { likeService };
