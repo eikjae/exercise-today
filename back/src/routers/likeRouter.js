@@ -87,4 +87,26 @@ likeRouter.put(
   }
 );
 
+likeRouter.put(
+  "/like/music",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.currentUserId;
+      const music = req.body.music;
+
+      const toUpdate = { music };
+      const updatedLikeInfo = await likeService.setLikeMusic({ user_id, toUpdate });
+
+      if (updatedLikeInfo.errorMessage) {
+        throw new Error(updatedLikeInfo.errorMessage);
+      }
+
+      res.status(200).json(updatedLikeInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { likeRouter };
