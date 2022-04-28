@@ -11,7 +11,7 @@ const LikeSchema = new Schema({
   foods: {
     type: Array,
   },
-  users: {
+  people: {
     type: Array,
   },
   musics: {
