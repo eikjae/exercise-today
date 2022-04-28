@@ -31,7 +31,6 @@ import {
   Serratus_anterior,
   Abductors,
   Levator_scapulae,
-  Left,
 } from "./body/all_body";
 
 // const StyledContainer = styled(Container)`
@@ -188,12 +187,8 @@ export default function PartExercisePage() {
   };
 
   // 마우스가 떨어질 때 not-hovering으로 state를 변경
-  const handleMouseLeave = () => {
-    setHover("not-hovering");
-  };
-
-  // const handleFill = () => {
-  //   useEffect(() => {}, []);
+  // const handleMouseLeave = () => {
+  //   setHover("not-hovering");
   // };
 
   // 맨 밑에 전체 인체 svg를 깔아놓고 특정 근육을 visibility 주는 방식을 사용 시도
