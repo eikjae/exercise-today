@@ -17,12 +17,25 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
+    const passwordCheck = req.body.passwordCheck;
+    const height = req.body.height;
+    const weight = req.body.weight;
+    const gender = req.body.gender;
+
+    if (password !== passwordCheck) {
+      throw new Error(
+        "password와 passwordCheck의 값이 일치하지 않습니다."
+      )
+    }
 
     // 위 데이터를 유저 db에 추가하기
     const newUser = await userAuthService.addUser({
       name,
       email,
       password,
+      height,
+      weight,
+      gender,
     });
 
     if (newUser.errorMessage) {
