@@ -88,6 +88,10 @@ const StyledMuscleFormControl = styled(FormControl)`
   width: 100%;
 `;
 
+const StyledH5 = styled.h5`
+  text-align: center;
+`;
+
 export default function PartExercisePage() {
   // 부위 카테고리, 상세 부위, 기구, 운동
   const [bodyPartList, setBodyPartList] = useState([]);
@@ -101,6 +105,7 @@ export default function PartExercisePage() {
 
   // 실제 운동 이미지
   const [exerciseImg, setExerciseImg] = useState(null);
+  // const [exerciseName, setExerciseName] = useState("");
 
   // 클릭된 부분 확인용
   const [click, setClick] = useState("not-click");
@@ -422,6 +427,7 @@ export default function PartExercisePage() {
               style={{ width: "100%", visibility: "hidden" }}
             />
           )}
+          <StyledH5>{exercise.name}</StyledH5>
         </StyledSvgContainer>
       </StyledRightContainer>
     </StyledContainer>
