@@ -43,4 +43,26 @@ likeRouter.put(
   }
 );
 
+likeRouter.put(
+  "/like/food",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.currentUserId;
+      const food = req.body.food;
+
+      const toUpdate = { food };
+      const updatedLikeInfo = await likeService.setLikeFood({ user_id, toUpdate });
+
+      if (updatedLikeInfo.errorMessage) {
+        throw new Error(updatedLikeInfo.errorMessage);
+      }
+
+      res.status(200).json(updatedLikeInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { likeRouter };
