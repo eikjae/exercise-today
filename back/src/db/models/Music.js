@@ -2,7 +2,18 @@ import { MusicModel } from "../schemas/music";
 
 class Music {
   static async findById({ music_id }) {
-    const music = await MusicModel.findOne({ id: music_id });
+    const music = await MusicModel.findOne(
+      { id: music_id },
+      {
+        _id: false,
+        musicId: true,
+        title: true,
+        artists: true,
+        artist_ids: true,
+        year: true,
+        image_link: true,
+      }
+    );
     return music;
   }
 
@@ -35,18 +46,7 @@ class Music {
   }
 
   static async findAll() {
-    const musics = await MusicModel.find(
-      {},
-      {
-        _id: false,
-        musicId: true,
-        title: true,
-        artists: true,
-        artist_ids: true,
-        year: true,
-        image_link: true,
-      }
-    );
+    const musics = await MusicModel.find({});
     return musics;
   }
 }

@@ -11,6 +11,11 @@ const EnergyMin = 0.7;
 const CaloriesPerLbMax = 3.7;
 const CaloriesPerLbMin = 0.4;
 
+const TempoFactor = 0.3;
+const DnceFactor = 0.3;
+const YearFactor = 0.1;
+const EnergyFactor = 0.3;
+
 function filterAuth(arr) {
   for (var i = 0; i < arr.length; i++) {
     if (typeof arr[i] !== "number") {
@@ -106,6 +111,29 @@ export function calculateProperFactor(caloriesPerLb) {
 
   return properFactor;
 }
+function caculateMusicScore(properFactor, music) {
+  const { tempo, year, energy, danceability } = music;
+  const tempoScore =
+    (100 -
+      Math.abs(properFactor.Tempo - tempo) * (100 / (TempoMax - TempoMin))) *
+    TempoFactor;
+  const yearScore =
+    (100 - (YearMax - year) * (100 / (YearMax - YearMin))) * YearFactor;
+  const energyScore =
+    (100 -
+      Math.abs(properFactor.Energy - energy) *
+        (100 / (EnergyMax - EnergyMin))) *
+    EnergyFactor;
+  const DnceScore =
+    (100 -
+      Math.abs(properFactor.Dnce - danceability) *
+        (100 / (DnceMax - DnceMin))) *
+    DnceFactor;
+  return tempoScore + yearScore + energyScore + DnceScore;
+}
+export function getScoredMusics(musics, properFactor) {
+  const scoredMusics = musics.map((music) => {});
+}
 
 function titleMerge(left, right) {
   const sortedArr = [];
@@ -160,5 +188,20 @@ export function randomize(arr) {
 
 export function deepCopy(arr) {
   let result = [...arr].map((child) => ({ ...child }));
+  return result;
+}
+
+export function getRequiredComponentMusics(arr) {
+  const result = arr.map((music) => {
+    const { id, title, artists, artist_ids, year, image_link } = music;
+    return {
+      id,
+      title,
+      artists,
+      artist_ids,
+      year,
+      image_link,
+    };
+  });
   return result;
 }
