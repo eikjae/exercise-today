@@ -1,11 +1,6 @@
 import React from "react";
 
-export default function Abductors({
-  fill,
-  onClick,
-  onMouseOver,
-  onMouseLeave,
-}) {
+export default function Abductors({ fill, onClick }) {
   return (
     <svg
       style={{
@@ -17,8 +12,6 @@ export default function Abductors({
         opacity: fill === undefined ? 0 : 1,
       }}
       onClick={onClick}
-      onMouseOver={onMouseOver}
-      onMouseLeave={onMouseLeave}
     >
       <path
         className="bt30"

@@ -1,11 +1,6 @@
 import React from "react";
 
-export default function Pectorals({
-  fill,
-  onClick,
-  onMouseOver,
-  onMouseLeave,
-}) {
+export default function Pectorals({ fill, onClick }) {
   return (
     <svg
       style={{
@@ -17,8 +12,6 @@ export default function Pectorals({
         opacity: fill === undefined ? 0 : 1,
       }}
       onClick={onClick}
-      onMouseOver={onMouseOver}
-      onMouseLeave={onMouseLeave}
     >
       <path
         className="pt19"

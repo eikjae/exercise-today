@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Delts({ fill, onClick, onMouseOver, onMouseLeave }) {
+export default function Delts({ fill, onClick }) {
   return (
     <svg
       style={{
@@ -12,8 +12,6 @@ export default function Delts({ fill, onClick, onMouseOver, onMouseLeave }) {
         opacity: fill === undefined ? 0 : 1,
       }}
       onClick={onClick}
-      onMouseOver={onMouseOver}
-      onMouseLeave={onMouseLeave}
     >
       <g>
         <path

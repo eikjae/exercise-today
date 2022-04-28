@@ -3,7 +3,7 @@ import React from "react";
 // style= {{ state === hovering ? style1 : style2 }}
 // mouseOver, mouseLeave로 state관리
 // onMouse={()=> setState('hovering'))}
-export default function Lats({ fill, onClick, onMouseOver, onMouseLeave }) {
+export default function Lats({ fill, onClick }) {
   return (
     <svg
       style={{
@@ -15,8 +15,6 @@ export default function Lats({ fill, onClick, onMouseOver, onMouseLeave }) {
         opacity: fill === undefined ? 0 : 1,
       }}
       onClick={onClick}
-      onMouseOver={onMouseOver}
-      onMouseLeave={onMouseLeave}
     >
       <path
         className="bt1"

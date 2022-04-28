@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Body({ fill, onClick, onMouseOver, onMouseLeave }) {
+export default function Body({ fill, onClick }) {
   return (
     <svg
       style={{
@@ -11,8 +11,6 @@ export default function Body({ fill, onClick, onMouseOver, onMouseLeave }) {
         cursor: "pointer",
       }}
       onClick={onClick}
-      onMouseOver={onMouseOver}
-      onMouseLeave={onMouseLeave}
     >
       <g>
         <path

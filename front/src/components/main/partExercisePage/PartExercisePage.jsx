@@ -18,7 +18,7 @@ import {
   Calves,
   Pectorals,
   Glutes,
-  Hamstring,
+  Hamstrings,
   Adductors,
   Triceps,
   Cardiovascular,
@@ -99,7 +99,7 @@ export default function PartExercisePage() {
   const [exercise, setExercise] = useState("");
   const [exerciseImg, setExerciseImg] = useState(null);
 
-  const [hover, setHover] = useState("not-hovering");
+  const [click, setClick] = useState("not-hovering");
 
   // 처음 렌더링시 GET 요청으로 bodyPart 카테고리를 가져옴
   useEffect(() => {
@@ -150,7 +150,7 @@ export default function PartExercisePage() {
   const handleChangeTarget = async (e) => {
     try {
       setTarget(e.target.value);
-      setHover(e.target.value);
+      setClick(e.target.value);
       const res = await Api.post("exercise/findequipments", {
         bodyPart,
         target: e.target.value,
@@ -185,11 +185,6 @@ export default function PartExercisePage() {
       console.error(err);
     }
   };
-
-  // 마우스가 떨어질 때 not-hovering으로 state를 변경
-  // const handleMouseLeave = () => {
-  //   setHover("not-hovering");
-  // };
 
   // 맨 밑에 전체 인체 svg를 깔아놓고 특정 근육을 visibility 주는 방식을 사용 시도
   return (
@@ -237,156 +232,138 @@ export default function PartExercisePage() {
           >
             <Body />
             <Cardiovascular
-              fill={hover === "cardio" ? "#FF6666" : undefined}
+              fill={click === "cardio" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("cardio", "cardiovascular system");
+                setClick("cardio");
               }}
-              onMouseOver={() => setHover("cardio")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Quads
-              fill={hover === "quads" ? "#FF6666" : undefined}
+              fill={click === "quads" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("upper legs", "quads");
+                setClick("quads");
               }}
-              onMouseOver={() => setHover("quads")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Calves
-              fill={hover === "calves" ? "#FF6666" : undefined}
+              fill={click === "calves" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("lower legs", "calves");
+                setClick("calves");
               }}
-              onMouseOver={() => setHover("calves")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Pectorals
-              fill={hover === "pectorals" ? "#FF6666" : undefined}
+              fill={click === "pectorals" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("chest", "pectorals");
+                setClick("pectorals");
               }}
-              onMouseOver={() => setHover("pectorals")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Glutes
-              fill={hover === "glutes" ? "#FF6666" : undefined}
+              fill={click === "glutes" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("upper legs", "glutes");
+                setClick("glutes");
               }}
-              onMouseOver={() => setHover("glutes")}
-              // onMouseLeave={handleMouseLeave}
             />
-            <Hamstring
-              fill={hover === "hamstring" ? "#FF6666" : undefined}
+            <Hamstrings
+              fill={click === "hamstrings" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper legs", "hamstring");
+                handleClick("upper legs", "hamstrings");
+                setClick("hamstrings");
               }}
-              onMouseOver={() => setHover("hamstring")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Adductors
-              fill={hover === "adductors" ? "#FF6666" : undefined}
+              fill={click === "adductors" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("upper legs", "adductors");
+                setClick("adductors");
               }}
-              onMouseOver={() => setHover("adductors")}
-              // onMouseLeave={handleMouseLeave}
             />
+
             <Triceps
-              fill={hover === "triceps" ? "#FF6666" : undefined}
+              fill={click === "triceps" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("upper arms", "triceps");
+                setClick("triceps");
               }}
-              onMouseOver={() => setHover("triceps")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Spine
-              fill={hover === "spine" ? "#FF6666" : undefined}
+              fill={click === "spine" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("back", "spine");
+                setClick("spine");
               }}
-              onMouseOver={() => setHover("spine")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Upper_back
-              fill={hover === "upper back" ? "#FF6666" : undefined}
+              fill={click === "upper back" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("back", "upper back");
+                setClick("upper back");
               }}
-              onMouseOver={() => setHover("upper back")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Biceps
-              fill={hover === "biceps" ? "#FF6666" : undefined}
+              fill={click === "biceps" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("upper arms", "biceps");
+                setClick("biceps");
               }}
-              onMouseOver={() => setHover("biceps")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Delts
-              fill={hover === "delts" ? "#FF6666" : undefined}
+              fill={click === "delts" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("shoulders", "delts");
+                setClick("delts");
               }}
-              onMouseOver={() => setHover("delts")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Forearms
-              fill={hover === "forearms" ? "#FF6666" : undefined}
+              fill={click === "forearms" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("lower arms", "forearms");
+                setClick("forearms");
               }}
-              onMouseOver={() => setHover("forearms")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Traps
-              fill={hover === "traps" ? "#FF6666" : undefined}
+              fill={click === "traps" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("back", "traps");
+                setClick("traps");
               }}
-              onMouseOver={() => setHover("traps")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Serratus_anterior
-              fill={hover === "serratus anterior" ? "#FF6666" : undefined}
+              fill={click === "serratus anterior" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("chest", "serratus anterior");
+                setClick("serratus anterior");
               }}
-              onMouseOver={() => setHover("serratus anterior")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Abductors
-              fill={hover === "abductors" ? "#FF6666" : undefined}
+              fill={click === "abductors" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("upper legs", "abductors");
+                setClick("abductors");
               }}
-              onMouseOver={() => setHover("abductors")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Levator_scapulae
-              fill={hover === "levator scapulae" ? "#FF6666" : undefined}
+              fill={click === "levator scapulae" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("neck", "levator scapulae");
+                setClick("levator scapulae");
               }}
-              onMouseOver={() => setHover("levator scapulae")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Abs
-              fill={hover === "abs" ? "#FF6666" : undefined}
+              fill={click === "abs" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("waist", "abs");
+                setClick("abs");
               }}
-              onMouseOver={() => setHover("abs")}
-              // onMouseLeave={handleMouseLeave}
             />
             <Lats
-              fill={hover === "lats" ? "#FF6666" : undefined}
+              fill={click === "lats" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("back", "lats");
+                setClick("lats");
               }}
-              onMouseOver={() => setHover("lats")}
-              // onMouseLeave={handleMouseLeave}
             />
           </svg>
         </StyledSvgContainer>

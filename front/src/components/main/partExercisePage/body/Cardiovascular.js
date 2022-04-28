@@ -1,11 +1,6 @@
 import React from "react";
 
-export default function Cardiovascular({
-  fill,
-  onClick,
-  onMouseOver,
-  onMouseLeave,
-}) {
+export default function Cardiovascular({ fill, onClick }) {
   return (
     <svg
       style={{
@@ -17,8 +12,6 @@ export default function Cardiovascular({
         opacity: fill === undefined ? 0 : 1,
       }}
       onClick={onClick}
-      onMouseOver={onMouseOver}
-      onMouseLeave={onMouseLeave}
     >
       <g>
         <path

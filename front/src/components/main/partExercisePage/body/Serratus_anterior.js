@@ -1,11 +1,6 @@
 import React from "react";
 
-export default function Serratus_anterior({
-  fill,
-  onClick,
-  onMouseOver,
-  onMouseLeave,
-}) {
+export default function Serratus_anterior({ fill, onClick }) {
   return (
     <svg
       style={{
@@ -17,8 +12,6 @@ export default function Serratus_anterior({
         opacity: fill === undefined ? 0 : 1,
       }}
       onClick={onClick}
-      onMouseOver={onMouseOver}
-      onMouseLeave={onMouseLeave}
     >
       <g>
         <path

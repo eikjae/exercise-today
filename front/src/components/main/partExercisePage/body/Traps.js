@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Traps({ fill, onClick, onMouseOver, onMouseLeave }) {
+export default function Traps({ fill, onClick }) {
   return (
     <svg
       style={{
@@ -12,8 +12,6 @@ export default function Traps({ fill, onClick, onMouseOver, onMouseLeave }) {
         opacity: fill === undefined ? 0 : 1,
       }}
       onClick={onClick}
-      onMouseOver={onMouseOver}
-      onMouseLeave={onMouseLeave}
     >
       <g>
         <path

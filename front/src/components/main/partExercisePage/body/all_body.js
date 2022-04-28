@@ -5,7 +5,7 @@ export { default as Lats } from "./Lats";
 export { default as Calves } from "./Calves";
 export { default as Pectorals } from "./Pectorals";
 export { default as Glutes } from "./Glutes";
-export { default as Hamstring } from "./Hamstring";
+export { default as Hamstrings } from "./Hamstrings";
 export { default as Adductors } from "./Adductors";
 export { default as Triceps } from "./Triceps";
 export { default as Cardiovascular } from "./Cardiovascular";

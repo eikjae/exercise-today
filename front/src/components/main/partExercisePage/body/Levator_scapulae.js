@@ -3,8 +3,7 @@ import React from "react";
 export default function Levator_scapulae({
   fill,
   onClick,
-  onMouseOver,
-  onMouseLeave,
+
 }) {
   return (
     <svg
@@ -17,8 +16,7 @@ export default function Levator_scapulae({
         opacity: fill === undefined ? 0 : 1,
       }}
       onClick={onClick}
-      onMouseOver={onMouseOver}
-      onMouseLeave={onMouseLeave}
+
     >
       <path
         className="bt17"
