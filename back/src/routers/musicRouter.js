@@ -36,7 +36,11 @@ musicRouter.post("/musics/recommendation", async function (req, res, next) {
     // music_recommendation_validation(req.body);
 
     const exercise = req.body.exercise;
-    const musics = await musicService.getMusicsRecommendation({ exercise });
+    const limit = req.body.limit;
+    const musics = await musicService.getMusicsRecommendation({
+      exercise,
+      limit,
+    });
     res.status(200).json(musics);
   } catch (error) {
     next(error);
