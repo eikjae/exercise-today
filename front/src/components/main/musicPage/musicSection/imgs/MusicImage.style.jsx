@@ -5,4 +5,7 @@ export const StyledCardContainer = styled.div`
   height: 100%;
   transform-style: preserve-3d;
   box-sizing: border-box;
+  &:hover {
+    cursor: pointer;
+  }
 `;

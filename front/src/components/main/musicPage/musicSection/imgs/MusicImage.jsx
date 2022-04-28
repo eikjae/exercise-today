@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import BackImage from "./BackImage";
 import FrontImage from "./FrontImage";
-import { StyledCardContainer } from "./MusicImage.styke";
+import { StyledCardContainer } from "./MusicImage.style";
 import "./style.css";
 
 const MusicImage = ({ music }) => {
