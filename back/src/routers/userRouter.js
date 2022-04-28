@@ -210,4 +210,23 @@ userAuthRouter.post("/reset_password", async function (req, res, next) {
   }
 });
 
+userAuthRouter.delete(
+  "/users/:id",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.id;
+      const deleted_result = await userAuthService.deleteUser({ user_id });
+
+      if (deleted_result.errorMessage) {
+        throw new Error(deleted_result.errorMessage);
+      }
+
+      res.status(204).send();
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 export { userAuthRouter };
