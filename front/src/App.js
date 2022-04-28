@@ -5,7 +5,7 @@ import * as Api from "./api";
 import { loginReducer } from "./reducer";
 
 import Header from "./components/Header";
-// import LoginForm from "./components/user/LoginForm";
+import LoginForm from "./components/user/Login/LoginForm";
 import Network from "./components/user/Network";
 // import RegisterForm from "./components/user/RegisterForm";
 import Portfolio from "./components/Portfolio";
@@ -15,8 +15,15 @@ import MainChartPage from "./components/main/mainChartPage/MainChartPage";
 import BodyPartPage from "./components/main/BodyPartPage";
 import MusicPage from "./components/main/musicPage/MusicPage";
 
+import { atom, RecoilRoot } from "recoil";
+
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
+
+// export const userState = atom({
+//   key: "userState",
+//   default: null,
+// });
 
 function App() {
   // useReducer 훅을 통해 userState 상태와 dispatch함수를 생성함.
@@ -69,9 +76,9 @@ function App() {
               element={<MainChartPage />}
             />
             <Route path="/music" element={<MusicPage />} />
-            {/* <Route path="/" exact element={<Portfolio />} />
+            {/* <Route path="/" exact element={<Portfolio />} /> */}
             <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} /> */}
+            {/* <Route path="/register" element={<RegisterForm />} /> */}
             <Route path="/exercise" element={<BodyPartPage />} />
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />

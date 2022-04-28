@@ -1,7 +1,6 @@
 import {
   FormControl,
   FormControlLabel,
-  formHelperTextClasses,
   FormLabel,
   InputAdornment,
   OutlinedInput,

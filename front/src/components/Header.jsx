@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
 import { UserStateContext, DispatchContext } from "../App";
+import { Tab, Tabs } from "@mui/material";
+import { StyledNav, StyledTitle } from "./Haeader.style";
 
 function Header() {
   const navigate = useNavigate();
@@ -21,25 +22,19 @@ function Header() {
     navigate("/");
   };
 
+  const handleOnClickLogin = () => {
+    navigate("/login");
+  };
+
   return (
-    <Nav activeKey={location.pathname} style={{ height: "5vh" }}>
-      <Nav.Item className="me-auto mb-5">
-        <Nav.Link disabled style={{ fontSize: "30px" }}>
-          오늘도 운동
-        </Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        {/* <Nav.Link onClick={() => navigate("/")}>마이페이지</Nav.Link> */}
-      </Nav.Item>
-      <Nav.Item>
-        {/* <Nav.Link onClick={() => navigate("/network")}>네트워크</Nav.Link> */}
-      </Nav.Item>
-      {isLogin && (
-        <Nav.Item>
-          <Nav.Link onClick={logout}>로그아웃</Nav.Link>
-        </Nav.Item>
-      )}
-    </Nav>
+    <StyledNav>
+      <StyledTitle>오늘도 운동</StyledTitle>
+      <Tabs value={0}>
+        <Tab label="로그인" onClick={handleOnClickLogin}></Tab>
+        <Tab label="Page Two" href="/login"></Tab>
+        <Tab label="Page Three" href="/login"></Tab>
+      </Tabs>
+    </StyledNav>
   );
 }
 
