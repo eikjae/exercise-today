@@ -105,6 +105,36 @@ class likeService {
 
     return updatedLike;
   }
+
+  static async setLikeMusic({ user_id, toUpdate }) {
+    let likeInfo = await Like.findByUserId({ user_id });
+
+    if (!likeInfo) {
+      const errorMessage =
+        "정보가 없습니다. user_id 값을 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    const fieldToUpdate = "musics";
+    let musicsInfo = likeInfo.musics;
+    let newValue = {};
+    if (musicsInfo.includes(toUpdate.music)) {
+      const d = musicsInfo.length;
+      for (let i = 0; i < d; i++) {
+        if (musicsInfo[i] == toUpdate.music) {
+          musicsInfo.splice(i, 1);
+          break;
+        }
+      }
+      newValue = musicsInfo;
+    } else {
+      musicsInfo.push(toUpdate.music);
+    }
+    newValue = musicsInfo;
+    const updatedLike = await Like.update({ user_id, fieldToUpdate, newValue });
+
+    return updatedLike;
+  }
 }
 
 export { likeService };
