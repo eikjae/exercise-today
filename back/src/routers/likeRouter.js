@@ -65,4 +65,26 @@ likeRouter.put(
   }
 );
 
+likeRouter.put(
+  "/like/person",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.currentUserId;
+      const person = req.body.person;
+
+      const toUpdate = { person };
+      const updatedLikeInfo = await likeService.setLikePerson({ user_id, toUpdate });
+
+      if (updatedLikeInfo.errorMessage) {
+        throw new Error(updatedLikeInfo.errorMessage);
+      }
+
+      res.status(200).json(updatedLikeInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { likeRouter };
