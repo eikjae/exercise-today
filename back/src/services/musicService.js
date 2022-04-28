@@ -4,6 +4,9 @@ import {
   yearMergeSort,
   randomize,
   calculateProperFactor,
+  getScoredMusics,
+  getRequiredComponentMusics,
+  scoreMergeSort,
 } from "../utils/music";
 
 class musicService {
@@ -14,7 +17,9 @@ class musicService {
       const errorMessage = "노래가 비어있습니다.";
       return { errorMessage };
     }
-    return { musics };
+    const result = getRequiredComponentMusics(musics);
+
+    return { musics: result };
   }
 
   static async getMusicsBy({ filter, orderby, limit }) {
@@ -35,14 +40,20 @@ class musicService {
     }
     return { musics: orderbyMusics };
   }
-  static async getMusicsRecommendation({ exercise }) {
+  static async getMusicsRecommendation({ exercise, limit }) {
     const exerciseInfo = await Exercise.findByName({
       name: exercise,
     });
     const { CaloriesPerLb } = exerciseInfo;
-    console.log(CaloriesPerLb);
     const properFactor = calculateProperFactor(CaloriesPerLb);
-    console.log(properFactor);
+    let musics = await Music.findAll();
+    const socredMusics = getScoredMusics(musics, properFactor);
+    const orderedScoredMusics = scoreMergeSort(socredMusics);
+    const result = orderedScoredMusics.slice(0, limit);
+    const randomizedResult = randomize(result);
+    const requredComponentedResult =
+      getRequiredComponentMusics(randomizedResult);
+    return { musics: requredComponentedResult };
   }
 }
 export { musicService };

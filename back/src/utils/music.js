@@ -132,7 +132,34 @@ function caculateMusicScore(properFactor, music) {
   return tempoScore + yearScore + energyScore + DnceScore;
 }
 export function getScoredMusics(musics, properFactor) {
-  const scoredMusics = musics.map((music) => {});
+  const Musics = deepCopy(musics);
+  const scoredMusics = Musics.map((music) => {
+    music.score = caculateMusicScore(properFactor, music);
+    return music;
+  });
+  return scoredMusics;
+}
+
+function scoreMerge(left, right) {
+  const sortedArr = [];
+  while (left.length && right.length) {
+    if (left[0].score > right[0].score) {
+      sortedArr.push(left.shift());
+    } else {
+      sortedArr.push(right.shift());
+    }
+  }
+  return [...sortedArr, ...left, ...right];
+}
+
+export function scoreMergeSort(arr) {
+  if (arr.length <= 1) {
+    return arr;
+  }
+  const boundary = Math.ceil(arr.length / 2);
+  const left = arr.slice(0, boundary);
+  const right = arr.slice(boundary);
+  return scoreMerge(scoreMergeSort(left), scoreMergeSort(right));
 }
 
 function titleMerge(left, right) {
@@ -186,7 +213,7 @@ export function randomize(arr) {
   return arr;
 }
 
-export function deepCopy(arr) {
+function deepCopy(arr) {
   let result = [...arr].map((child) => ({ ...child }));
   return result;
 }
