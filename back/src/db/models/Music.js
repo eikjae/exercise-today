@@ -46,7 +46,7 @@ class Music {
   }
 
   static async findAll() {
-    const musics = await MusicModel.find({});
+    const musics = await MusicModel.find({}).lean();
     return musics;
   }
 }
