@@ -1,10 +1,29 @@
 import assert from "assert";
 
+const TempoMax = 126.0;
+const TempoMin = 110.0;
+const DnceMax = 1.0;
+const DnceMin = 0.62;
+const YearMax = 2020;
+const YearMin = 2014;
+const EnergyMax = 1.0;
+const EnergyMin = 0.7;
+const CaloriesPerLbMax = 3.7;
+const CaloriesPerLbMin = 0.4;
+
 function filterAuth(arr) {
   for (var i = 0; i < arr.length; i++) {
     if (typeof arr[i] !== "number") {
       return false;
     }
+  }
+  return true;
+}
+
+function orderbyAuth(orderby) {
+  const orders = ["title", "-title", "year", "-year", "random"];
+  if (!orders.includes(orderby)) {
+    return false;
   }
   return true;
 }
@@ -43,15 +62,6 @@ export function music_filtered_validation(body) {
   const [minDanceability, maxDanceability] = filter.Danceability;
   const [minYear, maxYear] = filter.Year;
   const [minEnergy, maxEnergy] = filter.Energy;
-
-  const TempoMax = 126.0;
-  const DnceMax = 1.0;
-  const YearMax = 2020;
-  const EnergyMax = 1.0;
-  const TempoMin = 110.0;
-  const DnceMin = 0.62;
-  const YearMin = 2014;
-  const EnergyMin = 0.7;
   assert(minTempo >= TempoMin, `minTempo should be upper than ${TempoMin}`);
   assert(maxTempo <= TempoMax, `maxTempo should be downer than ${TempoMax}`);
   assert(
@@ -76,6 +86,25 @@ export function music_filtered_validation(body) {
       `${key}'s minValue should position on left index in array`
     );
   }
+}
+
+export function calculateProperFactor(caloriesPerLb) {
+  let properFactor = {
+    Tempo: 0,
+    Dnce: 0,
+    Energy: 0,
+  };
+  const CaloriesPerLbGap = CaloriesPerLbMax - CaloriesPerLbMin;
+  const TempoMulFactor = (TempoMax - TempoMin) / CaloriesPerLbGap;
+  const EnergyMulFactor = (EnergyMax - EnergyMin) / CaloriesPerLbGap;
+  const DnceMulFactor = (DnceMax - DnceMin) / CaloriesPerLbGap;
+
+  const CaloriesGap = caloriesPerLb - CaloriesPerLbMin;
+  properFactor.Tempo = CaloriesGap * TempoMulFactor + TempoMin;
+  properFactor.Dnce = CaloriesGap * DnceMulFactor + DnceMin;
+  properFactor.Energy = CaloriesGap * EnergyMulFactor + EnergyMin;
+
+  return properFactor;
 }
 
 function titleMerge(left, right) {
@@ -131,42 +160,5 @@ export function randomize(arr) {
 
 export function deepCopy(arr) {
   let result = [...arr].map((child) => ({ ...child }));
-  return result;
-}
-
-export function nAuth(n) {
-  if (n <= 0) {
-    return false;
-  }
-  return true;
-}
-
-export function returnNarr(n, arr) {
-  if (len(arr) < n) {
-    return arr;
-  } else {
-    return arr.slice(0, n);
-  }
-}
-function orderbyAuth(orderby) {
-  const orders = ["title", "-title", "year", "-year", "random"];
-  if (!orders.includes(orderby)) {
-    return false;
-  }
-  return true;
-}
-
-export function getRequiredComponentMusics(arr) {
-  const result = arr.map((music) => {
-    const { id, title, artists, artist_ids, year, image_link } = music;
-    return {
-      id,
-      title,
-      artists,
-      artist_ids,
-      year,
-      image_link,
-    };
-  });
   return result;
 }

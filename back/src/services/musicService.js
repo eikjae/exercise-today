@@ -1,11 +1,9 @@
-import { Music } from "../db";
+import { Exercise, Music } from "../db";
 import {
   titleMergeSort,
   yearMergeSort,
   randomize,
-  nAuth,
-  orderbyAuth,
-  getRequiredComponentMusics,
+  calculateProperFactor,
 } from "../utils/music";
 
 class musicService {
@@ -36,6 +34,15 @@ class musicService {
       orderbyMusics = randomize(filteredMusics).slice(0, limit);
     }
     return { musics: orderbyMusics };
+  }
+  static async getMusicsRecommendation({ exercise }) {
+    const exerciseInfo = await Exercise.findByName({
+      name: exercise,
+    });
+    const { CaloriesPerLb } = exerciseInfo;
+    console.log(CaloriesPerLb);
+    const properFactor = calculateProperFactor(CaloriesPerLb);
+    console.log(properFactor);
   }
 }
 export { musicService };

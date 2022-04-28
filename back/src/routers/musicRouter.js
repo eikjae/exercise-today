@@ -25,10 +25,19 @@ musicRouter.post("/musics/filtered/", async function (req, res, next) {
       orderby,
       limit,
     });
-    if (filteredMusics.errorMessage) {
-      throw new Error(filteredMusics.errorMessage);
-    }
     res.status(200).json(filteredMusics);
+  } catch (error) {
+    next(error);
+  }
+});
+
+musicRouter.post("/musics/recommendation", async function (req, res, next) {
+  try {
+    // music_recommendation_validation(req.body);
+
+    const exercise = req.body.exercise;
+    const musics = await musicService.getMusicsRecommendation({ exercise });
+    res.status(200).json(musics);
   } catch (error) {
     next(error);
   }
