@@ -191,6 +191,10 @@ export default function PartExercisePage() {
   const handleChangeExercise = async (e) => {
     try {
       setExercise(e.target.value);
+      // setExerciseName(e.target.value[0]);
+      // setExerciseImg(e.target.value[1]);
+      // console.log(e.target.value[0]);
+      // console.log(e.target);
       setExerciseImg(e.target.value.gifUrl);
     } catch (err) {
       console.error(err);
