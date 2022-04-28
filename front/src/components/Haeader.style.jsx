@@ -8,4 +8,9 @@ export const StyledNav = styled.nav`
   padding: 0.3rem;
 `;
 
-export const StyledTitle = styled.h4``;
+export const StyledTitle = styled.h4`
+  margin-bottom: 0;
+  &:hover {
+    cursor: pointer;
+  }
+`;

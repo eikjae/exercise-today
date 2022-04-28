@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { UserStateContext, DispatchContext } from "../App";
 import { Tab, Tabs } from "@mui/material";
 import { StyledNav, StyledTitle } from "./Haeader.style";
@@ -28,12 +28,15 @@ function Header() {
 
   return (
     <StyledNav>
-      <StyledTitle>오늘도 운동</StyledTitle>
-      <Tabs value={0}>
-        <Tab label="로그인" onClick={handleOnClickLogin}></Tab>
-        <Tab label="Page Two" href="/login"></Tab>
-        <Tab label="Page Three" href="/login"></Tab>
-      </Tabs>
+      <StyledTitle
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        오늘도 운동
+      </StyledTitle>
+
+      <Link to="login">로그인</Link>
     </StyledNav>
   );
 }

@@ -7,8 +7,11 @@ import {
   StyledButton,
   StyledContainer,
   StyledTextField,
-  StyledInputWrapper,
+  StyledInputLayout,
   StyledButtonWrapper,
+  StyledWarningMessage,
+  StyledInputContainer,
+  StyledOutLine,
 } from "./LoginForm.style";
 
 function LoginForm() {
@@ -68,32 +71,50 @@ function LoginForm() {
     }
   };
 
+  const handleOnClickRegister = () => {
+    navigate("/register");
+  };
+
   return (
     <StyledContainer>
-      <StyledInputWrapper>
-        <StyledTextField
-          id="email-input"
-          label="email"
-          type="email"
-          autoComplete="current-email"
-          variant="standard"
-          color="secondary"
-          ref={passwordRef}
-        />
-        <StyledTextField
-          id="password-input"
-          label="password"
-          type="password"
-          autoComplete="current-password"
-          variant="standard"
-          color="secondary"
-          ref={emailRef}
-        />
-        <StyledButtonWrapper>
-          <StyledButton>로그인</StyledButton>
-          <StyledButton>회원가입</StyledButton>
-        </StyledButtonWrapper>
-      </StyledInputWrapper>
+      <StyledInputLayout>
+        <StyledOutLine>
+          <StyledInputContainer>
+            <StyledTextField
+              id="email-input"
+              label="email"
+              type="email"
+              autoComplete="current-email"
+              variant="standard"
+              color="secondary"
+              inputRef={emailRef}
+            />
+            <StyledWarningMessage>
+              이메일 혹은 패스워드가 유효하지 않습니다.
+            </StyledWarningMessage>
+          </StyledInputContainer>
+          <StyledInputContainer>
+            <StyledTextField
+              id="password-input"
+              label="password"
+              type="password"
+              autoComplete="current-password"
+              variant="standard"
+              color="secondary"
+              inputRef={passwordRef}
+            />
+            <StyledWarningMessage>
+              이메일 혹은 패스워드가 유효하지 않습니다.
+            </StyledWarningMessage>
+          </StyledInputContainer>
+          <StyledButtonWrapper>
+            <StyledButton>로그인</StyledButton>
+            <StyledButton onClick={handleOnClickRegister}>
+              회원가입
+            </StyledButton>
+          </StyledButtonWrapper>
+        </StyledOutLine>
+      </StyledInputLayout>
     </StyledContainer>
   );
 }

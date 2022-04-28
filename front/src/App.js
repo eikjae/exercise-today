@@ -7,7 +7,7 @@ import { loginReducer } from "./reducer";
 import Header from "./components/Header";
 import LoginForm from "./components/user/Login/LoginForm";
 import Network from "./components/user/Network";
-// import RegisterForm from "./components/user/RegisterForm";
+import RegisterForm from "./components/user/Register/RegisterForm";
 import Portfolio from "./components/Portfolio";
 
 import MainPage from "./components/main/MainPage";
@@ -78,7 +78,7 @@ function App() {
             <Route path="/music" element={<MusicPage />} />
             {/* <Route path="/" exact element={<Portfolio />} /> */}
             <Route path="/login" element={<LoginForm />} />
-            {/* <Route path="/register" element={<RegisterForm />} /> */}
+            <Route path="/register" element={<RegisterForm />} />
             <Route path="/exercise" element={<BodyPartPage />} />
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />

@@ -7,7 +7,7 @@ export const StyledContainer = styled(Container)`
   align-items: center;
 `;
 
-export const StyledInputWrapper = styled(Box)`
+export const StyledInputLayout = styled(Box)`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,13 +19,27 @@ export const StyledInputWrapper = styled(Box)`
   border: 1px solid rosybrown;
 `;
 
-export const StyledTextField = styled(TextField)`
+export const StyledOutLine = styled(Box)`
   width: 300px;
+`;
+
+export const StyledInputContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
+export const StyledTextField = styled(TextField)`
+  width: 100%;
+`;
+
+export const StyledWarningMessage = styled.p`
+  margin-bottom: 0;
+  text-align: en;
+  color: red;
+  font-size: 10px;
+`;
+
 export const StyledButtonWrapper = styled(Box)`
-  width: 300px;
+  width: 100%;
   text-align: end;
 `;
 
