@@ -7,8 +7,21 @@ class Like {
   }
 
   static async create({ newUser }) {
-    const likeInfo = await UserModel.create(newUser);
+    const likeInfo = await LikeModel.create(newUser);
     return likeInfo;
+  }
+
+  static async update({ user_id, fieldToUpdate, newValue }) {
+    const filter = { user_id };
+    const update = { [fieldToUpdate]: newValue };
+    const option = { returnOriginal: false };
+
+    const updatedLike = await LikeModel.findOneAndUpdate(
+      filter,
+      update,
+      option
+    );
+    return updatedLike;
   }
 }
 
