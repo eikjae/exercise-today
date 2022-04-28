@@ -18,13 +18,10 @@ function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useContext(DispatchContext);
 
-  //useState로 email 상태를 생성함.
-  // const [email, setEmail] = useState("");
-  //useState로 password 상태를 생성함.
-  // const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const [isValid, setIsValid] = useState(true);
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -43,14 +40,17 @@ function LoginForm() {
   // 이메일과 비밀번호 조건이 동시에 만족되는지 확인함.
   // const isFormValid = isEmailValid && isPasswordValid;
 
-  const handleSubmit = async (e) => {
+  const handleOnClickLogin = async (e) => {
+    const isValidResult = validateEmail(email);
+    if (isValidResult === false) return;
+    setIsValid(isValidResult);
+
     e.preventDefault();
 
     try {
-      // "user/login" 엔드포인트로 post요청함.
       const res = await Api.post("user/login", {
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
+        email,
+        password,
       });
       // 유저 정보는 response의 data임.
       const user = res.data;
@@ -87,11 +87,15 @@ function LoginForm() {
               autoComplete="current-email"
               variant="standard"
               color="secondary"
-              inputRef={emailRef}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
             />
-            <StyledWarningMessage>
-              이메일 혹은 패스워드가 유효하지 않습니다.
-            </StyledWarningMessage>
+            {!isValid && (
+              <StyledWarningMessage>
+                이메일 혹은 패스워드가 유효하지 않습니다.
+              </StyledWarningMessage>
+            )}
           </StyledInputContainer>
           <StyledInputContainer>
             <StyledTextField
@@ -101,14 +105,20 @@ function LoginForm() {
               autoComplete="current-password"
               variant="standard"
               color="secondary"
-              inputRef={passwordRef}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
             />
-            <StyledWarningMessage>
-              이메일 혹은 패스워드가 유효하지 않습니다.
-            </StyledWarningMessage>
+            {!isValid && (
+              <StyledWarningMessage>
+                이메일 혹은 패스워드가 유효하지 않습니다.
+              </StyledWarningMessage>
+            )}
           </StyledInputContainer>
           <StyledButtonWrapper>
-            <StyledButton>로그인</StyledButton>
+            <StyledButton onClick={handleOnClickLogin} type="submit">
+              로그인
+            </StyledButton>
             <StyledButton onClick={handleOnClickRegister}>
               회원가입
             </StyledButton>

@@ -25,14 +25,12 @@ function RegisterForm() {
 
   //useState로 email 상태를 생성함.
   // const [email, setEmail] = useState("");
-  //useState로 password 상태를 생성함.
 
   const [password, setPassword] = useState("");
-
   const [isValidId, setIsValidId] = useState(true);
   const [isValidpassword, setIsValidPassword] = useState(true);
   const [isSamePassword, setIsSamePassword] = useState(true);
-  const [name, setName] = useState("");
+  // const [name, setName] = useState("");
   // 생년월일
   const [birthday, setBirthday] = useState("");
   // 성별
@@ -66,25 +64,7 @@ function RegisterForm() {
   // const isFormValid =
   //   isEmailValid && isPasswordValid && isPasswordSame && isNameValid;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      // "user/register" 엔드포인트로 post요청함.
-      await Api.post("user/register", {
-        email: emailRef.current.value,
-        password,
-        name,
-      });
-
-      // 로그인 페이지로 이동함.
-      navigate("/login");
-    } catch (err) {
-      console.log("회원가입에 실패하였습니다.", err);
-    }
-  };
-
-  const handleOnClickRegister = () => {
+  const handleOnClickRegister = async (e) => {
     // id가 4자리가 안되면 안됨
     if (idRef.current.value.length < 4) {
       setIsValidId(false);
@@ -98,8 +78,6 @@ function RegisterForm() {
       if (password !== confirmPasswordRef.current.value) {
         setIsValidPassword(true);
         setIsSamePassword(false);
-        console.log(password);
-        console.log(confirmPasswordRef.current.value);
         return;
       } else {
         setIsValidPassword(true);
@@ -107,34 +85,24 @@ function RegisterForm() {
       }
     }
 
-    console.log("id: ", idRef.current.value, typeof idRef.current.value);
-    console.log(
-      "email: ",
-      emailRef.current.value,
-      typeof emailRef.current.value
-    );
-    console.log("password: ", password, typeof password);
-    console.log(
-      "password check: ",
-      confirmPasswordRef.current.value,
-      typeof confirmPasswordRef.current.value
-    );
+    e.preventDefault();
 
-    console.log(
-      "height: ",
-      heightRef.current.value,
-      typeof heightRef.current.value
-    );
-    console.log(
-      "weight: ",
-      weightRef.current.value,
-      typeof weightRef.current.value
-    );
-    console.log(
-      "만약 조건이 true면 남자, false면 여자",
-      isClickSexBtn,
-      typeof isClickSexBtn
-    );
+    try {
+      await Api.post("user/register", {
+        email: emailRef.current.value,
+        password,
+        passwordCheck: confirmPasswordRef.current.value,
+        name: idRef.current.value,
+        height: Number(heightRef.current.value),
+        weight: Number(weightRef.current.value),
+        gender: isClickSexBtn === true ? "male" : "female",
+      });
+
+      // 로그인 페이지로 이동함.
+      navigate("/login");
+    } catch (err) {
+      console.log("회원가입에 실패하였습니다.", err);
+    }
   };
 
   return (
@@ -242,7 +210,7 @@ function RegisterForm() {
             <StyledHeightInput
               id="height"
               label="height"
-              type="text"
+              type="number"
               autoComplete="current-height"
               variant="standard"
               color="secondary"

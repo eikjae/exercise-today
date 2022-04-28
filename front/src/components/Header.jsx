@@ -2,7 +2,12 @@ import React, { useContext } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { UserStateContext, DispatchContext } from "../App";
 import { Tab, Tabs } from "@mui/material";
-import { StyledNav, StyledTitle } from "./Haeader.style";
+import {
+  StyledLink,
+  StyledNav,
+  StyledNavContainer,
+  StyledTitle,
+} from "./Haeader.style";
 
 function Header() {
   const navigate = useNavigate();
@@ -22,10 +27,6 @@ function Header() {
     navigate("/");
   };
 
-  const handleOnClickLogin = () => {
-    navigate("/login");
-  };
-
   return (
     <StyledNav>
       <StyledTitle
@@ -35,8 +36,16 @@ function Header() {
       >
         오늘도 운동
       </StyledTitle>
-
-      <Link to="login">로그인</Link>
+      <StyledNavContainer>
+        {!isLogin && <StyledLink to="login">로그인</StyledLink>}
+        <StyledLink to="login">썸띵</StyledLink>
+        <StyledLink to="login">다른것</StyledLink>
+        {isLogin && (
+          <StyledLink to="login" onClick={logout}>
+            로그아웃
+          </StyledLink>
+        )}
+      </StyledNavContainer>
     </StyledNav>
   );
 }
