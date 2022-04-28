@@ -14,6 +14,9 @@ const LikeSchema = new Schema({
   users: {
     type: Array,
   },
+  musics: {
+    type: Array,
+  }
 });
 
 const LikeModel = model("Like", LikeSchema);
