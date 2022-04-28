@@ -33,13 +33,6 @@ import {
   Levator_scapulae,
 } from "./body/all_body";
 
-// const StyledContainer = styled(Container)`
-//   display: flex;
-//   justify-content: end;
-//   align-items: center;
-//   flex-direction: column;
-// `;
-
 const StyledContainer = styled(Container)`
   display: grid;
   grid-template-columns: 1.3fr 1fr;
@@ -52,7 +45,17 @@ const StyledLeftContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  margin: 20px;
+`;
+
+const StyledH2 = styled.h2`
+  color: #281461;
+  margin-bottom: 15px;
+`;
+
+const StyledH2Margin = styled.h2`
+  color: #281461;
+  margin-top: 30px;
+  margin-bottom: 15px;
 `;
 
 const StyledSelectBodyContainer = styled.div`
@@ -64,20 +67,17 @@ const StyledSelectBodyContainer = styled.div`
 const StyledSvgContainer = styled.div`
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* padding: 50px; */
-  /* display: inline-block; */
-  vertical-align: text-top;
+  border: 3px solid #281461;
+  border-radius: 5px;
+  margin-top: 20px;
 `;
 
 const StyledRightContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
-  margin: 20px;
+  margin-left: 20px;
 `;
 
 const StyledBodyFormControl = styled(FormControl)`
@@ -195,7 +195,7 @@ export default function PartExercisePage() {
   return (
     <StyledContainer>
       <StyledLeftContainer>
-        <h2>운동을 원하는 부위를 선택해주세요</h2>
+        <StyledH2>운동을 원하는 부위를 선택해주세요</StyledH2>
         <StyledSelectBodyContainer>
           <StyledBodyFormControl>
             <InputLabel id="demo-simple-select-label">BodyPart</InputLabel>
@@ -203,11 +203,13 @@ export default function PartExercisePage() {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="BodyPart"
-              value={bodyPart}
+              value={bodyPart || ""}
               onChange={handleChangeBodyPart}
             >
               {bodyPartList.map((bodyPart) => (
-                <MenuItem value={bodyPart}>{bodyPart}</MenuItem>
+                <MenuItem key={bodyPart} value={bodyPart}>
+                  {bodyPart}
+                </MenuItem>
               ))}
             </Select>
           </StyledBodyFormControl>
@@ -217,19 +219,21 @@ export default function PartExercisePage() {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Target"
-              value={target}
+              value={target || ""}
               onChange={handleChangeTarget}
             >
               {targetList.map((target) => (
-                <MenuItem value={target}>{target}</MenuItem>
+                <MenuItem key={target} value={target}>
+                  {target}
+                </MenuItem>
               ))}
             </Select>
           </StyledBodyFormControl>
         </StyledSelectBodyContainer>
         <StyledSvgContainer>
           <svg
-            style={{ width: "100%", height: "100%", alignItems: "center" }}
-            viewBox="50 -50 420 400"
+            style={{ width: "100%", height: "100%", border: "1px" }}
+            viewBox="50 -50 413 400"
           >
             <Body />
             <Cardiovascular
@@ -388,45 +392,55 @@ export default function PartExercisePage() {
         </StyledSvgContainer>
       </StyledLeftContainer>
       <StyledRightContainer>
-        <h2>사용할 도구를 선택해주세요</h2>
+        <StyledH2>사용할 기구를 선택해주세요</StyledH2>
         <StyledMuscleFormControl>
           <InputLabel id="demo-simple-select-label">Equipment</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label="Equipment"
-            value={equipment}
+            value={equipment || ""}
             onChange={handleChangeEquipment}
           >
             {equipmentList.map((equipment) => (
-              <MenuItem value={equipment}>{equipment}</MenuItem>
+              <MenuItem key={equipment} value={equipment}>
+                {equipment}
+              </MenuItem>
             ))}
           </Select>
         </StyledMuscleFormControl>
-        <h2>추천 운동</h2>
+        <StyledH2Margin>추천 운동</StyledH2Margin>
         <StyledMuscleFormControl>
           <InputLabel id="demo-simple-select-label">Exercise</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label="Exercise"
-            value={exercise.name}
+            value={exercise.name || ""}
             onChange={handleChangeExercise}
           >
             {exerciseList.map((exercise) => (
-              <MenuItem value={exercise}>{exercise.name}</MenuItem>
+              <MenuItem key={exercise.name} value={exercise}>
+                {exercise.name}
+              </MenuItem>
             ))}
           </Select>
         </StyledMuscleFormControl>
-        {exerciseImg !== null ? (
-          <img src={exerciseImg} alt="임시 이미지" style={{ width: "100%" }} />
-        ) : (
-          <img
-            src="http://d205bpvrqc9yn1.cloudfront.net/0150.gif"
-            alt="빈 이미지"
-            style={{ visibility: "hidden" }}
-          />
-        )}
+        <StyledSvgContainer>
+          {exerciseImg !== null ? (
+            <img
+              src={exerciseImg}
+              alt="임시 이미지"
+              style={{ width: "100%" }}
+            />
+          ) : (
+            <img
+              src="http://d205bpvrqc9yn1.cloudfront.net/0150.gif"
+              alt="빈 이미지"
+              style={{ width: "100%", visibility: "hidden" }}
+            />
+          )}
+        </StyledSvgContainer>
       </StyledRightContainer>
     </StyledContainer>
   );

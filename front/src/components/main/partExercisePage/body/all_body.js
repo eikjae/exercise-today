@@ -18,4 +18,3 @@ export { default as Traps } from "./Traps";
 export { default as Serratus_anterior } from "./Serratus_anterior";
 export { default as Abductors } from "./Abductors";
 export { default as Levator_scapulae } from "./Levator_scapulae";
-export { default as Left } from "./Left";
