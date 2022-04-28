@@ -1,8 +1,8 @@
 export { default as Body } from "./Body";
 export { default as Abs } from "./Abs";
-export { default as Puads } from "./Puads";
+export { default as Quads } from "./Quads";
 export { default as Lats } from "./Lats";
-export { default as Claves } from "./Claves";
+export { default as Calves } from "./Calves";
 export { default as Pectorals } from "./Pectorals";
 export { default as Glutes } from "./Glutes";
 export { default as Hamstring } from "./Hamstring";

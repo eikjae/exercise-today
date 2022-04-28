@@ -8,7 +8,12 @@ export default function Glutes({ fill, onClick, onMouseOver, onMouseLeave }) {
         fillOpacity: 1,
         stroke: "gray",
         strokeMiterlimit: "1",
+        cursor: "pointer",
+        opacity: fill === undefined ? 0 : 1,
       }}
+      onClick={onClick}
+      onMouseOver={onMouseOver}
+      onMouseLeave={onMouseLeave}
     >
       <path
         class="bt3"

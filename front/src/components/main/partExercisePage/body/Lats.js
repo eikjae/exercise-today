@@ -1,13 +1,8 @@
 import React from "react";
-import styled from "styled-components";
 
-const styledSvg = styled.g`
-  fill-opacity: 1;
-  stroke: "gray";
-  stroke-miterlimit: "1";
-  cursor: pointer;
-`;
-
+// style= {{ state === hovering ? style1 : style2 }}
+// mouseOver, mouseLeave로 state관리
+// onMouse={()=> setState('hovering'))}
 export default function Lats({ fill, onClick, onMouseOver, onMouseLeave }) {
   return (
     <svg
@@ -17,8 +12,11 @@ export default function Lats({ fill, onClick, onMouseOver, onMouseLeave }) {
         stroke: "gray",
         strokeMiterlimit: "1",
         cursor: "pointer",
+        opacity: fill === undefined ? 0 : 1,
       }}
       onClick={onClick}
+      onMouseOver={onMouseOver}
+      onMouseLeave={onMouseLeave}
     >
       <path
         class="bt1"

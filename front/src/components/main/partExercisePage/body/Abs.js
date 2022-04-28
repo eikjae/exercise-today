@@ -10,8 +10,11 @@ export default function Abs({ fill, onClick, onMouseOver, onMouseLeave }) {
         strokeMiterlimit: "1",
         // visibility: "hidden",
         cursor: "pointer",
+        opacity: fill === undefined ? 0 : 1,
       }}
       onClick={onClick}
+      onMouseOver={onMouseOver}
+      onMouseLeave={onMouseLeave}
     >
       <path
         class="pt100"

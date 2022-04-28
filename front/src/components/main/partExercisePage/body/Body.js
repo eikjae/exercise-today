@@ -8,7 +8,11 @@ export default function Body({ fill, onClick, onMouseOver, onMouseLeave }) {
         fillOpacity: 1,
         stroke: "gray",
         strokeMiterlimit: "1",
+        cursor: "pointer",
       }}
+      onClick={onClick}
+      onMouseOver={onMouseOver}
+      onMouseLeave={onMouseLeave}
     >
       <g>
         <path

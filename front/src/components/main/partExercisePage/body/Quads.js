@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Puads({ fill, onClick, onMouseOver, onMouseLeave }) {
+export default function Quads({ fill, onClick, onMouseOver, onMouseLeave }) {
   return (
     <svg
       style={{
@@ -8,7 +8,12 @@ export default function Puads({ fill, onClick, onMouseOver, onMouseLeave }) {
         fillOpacity: 1,
         stroke: "gray",
         strokeMiterlimit: "1",
+        cursor: "pointer",
+        opacity: fill === undefined ? 0 : 1,
       }}
+      onClick={onClick}
+      onMouseOver={onMouseOver}
+      onMouseLeave={onMouseLeave}
     >
       <path
         class="pt13"

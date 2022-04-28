@@ -13,9 +13,9 @@ import styled from "styled-components";
 import {
   Body,
   Abs,
-  Puads,
+  Quads,
   Lats,
-  Claves,
+  Calves,
   Pectorals,
   Glutes,
   Hamstring,
@@ -40,13 +40,6 @@ import {
 //   align-items: center;
 //   flex-direction: column;
 // `;
-
-const styledSvg = styled.svg`
-  fill-opacity: 1;
-  stroke: "gray";
-  stroke-miterlimit: "1";
-  cursor: pointer;
-`;
 
 const StyledContainer = styled(Container)`
   display: grid;
@@ -75,7 +68,7 @@ const StyledSvgContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 50px;
+  /* padding: 50px; */
   /* display: inline-block; */
   vertical-align: text-top;
 `;
@@ -107,6 +100,8 @@ export default function PartExercisePage() {
   const [exercise, setExercise] = useState("");
   const [exerciseImg, setExerciseImg] = useState(null);
 
+  const [hover, setHover] = useState("not-hovering");
+
   // 처음 렌더링시 GET 요청으로 bodyPart 카테고리를 가져옴
   useEffect(() => {
     const fetch = async () => {
@@ -120,25 +115,24 @@ export default function PartExercisePage() {
     fetch();
   }, []);
 
-  useEffect(async () => {
-    // 처음 렌더링시 실행되지 않음
-    if (bodyPart !== "" && target !== "") {
-      try {
-        let res = await Api.post("exercise/findtargets", {
-          bodyPart,
-        });
-        setTargetList(res.data);
+  const handleClick = async (bodyPart, target) => {
+    try {
+      setBodyPart(bodyPart);
+      setTarget(target);
+      let res = await Api.post("exercise/findtargets", {
+        bodyPart,
+      });
+      setTargetList(res.data);
 
-        res = await Api.post("exercise/findequipments", {
-          bodyPart,
-          target,
-        });
-        setEquipmentList(res.data);
-      } catch (err) {
-        console.error(err);
-      }
+      res = await Api.post("exercise/findequipments", {
+        bodyPart,
+        target,
+      });
+      setEquipmentList(res.data);
+    } catch (err) {
+      console.error(err);
     }
-  }, [bodyPart]);
+  };
 
   // POST 요청으로 target 카테고리를 가져옴
   const handleChangeBodyPart = async (e) => {
@@ -157,6 +151,7 @@ export default function PartExercisePage() {
   const handleChangeTarget = async (e) => {
     try {
       setTarget(e.target.value);
+      setHover(e.target.value);
       const res = await Api.post("exercise/findequipments", {
         bodyPart,
         target: e.target.value,
@@ -191,6 +186,15 @@ export default function PartExercisePage() {
       console.error(err);
     }
   };
+
+  // 마우스가 떨어질 때 not-hovering으로 state를 변경
+  const handleMouseLeave = () => {
+    setHover("not-hovering");
+  };
+
+  // const handleFill = () => {
+  //   useEffect(() => {}, []);
+  // };
 
   // 맨 밑에 전체 인체 svg를 깔아놓고 특정 근육을 visibility 주는 방식을 사용 시도
   return (
@@ -228,38 +232,162 @@ export default function PartExercisePage() {
           </StyledBodyFormControl>
         </StyledSelectBodyContainer>
         <StyledSvgContainer>
-          <svg style={{ width: "100%", height: "100%" }}>
+          <svg
+            style={{ width: "100%", height: "100%", alignItems: "center" }}
+            viewBox="50 -50 420 400"
+          >
             <Body />
-            <Cardiovascular />
-            <Puads />
-            <Claves />
-            <Pectorals />
-            <Glutes />
-            <Hamstring />
-            <Adductors />
-            <Triceps />
-            <Spine />
-            <Upper_back />
-            <Biceps />
-            <Delts />
-            <Forearms />
-            <Traps />
-            <Serratus_anterior />
-            <Abductors />
-            <Levator_scapulae />
-            <Abs
-              fill="#20a15a"
+            <Cardiovascular
+              fill={hover === "cardio" ? "#FF6666" : undefined}
               onClick={() => {
-                setBodyPart("waist");
-                setTarget("abs");
+                handleClick("cardio", "cardiovascular system");
               }}
+              onMouseOver={() => setHover("cardio")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Quads
+              fill={hover === "quads" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("upper legs", "quads");
+              }}
+              onMouseOver={() => setHover("quads")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Calves
+              fill={hover === "calves" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("lower legs", "calves");
+              }}
+              onMouseOver={() => setHover("calves")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Pectorals
+              fill={hover === "pectorals" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("chest", "pectorals");
+              }}
+              onMouseOver={() => setHover("pectorals")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Glutes
+              fill={hover === "glutes" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("upper legs", "glutes");
+              }}
+              onMouseOver={() => setHover("glutes")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Hamstring
+              fill={hover === "hamstring" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("upper legs", "hamstring");
+              }}
+              onMouseOver={() => setHover("hamstring")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Adductors
+              fill={hover === "adductors" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("upper legs", "adductors");
+              }}
+              onMouseOver={() => setHover("adductors")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Triceps
+              fill={hover === "triceps" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("upper arms", "triceps");
+              }}
+              onMouseOver={() => setHover("triceps")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Spine
+              fill={hover === "spine" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("back", "spine");
+              }}
+              onMouseOver={() => setHover("spine")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Upper_back
+              fill={hover === "upper back" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("back", "upper back");
+              }}
+              onMouseOver={() => setHover("upper back")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Biceps
+              fill={hover === "biceps" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("upper arms", "biceps");
+              }}
+              onMouseOver={() => setHover("biceps")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Delts
+              fill={hover === "delts" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("shoulders", "delts");
+              }}
+              onMouseOver={() => setHover("delts")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Forearms
+              fill={hover === "forearms" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("lower arms", "forearms");
+              }}
+              onMouseOver={() => setHover("forearms")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Traps
+              fill={hover === "traps" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("back", "traps");
+              }}
+              onMouseOver={() => setHover("traps")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Serratus_anterior
+              fill={hover === "serratus anterior" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("chest", "serratus anterior");
+              }}
+              onMouseOver={() => setHover("serratus anterior")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Abductors
+              fill={hover === "abductors" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("upper legs", "abductors");
+              }}
+              onMouseOver={() => setHover("abductors")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Levator_scapulae
+              fill={hover === "levator scapulae" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("neck", "levator scapulae");
+              }}
+              onMouseOver={() => setHover("levator scapulae")}
+              // onMouseLeave={handleMouseLeave}
+            />
+            <Abs
+              fill={hover === "abs" ? "#FF6666" : undefined}
+              onClick={() => {
+                handleClick("waist", "abs");
+              }}
+              onMouseOver={() => setHover("abs")}
+              // onMouseLeave={handleMouseLeave}
             />
             <Lats
-              fill="#FF6666"
+              fill={hover === "lats" ? "#FF6666" : undefined}
               onClick={() => {
-                setBodyPart("back");
-                setTarget("lats");
+                handleClick("back", "lats");
               }}
+              onMouseOver={() => setHover("lats")}
+              // onMouseLeave={handleMouseLeave}
             />
           </svg>
         </StyledSvgContainer>
