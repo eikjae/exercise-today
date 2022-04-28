@@ -3,6 +3,8 @@ import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
 import generateRandomPassword from "../utils/generate-random-password";
+import { likeService } from "../services/likeService";
+
 const userAuthRouter = Router();
 
 userAuthRouter.post("/user/register", async function (req, res, next) {
@@ -23,9 +25,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     const gender = req.body.gender;
 
     if (password !== passwordCheck) {
-      throw new Error(
-        "password와 passwordCheck의 값이 일치하지 않습니다."
-      )
+      throw new Error("password와 passwordCheck의 값이 일치하지 않습니다.");
     }
 
     // 위 데이터를 유저 db에 추가하기
@@ -40,6 +40,15 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
 
     if (newUser.errorMessage) {
       throw new Error(newUser.errorMessage);
+    }
+
+    const user_id = newUser.id;
+    const newLike = await likeService.addLike({
+      user_id,
+    });
+
+    if (newLike.errorMessage) {
+      throw new Error(newLike.errorMessage);
     }
 
     res.status(201).json(newUser);
