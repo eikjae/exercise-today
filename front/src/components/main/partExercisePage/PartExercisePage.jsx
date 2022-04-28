@@ -89,6 +89,7 @@ const StyledMuscleFormControl = styled(FormControl)`
 `;
 
 export default function PartExercisePage() {
+  // 부위 카테고리, 상세 부위, 기구, 운동
   const [bodyPartList, setBodyPartList] = useState([]);
   const [bodyPart, setBodyPart] = useState("");
   const [targetList, setTargetList] = useState([]);
@@ -97,9 +98,12 @@ export default function PartExercisePage() {
   const [equipment, setEquipment] = useState("");
   const [exerciseList, setExerciseList] = useState([]);
   const [exercise, setExercise] = useState("");
+
+  // 실제 운동 이미지
   const [exerciseImg, setExerciseImg] = useState(null);
 
-  const [click, setClick] = useState("not-hovering");
+  // 클릭된 부분 확인용
+  const [click, setClick] = useState("not-click");
 
   // 처음 렌더링시 GET 요청으로 bodyPart 카테고리를 가져옴
   useEffect(() => {
@@ -114,6 +118,8 @@ export default function PartExercisePage() {
     fetch();
   }, []);
 
+  // 운동을 원하는 신체부위 클릭시 bodyPart와 target을 알게 됨
+  // POST 요청을 통해 targetList와 equipmentList를 가져옴
   const handleClick = async (bodyPart, target) => {
     try {
       setBodyPart(bodyPart);
@@ -133,7 +139,7 @@ export default function PartExercisePage() {
     }
   };
 
-  // POST 요청으로 target 카테고리를 가져옴
+  // POST 요청으로 targetList를 가져옴
   const handleChangeBodyPart = async (e) => {
     try {
       setBodyPart(e.target.value);
@@ -146,7 +152,7 @@ export default function PartExercisePage() {
     }
   };
 
-  // POST 요청으로 equipment 카테고리를 가져옴
+  // POST 요청으로 equipmentList를 가져옴
   const handleChangeTarget = async (e) => {
     try {
       setTarget(e.target.value);
@@ -161,7 +167,7 @@ export default function PartExercisePage() {
     }
   };
 
-  // POST 요청으로 exercise 카테고리를 가져옴
+  // POST 요청으로 exerciseList를 가져옴
   const handleChangeEquipment = async (e) => {
     try {
       setEquipment(e.target.value);
@@ -186,7 +192,6 @@ export default function PartExercisePage() {
     }
   };
 
-  // 맨 밑에 전체 인체 svg를 깔아놓고 특정 근육을 visibility 주는 방식을 사용 시도
   return (
     <StyledContainer>
       <StyledLeftContainer>
