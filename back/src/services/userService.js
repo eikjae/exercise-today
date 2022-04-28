@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import sendMail from "../utils/send-mail";
 
 class userAuthService {
-  static async addUser({ name, email, password }) {
+  static async addUser({ name, email, password, height, weight, gender }) {
     // 이메일 중복 확인
     const user = await User.findByEmail({ email });
     if (user) {
@@ -19,7 +19,7 @@ class userAuthService {
 
     // id 는 유니크 값 부여
     const id = uuidv4();
-    const newUser = { id, name, email, password: hashedPassword };
+    const newUser = { id, name, email, password: hashedPassword, height, weight, gender };
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });
