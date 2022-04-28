@@ -75,6 +75,36 @@ class likeService {
 
     return updatedLike;
   }
+
+  static async setLikePerson({ user_id, toUpdate }) {
+    let likeInfo = await Like.findByUserId({ user_id });
+
+    if (!likeInfo) {
+      const errorMessage =
+        "정보가 없습니다. user_id 값을 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    const fieldToUpdate = "people";
+    let peopleInfo = likeInfo.people;
+    let newValue = {};
+    if (peopleInfo.includes(toUpdate.person)) {
+      const d = peopleInfo.length;
+      for (let i = 0; i < d; i++) {
+        if (peopleInfo[i] == toUpdate.person) {
+          peopleInfo.splice(i, 1);
+          break;
+        }
+      }
+      newValue = peopleInfo;
+    } else {
+      peopleInfo.push(toUpdate.person);
+    }
+    newValue = peopleInfo;
+    const updatedLike = await Like.update({ user_id, fieldToUpdate, newValue });
+
+    return updatedLike;
+  }
 }
 
 export { likeService };
