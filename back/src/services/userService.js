@@ -155,6 +155,22 @@ class userAuthService {
     const user = await User.findByEmail({ email });
     return user;
   }
+
+  static async deleteUser({ user_id }) {
+    const user = await User.findById({ user_id });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!user || user === null) {
+      const errorMessage =
+        "해당 유저가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+    await User.deleteById({ user_id });
+
+    return user;
+  }
+
+
 }
 
 export { userAuthService };
