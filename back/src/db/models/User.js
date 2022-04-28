@@ -38,4 +38,9 @@ export class User {
     const user = await UserModel.findOne({ email });
     return user;
   }
+
+  static async deleteById({ user_id }) {
+    const user = await UserModel.deleteOne({ id: user_id });
+    return user;
+  }
 }
