@@ -1,11 +1,12 @@
-import cors from 'cors';
-import express from 'express';
-import { errorMiddleware } from './middlewares/errorMiddleware';
-import { userAuthRouter } from './routers/userRouter';
-import { exerciseRouter } from './routers/exerciseRouter';
-import { foodRouter } from './routers/foodRouter';
-import { targetExerciseRouter } from './routers/targetExerciseRouter';
-import { musicRouter } from './routers/musicRouter';
+import cors from "cors";
+import express from "express";
+import { errorMiddleware } from "./middlewares/errorMiddleware";
+import { userAuthRouter } from "./routers/userRouter";
+import { exerciseRouter } from "./routers/exerciseRouter";
+import { foodRouter } from "./routers/foodRouter";
+import { targetExerciseRouter } from "./routers/targetExerciseRouter";
+import { likeRouter } from "./routers/likeRouter";
+import { musicRouter } from "./routers/musicRouter";
 
 const app = express();
 
@@ -19,8 +20,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // 기본 페이지
-app.get('/', (req, res) => {
-    res.send('안녕하세요, 레이서 프로젝트 API 입니다.');
+app.get("/", (req, res) => {
+  res.send("안녕하세요, 레이서 프로젝트 API 입니다.");
 });
 
 // router, service 구현 (userAuthRouter는 맨 위에 있어야 함.)
@@ -29,6 +30,7 @@ app.use(userAuthRouter);
 app.use(exerciseRouter);
 app.use(foodRouter);
 app.use(targetExerciseRouter);
+app.use(likeRouter);
 
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
 app.use(errorMiddleware);

@@ -23,6 +23,18 @@ const UserSchema = new Schema(
       required: false,
       default: "설명이 아직 없습니다. 추가해 주세요.",
     },
+    height: {
+      type: Number,
+      required: true,
+    },
+    weight: {
+      type: Number,
+      required: true,
+    },
+    gender: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

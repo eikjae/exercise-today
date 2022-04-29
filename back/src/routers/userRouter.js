@@ -2,6 +2,8 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
+import generateRandomPassword from "../utils/generate-random-password";
+import { likeService } from "../services/likeService";
 
 const userAuthRouter = Router();
 
@@ -17,16 +19,36 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
+    const passwordCheck = req.body.passwordCheck;
+    const height = req.body.height;
+    const weight = req.body.weight;
+    const gender = req.body.gender;
+
+    if (password !== passwordCheck) {
+      throw new Error("password와 passwordCheck의 값이 일치하지 않습니다.");
+    }
 
     // 위 데이터를 유저 db에 추가하기
     const newUser = await userAuthService.addUser({
       name,
       email,
       password,
+      height,
+      weight,
+      gender,
     });
 
     if (newUser.errorMessage) {
       throw new Error(newUser.errorMessage);
+    }
+
+    const user_id = newUser.id;
+    const newLike = await likeService.addLike({
+      user_id,
+    });
+
+    if (newLike.errorMessage) {
+      throw new Error(newLike.errorMessage);
     }
 
     res.status(201).json(newUser);
@@ -146,5 +168,87 @@ userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
       `안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`
     );
 });
+
+userAuthRouter.put(
+  "/change_password",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.currentUserId;
+      const currentPassword = req.body.currentPassword;
+
+      const checkPassword = await userAuthService.checkPassword({
+        user_id,
+        password: currentPassword,
+      });
+
+      if (checkPassword.errorMessage) {
+        throw new Error(checkPassword.errorMessage);
+      }
+
+      const newPassword = req.body.newPassword;
+      const toUpdate = { password: newPassword };
+
+      const updated_result = await userAuthService.setUser({
+        user_id,
+        toUpdate,
+      });
+
+      if (updated_result.errorMessage) {
+        throw new Error(updated_result.errorMessage);
+      }
+
+      res.status(200).json("비밀번호가 변경되었습니다.");
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+userAuthRouter.post("/reset_password", async function (req, res, next) {
+  try {
+    const email = req.body.email;
+    const user = await userAuthService.findUserByEmail({ email });
+
+    if (!user) {
+      throw new Error("해당 메일로 가입된 사용자가 없습니다.");
+    }
+
+    const name = user.name;
+    const user_id = user.id;
+    const password = generateRandomPassword();
+    const toUpdate = { password };
+    const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
+
+    if (updatedUser.errorMessage) {
+      throw new Error(updatedUser.errorMessage);
+    }
+
+    await userAuthService.nodeMailer({ email, name, password });
+
+    res.status(200).send("임시 비밀번호가 전송되었습니다.");
+  } catch (err) {
+    next(err);
+  }
+});
+
+userAuthRouter.delete(
+  "/users/:id",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.id;
+      const deleted_result = await userAuthService.deleteUser({ user_id });
+
+      if (deleted_result.errorMessage) {
+        throw new Error(deleted_result.errorMessage);
+      }
+
+      res.status(204).send();
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 export { userAuthRouter };

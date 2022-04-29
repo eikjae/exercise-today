@@ -1,10 +1,11 @@
-import { User } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User } from "../db";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
+import sendMail from "../utils/send-mail";
 
 class userAuthService {
-  static async addUser({ name, email, password }) {
+  static async addUser({ name, email, password, height, weight, gender }) {
     // 이메일 중복 확인
     const user = await User.findByEmail({ email });
     if (user) {
@@ -18,7 +19,7 @@ class userAuthService {
 
     // id 는 유니크 값 부여
     const id = uuidv4();
-    const newUser = { id, name, email, password: hashedPassword };
+    const newUser = { id, name, email, password: hashedPassword, height, weight, gender };
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });
@@ -99,7 +100,8 @@ class userAuthService {
 
     if (toUpdate.password) {
       const fieldToUpdate = "password";
-      const newValue = toUpdate.password;
+      const hashedPassword = await bcrypt.hash(toUpdate.password, 10);
+      const newValue = hashedPassword;
       user = await User.update({ user_id, fieldToUpdate, newValue });
     }
 
@@ -124,6 +126,51 @@ class userAuthService {
 
     return user;
   }
+
+  static async checkPassword({ user_id, password }) {
+    const user = await User.findById({ user_id });
+
+    const correctPasswordHash = user.password;
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      correctPasswordHash
+    );
+    if (!isPasswordCorrect) {
+      const errorMessage = "비밀번호를 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+    return true;
+  }
+
+  static async nodeMailer({ email, name, password }) {
+    const message = sendMail(
+      email,
+      "오늘도 운동 임시 비밀번호입니다.",
+      `안녕하세요 ${name}님, 임시 비밀번호는: ${password} 입니다. 로그인 후 비밀번호를 꼭 변경해주세요!`
+    );
+
+    return message;
+  }
+  static async findUserByEmail({ email }) {
+    const user = await User.findByEmail({ email });
+    return user;
+  }
+
+  static async deleteUser({ user_id }) {
+    const user = await User.findById({ user_id });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!user || user === null) {
+      const errorMessage =
+        "해당 유저가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+    await User.deleteById({ user_id });
+
+    return user;
+  }
+
+
 }
 
 export { userAuthService };
