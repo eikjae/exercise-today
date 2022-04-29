@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as Api from "../../api";
+import * as Api from "../../../api";
 import { Container, Grid, TextField } from "@mui/material";
 import styled from "styled-components";
-import BadgeVisibility from "./BadgeVisibility";
+import BadgeVisibility from "./badgeVisibility/BadgeVisibility";
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -47,13 +47,17 @@ const SubmitButton = styled.button`
 
 const BodyInfoWrapper = styled(Grid)`
   display: flex;
-  /* flex-direction: column; */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   /* background-color: lightgray; */
   padding-bottom: 40px;
   width: 80%;
   border-radius: 10px;
+`;
+
+const ExplainLabelWrapper = styled.div`
+  text-align: "center";
 `;
 
 const ExplainLabel = styled.h6`
@@ -69,6 +73,16 @@ const BodyInfoGrid = styled(Grid)`
   justify-content: center;
   align-items: center;
   margin: 20px;
+`;
+
+const StyledH1 = styled.h1`
+  color: "#281461";
+  margin-bottom: "-10px";
+`;
+
+const BodyInfoInputWrapper = styled.div`
+  display: "flex";
+  flex-direction: "row";
 `;
 
 const BodyInfoInput = styled(TextField)`
@@ -112,18 +126,20 @@ export default function MainPage() {
   const [foods, setFoods] = useState([]);
   const [foodsInfo, setFoodsInfo] = useState([]);
   // const [calories, setCalories] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [weight, setWeight] = useState(0);
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
 
   const isHeightValid = height.length > 0;
   const isWeightValid = weight.length > 0;
   const isDisabled = !isHeightValid || !isWeightValid;
 
+  const deepClone = (arg) => JSON.parse(JSON.stringify(arg));
+
   // 클릭 시, 선택된 카테고리와 수를 보내여 계산된 칼로리 값을 받아옴
   const handleClick = async (e) => {
     try {
       // filter를 통해 volume이 0인 값 배열에서 제거함
-      let copyFoodsInfo = [...foodsInfo];
+      let copyFoodsInfo = deepClone(foodsInfo);
       copyFoodsInfo = copyFoodsInfo.filter((foodInfo) => foodInfo.volume > 0);
 
       // POST 요청을 통해 칼로리 계산값을 받아옴
@@ -134,6 +150,10 @@ export default function MainPage() {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const updateFoodsInfo = (data) => {
+    setFoodsInfo(data);
   };
 
   // 음식 데이터를 받아와서 화면에 표시
@@ -164,36 +184,36 @@ export default function MainPage() {
               key={foodIdx}
               food={food}
               foodsInfo={foodsInfo}
-              setFoodsInfo={setFoodsInfo}
+              updateFoodsInfo={updateFoodsInfo}
             />
           </FoodWrapper>
         ))}
       </Grid>
       <BodyInfoWrapper container>
-        <div style={{ display: "block", textAlign: "center" }}>
+        <ExplainLabelWrapper>
           <ExplainLabel>100g(ml) 단위로 평균 칼로리가 계산됩니다.</ExplainLabel>
           <BodyInfoGrid item xs="auto">
-            <h1 style={{ color: "#281461", marginBottom: "-10px" }}>
-              키와 몸무게를 입력해주세요
-            </h1>
+            <StyledH1>키와 몸무게를 입력해주세요</StyledH1>
           </BodyInfoGrid>
-        </div>
-        <BodyInfoGrid item xs="auto">
-          <BodyInfoInput
-            id="outlined-basic"
-            label="신장"
-            onChange={(e) => setHeight(e.target.value)}
-          />
-          <BodyInfoLabel>cm</BodyInfoLabel>
-        </BodyInfoGrid>
-        <BodyInfoGrid item xs="auto">
-          <BodyInfoInput
-            id="outlined-basic"
-            label="체중"
-            onChange={(e) => setWeight(e.target.value)}
-          />
-          <BodyInfoLabel>kg</BodyInfoLabel>
-        </BodyInfoGrid>
+        </ExplainLabelWrapper>
+        <BodyInfoInputWrapper>
+          <BodyInfoGrid item xs="auto">
+            <BodyInfoInput
+              id="outlined-basic"
+              label="신장"
+              onChange={(e) => setHeight(e.target.value)}
+            />
+            <BodyInfoLabel>cm</BodyInfoLabel>
+          </BodyInfoGrid>
+          <BodyInfoGrid item xs="auto">
+            <BodyInfoInput
+              id="outlined-basic"
+              label="체중"
+              onChange={(e) => setWeight(e.target.value)}
+            />
+            <BodyInfoLabel>kg</BodyInfoLabel>
+          </BodyInfoGrid>
+        </BodyInfoInputWrapper>
       </BodyInfoWrapper>
       <SubmitButton onClick={handleClick} disabled={isDisabled}>
         운동 추천받기

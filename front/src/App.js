@@ -10,10 +10,11 @@ import Network from "./components/user/Network";
 import RegisterForm from "./components/user/Register/RegisterForm";
 import Portfolio from "./components/Portfolio";
 
-import MainPage from "./components/main/MainPage";
+import MainPage from "./components/main/mainPage/MainPage";
 import MainChartPage from "./components/main/mainChartPage/MainChartPage";
 import BodyPartPage from "./components/main/BodyPartPage";
 import MusicPage from "./components/main/musicPage/MusicPage";
+import PartExercisePage from "./components/main/partExercisePage/PartExercisePage";
 
 import { atom, RecoilRoot } from "recoil";
 
@@ -79,7 +80,7 @@ function App() {
             {/* <Route path="/" exact element={<Portfolio />} /> */}
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
-            <Route path="/exercise" element={<BodyPartPage />} />
+            <Route path="/exercise" element={<PartExercisePage />} />
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />
             <Route path="*" element={<Portfolio />} />

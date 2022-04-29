@@ -1,6 +1,6 @@
 import { TargetExerciseModel } from "../schemas/targetExercise";
 
-class TargetExercise {
+export class TargetExercise {
   static async findByBodyPart({ bodyPart }) {
     const exercises = await TargetExerciseModel.find({
       bodyPart,
@@ -25,5 +25,3 @@ class TargetExercise {
     return exercises;
   }
 }
-
-export { TargetExercise };
