@@ -12,7 +12,6 @@ import Portfolio from "./components/Portfolio";
 
 import MainPage from "./components/main/mainPage/MainPage";
 import MainChartPage from "./components/main/mainChartPage/MainChartPage";
-import BodyPartPage from "./components/main/BodyPartPage";
 import MusicPage from "./components/main/musicPage/MusicPage";
 import PartExercisePage from "./components/main/partExercisePage/PartExercisePage";
 
