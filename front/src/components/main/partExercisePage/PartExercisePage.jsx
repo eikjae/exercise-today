@@ -84,6 +84,11 @@ const StyledBodyFormControl = styled(FormControl)`
   width: 45%;
 `;
 
+const StyledSelect = styled(Select)`
+  width: 100%;
+  height: 57px;
+`;
+
 const StyledMuscleFormControl = styled(FormControl)`
   width: 100%;
 `;
@@ -203,7 +208,7 @@ export default function PartExercisePage() {
         <StyledSelectBodyContainer>
           <StyledBodyFormControl>
             <InputLabel id="demo-simple-select-label">BodyPart</InputLabel>
-            <Select
+            <StyledSelect
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="BodyPart"
@@ -215,11 +220,11 @@ export default function PartExercisePage() {
                   {bodyPart}
                 </MenuItem>
               ))}
-            </Select>
+            </StyledSelect>
           </StyledBodyFormControl>
           <StyledBodyFormControl>
             <InputLabel id="demo-simple-select-label">Target</InputLabel>
-            <Select
+            <StyledSelect
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Target"
@@ -231,7 +236,7 @@ export default function PartExercisePage() {
                   {target}
                 </MenuItem>
               ))}
-            </Select>
+            </StyledSelect>
           </StyledBodyFormControl>
         </StyledSelectBodyContainer>
         <StyledSvgContainer>
