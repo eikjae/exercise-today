@@ -11,6 +11,7 @@ import { dietRouter } from "./routers/dietRouter";
 import { workoutRouter } from "./routers/workoutRouter";
 import { attendanceRouter } from "./routers/attendanceRouter";
 import { friendRouter } from "./routers/friendRouter";
+import { oauthRouter } from "./routers/oauthRouter";
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 });
 
 // router, service 구현 (userAuthRouter는 맨 위에 있어야 함.)
+app.use(oauthRouter);
 app.use(userAuthRouter);
 app.use(exerciseRouter);
 app.use(foodRouter);
