@@ -14,6 +14,7 @@ import MainPage from "./components/main/mainPage/MainPage";
 import MainChartPage from "./components/main/mainChartPage/MainChartPage";
 import MusicPage from "./components/main/musicPage/MusicPage";
 import PartExercisePage from "./components/main/partExercisePage/PartExercisePage";
+import MyPage from "./components/user/myPage/MyPage";
 
 import { atom, RecoilRoot } from "recoil";
 
@@ -82,6 +83,7 @@ function App() {
             <Route path="/exercise" element={<PartExercisePage />} />
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />
+            <Route path="/myPage" element={<MyPage />} />
             <Route path="*" element={<Portfolio />} />
           </Routes>
         </Router>
