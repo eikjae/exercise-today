@@ -27,10 +27,12 @@ exerciseRouter.post("/exercise/calories", async function (req, res, next) {
   try {
     const weight = req.body.weight;
     const name = req.body.name;
+    const time = req.body.time;
 
     const newCalories = await exerciseService.calculateCalories({
       weight,
       name,
+      time,
     });
 
     if (newCalories.errorMessage) {
