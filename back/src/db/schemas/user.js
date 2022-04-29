@@ -5,6 +5,8 @@ const UserSchema = new Schema(
     id: {
       type: String,
       required: true,
+      index: true,
+      unique: true,
     },
     email: {
       type: String,
@@ -25,13 +27,20 @@ const UserSchema = new Schema(
     },
     height: {
       type: Number,
-      required: true,
+      required: false,
+      default: 0,
     },
     weight: {
       type: Number,
-      required: true,
+      required: false,
+      default: 0,
     },
     gender: {
+      type: String,
+      required: false,
+      default: "none",
+    },
+    type: {
       type: String,
       required: true,
     },
