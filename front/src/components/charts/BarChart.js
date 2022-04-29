@@ -45,7 +45,12 @@ const BarChart = ({ data }) => {
         <YAxis label={{ value: "hour", angle: -90, position: "insideLeft" }} />
         <Tooltip />
         <Legend />
-        <Bar dataKey="hour" fill="#8884d8" barSize={40} />
+        <Bar
+          dataKey="hour"
+          fill="#8884d8"
+          barSize={40}
+          label={{ position: "top" }}
+        />
       </Barchart>
     </ResponsiveContainer>
   );

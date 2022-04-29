@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import BaseChip from "./BaseChip";
+import { Chip } from "@mui/material";
 
-export const StyledMainPageChip = styled(BaseChip)`
-  /* margin-bottom: 20px; */
-  /* background-color: white; */
+export const StyledMainPageChip = styled(Chip)`
+  background-color: white;
   /* font-size: 20px; */
 `;

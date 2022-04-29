@@ -18,8 +18,8 @@ export const StyledInfoLayout = styled.div`
 
   background-color: gray;
 
-  padding: 30px;
-  margin: 10px;
+  padding: 1.5rem;
+  margin: 1rem;
 
   border-radius: 10px;
 
