@@ -15,21 +15,23 @@ export const StyledSwitchLayout = styled.div`
   display: flex;
   flex-direction: column;
   flex: 0.6;
+  margin-top: 2rem;
 `;
 
 export const StyledSwitchContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+
   background-color: #f8eaf1;
+
   height: 100%;
 
-  padding: 30px;
-  margin: 10px;
+  padding: 1.5rem;
+  margin: 1rem;
 
   border-radius: 10px;
-
   ${({ theme }) => theme.tablet`
-        padding: 5px;
+        padding: 1.5rem 0 1.5rem 0;
     `}
 `;
 
