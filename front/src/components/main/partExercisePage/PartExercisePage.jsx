@@ -246,10 +246,10 @@ export default function PartExercisePage() {
           >
             <Body />
             <Cardiovascular
-              fill={click === "cardio" ? "#FF6666" : undefined}
+              fill={click === "cardiovascular system" ? "#FF6666" : undefined}
               onClick={() => {
                 handleClick("cardio", "cardiovascular system");
-                setClick("cardio");
+                setClick("cardiovascular system");
               }}
             />
             <Quads
