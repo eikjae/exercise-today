@@ -8,10 +8,12 @@ const TargetExerciseSchema = new Schema({
   bodyPart: {
     type: String,
     required: true,
+    index: true,
   },
   equipment: {
     type: String,
     required: true,
+    index: true,
   },
   gifUrl: {
     type: String,
@@ -21,6 +23,7 @@ const TargetExerciseSchema = new Schema({
   },
   target: {
     type: String,
+    index: true,
   },
 });
 
