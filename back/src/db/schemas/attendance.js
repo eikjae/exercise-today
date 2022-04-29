@@ -1,18 +1,17 @@
 import { Schema, model } from "mongoose";
 
-const FoodSchema = new Schema(
+const AttendanceSchema = new Schema(
   {
-    category: {
-      type: String,
-      required: true,
-      index: true,
-    },
-    unit: {
+    userId: {
       type: String,
       required: true,
     },
-    calories: {
+    whenDate: {
       type: String,
+      required: true,
+    },
+    weight: {
+      type: Number,
       required: true,
     },
   },
@@ -21,6 +20,6 @@ const FoodSchema = new Schema(
   }
 );
 
-const FoodModel = model("Food", FoodSchema);
+const AttendanceModel = model("Attendance", AttendanceSchema);
 
-export { FoodModel };
+export { AttendanceModel };

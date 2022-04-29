@@ -1,6 +1,6 @@
 import { FoodModel } from "../schemas/food";
 
-class Food {
+export class Food {
   static async findByCategory({ category }) {
     const food = await FoodModel.findOne({ category });
     return food;
@@ -11,5 +11,3 @@ class Food {
     return foods;
   }
 }
-
-export { Food };
