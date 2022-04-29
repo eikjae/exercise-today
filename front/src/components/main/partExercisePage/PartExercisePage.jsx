@@ -3,12 +3,20 @@
 import React, { useState, useEffect } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import * as Api from "../../../api";
-
-import { Container } from "@mui/material";
-import styled from "styled-components";
+import {
+  StyledContainer,
+  StyledLeftContainer,
+  StyledH2,
+  StyledH2Margin,
+  StyledSelectBodyContainer,
+  StyledSvgContainer,
+  StyledRightContainer,
+  StyledBodyFormControl,
+  StyledSelect,
+  StyledMuscleFormControl,
+  StyledH5,
+} from "./PartExercise.style";
 
 import {
   Body,
@@ -31,71 +39,7 @@ import {
   Serratus_anterior,
   Abductors,
   Levator_scapulae,
-} from "./body/all_body";
-
-const StyledContainer = styled(Container)`
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  max-width: 1200px;
-  max-height: 1000px;
-`;
-
-const StyledLeftContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const StyledH2 = styled.h2`
-  color: #281461;
-  margin-bottom: 15px;
-`;
-
-const StyledH2Margin = styled.h2`
-  color: #281461;
-  margin-top: 30px;
-  margin-bottom: 15px;
-`;
-
-const StyledSelectBodyContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const StyledSvgContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  border: 3px solid #281461;
-  border-radius: 5px;
-  margin-top: 20px;
-`;
-
-const StyledRightContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* justify-content: space-between; */
-  align-items: center;
-  margin-left: 20px;
-`;
-
-const StyledBodyFormControl = styled(FormControl)`
-  width: 45%;
-`;
-
-const StyledSelect = styled(Select)`
-  width: 100%;
-  height: 57px;
-`;
-
-const StyledMuscleFormControl = styled(FormControl)`
-  width: 100%;
-`;
-
-const StyledH5 = styled.h5`
-  text-align: center;
-`;
+} from "./bodySection/all_body";
 
 export default function PartExercisePage() {
   // 부위 카테고리, 상세 부위, 기구, 운동
@@ -386,7 +330,7 @@ export default function PartExercisePage() {
         <StyledH2>사용할 기구를 선택해주세요</StyledH2>
         <StyledMuscleFormControl>
           <InputLabel id="demo-simple-select-label">Equipment</InputLabel>
-          <Select
+          <StyledSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label="Equipment"
@@ -398,12 +342,12 @@ export default function PartExercisePage() {
                 {equipment}
               </MenuItem>
             ))}
-          </Select>
+          </StyledSelect>
         </StyledMuscleFormControl>
         <StyledH2Margin>추천 운동</StyledH2Margin>
         <StyledMuscleFormControl>
           <InputLabel id="demo-simple-select-label">Exercise</InputLabel>
-          <Select
+          <StyledSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label="Exercise"
@@ -415,7 +359,7 @@ export default function PartExercisePage() {
                 {exercise.name}
               </MenuItem>
             ))}
-          </Select>
+          </StyledSelect>
         </StyledMuscleFormControl>
         <StyledSvgContainer>
           {exerciseImg !== null ? (

@@ -1,124 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Api from "../../../api";
-import { Container, Grid, TextField } from "@mui/material";
-import styled from "styled-components";
-import BadgeVisibility from "./badgeVisibility/BadgeVisibility";
-
-const StyledContainer = styled(Container)`
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  flex-direction: column;
-`;
-
-const Title = styled.h1`
-  text-align: center;
-  margin-bottom: 50px;
-  color: #281461;
-`;
-
-const FoodWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  /* flex-wrap: wrap; */
-  margin-top: -10px;
-`;
-
-const SubmitButton = styled.button`
-  /* margin-top: 10px; */
-  border-radius: 15px;
-  padding: 5px;
-  width: 300px;
-  height: 40px;
-  color: white;
-  border: none;
-  background-color: #281461;
-  /* background-color: ${(props) =>
-    props.isDisabled ? "white" : "#281461"}; */
-  font-weight: bold;
-  -webkit-appearance: none;
-  cursor: pointer;
-  /* ${(props) => !props.isDisabled && `cursor: pointer;`}; */
-  &:hover {
-    background-color: #785dc0;
-  }
-`;
-
-const BodyInfoWrapper = styled(Grid)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* background-color: lightgray; */
-  padding-bottom: 40px;
-  width: 80%;
-  border-radius: 10px;
-`;
-
-const ExplainLabelWrapper = styled.div`
-  text-align: "center";
-`;
-
-const ExplainLabel = styled.h6`
-  text-align: "center";
-  color: "#281461";
-  margin-top: -15px;
-`;
-
-const BodyInfoGrid = styled(Grid)`
-  display: flex;
-  /* flex-direction: row; */
-  justify-content: center;
-  align-items: center;
-  margin: 20px;
-`;
-
-const StyledH1 = styled.h1`
-  color: "#281461";
-  margin-bottom: "-10px";
-`;
-
-const BodyInfoInputWrapper = styled.div`
-  display: "flex";
-  flex-direction: "row";
-`;
-
-const BodyInfoInput = styled(TextField)`
-  margin-left: 30px;
-  margin-right: 20px;
-  height: 35px;
-`;
-
-const BodyInfoLabel = styled.label`
-  display: flex;
-  margin-left: 5px;
-  margin-right: 5px;
-  padding-top: 15px;
-  width: 20px;
-`;
-
-const WarningText = styled.h6`
-  color: #e45454;
-  margin-top: 10px;
-`;
-
-// 이후에 칼로리 계산기로 재사용
-// const CalorieWrapper = styled.div`
-//   margin-top: 40px;
-//   display: flex;
-//   align-items: center;
-//   justify-content: flex-end;
-//   width: 50%;
-//   height: 100px;
-//   background-color: #61ac77;
-//   border-radius: 10px;
-// `;
-
-// const CalorieResult = styled.h2`
-//   margin-right: 30px;
-//   font-weight: bold;
-// `;
+import { Grid } from "@mui/material";
+import BadgeVisibility from "./badgeVisibilitySection/BadgeVisibility";
+import {
+  StyledContainer,
+  Title,
+  FoodWrapper,
+  SubmitButton,
+  BodyInfoWrapper,
+  ExplainLabelWrapper,
+  ExplainLabel,
+  BodyInfoGrid,
+  StyledH1,
+  BodyInfoInputWrapper,
+  BodyInfoInput,
+  BodyInfoLabel,
+  WarningText,
+} from "./MainPage.style";
 
 export default function MainPage() {
   const navigate = useNavigate();
