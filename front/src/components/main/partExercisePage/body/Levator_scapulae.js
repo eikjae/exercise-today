@@ -1,10 +1,6 @@
 import React from "react";
 
-export default function Levator_scapulae({
-  fill,
-  onClick,
-
-}) {
+export default function Levator_scapulae({ fill, onClick }) {
   return (
     <svg
       style={{
@@ -16,7 +12,6 @@ export default function Levator_scapulae({
         opacity: fill === undefined ? 0 : 1,
       }}
       onClick={onClick}
-
     >
       <path
         className="bt17"

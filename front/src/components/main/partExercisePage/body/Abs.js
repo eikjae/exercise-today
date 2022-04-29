@@ -8,7 +8,6 @@ export default function Abs({ fill, onClick }) {
         fillOpacity: 1,
         stroke: "gray",
         strokeMiterlimit: "1",
-        // visibility: "hidden",
         cursor: "pointer",
         opacity: fill === undefined ? 0 : 1,
       }}

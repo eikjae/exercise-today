@@ -105,7 +105,6 @@ export default function PartExercisePage() {
 
   // 실제 운동 이미지
   const [exerciseImg, setExerciseImg] = useState(null);
-  // const [exerciseName, setExerciseName] = useState("");
 
   // 클릭된 부분 확인용
   const [click, setClick] = useState("not-click");
@@ -191,10 +190,6 @@ export default function PartExercisePage() {
   const handleChangeExercise = async (e) => {
     try {
       setExercise(e.target.value);
-      // setExerciseName(e.target.value[0]);
-      // setExerciseImg(e.target.value[1]);
-      // console.log(e.target.value[0]);
-      // console.log(e.target);
       setExerciseImg(e.target.value.gifUrl);
     } catch (err) {
       console.error(err);

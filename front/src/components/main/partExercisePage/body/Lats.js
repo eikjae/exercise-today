@@ -1,8 +1,5 @@
 import React from "react";
 
-// style= {{ state === hovering ? style1 : style2 }}
-// mouseOver, mouseLeave로 state관리
-// onMouse={()=> setState('hovering'))}
 export default function Lats({ fill, onClick }) {
   return (
     <svg
