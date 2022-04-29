@@ -61,8 +61,7 @@ const ExplainLabelWrapper = styled.div`
 `;
 
 const ExplainLabel = styled.h6`
-  justify-content: center;
-  align-items: center;
+  text-align: "center";
   color: "#281461";
   margin-top: -15px;
 `;
@@ -191,12 +190,14 @@ export default function MainPage() {
       </Grid>
       <BodyInfoWrapper container>
         <ExplainLabelWrapper>
-          <ExplainLabel>100g(ml) 단위로 평균 칼로리가 계산됩니다.</ExplainLabel>
+          <ExplainLabel style={{ textAlign: "center" }}>
+            100g(ml) 단위로 평균 칼로리가 계산됩니다.
+          </ExplainLabel>
           <BodyInfoGrid item xs="auto">
             <StyledH1>키와 몸무게를 입력해주세요</StyledH1>
           </BodyInfoGrid>
         </ExplainLabelWrapper>
-        <BodyInfoInputWrapper>
+        <BodyInfoInputWrapper style={{ display: "flex", flexDirection: "row" }}>
           <BodyInfoGrid item xs="auto">
             <BodyInfoInput
               id="outlined-basic"
