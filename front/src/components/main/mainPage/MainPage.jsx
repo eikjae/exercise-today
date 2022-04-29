@@ -56,6 +56,10 @@ const BodyInfoWrapper = styled(Grid)`
   border-radius: 10px;
 `;
 
+const ExplainLabelWrapper = styled.div`
+  text-align: "center";
+`;
+
 const ExplainLabel = styled.h6`
   justify-content: center;
   align-items: center;
@@ -69,6 +73,16 @@ const BodyInfoGrid = styled(Grid)`
   justify-content: center;
   align-items: center;
   margin: 20px;
+`;
+
+const StyledH1 = styled.h1`
+  color: "#281461";
+  margin-bottom: "-10px";
+`;
+
+const BodyInfoInputWrapper = styled.div`
+  display: "flex";
+  flex-direction: "row";
 `;
 
 const BodyInfoInput = styled(TextField)`
@@ -112,8 +126,8 @@ export default function MainPage() {
   const [foods, setFoods] = useState([]);
   const [foodsInfo, setFoodsInfo] = useState([]);
   // const [calories, setCalories] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [weight, setWeight] = useState(0);
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
 
   const isHeightValid = height.length > 0;
   const isWeightValid = weight.length > 0;
@@ -136,6 +150,10 @@ export default function MainPage() {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const updateFoodsInfo = (data) => {
+    setFoodsInfo(data);
   };
 
   // 음식 데이터를 받아와서 화면에 표시
@@ -166,21 +184,19 @@ export default function MainPage() {
               key={foodIdx}
               food={food}
               foodsInfo={foodsInfo}
-              setFoodsInfo={setFoodsInfo}
+              updateFoodsInfo={updateFoodsInfo}
             />
           </FoodWrapper>
         ))}
       </Grid>
       <BodyInfoWrapper container>
-        <div style={{ textAlign: "center" }}>
+        <ExplainLabelWrapper>
           <ExplainLabel>100g(ml) 단위로 평균 칼로리가 계산됩니다.</ExplainLabel>
           <BodyInfoGrid item xs="auto">
-            <h1 style={{ color: "#281461", marginBottom: "-10px" }}>
-              키와 몸무게를 입력해주세요
-            </h1>
+            <StyledH1>키와 몸무게를 입력해주세요</StyledH1>
           </BodyInfoGrid>
-        </div>
-        <div style={{ display: "flex", flexDirection: "row" }}>
+        </ExplainLabelWrapper>
+        <BodyInfoInputWrapper>
           <BodyInfoGrid item xs="auto">
             <BodyInfoInput
               id="outlined-basic"
@@ -197,7 +213,7 @@ export default function MainPage() {
             />
             <BodyInfoLabel>kg</BodyInfoLabel>
           </BodyInfoGrid>
-        </div>
+        </BodyInfoInputWrapper>
       </BodyInfoWrapper>
       <SubmitButton onClick={handleClick} disabled={isDisabled}>
         운동 추천받기

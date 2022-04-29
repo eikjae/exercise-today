@@ -34,7 +34,7 @@ const FoodBadge = styled(Badge)`
   margin-left: 10px;
 `;
 
-export default function BadgeVisibility({ food, foodsInfo, setFoodsInfo }) {
+export default function BadgeVisibility({ food, foodsInfo, updateFoodsInfo }) {
   const [count, setCount] = useState(0);
   const deepClone = (arg) => JSON.parse(JSON.stringify(arg));
 
@@ -45,7 +45,7 @@ export default function BadgeVisibility({ food, foodsInfo, setFoodsInfo }) {
     );
     // 존재하지 않을 경우 새로 추가
     if (existIdx === -1) {
-      setFoodsInfo(
+      updateFoodsInfo(
         foodsInfo.concat([
           {
             category: food,
@@ -56,7 +56,7 @@ export default function BadgeVisibility({ food, foodsInfo, setFoodsInfo }) {
     } else {
       let copyFoodsInfo = deepClone(foodsInfo);
       copyFoodsInfo[existIdx] = { ...copyFoodsInfo[existIdx], volume: params };
-      setFoodsInfo(copyFoodsInfo);
+      updateFoodsInfo(copyFoodsInfo);
     }
   };
 
