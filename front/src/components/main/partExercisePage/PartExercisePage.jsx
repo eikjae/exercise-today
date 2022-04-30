@@ -57,7 +57,7 @@ export default function PartExercisePage() {
   const [equipmentList, setEquipmentList] = useState([]);
   const [equipment, setEquipment] = useState("");
   const [exerciseList, setExerciseList] = useState([]);
-  const [exercise, setExercise] = useState("");
+  const [exercise, setExercise] = useState(null);
 
   // 실제 운동 이미지
   const [exerciseImg, setExerciseImg] = useState(null);
@@ -148,8 +148,11 @@ export default function PartExercisePage() {
   // exercise를 선택하면 이미지를 세팅함
   const handleChangeExercise = async (e) => {
     try {
-      setExercise(e.target.value);
-      setExerciseImg(e.target.value.gifUrl);
+      const selectedExercise = exerciseList.find(
+        (exercise) => exercise.name === e.target.value
+      );
+      setExercise(selectedExercise);
+      setExerciseImg(selectedExercise.gifUrl);
       // GET 요청으로 이미 Like 됐는지 확인
       // res를 이용하여 setIsLiked()를 세팅
     } catch (err) {
@@ -172,10 +175,8 @@ export default function PartExercisePage() {
         <StyledH2>운동을 원하는 부위를 선택해주세요</StyledH2>
         <StyledSelectBodyContainer>
           <StyledBodyFormControl>
-            <InputLabel id="demo-simple-select-label">BodyPart</InputLabel>
+            <InputLabel>BodyPart</InputLabel>
             <StyledSelect
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
               label="BodyPart"
               value={bodyPart || ""}
               onChange={handleChangeBodyPart}
@@ -188,10 +189,8 @@ export default function PartExercisePage() {
             </StyledSelect>
           </StyledBodyFormControl>
           <StyledBodyFormControl>
-            <InputLabel id="demo-simple-select-label">Target</InputLabel>
+            <InputLabel>Target</InputLabel>
             <StyledSelect
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
               label="Target"
               value={target || ""}
               onChange={handleChangeTarget}
@@ -352,10 +351,8 @@ export default function PartExercisePage() {
       <StyledRightContainer>
         <StyledH2>사용할 기구를 선택해주세요</StyledH2>
         <StyledMuscleFormControl>
-          <InputLabel id="demo-simple-select-label">Equipment</InputLabel>
+          <InputLabel>Equipment</InputLabel>
           <StyledSelect
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
             label="Equipment"
             value={equipment || ""}
             onChange={handleChangeEquipment}
@@ -369,17 +366,15 @@ export default function PartExercisePage() {
         </StyledMuscleFormControl>
         <StyledH2Margin>추천 운동</StyledH2Margin>
         <StyledMuscleFormControl>
-          <InputLabel id="demo-simple-select-label">Exercise</InputLabel>
+          <InputLabel>Exercise</InputLabel>
           <ExerciseWrapper>
             <SelectExercise
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
               label="Exercise"
-              value={exercise.name || ""}
+              value={""}
               onChange={handleChangeExercise}
             >
               {exerciseList.map((exercise) => (
-                <MenuItem key={exercise.name} value={exercise}>
+                <MenuItem key={exercise.name} value={exercise.name}>
                   {exercise.name}
                 </MenuItem>
               ))}
@@ -403,7 +398,11 @@ export default function PartExercisePage() {
               style={{ width: "100%", visibility: "hidden" }}
             />
           )}
-          <StyledH5>{exercise.name}</StyledH5>
+          {exercise ? (
+            <StyledH5>{exercise?.name}</StyledH5>
+          ) : (
+            <StyledH5 style={{ visibility: "hidden" }}>빈 운동</StyledH5>
+          )}
         </StyledSvgContainer>
       </StyledRightContainer>
     </StyledContainer>
