@@ -145,6 +145,18 @@ class likeService {
 
     return LikeExercises;
   }
+
+  static async getLikeFood({ user_id }) {
+    const LikeInfo = await Like.findByUserId({ user_id });
+    if (!LikeInfo) {
+      const errorMessage = "user_id에 대한 likeInfo가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+
+    const LikeFoods = LikeInfo.foods;
+
+    return LikeFoods;
+  }
 }
 
 export { likeService };
