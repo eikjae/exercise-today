@@ -68,7 +68,15 @@ class dietService {
     return item;
   }
 
-  static async getItemList({ userId, whenDate, type }) {
+  static async getItemListByDate({ userId, whenDate }) {
+    const itemList = await Diet.findByDate({
+      userId,
+      whenDate,
+    });
+    return itemList;
+  }
+
+  static async getItemListByType({ userId, whenDate, type }) {
     const itemList = await Diet.findByDateAndType({
       userId,
       whenDate,
@@ -82,13 +90,6 @@ class dietService {
     if (!item) {
       const errorMessage =
         "해당하는 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      throw new Error(errorMessage);
-    }
-
-    const typeList = ["breakfast", "lunch", "dinner"];
-
-    if (!typeList.includes(toUpdate.type)) {
-      const errorMessage = "breakfast, lunch, dinner 중에서만 입력해주세요";
       throw new Error(errorMessage);
     }
 
@@ -118,26 +119,6 @@ class dietService {
     if (!categoryList.includes(toUpdate.category)) {
       const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
       throw new Error(errorMessage);
-    }
-
-    if (toUpdate.whenDate) {
-      const fieldToUpdate = "whenDate";
-      const newValue = toUpdate.whenDate;
-      item = await Diet.update({
-        itemId,
-        fieldToUpdate,
-        newValue,
-      });
-    }
-
-    if (toUpdate.type) {
-      const fieldToUpdate = "type";
-      const newValue = toUpdate.type;
-      item = await Diet.update({
-        itemId,
-        fieldToUpdate,
-        newValue,
-      });
     }
 
     if (toUpdate.category) {
