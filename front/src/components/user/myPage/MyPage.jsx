@@ -9,7 +9,6 @@ import {
   ColGrid,
   RightRowGrid,
   ContentWrapper,
-  ImgWrapper,
   ContentTitle,
   ContentDetail,
   DateIcon,
@@ -76,7 +75,6 @@ export default function MyPage() {
       <RightRowGrid>
         <ColGrid>
           <ContentWrapper onClick={() => navigate("/calender")}>
-            {/* <ImgWrapper src="/imgs/body.png"></ImgWrapper> */}
             <DateIcon style={{ color: "#281461" }} />
             <ContentTitle>캘린더</ContentTitle>
             <ContentDetail>이것저것 기록할 수 있습니다</ContentDetail>
@@ -84,7 +82,6 @@ export default function MyPage() {
         </ColGrid>
         <ColGrid>
           <ContentWrapper onClick={() => navigate("/like")}>
-            {/* <ImgWrapper src="/imgs/body.png"></ImgWrapper> */}
             <BookmarkIcon style={{ color: "#281461" }} />
             <ContentTitle>북마크</ContentTitle>
             <ContentDetail>좋아요 누른 항목을 확인할 수 있습니다</ContentDetail>
@@ -92,7 +89,6 @@ export default function MyPage() {
         </ColGrid>
         <ColGrid>
           <ContentWrapper onClick={() => navigate("/statistics")}>
-            {/* <ImgWrapper src="/imgs/body.png"></ImgWrapper> */}
             <StatisticsIcon style={{ color: "#281461" }} />
             <ContentTitle>통계</ContentTitle>
             <ContentDetail>나의 통계를 확인할 수 있습니다</ContentDetail>
