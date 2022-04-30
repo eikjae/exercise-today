@@ -9,7 +9,7 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
       style={{ width: "18rem", height: "20rem" }}
     >
       <Card.Body>
-        <Row className="justify-content-md-center">
+        <Row className="justify-content-center">
           <Card.Img
             style={{ width: "10rem", height: "8rem" }}
             className="mb-3"

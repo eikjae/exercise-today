@@ -18,11 +18,11 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     e.preventDefault();
 
     if (newPassword.length >= 4) {
-      await Api.post("change_password", {
+      await Api.put("change_password", {
         currentPassword,
         newPassword,
       });
-    } else if (0 < newPassword.length < 4) {
+    } else if (newPassword.length < 4) {
       alert(
         "비밀번호는 최소 4자리여야 합니다. 비밀번호 이외의 다른 변경사항들만 적용됩니다."
       );
