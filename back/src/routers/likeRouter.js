@@ -177,4 +177,20 @@ likeRouter.get("/like/music", login_required, async function (req, res, next) {
   }
 });
 
+likeRouter.get("/like", login_required, async function (req, res, next) {
+  try {
+    const user_id = req.currentUserId;
+
+    const LikeInfo = await likeService.getLike({ user_id });
+
+    if (LikeInfo.errorMessage) {
+      throw new Error(LikeInfo.errorMessage);
+    }
+
+    res.status(200).json(LikeInfo);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export { likeRouter };
