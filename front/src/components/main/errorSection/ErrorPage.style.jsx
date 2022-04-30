@@ -28,6 +28,7 @@ export const ErrorBar = styled.div`
 `;
 
 export const ErrorIcon = styled(ReportGmailerrorredIcon)`
+  color: #281461;
   margin-top: 10px;
   font-size: 100px;
 `;
