@@ -3,7 +3,6 @@ import { login_required } from "../middlewares/login_required";
 import { calendarService } from "../services/calendarService";
 
 const calendarRouter = Router();
-calendarRouter.use(login_required);
 
 calendarRouter.post(
   "/calendar",
