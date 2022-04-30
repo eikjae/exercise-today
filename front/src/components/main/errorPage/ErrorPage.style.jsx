@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Container, Title } from "@mui/material";
+import { Container } from "@mui/material";
 import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 
 export const Layout = styled(Container)`
