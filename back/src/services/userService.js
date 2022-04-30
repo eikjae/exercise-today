@@ -3,9 +3,20 @@ import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 import sendMail from "../utils/send-mail";
+import { AuthEmail } from "../db";
 
 class userAuthService {
-  static async addUser({ name, email, password, height, weight, gender }) {
+  static async addUser({
+    id,
+    name,
+    email,
+    password,
+    height,
+    weight,
+    gender,
+    type,
+    imageLink,
+  }) {
     // 이메일 중복 확인
     const user = await User.findByEmail({ email });
     if (user) {
@@ -13,13 +24,37 @@ class userAuthService {
         "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요.";
       return { errorMessage };
     }
-
+    if (!type) {
+      const authEmail = await AuthEmail.findByEmail({ email });
+      if (!authEmail || authEmail.status === 0) {
+        const errorMessage =
+          "인증이 완료되지 않은 이메일입니다.인증번호 발급후 인증을 완료해주세요.";
+        return { errorMessage };
+      }
+    }
     // 비밀번호 해쉬화
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // id 는 유니크 값 부여
-    const id = uuidv4();
-    const newUser = { id, name, email, password: hashedPassword, height, weight, gender };
+    if (!id) {
+      id = uuidv4();
+    }
+    const newUser = {
+      id,
+      name,
+      email,
+      password: hashedPassword,
+      height,
+      weight,
+      gender,
+      type,
+      imageLink,
+    };
+    Object.keys(newUser).forEach((key) => {
+      if (newUser[key] === undefined) {
+        delete newUser[key];
+      }
+    });
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });
@@ -63,8 +98,10 @@ class userAuthService {
       id,
       email,
       name,
+      height,
+
       description,
-      errorMessage: null,
+      imageLink,
     };
 
     return loginUser;
@@ -161,16 +198,13 @@ class userAuthService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user || user === null) {
-      const errorMessage =
-        "해당 유저가 존재하지 않습니다.";
+      const errorMessage = "해당 유저가 존재하지 않습니다.";
       return { errorMessage };
     }
     await User.deleteById({ user_id });
 
     return user;
   }
-
-
 }
 
 export { userAuthService };
