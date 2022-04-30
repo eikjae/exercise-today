@@ -9,6 +9,7 @@ import { Diet } from "./models/Diet";
 import { Workout } from "./models/Workout";
 import { Attendance } from "./models/Attendance";
 import { Friend } from "./models/Friend";
+import { AuthEmail } from "./models/AuthEmail";
 import { DietImage } from "./models/DietImage";
 import { Calendar } from "./models/Calendar";
 
@@ -37,6 +38,7 @@ export {
   Workout,
   Attendance,
   Friend,
+  AuthEmail,
   DietImage,
   Calendar,
 };
