@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-export const StyledMealContainer = styled.article`
+export const MealContainer = styled.article`
   width: 100%;
   flex: 0.18;
 
@@ -13,14 +13,19 @@ export const StyledMealContainer = styled.article`
   padding: 0.5rem;
 `;
 
-export const StyledImage = styled.img`
+export const Image = styled.img`
   width: 35%;
 `;
 
-export const StyledMealInfoContainer = styled.div`
+export const MealInfoContainer = styled.div`
   width: 65%;
   margin: 0 0.5rem 0 0.5rem;
   border: 1px solid green;
+`;
+
+export const InputWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export const IconWrapper = styled.div`
@@ -33,7 +38,7 @@ export const StyeldAddCircleOutlineIcon = styled(AddCircleOutlineIcon)`
   }
 `;
 
-export const StyledPWrapper = styled.div`
+export const PWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0 0.5rem 0 0.5rem;

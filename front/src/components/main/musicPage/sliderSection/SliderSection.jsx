@@ -48,8 +48,8 @@ const SliderSection = ({ handleSetMusics }) => {
 
   const handleOnChangeLimits = (e) => {
     if (isNaN(Number(e.target.value))) {
-      alert("숫자만 입력해주세여!");
       setLimit(0);
+      return;
     } else {
       setLimit(Number(e.target.value));
     }
