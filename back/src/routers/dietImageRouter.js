@@ -14,7 +14,6 @@ dietImageRouter.post(
       const userId = req.currentUserId;
       const { whenDate, type } = req.body;
       const imgurl = req.file.location;
-      console.log("s3 이미지 경로 :", imgurl);
 
       const newItem = await dietImageService.addItem({
         userId,
@@ -41,11 +40,26 @@ dietImageRouter.get("/dietimage/item/:itemId", async function (req, res, next) {
   }
 });
 
-dietImageRouter.get("/dietimage/items", async function (req, res, next) {
+dietImageRouter.get("/dietimage/items/date", async function (req, res, next) {
+  try {
+    const userId = req.currentUserId;
+    const { whenDate } = req.body;
+    const foundItem = await dietImageService.getItemListByDate({
+      userId,
+      whenDate,
+    });
+
+    res.status(200).send(foundItem);
+  } catch (error) {
+    next(error);
+  }
+});
+
+dietImageRouter.get("/dietimage/items/type", async function (req, res, next) {
   try {
     const userId = req.currentUserId;
     const { whenDate, type } = req.body;
-    const foundItem = await dietImageService.getItemList({
+    const foundItem = await dietImageService.getItemListByType({
       userId,
       whenDate,
       type,
@@ -63,11 +77,7 @@ dietImageRouter.put(
   async function (req, res, next) {
     try {
       const { itemId } = req.params;
-      console.log("itemId :", itemId);
-      const Img = req.file;
-      console.log("이미지 정보 :", Img);
-      const imgurl = Img.location;
-      console.log("s3 이미지 경로 :", imgurl);
+      const imgurl = req.file.location;
 
       const toUpdate = { imgurl };
 

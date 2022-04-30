@@ -35,11 +35,26 @@ dietRouter.get("/diet/item/:itemId", async function (req, res, next) {
   }
 });
 
-dietRouter.get("/diet/items", async function (req, res, next) {
+dietRouter.get("/diet/items/date", async function (req, res, next) {
+  try {
+    const userId = req.currentUserId;
+    const { whenDate } = req.body;
+    const foundList = await dietService.getItemListByDate({
+      userId,
+      whenDate,
+    });
+
+    res.status(200).send(foundList);
+  } catch (error) {
+    next(error);
+  }
+});
+
+dietRouter.get("/diet/items/type", async function (req, res, next) {
   try {
     const userId = req.currentUserId;
     const { whenDate, type } = req.body;
-    const foundList = await dietService.getItemList({
+    const foundList = await dietService.getItemListByType({
       userId,
       whenDate,
       type,
@@ -54,12 +69,10 @@ dietRouter.get("/diet/items", async function (req, res, next) {
 dietRouter.put("/diet/item/:itemId", async function (req, res, next) {
   try {
     const { itemId } = req.params;
-    const whenDate = req.body.whenDate ?? null;
-    const type = req.body.type ?? null;
     const category = req.body.category ?? null;
     const volume = req.body.volume ?? null;
 
-    const toUpdate = { whenDate, type, category, volume };
+    const toUpdate = { category, volume };
 
     const updatedItem = await dietService.setItem({
       itemId,

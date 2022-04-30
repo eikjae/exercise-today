@@ -11,6 +11,11 @@ export class DietImage {
     return item;
   }
 
+  static async findByDate({ userId, whenDate }) {
+    const item = await DietImageModel.find({ userId, whenDate });
+    return item;
+  }
+
   static async findByDateAndType({ userId, whenDate, type }) {
     const item = await DietImageModel.findOne({ userId, whenDate, type });
     return item;

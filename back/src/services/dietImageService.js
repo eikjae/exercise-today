@@ -44,7 +44,20 @@ class dietImageService {
     return item;
   }
 
-  static async getItemList({ userId, whenDate, type }) {
+  static async getItemListByDate({ userId, whenDate }) {
+    const item = await DietImage.findByDate({
+      userId,
+      whenDate,
+    });
+    if (!item) {
+      const errorMessage =
+        "해당하는 내역이 없습니다. 다시 한 번 확인해 주세요.";
+      throw new Error(errorMessage);
+    }
+    return item;
+  }
+
+  static async getItemListByType({ userId, whenDate, type }) {
     const item = await DietImage.findByDateAndType({
       userId,
       whenDate,

@@ -11,6 +11,11 @@ export class Diet {
     return item;
   }
 
+  static async findByDate({ userId, whenDate }) {
+    const items = await DietModel.find({ userId, whenDate });
+    return items;
+  }
+
   static async findByDateAndType({ userId, whenDate, type }) {
     const items = await DietModel.find({ userId, whenDate, type });
     return items;

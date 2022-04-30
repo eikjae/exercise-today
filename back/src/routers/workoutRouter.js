@@ -35,7 +35,7 @@ workoutRouter.get("/workout/item/:itemId", async function (req, res, next) {
   }
 });
 
-workoutRouter.get("/workout/items", async function (req, res, next) {
+workoutRouter.get("/workout/items/date", async function (req, res, next) {
   try {
     const userId = req.currentUserId;
     const { whenDate } = req.body;
@@ -53,7 +53,6 @@ workoutRouter.get("/workout/items", async function (req, res, next) {
 workoutRouter.put("/workout/item/:itemId", async function (req, res, next) {
   try {
     const { itemId } = req.params;
-    const whenDate = req.body.whenDate ?? null;
     const category = req.body.category ?? null;
     const name = req.body.name ?? null;
     const time = req.body.time ?? null;
