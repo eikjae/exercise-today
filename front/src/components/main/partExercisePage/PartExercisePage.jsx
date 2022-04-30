@@ -15,6 +15,11 @@ import {
   StyledBodyFormControl,
   StyledSelect,
   StyledMuscleFormControl,
+  ExerciseWrapper,
+  SelectExercise,
+  LikeButton,
+  NotLikeIcon,
+  LikeIcon,
   StyledH5,
 } from "./PartExercise.style";
 
@@ -56,7 +61,9 @@ export default function PartExercisePage() {
   const [exerciseImg, setExerciseImg] = useState(null);
 
   // 클릭된 부분 확인용
-  const [click, setClick] = useState("not-click");
+  const [partClick, setPartClick] = useState("not-click");
+
+  const [isLiked, setIsLiked] = useState(false);
 
   // 처음 렌더링시 GET 요청으로 bodyPart 카테고리를 가져옴
   useEffect(() => {
@@ -73,7 +80,7 @@ export default function PartExercisePage() {
 
   // 운동을 원하는 신체부위 클릭시 bodyPart와 target을 알게 됨
   // POST 요청을 통해 targetList와 equipmentList를 가져옴
-  const handleClick = async (bodyPart, target) => {
+  const handleClickPart = async (bodyPart, target) => {
     try {
       setBodyPart(bodyPart);
       setTarget(target);
@@ -109,7 +116,7 @@ export default function PartExercisePage() {
   const handleChangeTarget = async (e) => {
     try {
       setTarget(e.target.value);
-      setClick(e.target.value);
+      setPartClick(e.target.value);
       const res = await Api.post("exercise/findequipments", {
         bodyPart,
         target: e.target.value,
@@ -140,9 +147,16 @@ export default function PartExercisePage() {
     try {
       setExercise(e.target.value);
       setExerciseImg(e.target.value.gifUrl);
+      // GET 요청으로 이미 Like 됐는지 확인
+      // res를 이용하여 setIsLiked()를 세팅
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleClickLike = async (e) => {
+    await Api.put("like/exercise", exercise);
+    setIsLiked(true);
   };
 
   return (
@@ -190,137 +204,139 @@ export default function PartExercisePage() {
           >
             <Body />
             <Cardiovascular
-              fill={click === "cardiovascular system" ? "#FF6666" : undefined}
+              fill={
+                partClick === "cardiovascular system" ? "#FF6666" : undefined
+              }
               onClick={() => {
-                handleClick("cardio", "cardiovascular system");
-                setClick("cardiovascular system");
+                handleClickPart("cardio", "cardiovascular system");
+                setPartClick("cardiovascular system");
               }}
             />
             <Quads
-              fill={click === "quads" ? "#FF6666" : undefined}
+              fill={partClick === "quads" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper legs", "quads");
-                setClick("quads");
+                handleClickPart("upper legs", "quads");
+                setPartClick("quads");
               }}
             />
             <Calves
-              fill={click === "calves" ? "#FF6666" : undefined}
+              fill={partClick === "calves" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("lower legs", "calves");
-                setClick("calves");
+                handleClickPart("lower legs", "calves");
+                setPartClick("calves");
               }}
             />
             <Pectorals
-              fill={click === "pectorals" ? "#FF6666" : undefined}
+              fill={partClick === "pectorals" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("chest", "pectorals");
-                setClick("pectorals");
+                handleClickPart("chest", "pectorals");
+                setPartClick("pectorals");
               }}
             />
             <Glutes
-              fill={click === "glutes" ? "#FF6666" : undefined}
+              fill={partClick === "glutes" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper legs", "glutes");
-                setClick("glutes");
+                handleClickPart("upper legs", "glutes");
+                setPartClick("glutes");
               }}
             />
             <Hamstrings
-              fill={click === "hamstrings" ? "#FF6666" : undefined}
+              fill={partClick === "hamstrings" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper legs", "hamstrings");
-                setClick("hamstrings");
+                handleClickPart("upper legs", "hamstrings");
+                setPartClick("hamstrings");
               }}
             />
             <Adductors
-              fill={click === "adductors" ? "#FF6666" : undefined}
+              fill={partClick === "adductors" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper legs", "adductors");
-                setClick("adductors");
+                handleClickPart("upper legs", "adductors");
+                setPartClick("adductors");
               }}
             />
 
             <Triceps
-              fill={click === "triceps" ? "#FF6666" : undefined}
+              fill={partClick === "triceps" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper arms", "triceps");
-                setClick("triceps");
+                handleClickPart("upper arms", "triceps");
+                setPartClick("triceps");
               }}
             />
             <Spine
-              fill={click === "spine" ? "#FF6666" : undefined}
+              fill={partClick === "spine" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("back", "spine");
-                setClick("spine");
+                handleClickPart("back", "spine");
+                setPartClick("spine");
               }}
             />
             <Upper_back
-              fill={click === "upper back" ? "#FF6666" : undefined}
+              fill={partClick === "upper back" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("back", "upper back");
-                setClick("upper back");
+                handleClickPart("back", "upper back");
+                setPartClick("upper back");
               }}
             />
             <Biceps
-              fill={click === "biceps" ? "#FF6666" : undefined}
+              fill={partClick === "biceps" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper arms", "biceps");
-                setClick("biceps");
+                handleClickPart("upper arms", "biceps");
+                setPartClick("biceps");
               }}
             />
             <Delts
-              fill={click === "delts" ? "#FF6666" : undefined}
+              fill={partClick === "delts" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("shoulders", "delts");
-                setClick("delts");
+                handleClickPart("shoulders", "delts");
+                setPartClick("delts");
               }}
             />
             <Forearms
-              fill={click === "forearms" ? "#FF6666" : undefined}
+              fill={partClick === "forearms" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("lower arms", "forearms");
-                setClick("forearms");
+                handleClickPart("lower arms", "forearms");
+                setPartClick("forearms");
               }}
             />
             <Traps
-              fill={click === "traps" ? "#FF6666" : undefined}
+              fill={partClick === "traps" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("back", "traps");
-                setClick("traps");
+                handleClickPart("back", "traps");
+                setPartClick("traps");
               }}
             />
             <Serratus_anterior
-              fill={click === "serratus anterior" ? "#FF6666" : undefined}
+              fill={partClick === "serratus anterior" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("chest", "serratus anterior");
-                setClick("serratus anterior");
+                handleClickPart("chest", "serratus anterior");
+                setPartClick("serratus anterior");
               }}
             />
             <Abductors
-              fill={click === "abductors" ? "#FF6666" : undefined}
+              fill={partClick === "abductors" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper legs", "abductors");
-                setClick("abductors");
+                handleClickPart("upper legs", "abductors");
+                setPartClick("abductors");
               }}
             />
             <Levator_scapulae
-              fill={click === "levator scapulae" ? "#FF6666" : undefined}
+              fill={partClick === "levator scapulae" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("neck", "levator scapulae");
-                setClick("levator scapulae");
+                handleClickPart("neck", "levator scapulae");
+                setPartClick("levator scapulae");
               }}
             />
             <Abs
-              fill={click === "abs" ? "#FF6666" : undefined}
+              fill={partClick === "abs" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("waist", "abs");
-                setClick("abs");
+                handleClickPart("waist", "abs");
+                setPartClick("abs");
               }}
             />
             <Lats
-              fill={click === "lats" ? "#FF6666" : undefined}
+              fill={partClick === "lats" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("back", "lats");
-                setClick("lats");
+                handleClickPart("back", "lats");
+                setPartClick("lats");
               }}
             />
           </svg>
@@ -347,19 +363,24 @@ export default function PartExercisePage() {
         <StyledH2Margin>추천 운동</StyledH2Margin>
         <StyledMuscleFormControl>
           <InputLabel id="demo-simple-select-label">Exercise</InputLabel>
-          <StyledSelect
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Exercise"
-            value={exercise.name || ""}
-            onChange={handleChangeExercise}
-          >
-            {exerciseList.map((exercise) => (
-              <MenuItem key={exercise.name} value={exercise}>
-                {exercise.name}
-              </MenuItem>
-            ))}
-          </StyledSelect>
+          <ExerciseWrapper>
+            <SelectExercise
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Exercise"
+              value={exercise.name || ""}
+              onChange={handleChangeExercise}
+            >
+              {exerciseList.map((exercise) => (
+                <MenuItem key={exercise.name} value={exercise}>
+                  {exercise.name}
+                </MenuItem>
+              ))}
+            </SelectExercise>
+            <LikeButton onClick={handleClickLike}>
+              {isLiked ? <LikeIcon /> : <NotLikeIcon />}
+            </LikeButton>
+          </ExerciseWrapper>
         </StyledMuscleFormControl>
         <StyledSvgContainer>
           {exerciseImg !== null ? (
