@@ -169,6 +169,18 @@ class likeService {
 
     return LikePeople;
   }
+
+  static async getLikeMusic({ user_id }) {
+    const LikeInfo = await Like.findByUserId({ user_id });
+    if (!LikeInfo) {
+      const errorMessage = "user_id에 대한 likeInfo가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+
+    const LikeMusics = LikeInfo.musics;
+
+    return LikeMusics;
+  }
 }
 
 export { likeService };
