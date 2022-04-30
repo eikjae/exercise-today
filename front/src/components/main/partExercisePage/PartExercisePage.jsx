@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-pascal-case */
-import React, { useState, useEffect } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
+import React, { useState, useEffect, useContext } from "react";
+import { InputLabel, MenuItem } from "@mui/material";
 import * as Api from "../../../api";
+import { UserStateContext } from "../../../App";
+// import {NotLoginedModal} from "../../errorSection/NotLoginedModal";
+
 import {
   StyledContainer,
   StyledLeftContainer,
@@ -63,6 +65,7 @@ export default function PartExercisePage() {
   // 클릭된 부분 확인용
   const [partClick, setPartClick] = useState("not-click");
 
+  const userState = useContext(UserStateContext);
   const [isLiked, setIsLiked] = useState(false);
 
   // 처음 렌더링시 GET 요청으로 bodyPart 카테고리를 가져옴
@@ -155,8 +158,12 @@ export default function PartExercisePage() {
   };
 
   const handleClickLike = async (e) => {
-    await Api.put("like/exercise", exercise);
-    setIsLiked(true);
+    // 로그인한 사용자가 아닐시 좋아요 기능을 사용할 수 없음
+    if (!userState.user) {
+      return alert("로그인 후 사용할 수 있는 서비스입니다.");
+    }
+    // await Api.put("like/exercise", exercise);
+    // setIsLiked(true);
   };
 
   return (
