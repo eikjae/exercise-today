@@ -15,6 +15,7 @@ html {
 ::after {
   background-repeat: no-repeat;
   box-sizing: inherit;
+  font-family: "Elice Digital Baeum", sans-serif;
 }
 
 ::before,
@@ -277,11 +278,7 @@ progress {
 [aria-disabled='true'] {
   cursor: default;
 }
-    html, body {
-        /* font-size: 62.5%; */
-        /* background-color: #222222; */
-        font-family: "Elice Digital Baeum", sans-serif;
-    }
+
 
 `;
 
