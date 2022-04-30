@@ -129,4 +129,20 @@ likeRouter.get(
   }
 );
 
+likeRouter.get("/like/food", login_required, async function (req, res, next) {
+  try {
+    const user_id = req.currentUserId;
+
+    const LikeInfo = await likeService.getLikeFood({ user_id });
+
+    if (LikeInfo.errorMessage) {
+      throw new Error(LikeInfo.errorMessage);
+    }
+
+    res.status(200).json(LikeInfo);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export { likeRouter };
