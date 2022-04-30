@@ -16,7 +16,7 @@ import MusicPage from "./components/main/musicPage/MusicPage";
 import PartExercisePage from "./components/main/partExercisePage/PartExercisePage";
 import MyPage from "./components/user/myPage/MyPage";
 import LikePage from "./components/user/like/LikePage";
-import ErrorPage from "./components/main/errorPage/ErrorPage";
+import ErrorPage from "./components/main/errorSection/ErrorPage";
 
 import { atom, RecoilRoot } from "recoil";
 
