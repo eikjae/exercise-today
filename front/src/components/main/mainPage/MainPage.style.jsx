@@ -17,12 +17,10 @@ export const Title = styled.h1`
 export const FoodWrapper = styled.div`
   display: flex;
   justify-content: center;
-  /* flex-wrap: wrap; */
   margin-top: -10px;
 `;
 
 export const SubmitButton = styled.button`
-  /* margin-top: 10px; */
   border-radius: 15px;
   padding: 5px;
   width: 300px;
@@ -30,12 +28,9 @@ export const SubmitButton = styled.button`
   color: white;
   border: none;
   background-color: #281461;
-  /* background-color: ${(props) =>
-    props.isDisabled ? "white" : "#281461"}; */
   font-weight: bold;
   -webkit-appearance: none;
   cursor: pointer;
-  /* ${(props) => !props.isDisabled && `cursor: pointer;`}; */
   &:hover {
     background-color: #785dc0;
   }
@@ -46,7 +41,6 @@ export const BodyInfoWrapper = styled(Grid)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background-color: lightgray; */
   padding-bottom: 40px;
   width: 80%;
   border-radius: 10px;
@@ -64,7 +58,6 @@ export const ExplainLabel = styled.h6`
 
 export const BodyInfoGrid = styled(Grid)`
   display: flex;
-  /* flex-direction: row; */
   justify-content: center;
   align-items: center;
   margin: 20px;
