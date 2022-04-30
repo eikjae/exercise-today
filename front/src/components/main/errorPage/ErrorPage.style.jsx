@@ -10,6 +10,7 @@ export const Layout = styled(Container)`
   max-height: 100%;
   text-align: center;
   align-items: center;
+  color: "#281461";
 `;
 
 export const ErrorBar = styled.div`
