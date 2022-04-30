@@ -42,7 +42,13 @@ const UserSchema = new Schema(
     },
     type: {
       type: String,
-      required: true,
+      required: false,
+      default: "TodayExercise",
+    },
+    ImageLink: {
+      type: String,
+      required: false,
+      default: process.env.initial_image_Link,
     },
   },
   {
