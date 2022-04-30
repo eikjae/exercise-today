@@ -75,21 +75,21 @@ export default function MyPage() {
       <RightRowGrid>
         <ColGrid>
           <ContentWrapper onClick={() => navigate("/calender")}>
-            <DateIcon style={{ color: "#281461" }} />
+            <DateIcon />
             <ContentTitle>캘린더</ContentTitle>
             <ContentDetail>이것저것 기록할 수 있습니다</ContentDetail>
           </ContentWrapper>
         </ColGrid>
         <ColGrid>
           <ContentWrapper onClick={() => navigate("/like")}>
-            <BookmarkIcon style={{ color: "#281461" }} />
+            <BookmarkIcon />
             <ContentTitle>북마크</ContentTitle>
             <ContentDetail>좋아요 누른 항목을 확인할 수 있습니다</ContentDetail>
           </ContentWrapper>
         </ColGrid>
         <ColGrid>
           <ContentWrapper onClick={() => navigate("/statistics")}>
-            <StatisticsIcon style={{ color: "#281461" }} />
+            <StatisticsIcon />
             <ContentTitle>통계</ContentTitle>
             <ContentDetail>나의 통계를 확인할 수 있습니다</ContentDetail>
           </ContentWrapper>
