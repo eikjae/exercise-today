@@ -13,7 +13,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
 import { get, post } from "../../../../api";
 
-const MealSection = ({ title, getTotalMealCalrorie }) => {
+const MealSection = ({ title, getTotalMealCalrorie, strDate }) => {
   // 음식 리스트
   const [mealOptions, setMealOptions] = useState([]);
   // 선택한 음식
@@ -36,10 +36,16 @@ const MealSection = ({ title, getTotalMealCalrorie }) => {
           volume: count,
         },
       ]);
+      // console.log(typeof strDate);
+      // const img = await get("dietimage/items/date", {
+      //   whenDate: strDate,
+      // });
+      // console.log(img.data);
+
       setTotalMealCalrorie((current) => {
         return current + res.data.calories;
       });
-      getTotalMealCalrorie(res.data);
+      getTotalMealCalrorie(res.data.calories);
     } catch (e) {
       throw new Error(e);
     }

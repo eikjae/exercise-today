@@ -112,8 +112,10 @@ const CalendarPage = (props) => {
   ];
 
   const [date, setDate] = useState("");
+  const [strDate, setStrDate] = useState("");
   const [weight, setWweight] = useState(80);
-  const [totlsCalrorie, setTotalCalrorie] = useState(0);
+  const [totalFoodCalrorie, setTotalFoodCalrorie] = useState(0);
+  const [totalExerciseCalrorie, setTotalExerciseCalrorie] = useState(0);
 
   const [breakfast, setBreakfast] = useState(0);
   const [lunch, setLunch] = useState(0);
@@ -135,8 +137,14 @@ const CalendarPage = (props) => {
   };
 
   const getTotalMealCalrorie = (cal) => {
-    setTotalCalrorie((current) => {
+    setTotalFoodCalrorie((current) => {
       return current + cal;
+    });
+  };
+
+  const handleSetTotalExerciseCalrorie = (cal) => {
+    setTotalExerciseCalrorie((current) => {
+      return current + Number(Number(cal).toFixed(0));
     });
   };
 
@@ -150,7 +158,11 @@ const CalendarPage = (props) => {
 
   return (
     <CalendarLayout>
-      <Calendar data={calendarData} handleSetDate={handleSetDate} />
+      <Calendar
+        data={calendarData}
+        handleSetDate={handleSetDate}
+        setStrDate={setStrDate}
+      />
       <CalendarBodyLayout>
         <TitleWrapper>
           <h2>{date}</h2>
@@ -165,18 +177,28 @@ const CalendarPage = (props) => {
           <MealSection
             title={"아침"}
             getTotalMealCalrorie={getTotalMealCalrorie}
+            strDate={strDate}
           />
           <MealSection
             title={"점심"}
             getTotalMealCalrorie={getTotalMealCalrorie}
+            strDate={strDate}
           />
           <MealSection
             title={"저녁"}
             getTotalMealCalrorie={getTotalMealCalrorie}
+            strDate={strDate}
           />
-          <ExerciseSection weight={weight} />
+          <ExerciseSection
+            weight={weight}
+            totalExerciseCalrorie={totalExerciseCalrorie}
+            handleSetTotalExerciseCalrorie={handleSetTotalExerciseCalrorie}
+          />
         </BodyWrapper>
-        <TotalSection />
+        <TotalSection
+          totalCalrorie={totalFoodCalrorie}
+          totalExerciseCalrorie={totalExerciseCalrorie}
+        />
       </CalendarBodyLayout>
     </CalendarLayout>
   );

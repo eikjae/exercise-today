@@ -15,6 +15,7 @@ export const ExerciseLayout = styled.div`
 
 export const AutocompleteWrapper = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 export const ExerciseCategoriesWrapper = styled.div`

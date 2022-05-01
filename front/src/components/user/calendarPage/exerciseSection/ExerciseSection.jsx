@@ -11,12 +11,17 @@ import {
 } from "./ExerciseSection.style";
 import { get, post } from "../../../../api";
 
-const ExerciseSection = ({ weight }) => {
+const ExerciseSection = ({
+  weight,
+  totalExerciseCalrorie,
+  handleSetTotalExerciseCalrorie,
+}) => {
   // 운동 리스트
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [exerciseOptions, setExerciseOptions] = useState([]);
 
   const [exercise, setExercise] = useState("");
+  const [hour, setHour] = useState(0);
 
   const getCategory = useCallback(async () => {
     const res = await get("exercise/categorylist");
@@ -32,8 +37,9 @@ const ExerciseSection = ({ weight }) => {
     const res = await post("exercise/calories", {
       weight,
       name: exercise,
-      // time:
+      time: hour,
     });
+    handleSetTotalExerciseCalrorie(res.data);
   };
 
   useEffect(() => {
@@ -71,20 +77,30 @@ const ExerciseSection = ({ weight }) => {
             size="small"
             onChange={(e, value) => {
               setExercise(value);
-              console.log(value);
             }}
           />
         </ExerciseCategoriesWrapper>
+        <TextField
+          id="count-meal"
+          label="시간"
+          variant="outlined"
+          size="small"
+          type="number"
+          InputProps={{
+            inputProps: { min: 0 },
+          }}
+          onChange={(e) => {
+            setHour(e.target.value);
+          }}
+        />
+        <AddCircleOutlineIcon onClick={getTotalExerciseCalrorie} />
       </AutocompleteWrapper>
-      <ExerciseCategoriesWrapper>
-        <AddCircleOutlineIcon />
-      </ExerciseCategoriesWrapper>
       <ExerciseCategoriesWrapper>
         <ExerciseTotalWrapper>
           <ExerciseTotal>총 칼로리:</ExerciseTotal>
         </ExerciseTotalWrapper>
         <ExerciseTotalWrapper>
-          <ExerciseTotal>1000kcal</ExerciseTotal>
+          <ExerciseTotal>{totalExerciseCalrorie}kcal</ExerciseTotal>
         </ExerciseTotalWrapper>
       </ExerciseCategoriesWrapper>
     </ExerciseLayout>

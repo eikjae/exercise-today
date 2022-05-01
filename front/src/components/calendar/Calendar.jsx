@@ -5,7 +5,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import "./Calendar.css";
 import { StyledCalendarLayout, StyledCalenderWrapper } from "./Calendar.style";
 
-const Calendar = ({ data, handleSetDate }) => {
+const Calendar = ({ data, handleSetDate, setStrDate }) => {
   console.log(data);
   return (
     <StyledCalenderWrapper>
@@ -22,12 +22,13 @@ const Calendar = ({ data, handleSetDate }) => {
         dateClick={(info) => {
           console.log("data click event!");
           // console.log("info.allDay: ", info.allDay);
-          // console.log("info.dateStr: ", info.dateStr);
+          console.log("info.dateStr: ", info.dateStr);
           const day = info.date.toString().split(" ")[0];
           const today = info.dateStr.split("-");
           const month = today[1].replace("0", "");
 
           handleSetDate(`${month}월 ${today[2]}일 ${day}`);
+          setStrDate(info.dateStr);
 
           console.log("info.dayEl: ", info.dayEl);
           console.log("info.dayEl: ", info.dayEl.textContent);
