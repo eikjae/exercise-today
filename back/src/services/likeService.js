@@ -1,12 +1,10 @@
 import { Like } from "../db";
 
 class likeService {
-
   static async addLike({ user_id }) {
     const existLikeInfo = await Like.findByUserId({ user_id });
     if (existLikeInfo) {
-      const errorMessage =
-        "user_id에 대한 likeInfo가 이미 존재합니다.";
+      const errorMessage = "user_id에 대한 likeInfo가 이미 존재합니다.";
       return { errorMessage };
     }
 
@@ -15,7 +13,7 @@ class likeService {
 
     return likeInfo;
   }
-  
+
   static async setLikeExercise({ user_id, toUpdate }) {
     let likeInfo = await Like.findByUserId({ user_id });
 
@@ -134,6 +132,64 @@ class likeService {
     const updatedLike = await Like.update({ user_id, fieldToUpdate, newValue });
 
     return updatedLike;
+  }
+
+  static async getLikeExercise({ user_id }) {
+    const LikeInfo = await Like.findByUserId({ user_id });
+    if (!LikeInfo) {
+      const errorMessage = "user_id에 대한 likeInfo가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+
+    const LikeExercises = LikeInfo.exercises;
+
+    return LikeExercises;
+  }
+
+  static async getLikeFood({ user_id }) {
+    const LikeInfo = await Like.findByUserId({ user_id });
+    if (!LikeInfo) {
+      const errorMessage = "user_id에 대한 likeInfo가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+
+    const LikeFoods = LikeInfo.foods;
+
+    return LikeFoods;
+  }
+
+  static async getLikePeople({ user_id }) {
+    const LikeInfo = await Like.findByUserId({ user_id });
+    if (!LikeInfo) {
+      const errorMessage = "user_id에 대한 likeInfo가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+
+    const LikePeople = LikeInfo.people;
+
+    return LikePeople;
+  }
+
+  static async getLikeMusic({ user_id }) {
+    const LikeInfo = await Like.findByUserId({ user_id });
+    if (!LikeInfo) {
+      const errorMessage = "user_id에 대한 likeInfo가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+
+    const LikeMusics = LikeInfo.musics;
+
+    return LikeMusics;
+  }
+
+  static async getLike({ user_id }) {
+    const LikeInfo = await Like.findByUserId({ user_id });
+    if (!LikeInfo) {
+      const errorMessage = "user_id에 대한 likeInfo가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+
+    return LikeInfo;
   }
 }
 
