@@ -35,7 +35,7 @@ const ExerciseSection = ({
 
   const getExercise = useCallback(async (value) => {
     console.log(value);
-    const res = await get(`exercise/category/exerciselist/${value}`);
+    const res = await get(`exercise/exerciselist/${value}`);
     setExerciseOptions(res.data);
   }, []);
 
