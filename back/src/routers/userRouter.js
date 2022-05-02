@@ -28,7 +28,7 @@ userAuthRouter.post(
       const authEmail = await authEmailService.addAuthEmail({ email });
       if (authEmail) {
         //추후 authEmail이 존재하면 성공한 것이므로 status:true로 res.json을 내보낼 것
-        res.json(authEmail);
+        res.send("인증키가 해당이메일로 발송되었습니다.");
       } else {
         res.json({ status: false });
       }
