@@ -31,18 +31,24 @@ const StyledBack = styled.div`
 `;
 const BackImage = ({ music }) => {
   const [isLiked, setIsLiked] = useState(false);
-  const [likedMusics, setLikedMusics] = useState([]);
+  // const [likedMusics, setLikedMusics] = useState([]);
+
   useEffect(async () => {
-    const { musics } = await Api.get("like/music");
-    setLikedMusics([...musics]);
+    try {
+      const res = await Api.get("like/music");
+      const likedMusics = res.data;
+      // setLikedMusics([...likedMusics]);
 
-    const isExistMusic = musics.findIndex(
-      (currentMusic) => currentMusic === music.title
-    );
+      const isExistMusic = likedMusics.findIndex(
+        (currentMusic) => currentMusic === music.title
+      );
 
-    if (isExistMusic !== -1) {
-      // 존재하는 곡일 때
-      setIsLiked(true);
+      if (isExistMusic !== -1) {
+        // 존재하는 곡일 때
+        setIsLiked(true);
+      }
+    } catch (err) {
+      console.error(err);
     }
   }, []);
 
@@ -54,8 +60,12 @@ const BackImage = ({ music }) => {
     //   await Api.put("like/music", {music});
     // }
 
-    await Api.put("like/music", { music });
-    setIsLiked(!isLiked);
+    try {
+      await Api.put("like/music", { music });
+      setIsLiked(!isLiked);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
