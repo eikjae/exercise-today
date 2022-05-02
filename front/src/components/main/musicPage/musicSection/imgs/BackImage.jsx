@@ -31,13 +31,17 @@ const StyledBack = styled.div`
   /* white-space: nowrap; */
   text-overflow: ellipsis;
 `;
-const BackImage = ({ music }) => {
+const BackImage = ({ music, closeModalFlip }) => {
   const [isLiked, setIsLiked] = useState(false);
   // const [likedMusics, setLikedMusics] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const userState = useContext(UserStateContext);
 
-  const handleCloseModal = () => setShowModal(false);
+  // Modal이 닫힐 경우 MusicImage도 filp을 진행
+  const handleCloseModal = () => {
+    setShowModal(false);
+    closeModalFlip();
+  };
 
   useEffect(async () => {
     try {

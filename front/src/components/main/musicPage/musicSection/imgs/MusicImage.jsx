@@ -17,7 +17,7 @@ const MusicImage = ({ music }) => {
       className={"card-container" + (filp ? " flipped" : "")}
     >
       <FrontImage src={music?.image_link} alt={music?.alt} />
-      <BackImage music={music} />
+      <BackImage music={music} closeModalFlip={filpFunc} />
     </StyledCardContainer>
   );
 };
