@@ -61,6 +61,7 @@ export default function PartExercisePage() {
 
   // 실제 운동 이미지
   const [exerciseImg, setExerciseImg] = useState(null);
+  const [exerciseName, setExerciseName] = useState("");
 
   // 클릭된 부분 확인용
   const [partClick, setPartClick] = useState("not-click");
@@ -153,6 +154,7 @@ export default function PartExercisePage() {
       );
       setExercise(selectedExercise);
       setExerciseImg(selectedExercise.gifUrl);
+      setExerciseName(selectedExercise.name);
       // GET 요청으로 이미 Like 됐는지 확인
       // res를 이용하여 setIsLiked()를 세팅
     } catch (err) {
@@ -182,7 +184,7 @@ export default function PartExercisePage() {
               onChange={handleChangeBodyPart}
             >
               {bodyPartList.map((bodyPart) => (
-                <MenuItem key={bodyPart} value={bodyPart}>
+                <MenuItem key={bodyPart} value={bodyPart || ""}>
                   {bodyPart}
                 </MenuItem>
               ))}
@@ -358,7 +360,7 @@ export default function PartExercisePage() {
             onChange={handleChangeEquipment}
           >
             {equipmentList.map((equipment) => (
-              <MenuItem key={equipment} value={equipment}>
+              <MenuItem key={equipment} value={equipment || ""}>
                 {equipment}
               </MenuItem>
             ))}
@@ -370,11 +372,11 @@ export default function PartExercisePage() {
           <ExerciseWrapper>
             <SelectExercise
               label="Exercise"
-              value={""}
+              value={exerciseName || ""}
               onChange={handleChangeExercise}
             >
               {exerciseList.map((exercise) => (
-                <MenuItem key={exercise.name} value={exercise.name}>
+                <MenuItem key={exercise.name} value={exercise.name || ""}>
                   {exercise.name}
                 </MenuItem>
               ))}
