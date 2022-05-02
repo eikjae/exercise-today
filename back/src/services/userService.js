@@ -92,14 +92,16 @@ class userAuthService {
     const id = user.id;
     const name = user.name;
     const description = user.description;
-
+    const height = user.height;
+    const weight = user.weight;
+    const imageLink = user.imageLink;
     const loginUser = {
       token,
       id,
       email,
       name,
       height,
-
+      weight,
       description,
       imageLink,
     };
