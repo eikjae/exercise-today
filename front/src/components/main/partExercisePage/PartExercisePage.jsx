@@ -157,6 +157,15 @@ export default function PartExercisePage() {
       setExerciseName(selectedExercise.name);
       // GET 요청으로 이미 Like 됐는지 확인
       // res를 이용하여 setIsLiked()를 세팅
+      const res = await Api.get("like/exercise");
+      const likedExercises = res.data;
+      const isExistExercise = likedExercises.findIndex(
+        (currentExercise) => currentExercise === selectedExercise
+      );
+      if (isExistExercise !== -1) {
+        // 있으면 true
+        setIsLiked(true);
+      }
     } catch (err) {
       console.error(err);
     }
