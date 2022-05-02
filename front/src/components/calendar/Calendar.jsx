@@ -6,7 +6,6 @@ import "./Calendar.css";
 import { StyledCalendarLayout, StyledCalenderWrapper } from "./Calendar.style";
 
 const Calendar = ({ data, handleSetDate, setStrDate }) => {
-  console.log(data);
   return (
     <StyledCalenderWrapper>
       <FullCalendar
@@ -18,6 +17,8 @@ const Calendar = ({ data, handleSetDate, setStrDate }) => {
         editable={true}
         dayMaxEvents={true}
         selectable={true}
+        // 캘린더 안의 일정 요소들 편집 불가
+        eventStartEditable={false}
         events={data}
         dateClick={(info) => {
           console.log("data click event!");

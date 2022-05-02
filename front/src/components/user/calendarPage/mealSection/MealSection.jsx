@@ -3,24 +3,24 @@ import {
   MealContainer,
   Image,
   MealInfoContainer,
-  StyledTotalCalrorie,
-  PWrapper,
   IconWrapper,
   StyeldAddCircleOutlineIcon,
   InputWrapper,
+  CountWrapper,
+  StyledTextField,
+  StyledButton,
+  MealWrapper,
 } from "./MealSection.style";
 import Autocomplete from "@mui/material/Autocomplete";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { get, post } from "../../../../api";
 
-const MealSection = ({ title, getTotalMealCalrorie, strDate }) => {
+const MealSection = ({ title, strDate, setFoodList, setMealCalrorie }) => {
   // 음식 리스트
   const [mealOptions, setMealOptions] = useState([]);
   // 선택한 음식
   const [meal, setMeal] = useState("");
   const [count, setCount] = useState(0);
-
-  const [totalMealCalrorie, setTotalMealCalrorie] = useState(0);
 
   // api
   const getFoods = useCallback(async () => {
@@ -42,10 +42,23 @@ const MealSection = ({ title, getTotalMealCalrorie, strDate }) => {
       // });
       // console.log(img.data);
 
-      setTotalMealCalrorie((current) => {
+      setFoodList((current) => {
+        const temp = [...current];
+        const find = temp.findIndex((ele) => ele.food === meal);
+        if (find < 0) {
+          temp.push({
+            food: meal,
+            count: Number(count),
+          });
+        } else {
+          temp[find].count += Number(count);
+        }
+
+        return temp;
+      });
+      setMealCalrorie((current) => {
         return current + res.data.calories;
       });
-      getTotalMealCalrorie(res.data.calories);
     } catch (e) {
       throw new Error(e);
     }
@@ -61,42 +74,44 @@ const MealSection = ({ title, getTotalMealCalrorie, strDate }) => {
 
   return (
     <MealContainer>
-      <Image />
-      <MealInfoContainer>
-        <h5>{title}</h5>
-        <InputWrapper>
-          <Autocomplete
-            disablePortal
-            id="food-combo-box"
-            sx={{ width: "100%" }}
-            renderInput={(params) => <TextField {...params} label="Food" />}
-            options={mealOptions}
-            size="small"
-            onChange={(e, value) => {
-              setMeal(value);
-            }}
-          />
-          <TextField
-            id="count-meal"
-            label="개수"
-            variant="outlined"
-            size="small"
-            type="number"
-            InputProps={{
-              inputProps: { min: 0 },
-            }}
-            onChange={(e) => {
-              setCount(e.target.value);
-            }}
-          />
-          <StyeldAddCircleOutlineIcon onClick={getTotalCal} />
-        </InputWrapper>
-        <IconWrapper></IconWrapper>
-        <PWrapper>
-          <StyledTotalCalrorie>총 칼로리</StyledTotalCalrorie>
-          <StyledTotalCalrorie>{`${totalMealCalrorie}kcal`}</StyledTotalCalrorie>
-        </PWrapper>
-      </MealInfoContainer>
+      <h5>{title}</h5>
+      <MealWrapper>
+        <Image />
+        <MealInfoContainer>
+          <InputWrapper>
+            <Autocomplete
+              disablePortal
+              id="food-combo-box"
+              sx={{ width: "100%" }}
+              renderInput={(params) => <TextField {...params} label="Food" />}
+              options={mealOptions}
+              size="small"
+              onChange={(e, value) => {
+                setMeal(value);
+              }}
+            />
+            <CountWrapper>
+              <StyledTextField
+                id="count-meal"
+                label="개수"
+                variant="outlined"
+                size="small"
+                type="number"
+                InputProps={{
+                  inputProps: { min: 0 },
+                }}
+                onChange={(e) => {
+                  setCount(e.target.value);
+                }}
+              />
+              <h4 style={{ marginBottom: "0" }}>개</h4>
+            </CountWrapper>
+            <StyledButton onClick={getTotalCal}>추가</StyledButton>
+            {/* <StyeldAddCircleOutlineIcon onClick={getTotalCal} /> */}
+          </InputWrapper>
+          <IconWrapper></IconWrapper>
+        </MealInfoContainer>
+      </MealWrapper>
     </MealContainer>
   );
 };

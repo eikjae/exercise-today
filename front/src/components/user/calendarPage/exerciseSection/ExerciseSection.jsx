@@ -8,11 +8,15 @@ import {
   ExerciseTotalWrapper,
   ExerciseTotal,
   AddCircleOutlineIcon,
+  StyledTextField,
+  StyledButton,
+  HourTextFieldWrapper,
 } from "./ExerciseSection.style";
 import { get, post } from "../../../../api";
 
 const ExerciseSection = ({
   weight,
+  setExerciseList,
   totalExerciseCalrorie,
   handleSetTotalExerciseCalrorie,
 }) => {
@@ -34,12 +38,30 @@ const ExerciseSection = ({
   }, []);
 
   const getTotalExerciseCalrorie = async () => {
-    const res = await post("exercise/calories", {
-      weight,
-      name: exercise,
-      time: hour,
-    });
-    handleSetTotalExerciseCalrorie(res.data);
+    try {
+      const res = await post("exercise/calories", {
+        weight,
+        name: exercise,
+        time: hour,
+      });
+      setExerciseList((current) => {
+        const temp = [...current];
+        const find = temp.findIndex((ele) => ele.exercise === exercise);
+        if (find < 0) {
+          temp.push({
+            exercise,
+            hour: Number(hour),
+          });
+        } else {
+          temp[find].hour += Number(hour);
+        }
+        return temp;
+      });
+
+      handleSetTotalExerciseCalrorie(res.data);
+    } catch (e) {
+      throw new Error(e);
+    }
   };
 
   useEffect(() => {
@@ -80,20 +102,24 @@ const ExerciseSection = ({
             }}
           />
         </ExerciseCategoriesWrapper>
-        <TextField
-          id="count-meal"
-          label="시간"
-          variant="outlined"
-          size="small"
-          type="number"
-          InputProps={{
-            inputProps: { min: 0 },
-          }}
-          onChange={(e) => {
-            setHour(e.target.value);
-          }}
-        />
-        <AddCircleOutlineIcon onClick={getTotalExerciseCalrorie} />
+        <HourTextFieldWrapper>
+          <StyledTextField
+            id="count-meal"
+            label="시간"
+            variant="outlined"
+            size="small"
+            type="number"
+            InputProps={{
+              inputProps: { min: 0 },
+            }}
+            onChange={(e) => {
+              setHour(e.target.value);
+            }}
+          />
+          <h4 style={{ marginBottom: "0" }}>시간</h4>
+        </HourTextFieldWrapper>
+        <StyledButton onClick={getTotalExerciseCalrorie}>추가</StyledButton>
+        {/* <AddCircleOutlineIcon onClick={getTotalExerciseCalrorie} /> */}
       </AutocompleteWrapper>
       <ExerciseCategoriesWrapper>
         <ExerciseTotalWrapper>

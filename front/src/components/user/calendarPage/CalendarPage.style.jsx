@@ -2,15 +2,14 @@ import styled from "styled-components";
 
 export const CalendarLayout = styled.div`
   display: flex;
+  justify-content: center;
 
-  width: 80vw;
-  min-width: 1400px;
+  width: 2000px;
   margin: auto;
   border: 1px solid green;
 `;
 
 export const CalendarBodyLayout = styled.div`
-  flex: 0.3;
   display: flex;
   flex-direction: column;
 
@@ -18,6 +17,8 @@ export const CalendarBodyLayout = styled.div`
   padding: 1rem;
 
   border: 1px solid blue;
+
+  width: 400px;
 `;
 
 export const TitleWrapper = styled.div`
@@ -55,3 +56,5 @@ export const TodayWeight = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
+export const StyledButton = styled.button``;

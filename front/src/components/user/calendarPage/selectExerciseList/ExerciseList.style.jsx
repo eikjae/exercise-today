@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const FoodListContainer = styled.article`
+export const ExerciseListContainer = styled.article`
   width: 100%;
   list-style: none;
 
@@ -18,14 +18,16 @@ export const ListWrapper = styled.div`
   align-items: center;
 `;
 
-export const IconWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.4rem;
+export const H6 = styled.h6`
+  margin-bottom: 0;
 `;
 
-export const H5 = styled.h5`
-  margin-bottom: 0;
+export const IconWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 0.4rem;
 `;
 
 export const TotalWrapper = styled.div`
