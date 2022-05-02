@@ -1,28 +1,50 @@
+const d = new Date();
+const year = d.getFullYear(); // 년
+const month = d.getMonth(); // 월
+const day = d.getDate(); // 일
+
+function rewrite(whenDate) {
+  const year = whenDate.getFullYear();
+  const month = whenDate.getMonth() + 1;
+  const date = whenDate.getDate();
+
+  return `${year}-${month >= 10 ? month : "0" + month}-${
+    date >= 10 ? date : "0" + date
+  }`;
+}
+
+// 오늘 날짜 구하기
 export function todayDate() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = ("0" + (today.getMonth() + 1)).slice(-2);
-  const date = ("0" + today.getDate()).slice(-2);
-  const whenDate = `${year}-${month}-${date}`;
-
-  return whenDate;
+  let whenDate = new Date(year, month, day);
+  return rewrite(whenDate);
 }
 
-export function getDateStr(myDate) {
-  let year = myDate.getFullYear();
-  let month = myDate.getMonth() + 1;
-  let day = myDate.getDate();
-
-  month = month < 10 ? "0" + String(month) : month;
-  day = day < 10 ? "0" + String(day) : day;
-
-  return year + "-" + month + "-" + day;
-}
-
+// 일주일 전 구하기
 export function lastWeek() {
-  let d = new Date();
-  let dayOfMonth = d.getDate();
-  d.setDate(dayOfMonth - 7);
+  let whenDate = new Date(year, month, day - 7);
+  return rewrite(whenDate);
+}
 
-  return getDateStr(d);
+// 1개월 전 구하기
+export function lastMonth() {
+  let whenDate = new Date(year, month - 1, day);
+  return rewrite(whenDate);
+}
+
+// 3개월 전 구하기
+export function lastThreeMonth() {
+  let whenDate = new Date(year, month - 3, day);
+  return rewrite(whenDate);
+}
+
+// 6개월 전 구하기
+export function lastSixMonth() {
+  let whenDate = new Date(year, month - 6, day);
+  return rewrite(whenDate);
+}
+
+// 1년 전 구하기
+export function getDateStr() {
+  let whenDate = new Date(year - 1, month, day);
+  return rewrite(whenDate);
 }
