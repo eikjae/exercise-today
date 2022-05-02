@@ -1,5 +1,5 @@
 import { AttendanceModel } from "../schemas/attendance";
-import { todayDate, lastWeek } from "../../utils/date-calculator.js";
+import { todayDate, lastWeek, lastMonth } from "../../utils/date-calculator.js";
 
 export class MyPage {
   static async findByUserId({ userId }) {
@@ -20,6 +20,20 @@ export class MyPage {
       },
       "whenDate weight"
     );
+    return attendance;
+  }
+
+  static async findByUserIdMonth({ userId }) {
+    const attendance = await AttendanceModel.find(
+      {
+        $and: [
+          { userId },
+          { whenDate: { $gte: lastMonth(), $lte: todayDate() } },
+        ],
+      },
+      "whenDate weight"
+    );
+    console.log("lastMonth:", lastMonth());
     return attendance;
   }
 }
