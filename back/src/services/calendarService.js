@@ -8,6 +8,11 @@ class calendarService {
       throw new Error(errorMessage);
     }
 
+    if (calorieArray.length !== 4) {
+      const errorMessage = "calorieArray 길이를 확인해주세요.";
+      throw new Error(errorMessage);
+    }
+
     const itemId = uuidv4();
 
     const titleList = ["아침  +", "점심  +", "저녁  +", "운동  -"];
@@ -120,93 +125,96 @@ class calendarService {
       const errorMessage = "whenDate, itemArray를 모두 입력해주세요";
       throw new Error(errorMessage);
     }
-    console.log("diet", itemArray.diet);
-    console.log("workout", itemArray.workout);
 
-    if (itemArray.diet) {
-      for (const { type, category, volume } of itemArray.diet) {
-        console.log("type:", type);
-        console.log("category:", category);
-        console.log("volume:", volume);
-        if (!type || !category || !volume) {
-          const errorMessage = "type, category, volume을 모두 입력해주세요";
-          throw new Error(errorMessage);
-        }
+    if (!itemArray.diet) {
+      const errorMessage = "itemArray에 diet값을 입력해주세요";
+      throw new Error(errorMessage);
+    }
 
-        const typeList = ["breakfast", "lunch", "dinner"];
+    if (!itemArray.workout) {
+      const errorMessage = "itemArray에 workout값을 입력해주세요";
+      throw new Error(errorMessage);
+    }
 
-        if (!typeList.includes(type)) {
-          const errorMessage = "breakfast, lunch, dinner 중에서만 입력해주세요";
-          throw new Error(errorMessage);
-        }
+    for (const { type, category, volume } of itemArray.diet) {
+      if (!type || !category || !volume) {
+        const errorMessage = "type, category, volume을 모두 입력해주세요";
+        throw new Error(errorMessage);
+      }
 
-        const categoryList = [
-          "견과류",
-          "치즈",
-          "잼/버터",
-          "케이크류",
-          "면류",
-          "빵류",
-          "육류",
-          "유제품",
-          "채소",
-          "콩류",
-          "주류",
-          "해산물",
-          "과일",
-          "스프",
-          "사탕",
-          "패스트푸드",
-          "음료(알코올x)",
-          "시리얼",
-          "아이스크림",
-          "감자류",
-        ];
+      const typeList = ["breakfast", "lunch", "dinner"];
 
-        if (!categoryList.includes(category)) {
-          const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
-          throw new Error(errorMessage);
-        }
+      if (!typeList.includes(type)) {
+        const errorMessage = "breakfast, lunch, dinner 중에서만 입력해주세요";
+        throw new Error(errorMessage);
+      }
 
-        const itemId = uuidv4();
-        const newItem = { itemId, userId, whenDate, type, category, volume };
+      const categoryList = [
+        "견과류",
+        "치즈",
+        "잼/버터",
+        "케이크류",
+        "면류",
+        "빵류",
+        "육류",
+        "유제품",
+        "채소",
+        "콩류",
+        "주류",
+        "해산물",
+        "과일",
+        "스프",
+        "사탕",
+        "패스트푸드",
+        "음료(알코올x)",
+        "시리얼",
+        "아이스크림",
+        "감자류",
+      ];
 
-        await Diet.create({ newItem });
+      if (!categoryList.includes(category)) {
+        const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
+        throw new Error(errorMessage);
       }
     }
 
-    if (itemArray.workout) {
-      for (const { category, name, time } of itemArray.workout) {
-        if (!category || !name || !time) {
-          const errorMessage = "category, name, time을 모두 입력해주세요";
-          throw new Error(errorMessage);
-        }
-
-        const categoryList = [
-          "유산소",
-          "무산소",
-          "구기",
-          "라켓",
-          "육상",
-          "수상",
-          "댄스",
-          "사이클",
-          "양궁",
-          "복싱",
-          "격투",
-          "기타",
-        ];
-
-        if (!categoryList.includes(category)) {
-          const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
-          throw new Error(errorMessage);
-        }
-
-        const itemId = uuidv4();
-        const newItem = { itemId, userId, whenDate, category, name, time };
-
-        await Workout.create({ newItem });
+    for (const { category, name, time } of itemArray.workout) {
+      if (!category || !name || !time) {
+        const errorMessage = "category, name, time을 모두 입력해주세요";
+        throw new Error(errorMessage);
       }
+
+      const categoryList = [
+        "유산소",
+        "무산소",
+        "구기",
+        "라켓",
+        "육상",
+        "수상",
+        "댄스",
+        "사이클",
+        "양궁",
+        "복싱",
+        "격투",
+        "기타",
+      ];
+
+      if (!categoryList.includes(category)) {
+        const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
+        throw new Error(errorMessage);
+      }
+    }
+
+    await Diet.deleteByDate({ userId, whenDate });
+    for (const { type, category, volume } of itemArray.diet) {
+      const newItem = { userId, whenDate, type, category, volume };
+      await Diet.create({ newItem });
+    }
+
+    await Workout.deleteByDate({ userId, whenDate });
+    for (const { category, name, time } of itemArray.workout) {
+      const newItem = { userId, whenDate, category, name, time };
+      await Workout.create({ newItem });
     }
   }
 
