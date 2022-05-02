@@ -7,5 +7,12 @@ class myPageService {
     });
     return attendance;
   }
+
+  static async getWeightWeek({ userId }) {
+    const attendance = await MyPage.findByUserIdWeek({
+      userId,
+    });
+    return attendance;
+  }
 }
 export { myPageService };
