@@ -90,7 +90,6 @@ calendarRouter.delete(
   async function (req, res, next) {
     try {
       const { itemId } = req.params;
-      console.log(itemId);
       await calendarService.deleteCalories({ itemId });
 
       res.status(200).end();

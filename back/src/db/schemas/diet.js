@@ -2,11 +2,6 @@ import { Schema, model } from "mongoose";
 
 const DietSchema = new Schema(
   {
-    itemId: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     userId: {
       type: String,
       required: true,
