@@ -5,14 +5,14 @@ import { calendarService } from "../services/calendarService";
 const calendarRouter = Router();
 
 calendarRouter.post(
-  "/calendar",
+  "/calendar/calories",
   login_required,
   async function (req, res, next) {
     try {
       const userId = req.currentUserId;
       const { whenDate, calorieArray } = req.body;
 
-      const newItem = await calendarService.addItem({
+      const newItem = await calendarService.addCalories({
         userId,
         whenDate,
         calorieArray,
@@ -26,13 +26,13 @@ calendarRouter.post(
 );
 
 calendarRouter.get(
-  "/calendar/calories/date",
+  "/calendar/calories/:whenDate",
   login_required,
   async function (req, res, next) {
     try {
       const userId = req.currentUserId;
-      const { whenDate } = req.body;
-      const foundList = await calendarService.getCalories({
+      const { whenDate } = req.params;
+      const foundList = await calendarService.getCaloriesByDate({
         userId,
         whenDate,
       });
@@ -45,15 +45,15 @@ calendarRouter.get(
 );
 
 calendarRouter.get(
-  "/calendar/items/date",
+  "/calendar/calorieslist/:whenMonth",
   login_required,
   async function (req, res, next) {
     try {
       const userId = req.currentUserId;
-      const { whenDate } = req.body;
-      const foundList = await calendarService.getItemList({
+      const { whenMonth } = req.params;
+      const foundList = await calendarService.getCaloriesByMonth({
         userId,
-        whenDate,
+        whenMonth,
       });
 
       res.status(200).send(foundList);
@@ -64,14 +64,14 @@ calendarRouter.get(
 );
 
 calendarRouter.put(
-  "/calendar",
+  "/calendar/calories",
   login_required,
   async function (req, res, next) {
     try {
       const userId = req.currentUserId;
       const { whenDate, calorieArray } = req.body;
 
-      const updatedItem = await calendarService.setItem({
+      const updatedItem = await calendarService.setCalories({
         userId,
         whenDate,
         calorieArray,
@@ -85,12 +85,13 @@ calendarRouter.put(
 );
 
 calendarRouter.delete(
-  "/calendar/:itemId",
+  "/calendar/calories/:itemId",
   login_required,
   async function (req, res, next) {
     try {
       const { itemId } = req.params;
-      await calendarService.deleteItem({ itemId });
+      console.log(itemId);
+      await calendarService.deleteCalories({ itemId });
 
       res.status(200).end();
     } catch (error) {
@@ -100,14 +101,54 @@ calendarRouter.delete(
 );
 
 calendarRouter.delete(
+  "/calendar/calories",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      await calendarService.deleteCaloriesList({ userId });
+
+      res.status(200).end();
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+calendarRouter.post(
   "/calendar/items",
   login_required,
   async function (req, res, next) {
     try {
       const userId = req.currentUserId;
-      await calendarService.deleteItemList({ userId });
+      const { whenDate, itemArray } = req.body;
 
-      res.status(200).end();
+      const newItem = await calendarService.addItemList({
+        userId,
+        whenDate,
+        itemArray,
+      });
+
+      res.status(201).send(newItem);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+calendarRouter.get(
+  "/calendar/items/:whenDate",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const { whenDate } = req.params;
+      const foundList = await calendarService.getItemList({
+        userId,
+        whenDate,
+      });
+
+      res.status(200).send(foundList);
     } catch (error) {
       next(error);
     }
