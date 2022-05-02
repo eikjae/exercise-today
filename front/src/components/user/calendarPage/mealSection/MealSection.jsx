@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   MealContainer,
-  Image,
   MealInfoContainer,
   IconWrapper,
-  StyeldAddCircleOutlineIcon,
   InputWrapper,
   CountWrapper,
   StyledTextField,
@@ -12,22 +10,22 @@ import {
   MealWrapper,
 } from "./MealSection.style";
 import Autocomplete from "@mui/material/Autocomplete";
-import { Button, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { get, post, postImage } from "../../../../api";
-import axios from "axios";
 
 const MealSection = ({
   title,
   type,
   strDate,
   imgUrl,
+  setUrl,
   setFoodList,
   setMealCalrorie,
 }) => {
   // 음식 리스트
   const [mealOptions, setMealOptions] = useState([]);
   // 선택한 음식
-  const [meal, setMeal] = useState("");
+  const [meal, setMeal] = useState(null);
   const [count, setCount] = useState(0);
 
   // api
@@ -38,6 +36,8 @@ const MealSection = ({
 
   const getTotalCal = async () => {
     if (count === 0) return;
+    setMeal(null);
+    setCount(0);
     try {
       const res = await post("foods/calories", [
         {
@@ -53,7 +53,7 @@ const MealSection = ({
 
       setFoodList((current) => {
         const temp = [...current];
-        const find = temp.findIndex((ele) => ele.food === meal);
+        const find = temp.findIndex((ele) => ele.category === meal);
         if (find < 0) {
           temp.push({
             type,
@@ -83,7 +83,6 @@ const MealSection = ({
   }, []);
 
   const [image, setImage] = useState(null);
-  const [imageSrc, setImageSrc] = useState(null);
   return (
     <MealContainer>
       <h5>{title}</h5>
@@ -105,7 +104,7 @@ const MealSection = ({
                 e.preventDefault();
                 const formData = new FormData();
                 formData.append("whenDate", strDate);
-                formData.append("type", "dinner");
+                formData.append("type", type);
                 formData.append("dietImg", image);
                 try {
                   const res = await postImage("dietimage", formData);
@@ -113,7 +112,8 @@ const MealSection = ({
                   //   whenDate: strDate,
                   //   tpye: "dinner",
                   // });
-                  setImageSrc(res.data.imgurl);
+                  console.log(res);
+                  setUrl(res.data.imgurl);
                 } catch (e) {
                   throw new Error(e);
                 }
@@ -163,6 +163,7 @@ const MealSection = ({
               renderInput={(params) => <TextField {...params} label="Food" />}
               options={mealOptions}
               size="small"
+              value={meal}
               onChange={(e, value) => {
                 setMeal(value);
               }}
@@ -174,6 +175,7 @@ const MealSection = ({
                 variant="outlined"
                 size="small"
                 type="number"
+                value={count}
                 InputProps={{
                   inputProps: { min: 0 },
                 }}

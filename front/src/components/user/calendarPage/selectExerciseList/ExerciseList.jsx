@@ -28,7 +28,7 @@ const ExerciseList = ({
               <ListWrapper>
                 <H6>{e.name}</H6>
                 <IconWrapper>
-                  <H6 style={{ marginRight: "0.5rem" }}>{e.hour}시간</H6>
+                  <H6 style={{ marginRight: "0.5rem" }}>{e.time}시간</H6>
                   <AddIcon
                     style={{ cursor: "pointer" }}
                     onClick={async () => {

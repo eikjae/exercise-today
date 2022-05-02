@@ -24,8 +24,8 @@ const ExerciseSection = ({
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [exerciseOptions, setExerciseOptions] = useState([]);
 
-  const [exerciseCategory, setExerciseCategory] = useState("");
-  const [exercise, setExercise] = useState("");
+  const [exerciseCategory, setExerciseCategory] = useState(null);
+  const [exercise, setExercise] = useState(null);
   const [hour, setHour] = useState(0);
 
   const getCategory = useCallback(async () => {
@@ -40,6 +40,9 @@ const ExerciseSection = ({
   }, []);
 
   const getTotalExerciseCalrorie = async () => {
+    if (hour === 0) return;
+    setExerciseCategory(null);
+    setExercise(null);
     try {
       const res = await post("exercise/calories", {
         weight,
@@ -48,7 +51,7 @@ const ExerciseSection = ({
       });
       setExerciseList((current) => {
         const temp = [...current];
-        const find = temp.findIndex((ele) => ele.exercise === exercise);
+        const find = temp.findIndex((ele) => ele.name === exercise);
         if (find < 0) {
           temp.push({
             category: exerciseCategory,
@@ -83,6 +86,7 @@ const ExerciseSection = ({
           <Autocomplete
             disablePortal
             id="category-combo-box"
+            value={exerciseCategory}
             sx={{ width: "90%" }}
             renderInput={(params) => <TextField {...params} label="카테고리" />}
             options={categoryOptions}
@@ -97,6 +101,7 @@ const ExerciseSection = ({
           <Autocomplete
             disablePortal
             id="exercise-combo-box"
+            value={exercise}
             sx={{ width: "90%" }}
             renderInput={(params) => <TextField {...params} label="운동" />}
             options={exerciseOptions}

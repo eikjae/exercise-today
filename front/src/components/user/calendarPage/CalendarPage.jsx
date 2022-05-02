@@ -14,9 +14,11 @@ import ExerciseSection from "./exerciseSection/ExerciseSection";
 import MealSection from "./mealSection/MealSection";
 import ExerciseList from "./selectExerciseList/ExerciseList";
 import TotalSection from "./totalSection/TotalSection";
+import dayjs from "dayjs";
 
 const CalendarPage = (props) => {
   const newDate = new Date();
+  const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
   const [date, setDate] = useState("");
   const [strDate, setStrDate] = useState("");
   const [weight, setWeight] = useState(80);
@@ -39,16 +41,17 @@ const CalendarPage = (props) => {
   // 캘린더 데이터
   const [calendarData, setCalendarData] = useState([]);
 
-  const handleSetDate = (date) => {
-    setDate(date);
+  const handleSetDate = (month, today, day) => {
+    day = dayOfWeek[day];
+    setDate(`${month}월 ${today}일 ${day}`);
   };
 
   const getTodayDate = () => {
-    const day = newDate.toString().split(" ")[0];
-    setStrDate(newDate.toISOString().split("T")[0]);
-    const today = newDate.toISOString().split("T")[0].split("-");
-    const month = today[1].replace("0", "");
-    handleSetDate(`${month}월 ${today[2]}일 ${day}`);
+    setStrDate(dayjs(newDate).format("YYYY-MM-DD"));
+    const month = dayjs(newDate).format("M");
+    const today = dayjs(newDate).date();
+    const day = dayOfWeek[dayjs(newDate).day()];
+    setDate(`${month}월 ${today}일 ${day}`);
   };
 
   const handleSetTotalExerciseCalrorie = (cal) => {
@@ -57,18 +60,104 @@ const CalendarPage = (props) => {
     });
   };
 
+  const setChangeListWhenClick = (data) => {
+    // if (data.diet.length === 0) return;
+    console.log(data);
+    const newBreakfastList = data.diet.filter((d) => d.type === "breakfast");
+    const newLunchList = data.diet.filter((d) => d.type === "lunch");
+    const newDinnerList = data.diet.filter((d) => d.type === "dinner");
+
+    setBreakfastList([...newBreakfastList]);
+    setLunchList([...newLunchList]);
+    setDinnerList([...newDinnerList]);
+    setExerciseList([...data.workout]);
+  };
+
+  const setCalorieWhenClick = (data) => {
+    console.log(data.calories.length);
+    if (data.calories.length === 0) {
+      setBreakfastCalrorie(0);
+      setLunchCalrorie(0);
+      setDinnerCalrorie(0);
+      return;
+    }
+    setBreakfastCalrorie(Number(data.calories[0].title.split("+")[1]));
+    setLunchCalrorie(Number(data.calories[1].title.split("+")[1]));
+    setDinnerCalrorie(Number(data.calories[2].title.split("+")[1]));
+  };
+
+  const setImageUrlWhenClick = (data) => {
+    if (data.dietimage.length === 0) {
+      setBreakfastUrl(null);
+      setLunchUrl(null);
+      setDinnerUrl(null);
+    } else {
+      if (data.dietimage[0]) {
+        setBreakfastUrl(data.dietimage[0].imgurl);
+      } else {
+        setBreakfastUrl(null);
+      }
+      if (data.dietimage[1]) {
+        setLunchUrl(data.dietimage[1].imgurl);
+      } else {
+        setLunchUrl(null);
+      }
+      if (data.dietimage[2]) {
+        setDinnerUrl(data.dietimage[2].imgurl);
+      } else {
+        setDinnerUrl(null);
+      }
+    }
+  };
+
+  const handleOnClickCalendar = async (clickDate) => {
+    try {
+      const res = await get(`calendar/items/${clickDate}`);
+      setImageUrlWhenClick(res.data);
+      setChangeListWhenClick(res.data);
+      console.log("여기까지 됨");
+      const res2 = await get(`calendar/calories/${clickDate}`);
+      console.log(res2);
+      setCalorieWhenClick(res2.data);
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
   const postDateData = async () => {
-    await post("calendar/items", {
-      whenDate: strDate,
-      itemArray: {
-        diet: [...breakfastList, ...lunchList, ...dinnerList],
-        workout: [...exerciseList],
-      },
-    });
+    try {
+      await post("calendar/items", {
+        whenDate: strDate,
+        itemArray: {
+          diet: [...breakfastList, ...lunchList, ...dinnerList],
+          workout: [...exerciseList],
+        },
+      });
+      await post("calendar/calories", {
+        whenDate: strDate,
+        calorieArray: [
+          breakfastCalrorie,
+          lunchCalrorie,
+          dinnerCalrorie,
+          totalExerciseCalrorie,
+        ],
+      });
+      const res = await get(
+        `calendar/calorieslist/${dayjs(strDate).format("YYYY-MM")}`
+      );
+      setCalendarData(res.data);
+      console.log(res.data);
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  const getImage = async () => {
     const res = await get(
-      `calendar/calorieslist/${newDate.toISOString().split("T")[0]}`
+      `calendar/items/${dayjs(newDate).format("YYYY-MM-DD")}`
     );
-    setCalendarData(res.data);
+
+    setImageUrlWhenClick(res.data);
   };
 
   // 오늘자 날짜 저장하기
@@ -79,14 +168,6 @@ const CalendarPage = (props) => {
   // 이미지 받아오기
   useEffect(() => {
     try {
-      const getImage = async () => {
-        const res = await get(
-          `calendar/items/${newDate.toISOString().split("T")[0]}`
-        );
-        setBreakfastUrl(res.data.dietimage[0].imgurl);
-        setLunchUrl(res.data.dietimage[1].imgurl);
-        setDinnerUrl(res.data.dietimage[2].imgurl);
-      };
       getImage();
     } catch (e) {
       throw new Error(e);
@@ -98,12 +179,28 @@ const CalendarPage = (props) => {
     try {
       const getMonthData = async () => {
         const res = await get(
-          `calendar/calorieslist/${newDate.toISOString().split("T")[0]}`
+          `calendar/calorieslist/${dayjs(newDate).format("YYYY-MM")}`
         );
-        console.log(res);
         setCalendarData(res.data);
       };
+
       getMonthData();
+    } catch (e) {
+      throw new Error(e);
+    }
+  }, []);
+  //오늘자 리스트 정보
+  useEffect(() => {
+    try {
+      const getCalendarItems = async () => {
+        const res = await get(
+          `calendar/items/${dayjs(newDate).format("YYYY-MM-DD")}`
+        );
+
+        setChangeListWhenClick(res.data);
+      };
+
+      getCalendarItems();
     } catch (e) {
       throw new Error(e);
     }
@@ -115,6 +212,7 @@ const CalendarPage = (props) => {
         data={calendarData}
         handleSetDate={handleSetDate}
         setStrDate={setStrDate}
+        handleOnClickCalendar={handleOnClickCalendar}
       />
       <CalendarBodyLayout>
         <TitleWrapper>
@@ -132,6 +230,7 @@ const CalendarPage = (props) => {
             type={"breakfast"}
             strDate={strDate}
             imgUrl={breakfastUrl}
+            setUrl={setBreakfastUrl}
             setFoodList={setBreakfastList}
             setMealCalrorie={setBreakfastCalrorie}
           />
@@ -148,6 +247,7 @@ const CalendarPage = (props) => {
             type={"lunch"}
             strDate={strDate}
             imgUrl={lunchUrl}
+            setUrl={setLunchUrl}
             setFoodList={setLunchList}
             setMealCalrorie={setLunchCalrorie}
           />
@@ -164,6 +264,7 @@ const CalendarPage = (props) => {
             type={"dinner"}
             strDate={strDate}
             imgUrl={dinnerUrl}
+            setUrl={setDinnerUrl}
             setFoodList={setDinnerList}
             setMealCalrorie={setDinnerCalrorie}
           />
