@@ -161,12 +161,16 @@ export default function PartExercisePage() {
       // res를 이용하여 setIsLiked()를 세팅
       const res = await Api.get("like/exercise");
       const likedExercises = res.data;
+      console.log(res.data);
+      console.log(selectedExercise);
       const isExistExercise = likedExercises.findIndex(
         (currentExercise) => currentExercise === selectedExercise
       );
       if (isExistExercise !== -1) {
         // 있으면 true
         setIsLiked(true);
+      } else {
+        setIsLiked(false);
       }
     } catch (err) {
       console.error(err);
@@ -180,8 +184,8 @@ export default function PartExercisePage() {
       setShowModal(true);
       return;
     }
-    // await Api.put("like/exercise", exercise);
-    // setIsLiked(true);
+    await Api.put("like/exercise", { exercise });
+    setIsLiked((prev) => !prev);
   };
 
   return (
