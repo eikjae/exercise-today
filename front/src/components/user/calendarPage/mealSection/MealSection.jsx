@@ -14,6 +14,7 @@ import {
 import Autocomplete from "@mui/material/Autocomplete";
 import { Button, TextField } from "@mui/material";
 import { get, post } from "../../../../api";
+import axios from "axios";
 
 const MealSection = ({ title, strDate, setFoodList, setMealCalrorie }) => {
   // 음식 리스트
@@ -72,11 +73,66 @@ const MealSection = ({ title, strDate, setFoodList, setMealCalrorie }) => {
     }
   }, []);
 
+  const [image, setImage] = useState(null);
   return (
     <MealContainer>
       <h5>{title}</h5>
       <MealWrapper>
-        <Image />
+        <div
+          style={{
+            width: "90px",
+            height: "90px",
+            border: "1px solid black",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {/* action="dietimage" method="post" */}
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const forData = new FormData();
+              forData.append("setImage", setImage);
+              try {
+                const res = await axios({
+                  method: "post",
+                  url: "dietimage",
+                  data: FormData,
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${sessionStorage.getItem(
+                      "userToken"
+                    )}`,
+                  },
+                });
+              } catch (e) {
+                throw new Error(e);
+              }
+            }}
+          >
+            <label>
+              <input
+                type="file"
+                style={{ position: "relative", left: "40px", display: "none" }}
+                accept="image/*"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+              <div
+                style={{
+                  display: "inline",
+                }}
+              >
+                이미지 <br />
+                업로드
+              </div>
+            </label>
+            <div>
+              <input type="submit" />
+            </div>
+          </form>
+        </div>
+        {/* <Image /> */}
         <MealInfoContainer>
           <InputWrapper>
             <Autocomplete
