@@ -91,10 +91,10 @@ exerciseRouter.get("/exercise/categorylist", async function (req, res, next) {
 });
 
 exerciseRouter.get(
-  "/exercise/category/exerciselist",
+  "/exercise/exerciselist/:category",
   async function (req, res, next) {
     try {
-      const category = req.body.category;
+      const category = req.params.category;
 
       const exerciseList = await exerciseService.exerciseList({
         category,
