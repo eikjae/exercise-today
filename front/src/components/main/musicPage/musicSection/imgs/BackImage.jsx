@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import "./style.css";
 import BackImageLike from "./BackImageLike";
 import * as Api from "../../../../../api";
+import { UserStateContext } from "../../../../../App";
+import NotLoginedModal from "../../../errorSection/NotLoginedModal";
 
 const StyledBack = styled.div`
   box-sizing: border-box;
@@ -32,6 +34,10 @@ const StyledBack = styled.div`
 const BackImage = ({ music }) => {
   const [isLiked, setIsLiked] = useState(false);
   // const [likedMusics, setLikedMusics] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const userState = useContext(UserStateContext);
+
+  const handleCloseModal = () => setShowModal(false);
 
   useEffect(async () => {
     try {
@@ -59,8 +65,11 @@ const BackImage = ({ music }) => {
     // } else {
     //   await Api.put("like/music", {music});
     // }
-
     try {
+      if (!userState.user) {
+        setShowModal(true);
+        return;
+      }
       await Api.put("like/music", { music });
       setIsLiked(!isLiked);
     } catch (err) {
@@ -69,14 +78,17 @@ const BackImage = ({ music }) => {
   };
 
   return (
-    <StyledBack className="back">
-      <h5>Title</h5>
-      <p>{music?.title}</p>
-      <h5>Artists</h5>
-      <p>{music?.artists}</p>
-      <h5>{music?.year}</h5>
-      <BackImageLike isLiked={isLiked} onClick={handleClick} />
-    </StyledBack>
+    <>
+      <StyledBack className="back">
+        <h5>Title</h5>
+        <p>{music?.title}</p>
+        <h5>Artists</h5>
+        <p>{music?.artists}</p>
+        <h5>{music?.year}</h5>
+        <BackImageLike isLiked={isLiked} onClick={handleClick} />
+      </StyledBack>
+      <NotLoginedModal showModal={showModal} closeModal={handleCloseModal} />
+    </>
   );
 };
 

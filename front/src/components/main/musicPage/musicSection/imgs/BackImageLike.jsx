@@ -6,10 +6,12 @@ import {
   LikeIcon,
 } from "./BackImageLike.style";
 
-export default function BackImageLike({ isLiked }) {
+export default function BackImageLike({ isLiked, onClick }) {
   return (
     <LikeWrapper>
-      <LikeButton>{isLiked ? <LikeIcon /> : <NotLikeIcon />}</LikeButton>
+      <LikeButton onClick={onClick}>
+        {isLiked ? <LikeIcon /> : <NotLikeIcon />}
+      </LikeButton>
     </LikeWrapper>
   );
 }
