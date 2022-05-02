@@ -12,6 +12,7 @@ import { post } from "../../../../api";
 
 const EatFoodList = ({
   title,
+  type,
   foodList,
   totalCalrorie,
   setMealCalrorie,
@@ -25,16 +26,16 @@ const EatFoodList = ({
           return (
             <li key={index}>
               <ListWrapper>
-                <H5>{f.food}</H5>
+                <H5>{f.category}</H5>
                 <IconWrapper>
-                  <H5 style={{ marginRight: "0.5rem" }}>{f.count}개</H5>
+                  <H5 style={{ marginRight: "0.5rem" }}>{f.volume}개</H5>
                   <AddIcon
                     style={{ cursor: "pointer" }}
                     onClick={async () => {
                       try {
                         const res = await post("foods/calories", [
                           {
-                            category: f.food,
+                            category: f.category,
                             volume: 1,
                           },
                         ]);
@@ -42,7 +43,7 @@ const EatFoodList = ({
                           return current + res.data.calories;
                         });
                         const temp = [...foodList];
-                        temp[index].count += 1;
+                        temp[index].volume += 1;
                         setFoodList([...temp]);
                       } catch (e) {
                         throw new Error(e);
@@ -55,7 +56,7 @@ const EatFoodList = ({
                       try {
                         const res = await post("foods/calories", [
                           {
-                            category: f.food,
+                            category: f.category,
                             volume: 1,
                           },
                         ]);
@@ -63,12 +64,12 @@ const EatFoodList = ({
                           return current - res.data.calories;
                         });
                         const temp = [...foodList];
-                        if (f.count === 1) {
+                        if (f.volume === 1) {
                           temp.splice(index, 1);
                           setFoodList([...temp]);
                           return;
                         }
-                        temp[index].count -= 1;
+                        temp[index].volume -= 1;
                         setFoodList([...temp]);
                       } catch (e) {
                         throw new Error(e);

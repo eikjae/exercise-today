@@ -24,6 +24,7 @@ const ExerciseSection = ({
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [exerciseOptions, setExerciseOptions] = useState([]);
 
+  const [exerciseCategory, setExerciseCategory] = useState("");
   const [exercise, setExercise] = useState("");
   const [hour, setHour] = useState(0);
 
@@ -33,6 +34,7 @@ const ExerciseSection = ({
   }, []);
 
   const getExercise = useCallback(async (value) => {
+    console.log(value);
     const res = await get(`exercise/category/exerciselist/${value}`);
     setExerciseOptions(res.data);
   }, []);
@@ -49,11 +51,12 @@ const ExerciseSection = ({
         const find = temp.findIndex((ele) => ele.exercise === exercise);
         if (find < 0) {
           temp.push({
-            exercise,
-            hour: Number(hour),
+            category: exerciseCategory,
+            name: exercise,
+            time: Number(hour),
           });
         } else {
-          temp[find].hour += Number(hour);
+          temp[find].time += Number(hour);
         }
         return temp;
       });
@@ -86,6 +89,7 @@ const ExerciseSection = ({
             size="small"
             onChange={(e, value) => {
               getExercise(value);
+              setExerciseCategory(value);
             }}
           />
         </ExerciseCategoriesWrapper>

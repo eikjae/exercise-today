@@ -13,10 +13,17 @@ import {
 } from "./MealSection.style";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Button, TextField } from "@mui/material";
-import { get, post } from "../../../../api";
+import { get, post, postImage } from "../../../../api";
 import axios from "axios";
 
-const MealSection = ({ title, strDate, setFoodList, setMealCalrorie }) => {
+const MealSection = ({
+  title,
+  type,
+  strDate,
+  imgUrl,
+  setFoodList,
+  setMealCalrorie,
+}) => {
   // 음식 리스트
   const [mealOptions, setMealOptions] = useState([]);
   // 선택한 음식
@@ -30,6 +37,7 @@ const MealSection = ({ title, strDate, setFoodList, setMealCalrorie }) => {
   }, []);
 
   const getTotalCal = async () => {
+    if (count === 0) return;
     try {
       const res = await post("foods/calories", [
         {
@@ -48,11 +56,12 @@ const MealSection = ({ title, strDate, setFoodList, setMealCalrorie }) => {
         const find = temp.findIndex((ele) => ele.food === meal);
         if (find < 0) {
           temp.push({
-            food: meal,
-            count: Number(count),
+            type,
+            category: meal,
+            volume: Number(count),
           });
         } else {
-          temp[find].count += Number(count);
+          temp[find].volume += Number(count);
         }
 
         return temp;
@@ -74,6 +83,7 @@ const MealSection = ({ title, strDate, setFoodList, setMealCalrorie }) => {
   }, []);
 
   const [image, setImage] = useState(null);
+  const [imageSrc, setImageSrc] = useState(null);
   return (
     <MealContainer>
       <h5>{title}</h5>
@@ -89,48 +99,59 @@ const MealSection = ({ title, strDate, setFoodList, setMealCalrorie }) => {
           }}
         >
           {/* action="dietimage" method="post" */}
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              const forData = new FormData();
-              forData.append("setImage", setImage);
-              try {
-                const res = await axios({
-                  method: "post",
-                  url: "dietimage",
-                  data: FormData,
-                  headers: {
-                    "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${sessionStorage.getItem(
-                      "userToken"
-                    )}`,
-                  },
-                });
-              } catch (e) {
-                throw new Error(e);
-              }
-            }}
-          >
-            <label>
-              <input
-                type="file"
-                style={{ position: "relative", left: "40px", display: "none" }}
-                accept="image/*"
-                onChange={(e) => setImage(e.target.files[0])}
-              />
-              <div
-                style={{
-                  display: "inline",
-                }}
-              >
-                이미지 <br />
-                업로드
+          {imgUrl === null ? (
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const formData = new FormData();
+                formData.append("whenDate", strDate);
+                formData.append("type", "dinner");
+                formData.append("dietImg", image);
+                try {
+                  const res = await postImage("dietimage", formData);
+                  // const res = await get("dietimage/items/type", {
+                  //   whenDate: strDate,
+                  //   tpye: "dinner",
+                  // });
+                  setImageSrc(res.data.imgurl);
+                } catch (e) {
+                  throw new Error(e);
+                }
+              }}
+            >
+              <label>
+                <input
+                  type="file"
+                  style={{
+                    position: "relative",
+                    left: "40px",
+                    display: "none",
+                  }}
+                  accept="image/*"
+                  onChange={(e) => {
+                    setImage(e.target.files[0]);
+                  }}
+                />
+                <div
+                  style={{
+                    display: "inline",
+                  }}
+                >
+                  이미지 <br />
+                  업로드
+                </div>
+              </label>
+              <div>
+                <input type="submit" />
               </div>
-            </label>
-            <div>
-              <input type="submit" />
-            </div>
-          </form>
+            </form>
+          ) : (
+            <img
+              alt="temp"
+              src={imgUrl}
+              style={{ width: "90px", height: "90px" }}
+            ></img>
+          )}
         </div>
         {/* <Image /> */}
         <MealInfoContainer>

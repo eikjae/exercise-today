@@ -26,7 +26,7 @@ const ExerciseList = ({
           return (
             <li key={index}>
               <ListWrapper>
-                <H6>{e.exercise}</H6>
+                <H6>{e.name}</H6>
                 <IconWrapper>
                   <H6 style={{ marginRight: "0.5rem" }}>{e.hour}시간</H6>
                   <AddIcon
@@ -35,14 +35,14 @@ const ExerciseList = ({
                       try {
                         const res = await post("exercise/calories", {
                           weight,
-                          name: e.exercise,
+                          name: e.name,
                           time: 1,
                         });
                         setTotalExerciseCalrorie((current) => {
                           return current + Number(Number(res.data).toFixed(0));
                         });
                         const temp = [...exerciseList];
-                        temp[index].hour += 1;
+                        temp[index].time += 1;
                         setExerciseList([...temp]);
                       } catch (e) {
                         throw new Error(e);
@@ -55,20 +55,20 @@ const ExerciseList = ({
                       try {
                         const res = await post("exercise/calories", {
                           weight,
-                          name: e.exercise,
+                          name: e.name,
                           time: 1,
                         });
                         setTotalExerciseCalrorie((current) => {
                           return current - Number(Number(res.data).toFixed(0));
                         });
                         const temp = [...exerciseList];
-                        if (e.hour === 1) {
+                        if (e.time === 1) {
                           setTotalExerciseCalrorie(0);
                           temp.splice(index, 1);
                           setExerciseList([...temp]);
                           return;
                         }
-                        temp[index].hour -= 1;
+                        temp[index].time -= 1;
                         setExerciseList([...temp]);
                       } catch (e) {
                         throw new Error(e);
