@@ -84,6 +84,35 @@ class exerciseService {
 
     return timeList;
   }
+
+  static async exerciseList({ category }) {
+    const categoryList = [
+      "유산소",
+      "무산소",
+      "구기",
+      "라켓",
+      "육상",
+      "수상",
+      "댄스",
+      "사이클",
+      "양궁",
+      "복싱",
+      "격투",
+      "기타",
+    ];
+    if (categoryList.includes(category) === false) {
+      const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    let exerciseList = await Exercise.findByCategory({
+      category,
+    });
+    console.log("exerciseList:", exerciseList);
+    let exerciseNameList = exerciseList.map((exercise) => exercise.name);
+
+    return exerciseNameList;
+  }
 }
 
 export { exerciseService };

@@ -68,16 +68,6 @@ class workoutService {
       throw new Error(errorMessage);
     }
 
-    if (toUpdate.whenDate) {
-      const fieldToUpdate = "whenDate";
-      const newValue = toUpdate.whenDate;
-      item = await Workout.update({
-        itemId,
-        fieldToUpdate,
-        newValue,
-      });
-    }
-
     const categoryList = [
       "유산소",
       "무산소",

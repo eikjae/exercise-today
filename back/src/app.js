@@ -11,6 +11,9 @@ import { dietRouter } from "./routers/dietRouter";
 import { workoutRouter } from "./routers/workoutRouter";
 import { attendanceRouter } from "./routers/attendanceRouter";
 import { friendRouter } from "./routers/friendRouter";
+import { oauthRouter } from "./routers/oauthRouter";
+import { dietImageRouter } from "./routers/dietImageRouter";
+import { calendarRouter } from "./routers/calendarRouter";
 
 const app = express();
 
@@ -30,6 +33,7 @@ app.get("/", (req, res) => {
 
 // router, service 구현 (userAuthRouter는 맨 위에 있어야 함.)
 app.use(userAuthRouter);
+
 app.use(exerciseRouter);
 app.use(foodRouter);
 app.use(targetExerciseRouter);
@@ -39,6 +43,9 @@ app.use(dietRouter);
 app.use(workoutRouter);
 app.use(attendanceRouter);
 app.use(friendRouter);
+app.use(oauthRouter);
+app.use(dietImageRouter);
+app.use(calendarRouter);
 
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
 app.use(errorMiddleware);

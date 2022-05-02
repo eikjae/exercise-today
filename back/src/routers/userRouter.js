@@ -4,9 +4,58 @@ import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
 import generateRandomPassword from "../utils/generate-random-password";
 import { likeService } from "../services/likeService";
+import { User } from "../db";
+import { authEmailService } from "../services/authEmailService";
 
 const userAuthRouter = Router();
 
+userAuthRouter.get("/user/checkEmail/:email", async function (req, res, next) {
+  const email = req.params.email;
+  const user = await User.findByEmail({ email });
+  const result = { status: 0 };
+  if (user) {
+    result.status = 1;
+    res.json(result);
+  } else {
+    res.json(result);
+  }
+});
+userAuthRouter.post(
+  "/user/authEmail/:email/activateKey",
+  async function (req, res, next) {
+    try {
+      const email = req.params.email;
+      const authEmail = await authEmailService.addAuthEmail({ email });
+      if (authEmail) {
+        //추후 authEmail이 존재하면 성공한 것이므로 status:true로 res.json을 내보낼 것
+        res.json(authEmail);
+      } else {
+        res.json({ status: false });
+      }
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+userAuthRouter.post(
+  "/user/authEmail/:email/activate",
+  async function (req, res, next) {
+    try {
+      const userKey = req.body.activateKey;
+      const email = req.params.email;
+      const authEmail = await authEmailService.activateAuthEmail({
+        email,
+        userKey,
+      });
+      if (authEmail.errorMessage) {
+        throw new Error(authEmail.errorMessage);
+      }
+      res.json(authEmail);
+    } catch (e) {
+      next(e);
+    }
+  }
+);
 userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
@@ -23,7 +72,6 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     const height = req.body.height;
     const weight = req.body.weight;
     const gender = req.body.gender;
-
     if (password !== passwordCheck) {
       throw new Error("password와 passwordCheck의 값이 일치하지 않습니다.");
     }
@@ -160,17 +208,8 @@ userAuthRouter.get(
   }
 );
 
-// jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
-userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
-  res
-    .status(200)
-    .send(
-      `안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`
-    );
-});
-
 userAuthRouter.put(
-  "/change_password",
+  "/users/:id/change_password",
   login_required,
   async function (req, res, next) {
     try {
@@ -204,33 +243,35 @@ userAuthRouter.put(
     }
   }
 );
+userAuthRouter.post(
+  "/users/:id/reset_password",
+  async function (req, res, next) {
+    try {
+      const email = req.body.email;
+      const user = await userAuthService.findUserByEmail({ email });
 
-userAuthRouter.post("/reset_password", async function (req, res, next) {
-  try {
-    const email = req.body.email;
-    const user = await userAuthService.findUserByEmail({ email });
+      if (!user) {
+        throw new Error("해당 메일로 가입된 사용자가 없습니다.");
+      }
 
-    if (!user) {
-      throw new Error("해당 메일로 가입된 사용자가 없습니다.");
+      const name = user.name;
+      const user_id = user.id;
+      const password = generateRandomPassword();
+      const toUpdate = { password };
+      const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
+
+      if (updatedUser.errorMessage) {
+        throw new Error(updatedUser.errorMessage);
+      }
+
+      await userAuthService.nodeMailer({ email, name, password });
+
+      res.status(200).send("임시 비밀번호가 전송되었습니다.");
+    } catch (err) {
+      next(err);
     }
-
-    const name = user.name;
-    const user_id = user.id;
-    const password = generateRandomPassword();
-    const toUpdate = { password };
-    const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
-
-    if (updatedUser.errorMessage) {
-      throw new Error(updatedUser.errorMessage);
-    }
-
-    await userAuthService.nodeMailer({ email, name, password });
-
-    res.status(200).send("임시 비밀번호가 전송되었습니다.");
-  } catch (err) {
-    next(err);
   }
-});
+);
 
 userAuthRouter.delete(
   "/users/:id",
