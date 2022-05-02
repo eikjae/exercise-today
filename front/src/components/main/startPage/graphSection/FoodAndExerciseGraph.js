@@ -1,5 +1,4 @@
 import React, { PureComponent } from "react";
-import "./App.css";
 import {
   Tooltip,
   XAxis,
@@ -10,7 +9,7 @@ import {
   Line,
 } from "recharts";
 
-function App() {
+export default function FoodAndExerciseGraph() {
   // 식단과 운동의 칼로리 그래프
   const calorieData = [
     { name: "1일", uv: 4000, pv: 2400 },
@@ -91,5 +90,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

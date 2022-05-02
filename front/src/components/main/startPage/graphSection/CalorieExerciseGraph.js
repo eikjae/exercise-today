@@ -1,14 +1,7 @@
 import React from "react";
-import "./App.css";
-import {
-  BarChart,
-  XAxis,
-  YAxis,
-  Bar,
-  Cell,
-} from "recharts";
+import { BarChart, XAxis, YAxis, Bar, Cell } from "recharts";
 
-function App() {
+export default function CalorieExerciseGraph() {
   // 칼로리 범위마다 해당되는 운동 개수 (단, 60kg 기준)
   const ExerciseData = [
     { name: "<100", value: 55 },
@@ -18,11 +11,7 @@ function App() {
     { name: "<500", value: 8 },
   ];
 
-  const COLORS = [
-    "#1f77b4",
-    "#ff7f0e",
-    "#2ca02c",
-  ];
+  const COLORS = ["#1f77b4", "#ff7f0e", "#2ca02c"];
 
   return (
     <div className="App">
@@ -38,5 +27,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

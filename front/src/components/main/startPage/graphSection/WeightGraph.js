@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import {
   Tooltip,
   XAxis,
@@ -9,7 +8,7 @@ import {
   Line,
 } from "recharts";
 
-function App() {
+export default function WeightGraph() {
   // 몸무게 그래프
   const weightData = [
     { name: "1일", kg: 70 },
@@ -47,5 +46,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

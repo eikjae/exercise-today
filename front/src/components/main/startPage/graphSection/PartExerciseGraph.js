@@ -1,13 +1,7 @@
 import React from "react";
-import "./App.css";
-import {
-  PieChart,
-  Pie,
-  Tooltip,
-  Cell,
-} from "recharts";
+import { PieChart, Pie, Tooltip, Cell } from "recharts";
 
-function App() {
+export default function PartExerciseGraph() {
   // 세부 부위별 운동 개수
   const targetExerciseData = [
     { name: "upper arms", value: 291 },
@@ -22,12 +16,7 @@ function App() {
     { name: "upper legs", value: 226 },
   ];
 
-
-  const COLORS = [
-    "#1f77b4",
-    "#ff7f0e",
-    "#2ca02c",
-  ];
+  const COLORS = ["#1f77b4", "#ff7f0e", "#2ca02c"];
 
   return (
     <div className="App">
@@ -58,5 +47,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

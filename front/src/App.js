@@ -17,6 +17,7 @@ import PartExercisePage from "./components/main/partExercisePage/PartExercisePag
 import MyPage from "./components/user/myPage/MyPage";
 import LikePage from "./components/user/like/LikePage";
 import ErrorPage from "./components/main/errorSection/ErrorPage";
+import StartPage from "./components/main/startPage/StartPage";
 
 import { atom, RecoilRoot } from "recoil";
 
@@ -79,6 +80,7 @@ function App() {
               element={<MainChartPage />}
             />
             <Route path="/music" element={<MusicPage />} />
+
             {/* <Route path="/" exact element={<Portfolio />} /> */}
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
@@ -87,6 +89,7 @@ function App() {
             <Route path="/network" element={<Network />} />
             <Route path="/myPage" element={<MyPage />} />
             <Route path="/like" element={<LikePage />} />
+            <Route path="/start" element={<StartPage />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Router>

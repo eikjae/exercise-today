@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import {
   Tooltip,
   XAxis,
@@ -10,7 +9,7 @@ import {
   Brush,
 } from "recharts";
 
-function App() {
+export default function ExerciseCalorieGraph() {
   // 운동의 칼로리 그래프
   const calorieData = [
     { name: "1일", pv: 2400 },
@@ -46,5 +45,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

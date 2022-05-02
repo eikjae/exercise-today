@@ -1,5 +1,4 @@
 import React, { PureComponent } from "react";
-import "./App.css";
 import {
   PieChart,
   Pie,
@@ -16,7 +15,7 @@ import {
   Brush,
 } from "recharts";
 
-function App() {
+export default function HeartStrokeGraph() {
   // 심장병과 BMI의 관계
   const StrokesData = [
     { name: "Overweight", value: 115 / (115 + 1495) },
@@ -24,11 +23,7 @@ function App() {
     { name: "Underweight", value: 1 / (1 + 410) },
   ];
 
-  const COLORS = [
-    "#1f77b4",
-    "#ff7f0e",
-    "#2ca02c",
-  ];
+  const COLORS = ["#1f77b4", "#ff7f0e", "#2ca02c"];
 
   return (
     <div className="App">
@@ -44,5 +39,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

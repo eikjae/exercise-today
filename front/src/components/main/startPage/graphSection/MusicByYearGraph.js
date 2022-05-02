@@ -1,13 +1,7 @@
 import React from "react";
-import "./App.css";
-import {
-  PieChart,
-  Pie,
-  Tooltip,
-  Cell,
-} from "recharts";
+import { PieChart, Pie, Tooltip, Cell } from "recharts";
 
-function App() {
+export default function MusicByYearGraph() {
   // 연도별 음악 개수
   const musicData = [
     { name: "2014", value: 1237 },
@@ -19,11 +13,7 @@ function App() {
     { name: "2020", value: 1860 },
   ];
 
-  const COLORS = [
-    "#1f77b4",
-    "#ff7f0e",
-    "#2ca02c",
-  ];
+  const COLORS = ["#1f77b4", "#ff7f0e", "#2ca02c"];
 
   return (
     <div className="App">
@@ -51,5 +41,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import {
   Tooltip,
   BarChart,
@@ -8,11 +7,9 @@ import {
   Bar,
   CartesianGrid,
   Legend,
-
 } from "recharts";
 
-function App() {
-
+export default function DiabetesGraph() {
   // 당뇨병과 건강관리의 관계
   const DiabetesData = [
     {
@@ -51,5 +48,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
