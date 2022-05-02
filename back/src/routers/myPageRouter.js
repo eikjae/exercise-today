@@ -33,4 +33,18 @@ myPageRouter.get(
   }
 );
 
+myPageRouter.get(
+  "/mypage/weight/month",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const weightInfo = await myPageService.getWeightMonth({ userId });
+      res.status(200).send(weightInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { myPageRouter };
