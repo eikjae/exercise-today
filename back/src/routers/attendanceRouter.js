@@ -33,7 +33,7 @@ attendanceRouter.post(
 );
 
 attendanceRouter.get(
-  "/attendance/whenDate",
+  "/attendance/:whenDate",
   login_required,
   async function (req, res, next) {
     try {

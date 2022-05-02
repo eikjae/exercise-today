@@ -13,6 +13,8 @@ class calendarService {
       throw new Error(errorMessage);
     }
 
+    await Calendar.deleteByDate({ userId, whenDate });
+
     const itemId = uuidv4();
 
     const titleList = ["아침  +", "점심  +", "저녁  +", "운동  -"];
@@ -65,44 +67,6 @@ class calendarService {
       return acc;
     }, []);
     return itemList;
-  }
-
-  static async setCalories({ userId, whenDate, calorieArray }) {
-    let item = await Calendar.findByDate({ userId, whenDate });
-    if (!item) {
-      const errorMessage =
-        "해당하는 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      throw new Error(errorMessage);
-    }
-
-    if (!calorieArray) {
-      const errorMessage = "calorieArray를 입력해주세요.";
-      throw new Error(errorMessage);
-    }
-
-    const titleList = ["아침  +", "점심  +", "저녁  +", "운동  -"];
-    const startList = ["T08:00:00", "T13:00:00", "T18:00:00", "T20:00:00"];
-    const colorList = ["yellow", "pink", "orange", "red"];
-    const calories = [];
-    for (let i = 0; i < calorieArray.length; i++) {
-      const subSchema = {
-        title: `${titleList[i]}${calorieArray[i]}`,
-        start: `${whenDate}${startList[i]}`,
-        backgroundColor: `${colorList[i]}`,
-      };
-      calories.push(subSchema);
-    }
-
-    const fieldToUpdate = "calories";
-    const newValue = calories;
-    item = await Calendar.update({
-      userId,
-      whenDate,
-      fieldToUpdate,
-      newValue,
-    });
-
-    return item;
   }
 
   static async deleteCalories({ itemId }) {

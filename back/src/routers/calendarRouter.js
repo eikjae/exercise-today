@@ -63,27 +63,6 @@ calendarRouter.get(
   }
 );
 
-calendarRouter.put(
-  "/calendar/calories",
-  login_required,
-  async function (req, res, next) {
-    try {
-      const userId = req.currentUserId;
-      const { whenDate, calorieArray } = req.body;
-
-      const updatedItem = await calendarService.setCalories({
-        userId,
-        whenDate,
-        calorieArray,
-      });
-
-      res.status(200).json(updatedItem);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
 calendarRouter.delete(
   "/calendar/calories/:itemId",
   login_required,

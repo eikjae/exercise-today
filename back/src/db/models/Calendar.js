@@ -40,10 +40,9 @@ export class Calendar {
     return updatedItem;
   }
 
-  static async deleteByItemId({ itemId }) {
-    const result = await CalendarModel.deleteOne({ itemId });
-    const deletedResult = result.deletedCount === 1; //Boolean
-    return deletedResult;
+  static async deleteByDate({ userId, whenDate }) {
+    const result = await CalendarModel.deleteMany({ userId, whenDate });
+    return result;
   }
 
   static async deleteByUserId({ userId }) {

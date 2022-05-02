@@ -29,60 +29,6 @@ dietImageRouter.post(
   }
 );
 
-dietImageRouter.get(
-  "/dietimage/item/:itemId",
-  login_required,
-  async function (req, res, next) {
-    try {
-      const { itemId } = req.params;
-      const foundItem = await dietImageService.getItem({ itemId });
-
-      res.status(200).send(foundItem);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
-dietImageRouter.get(
-  "/dietimage/items/date",
-  login_required,
-  async function (req, res, next) {
-    try {
-      const userId = req.currentUserId;
-      const { whenDate } = req.body;
-      const foundItem = await dietImageService.getItemListByDate({
-        userId,
-        whenDate,
-      });
-
-      res.status(200).send(foundItem);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
-dietImageRouter.get(
-  "/dietimage/items/type",
-  login_required,
-  async function (req, res, next) {
-    try {
-      const userId = req.currentUserId;
-      const { whenDate, type } = req.body;
-      const foundItem = await dietImageService.getItemListByType({
-        userId,
-        whenDate,
-        type,
-      });
-
-      res.status(200).send(foundItem);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
 dietImageRouter.put(
   "/dietimage/item/:itemId",
   login_required,
