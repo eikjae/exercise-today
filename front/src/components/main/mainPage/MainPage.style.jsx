@@ -3,15 +3,23 @@ import styled from "styled-components";
 
 export const StyledContainer = styled(Container)`
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  max-width: 1800px;
+  width: 100%;
+  height: 100%;
 `;
 
 export const Title = styled.h1`
   text-align: center;
   margin-bottom: 50px;
   color: #281461;
+`;
+
+export const TotalFoodWrapper = styled(Grid)`
+  justify-content: center;
+  align-items: center;
 `;
 
 export const FoodWrapper = styled.div`
@@ -47,12 +55,12 @@ export const BodyInfoWrapper = styled(Grid)`
 `;
 
 export const ExplainLabelWrapper = styled.div`
-  text-align: "center";
+  text-align: center;
 `;
 
 export const ExplainLabel = styled.h6`
-  text-align: "center";
-  color: "#281461";
+  text-align: center;
+  color: #281461;
   margin-top: -15px;
 `;
 
@@ -64,13 +72,13 @@ export const BodyInfoGrid = styled(Grid)`
 `;
 
 export const StyledH1 = styled.h1`
-  color: "#281461";
-  margin-bottom: "-10px";
+  color: #281461;
+  margin-bottom: -10px;
 `;
 
 export const BodyInfoInputWrapper = styled.div`
-  display: "flex";
-  flex-direction: "row";
+  display: flex;
+  flex-direction: row;
 `;
 
 export const BodyInfoInput = styled(TextField)`

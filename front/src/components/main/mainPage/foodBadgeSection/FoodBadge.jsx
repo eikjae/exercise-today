@@ -1,14 +1,27 @@
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Button from "@mui/material/Button";
+import React, { useState, useContext } from "react";
+import { UserStateContext } from "../../../../App";
+import * as Api from "../../../../api";
+import { ButtonGroup, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
-import { StyledWrapper, FoodLabel, FoodBadge } from "./BadgeVisibility.style";
+import {
+  StyledWrapper,
+  FoodInfoWrapper,
+  FoodIconBadge,
+  FoodLabelWrapper,
+  FoodLabel,
+} from "./FoodBadge.style";
+import FoodBadgeLike from "./FoodBadgeLike";
+import NotLoginedModal from "../../errorSection/NotLoginedModal";
 
-export default function BadgeVisibility({ food, foodsInfo, updateFoodsInfo }) {
+export default function FoodBadge({ food, foodsInfo, updateFoodsInfo }) {
   const [count, setCount] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
+  // 로그인 필요 경고 Modal 관련 상태
+  const [showModal, setShowModal] = useState(false);
+  // 유저 로그인 확인용 상태
+  const userState = useContext(UserStateContext);
   const deepClone = (arg) => JSON.parse(JSON.stringify(arg));
 
   const handleFoodsInfo = (params) => {
@@ -33,25 +46,34 @@ export default function BadgeVisibility({ food, foodsInfo, updateFoodsInfo }) {
     }
   };
 
+  // Modal이 닫힐 경우 MusicImage도 filp을 진행
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleClick = async () => {
+    try {
+      // 비로그인 시, 경고 Modal을 띄움
+      if (!userState.user) {
+        setShowModal(true);
+        return;
+      }
+      // await Api.put("like/music", { music });
+      setIsLiked(!isLiked);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <StyledWrapper>
-      <Box
-        sx={{
-          color: "action.active",
-          display: "flex",
-          flexDirection: "column",
-          "& .MuiBadge-root": {
-            marginRight: 2,
-          },
-        }}
-      >
-        <div>
-          <FoodBadge color="primary" badgeContent={count}>
+    <>
+      <StyledWrapper>
+        <FoodInfoWrapper>
+          <FoodIconBadge color="secondary" badgeContent={count}>
             <RestaurantIcon />
-          </FoodBadge>
-          <ButtonGroup>
+          </FoodIconBadge>
+          <ButtonGroup color="secondary">
             <Button
-              aria-label="reduce"
               onClick={() => {
                 let params;
                 setCount((current) => {
@@ -64,7 +86,6 @@ export default function BadgeVisibility({ food, foodsInfo, updateFoodsInfo }) {
               <RemoveIcon fontSize="small" />
             </Button>
             <Button
-              aria-label="increase"
               onClick={() => {
                 let params;
                 setCount((current) => {
@@ -77,9 +98,13 @@ export default function BadgeVisibility({ food, foodsInfo, updateFoodsInfo }) {
               <AddIcon fontSize="small" />
             </Button>
           </ButtonGroup>
-          <FoodLabel>{food}</FoodLabel>
-        </div>
-      </Box>
-    </StyledWrapper>
+          <FoodLabelWrapper>
+            <FoodLabel>{food}</FoodLabel>
+          </FoodLabelWrapper>
+          <FoodBadgeLike isLiked={isLiked} onClick={handleClick} />
+        </FoodInfoWrapper>
+      </StyledWrapper>
+      <NotLoginedModal showModal={showModal} closeModal={handleCloseModal} />
+    </>
   );
 }

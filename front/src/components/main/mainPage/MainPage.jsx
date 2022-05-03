@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Api from "../../../api";
-import { Grid } from "@mui/material";
-import BadgeVisibility from "./badgeVisibilitySection/BadgeVisibility";
+import BadgeVisibility from "./foodBadgeSection/FoodBadge";
 import {
   StyledContainer,
   Title,
+  TotalFoodWrapper,
   FoodWrapper,
   SubmitButton,
   BodyInfoWrapper,
@@ -75,7 +75,7 @@ export default function MainPage() {
       <header>
         <Title>🍴 오늘 무엇을 드셨나요? 🍴</Title>
       </header>
-      <Grid container justifyContent="center" alignItems="center">
+      <TotalFoodWrapper container>
         {foods.map((food, foodIdx) => (
           <FoodWrapper item key={foodIdx}>
             <BadgeVisibility
@@ -86,20 +86,17 @@ export default function MainPage() {
             />
           </FoodWrapper>
         ))}
-      </Grid>
-      <BodyInfoWrapper container>
+      </TotalFoodWrapper>
+      <BodyInfoWrapper>
         <ExplainLabelWrapper>
-          <ExplainLabel style={{ textAlign: "center" }}>
-            100g(ml) 단위로 평균 칼로리가 계산됩니다.
-          </ExplainLabel>
+          <ExplainLabel>100g(ml) 단위로 평균 칼로리가 계산됩니다.</ExplainLabel>
           <BodyInfoGrid item xs="auto">
             <StyledH1>키와 몸무게를 입력해주세요</StyledH1>
           </BodyInfoGrid>
         </ExplainLabelWrapper>
-        <BodyInfoInputWrapper style={{ display: "flex", flexDirection: "row" }}>
+        <BodyInfoInputWrapper>
           <BodyInfoGrid item xs="auto">
             <BodyInfoInput
-              id="outlined-basic"
               label="신장"
               onChange={(e) => setHeight(e.target.value)}
             />
@@ -107,7 +104,6 @@ export default function MainPage() {
           </BodyInfoGrid>
           <BodyInfoGrid item xs="auto">
             <BodyInfoInput
-              id="outlined-basic"
               label="체중"
               onChange={(e) => setWeight(e.target.value)}
             />
