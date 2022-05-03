@@ -170,10 +170,6 @@ function RegisterForm() {
     console.log(res.data.status);
     if (res.data.status === 1) {
       setMsg(ALREADY_REGISTER_EMAIL);
-    } else {
-      // 메일로 인증키 쏘기
-      setMsg(CHECK_ACTIVATE_KEY);
-      await Api.post(`user/authEmail/${emailRef.current.value}/activateKey`);
     }
   };
 
@@ -220,8 +216,11 @@ function RegisterForm() {
                 inputRef={emailRef}
               />
               <SubmitActivateButton
-                onClick={() => {
+                onClick={async () => {
                   setMsg(CHECK_ACTIVATE_KEY);
+                  await Api.post(
+                    `user/authEmail/${emailRef.current.value}/activateKey`
+                  );
                 }}
               >
                 인증
@@ -337,7 +336,7 @@ function RegisterForm() {
           <ButtonWrapper>
             <RegitserButton
               onClick={handleOnClickRegister}
-              disabled={msg.type !== ALL_VALID.type}
+              // disabled={msg.type !== ALL_VALID.type}
             >
               가입하기
             </RegitserButton>
