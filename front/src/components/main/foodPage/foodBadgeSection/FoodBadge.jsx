@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useContext, useEffect } from "react";
 import { UserStateContext } from "../../../../App";
 import * as Api from "../../../../api";
 import { ButtonGroup, Button } from "@mui/material";
@@ -15,14 +16,37 @@ import {
 import FoodBadgeLike from "./FoodBadgeLike";
 import NotLoginedModal from "../../errorSection/NotLoginedModal";
 
-export default function FoodBadge({ food, foodsInfo, updateFoodsInfo }) {
+export default function FoodBadge({
+  food,
+  foodsInfo,
+  updateFoodsInfo,
+  likedFoods,
+}) {
   const [count, setCount] = useState(0);
-  const [isLiked, setIsLiked] = useState(false);
   // 로그인 필요 경고 Modal 관련 상태
   const [showModal, setShowModal] = useState(false);
   // 유저 로그인 확인용 상태
   const userState = useContext(UserStateContext);
+  const [isLiked, setIsLiked] = useState(false);
+
   const deepClone = (arg) => JSON.parse(JSON.stringify(arg));
+
+  useEffect(() => {
+    try {
+      const isExistFood = likedFoods.findIndex(
+        (currentFood) => currentFood === food
+      );
+      if (isExistFood !== -1) {
+        // 좋아요 목록에 존재하는 음식일 경우 liked 표시
+        setIsLiked(true);
+      } else {
+        // 아닐 경우 liked 표시 하지 않음
+        setIsLiked(false);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, [likedFoods]);
 
   const handleFoodsInfo = (params) => {
     // 이미 foodsInfo에 존재한다면 해당 인덱스를 사용하여 volume 업데이트
@@ -58,8 +82,8 @@ export default function FoodBadge({ food, foodsInfo, updateFoodsInfo }) {
         setShowModal(true);
         return;
       }
-      // await Api.put("like/music", { music });
-      setIsLiked(!isLiked);
+      await Api.put("like/food", { food });
+      setIsLiked((prev) => !prev);
     } catch (err) {
       console.error(err);
     }

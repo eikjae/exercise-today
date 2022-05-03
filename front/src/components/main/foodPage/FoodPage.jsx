@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Api from "../../../api";
@@ -26,6 +27,7 @@ export default function FoodPage() {
   // const [calories, setCalories] = useState(0);
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
+  const [likedFoods, setLikedFoods] = useState([]);
 
   const isHeightValid = height.length > 0;
   const isWeightValid = weight.length > 0;
@@ -42,7 +44,7 @@ export default function FoodPage() {
 
       // POST 요청을 통해 칼로리 계산값을 받아옴
       const res = await Api.post("foods/calories", copyFoodsInfo);
-      setFoodsInfo(copyFoodsInfo);
+      setFoodsInfo([...copyFoodsInfo]);
       // setCalories(res.data.calories);
       navigate(`/${res.data.calories}/${height}/${weight}`);
     } catch (err) {
@@ -51,20 +53,24 @@ export default function FoodPage() {
   };
 
   const updateFoodsInfo = (data) => {
-    setFoodsInfo(data);
+    setFoodsInfo([...data]);
   };
 
-  // 음식 데이터를 받아와서 화면에 표시
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        const res = await Api.get("foods");
-        setFoods(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetch();
+  // 음식 관련 데이터를 받아와서 화면에 표시
+  useEffect(async () => {
+    try {
+      // 전체 음식 리스트를 받아옴
+      let res = await Api.get("foods");
+      const foods = res.data;
+      setFoods([...foods]);
+
+      // 좋아요된 음식 리스트를 받아옴
+      res = await Api.get("like/food");
+      const likedFoods = res.data;
+      setLikedFoods([...likedFoods]);
+    } catch (err) {
+      console.error(err);
+    }
   }, []);
 
   // + 버튼이 눌리면 일단 foodsInfo에 정보를 넣음
@@ -83,6 +89,7 @@ export default function FoodPage() {
               food={food}
               foodsInfo={foodsInfo}
               updateFoodsInfo={updateFoodsInfo}
+              likedFoods={likedFoods}
             />
           </FoodWrapper>
         ))}
