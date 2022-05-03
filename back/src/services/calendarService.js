@@ -43,7 +43,7 @@ class calendarService {
       whenDate,
     });
     if (!item) {
-      return []
+      return [];
     }
     return item;
   }
@@ -180,19 +180,23 @@ class calendarService {
     }
   }
 
-  static async getItemList({ userId, whenDate }) {
-    const itemList1 = await Attendance.findByDate({ userId, whenDate });
-    const itemList2 = await DietImage.findByDate({ userId, whenDate });
-    const itemList3 = await Diet.findByDate({ userId, whenDate });
-    const itemList4 = await Workout.findByDate({ userId, whenDate });
-    const itemAll = {
-      attendance: itemList1,
-      dietimage: itemList2,
-      diet: itemList3,
-      workout: itemList4,
-    };
+  static async getCaloriesByMonth({ userId, whenMonth }) {
+    const searchOpt = { $regex: whenMonth };
+    const items = await Calendar.findCaloriesByMonth({
+      userId,
+      whenDate: searchOpt,
+    });
+    if (!items) {
+      const errorMessage =
+        "해당하는 내역이 없습니다. 다시 한 번 확인해 주세요.";
+      throw new Error(errorMessage);
+    }
 
-    return itemAll;
+    const itemList = items.reduce((acc, cur) => {
+      acc = acc.concat(cur.calories);
+      return acc;
+    }, []);
+    return itemList;
   }
 }
 export { calendarService };

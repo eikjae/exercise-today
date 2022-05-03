@@ -12,6 +12,7 @@ import { friendRouter } from "./routers/friendRouter";
 import { oauthRouter } from "./routers/oauthRouter";
 import { dietImageRouter } from "./routers/dietImageRouter";
 import { calendarRouter } from "./routers/calendarRouter";
+import { myPageRouter } from "./routers/myPageRouter";
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use(friendRouter);
 app.use(oauthRouter);
 app.use(dietImageRouter);
 app.use(calendarRouter);
+app.use(myPageRouter);
 
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
 app.use(errorMiddleware);

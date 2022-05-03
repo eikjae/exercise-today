@@ -123,7 +123,7 @@ calendarRouter.get(
       const { whenDate } = req.params;
       const foundList = await calendarService.getItemList({
         userId,
-        whenDate,
+        whenMonth,
       });
 
       res.status(200).send(foundList);
