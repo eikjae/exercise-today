@@ -1,38 +1,11 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import Badge from "@mui/material/Badge";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
-import styled from "styled-components";
-
-const StyledWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  min-width: 270px;
-  height: 60px;
-  background-color: #e7f0ff;
-  border-radius: 10px;
-  margin-left: 8px;
-  margin-right: 8px;
-  margin-bottom: 30px;
-`;
-
-const FoodLabel = styled.label`
-  margin-left: 14.5px;
-  font-size: 15px;
-  font-weight: bold;
-  width: 90px;
-  position: absolute;
-  margin-top: 5.5px;
-  text-align: center;
-`;
-
-const FoodBadge = styled(Badge)`
-  margin-left: 10px;
-`;
+import { StyledWrapper, FoodLabel, FoodBadge } from "./BadgeVisibility.style";
 
 export default function BadgeVisibility({ food, foodsInfo, updateFoodsInfo }) {
   const [count, setCount] = useState(0);

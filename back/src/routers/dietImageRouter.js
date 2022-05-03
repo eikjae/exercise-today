@@ -3,12 +3,12 @@ import { login_required } from "../middlewares/login_required";
 import { dietImageService } from "../services/dietImageService";
 
 const dietImageRouter = Router();
-const { upload } = require("../utils/s3");
+const { dietImageUpload } = require("../utils/s3");
 
 dietImageRouter.post(
   "/dietimage",
   login_required,
-  upload.single("dietImg"),
+  dietImageUpload.single("dietImg"),
   async function (req, res, next) {
     try {
       const userId = req.currentUserId;
@@ -86,7 +86,7 @@ dietImageRouter.get(
 dietImageRouter.put(
   "/dietimage/item/:itemId",
   login_required,
-  upload.single("dietImg"),
+  dietImageUpload.single("dietImg"),
   async function (req, res, next) {
     try {
       const { itemId } = req.params;

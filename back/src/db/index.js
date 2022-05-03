@@ -9,8 +9,10 @@ import { Diet } from "./models/Diet";
 import { Workout } from "./models/Workout";
 import { Attendance } from "./models/Attendance";
 import { Friend } from "./models/Friend";
+import { AuthEmail } from "./models/AuthEmail";
 import { DietImage } from "./models/DietImage";
 import { Calendar } from "./models/Calendar";
+import { MyPage } from "./models/MyPage";
 
 const DB_URL =
   process.env.MONGODB_URL ||
@@ -37,6 +39,8 @@ export {
   Workout,
   Attendance,
   Friend,
+  AuthEmail,
   DietImage,
   Calendar,
+  MyPage,
 };

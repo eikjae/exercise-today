@@ -12,7 +12,7 @@ export class User {
   }
 
   static async findById({ user_id }) {
-    const user = await UserModel.findOne({ id: user_id });
+    const user = await UserModel.findOne({ id: user_id }).lean();
     return user;
   }
 
@@ -41,6 +41,14 @@ export class User {
 
   static async deleteById({ user_id }) {
     const user = await UserModel.deleteOne({ id: user_id });
+    return user;
+  }
+
+  static async findByLikeId({ user_id }) {
+    const user = await UserModel.findOne(
+      { id: user_id },
+      "email id name description type gender"
+    );
     return user;
   }
 }

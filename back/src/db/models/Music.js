@@ -49,6 +49,11 @@ class Music {
     const musics = await MusicModel.find({}).lean();
     return musics;
   }
+
+  static async findByMusicId({ musicId }) {
+    const music = await MusicModel.findOne({ musicId });
+    return music;
+  }
 }
 
 export { Music };

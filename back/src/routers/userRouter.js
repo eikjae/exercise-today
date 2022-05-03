@@ -4,9 +4,105 @@ import { login_required } from "../middlewares/login_required";
 import { userAuthService } from "../services/userService";
 import generateRandomPassword from "../utils/generate-random-password";
 import { likeService } from "../services/likeService";
+import { User } from "../db";
+import { authEmailService } from "../services/authEmailService";
 
+const { userImageUpload } = require("../utils/s3");
 const userAuthRouter = Router();
 
+userAuthRouter.put(
+  "/users/:id/profileImage",
+  login_required,
+  userImageUpload.single("userImg"),
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.id;
+      if (user_id != req.currentUserId) {
+        throw new Error("다른 소유자의 소유물을 변경할 권한이 없습니다.");
+      }
+      const fieldToUpdate = "imageLink";
+      const newValue = req.file.location;
+      const updatedUser = await User.update({
+        user_id,
+        fieldToUpdate,
+        newValue,
+      });
+      res.json(updatedUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+userAuthRouter.put(
+  "/users/:id/defaultProfileImage",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.id;
+      if (user_id != req.currentUserId) {
+        throw new Error("다른 소유자의 소유물을 변경할 권한이 없습니다.");
+      }
+      const fieldToUpdate = "imageLink";
+      const newValue = process.env.initial_image_Link;
+      console.log(newValue);
+      const updatedUser = await User.update({
+        user_id,
+        fieldToUpdate,
+        newValue,
+      });
+      res.json(updatedUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+userAuthRouter.get("/user/checkEmail/:email", async function (req, res, next) {
+  const email = req.params.email;
+  const user = await User.findByEmail({ email });
+  const result = { status: 0 };
+  if (user) {
+    result.status = 1;
+    res.json(result);
+  } else {
+    res.json(result);
+  }
+});
+userAuthRouter.post(
+  "/user/authEmail/:email/activateKey",
+  async function (req, res, next) {
+    try {
+      const email = req.params.email;
+      const authEmail = await authEmailService.addAuthEmail({ email });
+      if (authEmail) {
+        //추후 authEmail이 존재하면 성공한 것이므로 status:true로 res.json을 내보낼 것
+        res.send("인증키가 해당이메일로 발송되었습니다.");
+      } else {
+        res.json({ status: false });
+      }
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+userAuthRouter.post(
+  "/user/authEmail/:email/activate",
+  async function (req, res, next) {
+    try {
+      const userKey = req.body.activateKey;
+      const email = req.params.email;
+      const authEmail = await authEmailService.activateAuthEmail({
+        email,
+        userKey,
+      });
+      if (authEmail.errorMessage) {
+        throw new Error(authEmail.errorMessage);
+      }
+      res.json(authEmail);
+    } catch (e) {
+      next(e);
+    }
+  }
+);
 userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
@@ -23,7 +119,6 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     const height = req.body.height;
     const weight = req.body.weight;
     const gender = req.body.gender;
-
     if (password !== passwordCheck) {
       throw new Error("password와 passwordCheck의 값이 일치하지 않습니다.");
     }
@@ -160,17 +255,8 @@ userAuthRouter.get(
   }
 );
 
-// jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
-userAuthRouter.get("/afterlogin", login_required, function (req, res, next) {
-  res
-    .status(200)
-    .send(
-      `안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`
-    );
-});
-
 userAuthRouter.put(
-  "/change_password",
+  "/users/:id/change_password",
   login_required,
   async function (req, res, next) {
     try {
@@ -204,33 +290,35 @@ userAuthRouter.put(
     }
   }
 );
+userAuthRouter.post(
+  "/users/:id/reset_password",
+  async function (req, res, next) {
+    try {
+      const email = req.body.email;
+      const user = await userAuthService.findUserByEmail({ email });
 
-userAuthRouter.post("/reset_password", async function (req, res, next) {
-  try {
-    const email = req.body.email;
-    const user = await userAuthService.findUserByEmail({ email });
+      if (!user) {
+        throw new Error("해당 메일로 가입된 사용자가 없습니다.");
+      }
 
-    if (!user) {
-      throw new Error("해당 메일로 가입된 사용자가 없습니다.");
+      const name = user.name;
+      const user_id = user.id;
+      const password = generateRandomPassword();
+      const toUpdate = { password };
+      const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
+
+      if (updatedUser.errorMessage) {
+        throw new Error(updatedUser.errorMessage);
+      }
+
+      await userAuthService.nodeMailer({ email, name, password });
+
+      res.status(200).send("임시 비밀번호가 전송되었습니다.");
+    } catch (err) {
+      next(err);
     }
-
-    const name = user.name;
-    const user_id = user.id;
-    const password = generateRandomPassword();
-    const toUpdate = { password };
-    const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
-
-    if (updatedUser.errorMessage) {
-      throw new Error(updatedUser.errorMessage);
-    }
-
-    await userAuthService.nodeMailer({ email, name, password });
-
-    res.status(200).send("임시 비밀번호가 전송되었습니다.");
-  } catch (err) {
-    next(err);
   }
-});
+);
 
 userAuthRouter.delete(
   "/users/:id",

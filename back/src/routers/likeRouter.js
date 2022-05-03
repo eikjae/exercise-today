@@ -193,4 +193,84 @@ likeRouter.get("/like", login_required, async function (req, res, next) {
   }
 });
 
+likeRouter.get(
+  "/like/exercise/info",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.currentUserId;
+
+      const LikeInfo = await likeService.getLikeExerciseInfo({ user_id });
+
+      if (LikeInfo.errorMessage) {
+        throw new Error(LikeInfo.errorMessage);
+      }
+
+      res.status(200).json(LikeInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+likeRouter.get(
+  "/like/food/info",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.currentUserId;
+
+      const LikeInfo = await likeService.getLikeFoodInfo({ user_id });
+
+      if (LikeInfo.errorMessage) {
+        throw new Error(LikeInfo.errorMessage);
+      }
+
+      res.status(200).json(LikeInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+likeRouter.get(
+  "/like/person/info",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.currentUserId;
+
+      const LikeInfo = await likeService.getLikePersonInfo({ user_id });
+
+      if (LikeInfo.errorMessage) {
+        throw new Error(LikeInfo.errorMessage);
+      }
+
+      res.status(200).json(LikeInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+likeRouter.get(
+  "/like/music/info",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.currentUserId;
+
+      const LikeInfo = await likeService.getLikeMusicInfo({ user_id });
+
+      if (LikeInfo.errorMessage) {
+        throw new Error(LikeInfo.errorMessage);
+      }
+
+      res.status(200).json(LikeInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { likeRouter };
