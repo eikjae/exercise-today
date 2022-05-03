@@ -12,7 +12,7 @@ class attendanceService {
       throw new Error(errorMessage);
     }
 
-    if (weight === undefined) {
+    if (!weight) {
       const errorMessage = "몸무게를 입력해주세요";
       throw new Error(errorMessage);
     }
@@ -30,6 +30,10 @@ class attendanceService {
       userId,
       whenDate,
     });
+    if (!attendance) {
+      const errorMessage = "출석체크를 해주세요";
+      throw new Error(errorMessage);
+    }
     return attendance;
   }
 
