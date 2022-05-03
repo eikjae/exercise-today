@@ -6,8 +6,8 @@ import BackImageLike from "./BackImageLike";
 import * as Api from "../../../../../api";
 import { UserStateContext } from "../../../../../App";
 import NotLoginedModal from "../../../errorSection/NotLoginedModal";
-import { useRecoilState } from "recoil";
-import { likedMusicsState } from "../MusicAtom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { likedMusicsState, searchClickedState } from "../../MusicAtom";
 
 const StyledBack = styled.div`
   box-sizing: border-box;
@@ -42,6 +42,8 @@ const BackImage = ({ music, closeModalFlip }) => {
   const [showModal, setShowModal] = useState(false);
   // 유저 로그인 확인용 상태
   const userState = useContext(UserStateContext);
+  // 검색 버튼 클릭시 like 업데이트
+  const searchClicked = useRecoilValue(searchClickedState);
 
   // Modal이 닫힐 경우 MusicImage도 filp을 진행
   const handleCloseModal = () => {
@@ -49,35 +51,41 @@ const BackImage = ({ music, closeModalFlip }) => {
     closeModalFlip();
   };
 
+  // 검색 버튼이 클릭 될 때마다 각 music의 like 상태를 확인함
   useEffect(async () => {
     try {
       const isExistMusic = likedMusics.findIndex(
-        (currentMusic) => currentMusic === music.title
+        (currentMusicTitle) => currentMusicTitle === music.title
       );
+      console.log(isExistMusic);
+      console.log(music.title);
       if (isExistMusic !== -1) {
         // 좋아요 목록에 존재하는 곡일 경우 liked 표시
         setIsLiked(true);
+      } else {
+        // 아닐 경우 liked 표시 하지 않음
+        setIsLiked(false);
       }
     } catch (err) {
       console.error(err);
     }
-  }, []);
+  }, [searchClicked]);
 
   const handleClick = async () => {
-    // if(isLiked){
-    //   // 이미 좋아요한 곡일 경우 좋아요에서 제외해야 함
-    //   await Api.put("like/music", {music});
-    // } else {
-    //   await Api.put("like/music", {music});
-    // }
     try {
-      // 비로그인 시, 경고 Modal을 띄움
+      // 로그인한 사용자가 아닐시 좋아요 기능을 사용할 수 없음
       if (!userState.user) {
         setShowModal(true);
         return;
       }
-      await Api.put("like/music", { music });
-      setIsLiked(!isLiked);
+      // 로그인 했을 경우 좋아요 항목에 추가/삭제 요청
+      await Api.put("like/music", { music: music.title });
+      setIsLiked((prev) => !prev);
+
+      // LikedMusics 업데이트
+      const res = await Api.get("like/music");
+      const newLikedMusics = res.data;
+      setLikedMusics([...newLikedMusics]);
     } catch (err) {
       console.error(err);
     }

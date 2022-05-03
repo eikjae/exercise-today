@@ -5,7 +5,7 @@ import { StyledBottomSection } from "./MusicSection.style";
 import { StyledBottomLayout } from "./MusicSection.style";
 import * as Api from "../../../../api";
 import { useSetRecoilState } from "recoil";
-import { likedMusicsState } from "./MusicAtom";
+import { likedMusicsState } from "../MusicAtom";
 
 const MusicSection = ({ musics }) => {
   const setLikedMusics = useSetRecoilState(likedMusicsState);
