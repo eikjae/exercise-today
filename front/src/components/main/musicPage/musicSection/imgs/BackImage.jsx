@@ -6,6 +6,8 @@ import BackImageLike from "./BackImageLike";
 import * as Api from "../../../../../api";
 import { UserStateContext } from "../../../../../App";
 import NotLoginedModal from "../../../errorSection/NotLoginedModal";
+import { useRecoilState } from "recoil";
+import { likedMusicsState } from "../MusicAtom";
 
 const StyledBack = styled.div`
   box-sizing: border-box;
@@ -32,9 +34,13 @@ const StyledBack = styled.div`
   text-overflow: ellipsis;
 `;
 const BackImage = ({ music, closeModalFlip }) => {
+  // 좋아요 여부 확인
   const [isLiked, setIsLiked] = useState(false);
-  // const [likedMusics, setLikedMusics] = useState([]);
+  // 좋아요된 음악 목록
+  const [likedMusics, setLikedMusics] = useRecoilState(likedMusicsState);
+  // 로그인 필요 경고 Modal 관련 상태
   const [showModal, setShowModal] = useState(false);
+  // 유저 로그인 확인용 상태
   const userState = useContext(UserStateContext);
 
   // Modal이 닫힐 경우 MusicImage도 filp을 진행
@@ -45,16 +51,11 @@ const BackImage = ({ music, closeModalFlip }) => {
 
   useEffect(async () => {
     try {
-      const res = await Api.get("like/music");
-      const likedMusics = res.data;
-      // setLikedMusics([...likedMusics]);
-
       const isExistMusic = likedMusics.findIndex(
         (currentMusic) => currentMusic === music.title
       );
-
       if (isExistMusic !== -1) {
-        // 존재하는 곡일 때
+        // 좋아요 목록에 존재하는 곡일 경우 liked 표시
         setIsLiked(true);
       }
     } catch (err) {
@@ -70,6 +71,7 @@ const BackImage = ({ music, closeModalFlip }) => {
     //   await Api.put("like/music", {music});
     // }
     try {
+      // 비로그인 시, 경고 Modal을 띄움
       if (!userState.user) {
         setShowModal(true);
         return;
