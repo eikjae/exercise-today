@@ -109,4 +109,19 @@ myPageRouter.get(
   }
 );
 
+myPageRouter.get(
+  "/mypage/diet/all",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const dietInfo = await myPageService.getDiet({ userId });
+
+      res.status(200).send(dietInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { myPageRouter };
