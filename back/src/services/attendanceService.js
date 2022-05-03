@@ -30,6 +30,10 @@ class attendanceService {
       userId,
       whenDate,
     });
+    if (!attendance) {
+      const errorMessage = "출석체크를 해주세요";
+      throw new Error(errorMessage);
+    }
     return attendance;
   }
 

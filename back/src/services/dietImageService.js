@@ -1,5 +1,6 @@
 import { DietImage } from "../db";
 import { v4 as uuidv4 } from "uuid";
+import { typeList } from "../utils/lookup";
 
 class dietImageService {
   static async addItem({ userId, whenDate, type, imgurl }) {
@@ -17,8 +18,6 @@ class dietImageService {
       const errorMessage = "이미 사진이 있습니다. 수정을 통해 변경해주세요";
       throw new Error(errorMessage);
     }
-
-    const typeList = ["breakfast", "lunch", "dinner"];
 
     if (!typeList.includes(type)) {
       const errorMessage = "breakfast, lunch, dinner 중에서만 입력해주세요";
@@ -42,15 +41,10 @@ class dietImageService {
       throw new Error(errorMessage);
     }
 
-    if (toUpdate.imgurl) {
-      const fieldToUpdate = "imgurl";
-      const newValue = toUpdate.imgurl;
-      item = await DietImage.update({
-        itemId,
-        fieldToUpdate,
-        newValue,
-      });
-    }
+    item = await DietImage.update({
+      itemId,
+      toUpdate,
+    });
 
     return item;
   }
@@ -70,4 +64,5 @@ class dietImageService {
     await DietImage.deleteByUserId({ userId });
   }
 }
+
 export { dietImageService };
