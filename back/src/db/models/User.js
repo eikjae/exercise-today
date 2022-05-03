@@ -43,4 +43,12 @@ export class User {
     const user = await UserModel.deleteOne({ id: user_id });
     return user;
   }
+
+  static async findByLikeId({ user_id }) {
+    const user = await UserModel.findOne(
+      { id: user_id },
+      "id name description type gender"
+    );
+    return user;
+  }
 }
