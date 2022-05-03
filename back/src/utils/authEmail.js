@@ -12,11 +12,14 @@ export function getInfoFromNaver(profile) {
   return { id, name: nickname, email, imageLink: profile_image };
 }
 export function getInfoFromKakao(profile) {
-  console.log(profile);
   const userProfile = profile.kakao_account.profile;
   const { nickname, profile_image_url } = userProfile;
   const email = profile.kakao_account.email;
   const id = profile.id;
-  console.log(profile_image_url);
   return { id, name: nickname, email, imageLink: profile_image_url };
+}
+
+export function getInfoFromGoogle(profile) {
+  const { id, email, name, picture } = profile.data;
+  return { id, name, email, imageLink: picture };
 }

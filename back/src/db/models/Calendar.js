@@ -27,19 +27,6 @@ export class Calendar {
     return items;
   }
 
-  static async update({ userId, whenDate, fieldToUpdate, newValue }) {
-    const filter = { userId, whenDate };
-    const update = { [fieldToUpdate]: newValue };
-    const option = { returnOriginal: false };
-
-    const updatedItem = await CalendarModel.findOneAndUpdate(
-      filter,
-      update,
-      option
-    );
-    return updatedItem;
-  }
-
   static async deleteByDate({ userId, whenDate }) {
     const result = await CalendarModel.deleteMany({ userId, whenDate });
     return result;
