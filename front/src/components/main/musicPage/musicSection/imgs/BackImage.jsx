@@ -57,8 +57,6 @@ const BackImage = ({ music, closeModalFlip }) => {
       const isExistMusic = likedMusics.findIndex(
         (currentMusicTitle) => currentMusicTitle === music.title
       );
-      console.log(isExistMusic);
-      console.log(music.title);
       if (isExistMusic !== -1) {
         // 좋아요 목록에 존재하는 곡일 경우 liked 표시
         setIsLiked(true);
