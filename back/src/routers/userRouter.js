@@ -7,8 +7,55 @@ import { likeService } from "../services/likeService";
 import { User } from "../db";
 import { authEmailService } from "../services/authEmailService";
 
+const { userImageUpload } = require("../utils/s3");
 const userAuthRouter = Router();
 
+userAuthRouter.put(
+  "/users/:id/profileImage",
+  login_required,
+  userImageUpload.single("userImg"),
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.id;
+      if (user_id != req.currentUserId) {
+        throw new Error("다른 소유자의 소유물을 변경할 권한이 없습니다.");
+      }
+      const fieldToUpdate = "imageLink";
+      const newValue = req.file.location;
+      const updatedUser = await User.update({
+        user_id,
+        fieldToUpdate,
+        newValue,
+      });
+      res.json(updatedUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+userAuthRouter.put(
+  "/users/:id/defaultProfileImage",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.id;
+      if (user_id != req.currentUserId) {
+        throw new Error("다른 소유자의 소유물을 변경할 권한이 없습니다.");
+      }
+      const fieldToUpdate = "imageLink";
+      const newValue = process.env.initial_image_Link;
+      console.log(newValue);
+      const updatedUser = await User.update({
+        user_id,
+        fieldToUpdate,
+        newValue,
+      });
+      res.json(updatedUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 userAuthRouter.get("/user/checkEmail/:email", async function (req, res, next) {
   const email = req.params.email;
   const user = await User.findByEmail({ email });
