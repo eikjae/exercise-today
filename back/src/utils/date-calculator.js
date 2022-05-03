@@ -44,7 +44,7 @@ export function lastSixMonth() {
 }
 
 // 1년 전 구하기
-export function getDateStr() {
+export function lastYear() {
   let whenDate = new Date(year - 1, month, day);
   return rewrite(whenDate);
 }
