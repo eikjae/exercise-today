@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Api from "../../../api";
-import BadgeVisibility from "./foodBadgeSection/FoodBadge";
+import FoodBadge from "./foodBadgeSection/FoodBadge";
 import {
   StyledContainer,
   Title,
@@ -17,7 +17,7 @@ import {
   BodyInfoInput,
   BodyInfoLabel,
   WarningText,
-} from "./MainPage.style";
+} from "./FoodPage.style";
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -78,7 +78,7 @@ export default function MainPage() {
       <TotalFoodWrapper container>
         {foods.map((food, foodIdx) => (
           <FoodWrapper item key={foodIdx}>
-            <BadgeVisibility
+            <FoodBadge
               key={foodIdx}
               food={food}
               foodsInfo={foodsInfo}

@@ -10,7 +10,7 @@ import Network from "./components/user/Network";
 import RegisterForm from "./components/user/Register/RegisterForm";
 import Portfolio from "./components/Portfolio";
 
-import MainPage from "./components/main/mainPage/MainPage";
+import FoodPage from "./components/main/foodPage/FoodPage";
 import MainChartPage from "./components/main/mainChartPage/MainChartPage";
 import MusicPage from "./components/main/musicPage/MusicPage";
 import PartExercisePage from "./components/main/partExercisePage/PartExercisePage";
@@ -73,7 +73,7 @@ function App() {
         <Router>
           <Header />
           <Routes>
-            <Route path="/" exact element={<MainPage />} />
+            <Route path="/" exact element={<FoodPage />} />
             <Route
               path="/:calorie/:height/:weight"
               element={<MainChartPage />}
