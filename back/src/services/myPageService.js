@@ -28,5 +28,13 @@ class myPageService {
     });
     return attendance;
   }
+
+  static async getWeightSixMonth({ userId }) {
+    const attendance = await MyPage.findByUserIdSixMonth({
+      userId,
+    });
+    return attendance;
+  }
 }
+
 export { myPageService };
