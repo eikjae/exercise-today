@@ -81,4 +81,14 @@ export class MyPage {
     );
     return attendance;
   }
+
+  static async findByUserIdSelectedDate({ userId, startDate, finishDate }) {
+    const attendance = await AttendanceModel.find(
+      {
+        $and: [{ userId }, { whenDate: { $gte: startDate, $lte: finishDate } }],
+      },
+      "whenDate weight"
+    );
+    return attendance;
+  }
 }
