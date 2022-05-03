@@ -160,19 +160,19 @@ export default function PartExercisePage() {
       setExercise(selectedExercise);
       setExerciseImg(selectedExercise.gifUrl);
       setExerciseName(selectedExercise.name);
+
       // GET 요청으로 이미 Like 됐는지 확인
       // res를 이용하여 setIsLiked()를 세팅
       const res = await Api.get("like/exercise");
       const likedExercises = res.data;
-      console.log(likedExercises[-1]);
-      console.log(selectedExercise);
       const isExistExercise = likedExercises.findIndex(
-        (currentExercise) => currentExercise.name === selectedExercise.name
+        (currentExercise) => currentExercise === selectedExercise.name
       );
       if (isExistExercise !== -1) {
         // 있으면 true
         setIsLiked(true);
       } else {
+        // 없으면 false
         setIsLiked(false);
       }
     } catch (err) {
@@ -183,10 +183,10 @@ export default function PartExercisePage() {
   const handleClickLike = async (e) => {
     // 로그인한 사용자가 아닐시 좋아요 기능을 사용할 수 없음
     if (!userState.user) {
-      // return alert("로그인 후 사용할 수 있는 서비스입니다.");
       setShowModal(true);
       return;
     }
+    // 로그인 했을 경우 좋아요 항목에 추가/삭제 요청
     await Api.put("like/exercise", { exercise: exercise.name });
     setIsLiked((prev) => !prev);
   };
