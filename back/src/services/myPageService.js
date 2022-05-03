@@ -35,6 +35,13 @@ class myPageService {
     });
     return attendance;
   }
+
+  static async getWeightYear({ userId }) {
+    const attendance = await MyPage.findByUserIdYear({
+      userId,
+    });
+    return attendance;
+  }
 }
 
 export { myPageService };
