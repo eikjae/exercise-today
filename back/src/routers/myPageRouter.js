@@ -89,4 +89,24 @@ myPageRouter.get(
   }
 );
 
+myPageRouter.get(
+  "/mypage/weight/:startdate/:finishdate",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const startDate = req.params.startdate;
+      const finishDate = req.params.finishdate;
+      const weightInfo = await myPageService.getWeightSelectedDate({
+        userId,
+        startDate,
+        finishDate,
+      });
+      res.status(200).send(weightInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { myPageRouter };
