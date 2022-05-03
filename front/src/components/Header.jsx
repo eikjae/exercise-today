@@ -38,6 +38,7 @@ function Header() {
       </StyledTitle>
       <StyledNavContainer>
         {!isLogin && <StyledLink to="login">로그인</StyledLink>}
+        <StyledLink to="calendar">캘린더</StyledLink>
         <StyledLink to="login">다른것</StyledLink>
         {isLogin && <StyledLink to="myPage">마이페이지</StyledLink>}
         {isLogin && (

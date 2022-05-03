@@ -4,7 +4,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { InputLabel, MenuItem } from "@mui/material";
 import * as Api from "../../../api";
 import { UserStateContext } from "../../../App";
-// import {NotLoginedModal} from "../../errorSection/NotLoginedModal";
+import NotLoginedModal from "../errorSection/NotLoginedModal";
 
 import {
   StyledContainer,
@@ -61,12 +61,15 @@ export default function PartExercisePage() {
 
   // 실제 운동 이미지
   const [exerciseImg, setExerciseImg] = useState(null);
+  const [exerciseName, setExerciseName] = useState("");
 
   // 클릭된 부분 확인용
   const [partClick, setPartClick] = useState("not-click");
 
   const userState = useContext(UserStateContext);
   const [isLiked, setIsLiked] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const handleCloseModal = () => setShowModal(false);
 
   // 처음 렌더링시 GET 요청으로 bodyPart 카테고리를 가져옴
   useEffect(() => {
@@ -83,6 +86,7 @@ export default function PartExercisePage() {
 
   // 운동을 원하는 신체부위 클릭시 bodyPart와 target을 알게 됨
   // POST 요청을 통해 targetList와 equipmentList를 가져옴
+  // Equipment와 ExerciseName이 초기화 되도록 함
   const handleClickPart = async (bodyPart, target) => {
     try {
       setBodyPart(bodyPart);
@@ -97,6 +101,8 @@ export default function PartExercisePage() {
         target,
       });
       setEquipmentList(res.data);
+      setEquipment("");
+      setExerciseName("");
     } catch (err) {
       console.error(err);
     }
@@ -153,20 +159,40 @@ export default function PartExercisePage() {
       );
       setExercise(selectedExercise);
       setExerciseImg(selectedExercise.gifUrl);
+      setExerciseName(selectedExercise.name);
+
       // GET 요청으로 이미 Like 됐는지 확인
       // res를 이용하여 setIsLiked()를 세팅
+      const res = await Api.get("like/exercise");
+      const likedExercises = res.data;
+      const isExistExercise = likedExercises.findIndex(
+        (currentExerciseName) => currentExerciseName === selectedExercise.name
+      );
+      if (isExistExercise !== -1) {
+        // 있으면 true
+        setIsLiked(true);
+      } else {
+        // 없으면 false
+        setIsLiked(false);
+      }
     } catch (err) {
       console.error(err);
     }
   };
 
   const handleClickLike = async (e) => {
-    // 로그인한 사용자가 아닐시 좋아요 기능을 사용할 수 없음
-    if (!userState.user) {
-      return alert("로그인 후 사용할 수 있는 서비스입니다.");
+    try {
+      // 로그인한 사용자가 아닐시 좋아요 기능을 사용할 수 없음
+      if (!userState.user) {
+        setShowModal(true);
+        return;
+      }
+      // 로그인 했을 경우 좋아요 항목에 추가/삭제 요청
+      await Api.put("like/exercise", { exercise: exercise.name });
+      setIsLiked((prev) => !prev);
+    } catch (err) {
+      console.error(err);
     }
-    // await Api.put("like/exercise", exercise);
-    // setIsLiked(true);
   };
 
   return (
@@ -182,7 +208,7 @@ export default function PartExercisePage() {
               onChange={handleChangeBodyPart}
             >
               {bodyPartList.map((bodyPart) => (
-                <MenuItem key={bodyPart} value={bodyPart}>
+                <MenuItem key={bodyPart} value={bodyPart || ""}>
                   {bodyPart}
                 </MenuItem>
               ))}
@@ -370,7 +396,7 @@ export default function PartExercisePage() {
           <ExerciseWrapper>
             <SelectExercise
               label="Exercise"
-              value={""}
+              value={exerciseName || ""}
               onChange={handleChangeExercise}
             >
               {exerciseList.map((exercise) => (
@@ -405,6 +431,7 @@ export default function PartExercisePage() {
           )}
         </StyledSvgContainer>
       </StyledRightContainer>
+      <NotLoginedModal showModal={showModal} closeModal={handleCloseModal} />
     </StyledContainer>
   );
 }

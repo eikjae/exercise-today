@@ -17,6 +17,8 @@ import {
   StyledTopSection,
 } from "./SliderSection.style";
 import { post, get } from "./../../../../api";
+import { useSetRecoilState } from "recoil";
+import { searchClickedState } from "../MusicAtom";
 
 const SliderSection = ({ handleSetMusics }) => {
   const [energy, setEnergy] = useState([0.7, 1.0]);
@@ -25,6 +27,8 @@ const SliderSection = ({ handleSetMusics }) => {
   const [year, setYear] = useState([2014, 2020]);
   const [order, setOrder] = useState("title");
   const [limit, setLimit] = useState(0);
+  // 검색 버튼 클릭시 like 업데이트를 위한 상태
+  const setSearchClicked = useSetRecoilState(searchClickedState);
 
   const handleOnChangeEnergy = (value) => {
     setEnergy(value);
@@ -48,8 +52,8 @@ const SliderSection = ({ handleSetMusics }) => {
 
   const handleOnChangeLimits = (e) => {
     if (isNaN(Number(e.target.value))) {
-      alert("숫자만 입력해주세여!");
       setLimit(0);
+      return;
     } else {
       setLimit(Number(e.target.value));
     }
@@ -68,6 +72,7 @@ const SliderSection = ({ handleSetMusics }) => {
         limit,
       });
       handleSetMusics(res.data.musics);
+      setSearchClicked((prev) => !prev);
     } catch (e) {
       throw new Error(e);
     }

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as Api from "../../../api";
@@ -12,6 +12,7 @@ import {
   StyledWarningMessage,
   StyledInputContainer,
   StyledOutLine,
+  StyledSocialImg,
 } from "./LoginForm.style";
 
 function LoginForm() {
@@ -74,7 +75,8 @@ function LoginForm() {
   const handleOnClickRegister = () => {
     navigate("/register");
   };
-
+  console.log(process.env.NAVER_ID);
+  console.log(process.env.KAKAO_ID);
   return (
     <StyledContainer>
       <StyledInputLayout>
@@ -123,6 +125,27 @@ function LoginForm() {
               회원가입
             </StyledButton>
           </StyledButtonWrapper>
+          <a
+            href={
+              "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=bca335629c0e1953e853a81db1736ac6&redirect_uri=http://localhost:5000/oauth/kakao"
+            }
+          >
+            <StyledSocialImg src="socialLoginImg/kakao.png" alt="kakao" />
+          </a>
+          <a
+            href={
+              "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=O9sDUKEAsgqCoL2bSiK5&redirect_uri=http://localhost:5000/oauth/naver"
+            }
+          >
+            <StyledSocialImg src="socialLoginImg/naver.png" alt="naver" />
+          </a>
+          <a
+            href={
+              "https://accounts.google.com/o/oauth2/auth?client_id=543373280798-fvpbsm8d0r50aq6ohg1npu4j61t30ake.apps.googleusercontent.com&redirect_uri=http://localhost:5000/oauth/google&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&response_type=code"
+            }
+          >
+            <StyledSocialImg src="socialLoginImg/google.png" alt="google" />
+          </a>
         </StyledOutLine>
       </StyledInputLayout>
     </StyledContainer>

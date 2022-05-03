@@ -12,7 +12,7 @@ class attendanceService {
       throw new Error(errorMessage);
     }
 
-    if (weight === undefined) {
+    if (!weight) {
       const errorMessage = "몸무게를 입력해주세요";
       throw new Error(errorMessage);
     }

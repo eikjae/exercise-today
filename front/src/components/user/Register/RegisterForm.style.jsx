@@ -7,7 +7,7 @@ export const StyledContainer = styled(Container)`
   align-items: center;
 `;
 
-export const StyledInputLayout = styled(Box)`
+export const InputLayout = styled(Box)`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,25 +19,44 @@ export const StyledInputLayout = styled(Box)`
   border: 1px solid rosybrown;
 `;
 
-export const StyledOutLine = styled(Box)`
+export const OutLine = styled(Box)`
   width: 300px;
 `;
 
-export const StyledInputContainer = styled.div`
+export const InputContainer = styled.div`
   margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
 `;
 export const StyledTextField = styled(TextField)`
   width: 100%;
 `;
 
-export const StyledWarningMessage = styled.p`
+export const ActivateInputWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+`;
+
+export const SubmitActivateButton = styled(Button)`
+  height: 70%;
+  color: #767676;
+`;
+
+export const WarningMessage = styled.p`
   margin-bottom: 0;
 
   color: red;
-  font-size: 10px;
+  font-size: 12px;
 `;
 
-export const StyledBirthInput = styled(TextField)`
+export const NoticeMessage = styled(WarningMessage)`
+  margin-bottom: 0;
+
+  color: black;
+  font-size: 12px;
+`;
+
+export const BirthInput = styled(TextField)`
   width: 100%;
   color: #767676;
 `;
@@ -47,7 +66,7 @@ export const StyledButtonGroup = styled(ButtonGroup)`
   margin-bottom: 1rem;
 `;
 
-export const StyledSexButton = styled(Button)`
+export const SexButton = styled(Button)`
   flex: 0.5;
   border: 1px solid #767676;
   color: #767676;
@@ -61,25 +80,26 @@ export const StyledSexButton = styled(Button)`
   color: ${(props) => (props.isclicksexbtn === "true" ? "white" : "#767676")};
 `;
 
-export const StyledButtonWrapper = styled(Box)`
+export const ButtonWrapper = styled(Box)`
   width: 100%;
   text-align: center;
 `;
 
-export const StyledHWInfo = styled(StyledInputContainer)`
+export const HWInfo = styled(InputContainer)`
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
 `;
 
-export const StyledHeightInput = styled(TextField)`
+export const HeightInput = styled(TextField)`
   width: 45%;
 `;
 
-export const StyledWeightInput = styled(TextField)`
+export const WeightInput = styled(TextField)`
   width: 45%;
 `;
 
-export const StyledRegitserButton = styled(Button)`
+export const RegitserButton = styled(Button)`
   /* border: 1px solid #767676; */
   border-radius: 5px;
   color: #767676;

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 class dietImageService {
   static async addItem({ userId, whenDate, type, imgurl }) {
-    if (whenDate === undefined || type === undefined || imgurl === undefined) {
+    if (!whenDate || !type || !imgurl) {
       const errorMessage = "whenDate, type, imgurl을 모두 입력해주세요";
       throw new Error(errorMessage);
     }
@@ -32,43 +32,6 @@ class dietImageService {
     createdNewItem.errorMessage = null;
 
     return createdNewItem;
-  }
-
-  static async getItem({ itemId }) {
-    const item = await DietImage.findByItemId({ itemId });
-    if (!item) {
-      const errorMessage =
-        "해당하는 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      throw new Error(errorMessage);
-    }
-    return item;
-  }
-
-  static async getItemListByDate({ userId, whenDate }) {
-    const item = await DietImage.findByDate({
-      userId,
-      whenDate,
-    });
-    if (!item) {
-      const errorMessage =
-        "해당하는 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      throw new Error(errorMessage);
-    }
-    return item;
-  }
-
-  static async getItemListByType({ userId, whenDate, type }) {
-    const item = await DietImage.findByDateAndType({
-      userId,
-      whenDate,
-      type,
-    });
-    if (!item) {
-      const errorMessage =
-        "해당하는 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      throw new Error(errorMessage);
-    }
-    return item;
   }
 
   static async setItem({ itemId, toUpdate }) {
