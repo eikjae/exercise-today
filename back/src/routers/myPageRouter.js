@@ -61,4 +61,18 @@ myPageRouter.get(
   }
 );
 
+myPageRouter.get(
+  "/mypage/weight/sixmonth",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const weightInfo = await myPageService.getWeightSixMonth({ userId });
+      res.status(200).send(weightInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { myPageRouter };
