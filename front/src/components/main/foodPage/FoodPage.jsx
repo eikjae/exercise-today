@@ -19,7 +19,7 @@ import {
   WarningText,
 } from "./FoodPage.style";
 
-export default function MainPage() {
+export default function FoodPage() {
   const navigate = useNavigate();
   const [foods, setFoods] = useState([]);
   const [foodsInfo, setFoodsInfo] = useState([]);
