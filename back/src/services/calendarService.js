@@ -43,9 +43,7 @@ class calendarService {
       whenDate,
     });
     if (!item) {
-      const errorMessage =
-        "해당하는 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      throw new Error(errorMessage);
+      return []
     }
     return item;
   }

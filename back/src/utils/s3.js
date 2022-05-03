@@ -9,7 +9,7 @@ const s3 = new aws.S3({
   region: process.env.AWS_REGION,
 });
 
-let upload = multer({
+let dietImageUpload = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.S3_BUCKET_NAME,
@@ -21,4 +21,4 @@ let upload = multer({
   }),
 });
 
-exports.upload = multer(upload);
+exports.dietImageUpload = multer(dietImageUpload);
