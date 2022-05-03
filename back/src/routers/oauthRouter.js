@@ -8,6 +8,7 @@ import {
   getInfoFromNaver,
   getInfoFromGoogle,
 } from "../utils/authEmail";
+import { getRequiredInfoFromData } from "../utils/user";
 import { likeService } from "../services/likeService";
 
 const qs = require("qs");
@@ -137,16 +138,8 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
       const token = jwt.sign({ user_id: result.id }, secretKey);
       userById.token = token;
       delete userById["password"];
-      const resultData = {
-        token,
-        id: userById.id,
-        email: userById.email,
-        name: userById.name,
-        height: userById.height,
-        weight: userById.weight,
-        description: userById.weight,
-        imageLink: userById.imageLink,
-      };
+      const resultData = getRequiredInfoFromData(userById);
+      resultData.token = token;
       res.json(resultData);
     } else {
       const password = generateRandomPassword();
@@ -162,16 +155,8 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
       await likeService.addLike({
         user_id: result.id,
       });
-      const resultData = {
-        token,
-        id: createdUser.id,
-        email: createdUser.email,
-        name: createdUser.name,
-        height: createdUser.height,
-        weight: createdUser.weight,
-        description: createdUser.weight,
-        imageLink: createdUser.imageLink,
-      };
+      const resultData = getRequiredInfoFromData(createdUser);
+      resultData.token = token;
       res.json(resultData);
     }
   } catch (error) {
