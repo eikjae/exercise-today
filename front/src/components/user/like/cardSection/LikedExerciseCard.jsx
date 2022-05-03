@@ -1,11 +1,11 @@
 import React from "react";
-
-import { Layout, ExerciseImg } from "./LikedCard.style";
+import { Layout, LikeImg } from "./LikedCard.style";
 
 export default function LikedExerciseCard({ exercise }) {
   return (
     <Layout>
-      <ExerciseImg src={exercise.gifUrl} />
+      <LikeImg src={exercise.gifUrl} />
+      <h5>{exercise.name}</h5>
     </Layout>
   );
 }

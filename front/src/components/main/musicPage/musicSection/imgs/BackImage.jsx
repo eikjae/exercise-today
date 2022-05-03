@@ -55,7 +55,7 @@ const BackImage = ({ music, closeModalFlip }) => {
   useEffect(async () => {
     try {
       const isExistMusic = likedMusics.findIndex(
-        (currentMusicTitle) => currentMusicTitle === music.title
+        (currentMusicId) => currentMusicId === music.musicId
       );
       if (isExistMusic !== -1) {
         // 좋아요 목록에 존재하는 곡일 경우 liked 표시
@@ -77,7 +77,7 @@ const BackImage = ({ music, closeModalFlip }) => {
         return;
       }
       // 로그인 했을 경우 좋아요 항목에 추가/삭제 요청
-      await Api.put("like/music", { music: music.title });
+      await Api.put("like/music", { music: music.musicId });
       setIsLiked((prev) => !prev);
 
       // LikedMusics 업데이트

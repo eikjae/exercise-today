@@ -1,7 +1,12 @@
 import React from "react";
 import LikedFoodCard from "../cardSection/LikedFoodCard";
-
+import { Layout } from "./LikedTab.style";
 export default function LikedFoodTab({ likedFoods }) {
-  return <h1>LikedFoodTab</h1>;
-  return likedFoods.map((food, idx) => <LikedFoodCard key={idx} food={food} />);
+  return (
+    <Layout>
+      {likedFoods.map((food, idx) => (
+        <LikedFoodCard key={idx} food={food} />
+      ))}
+    </Layout>
+  );
 }

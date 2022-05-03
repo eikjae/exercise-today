@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import * as Api from "../../../api";
 import {} from "./LikePage.style";
 import {
@@ -11,8 +12,7 @@ import { Layout } from "./LikePage.style";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
-import { AppBar, Tabs, Tab, Typography, Box } from "@mui/material";
-import PersonPinIcon from "@mui/icons-material/PersonPin";
+import { AppBar, Tabs, Tab, Box } from "@mui/material";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -49,7 +49,33 @@ function a11yProps(index) {
 
 export default function LikePage() {
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  // const [likedFriends, setLikedFriends] = useState([]);
+  const [likedFoods, setLikedFoods] = useState([]);
+  const [likedExercises, setLikedExercises] = useState([]);
+  const [likedMusics, setLikedMusics] = useState([]);
+
+  const tabElements = ["회원", "음식", "운동", "음악"];
+
+  useEffect(async () => {
+    try {
+      // 회원 (아직 적용x)
+      // let res = await Api.get("like/exercise/info");
+      // setLikedFriends([...res.data]);
+      // 음식
+      let res = await Api.get("like/food/info");
+      setLikedFoods([...res.data]);
+      // 운동
+      res = await Api.get("like/exercise/info");
+      setLikedExercises([...res.data]);
+      // 음악
+      res = await Api.get("like/music/info");
+      console.log(res.data);
+      setLikedMusics([...res.data]);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -58,78 +84,6 @@ export default function LikePage() {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
-
-  const tabElements = ["회원", "음식", "운동", "음악"];
-
-  useEffect(() => {
-    console.log("exerciseTab Test");
-  }, []);
-
-  const likedExercises = [
-    {
-      _id: "626400b50d925057f66d488c",
-      bodyPart: "back",
-      equipment: "cable",
-      gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0153.gif",
-      id: "0153",
-      name: "cable cross-over lateral pulldown",
-      target: "lats",
-    },
-    {
-      _id: "626400b50d925057f66d48a2",
-      bodyPart: "back",
-      equipment: "cable",
-      gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0172.gif",
-      id: "0172",
-      name: "cable incline pushdown",
-      target: "lats",
-    },
-    {
-      _id: "626400b50d925057f66d48a2",
-      bodyPart: "back",
-      equipment: "cable",
-      gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0172.gif",
-      id: "0172",
-      name: "cable incline pushdown",
-      target: "lats",
-    },
-    {
-      _id: "626400b50d925057f66d48a2",
-      bodyPart: "back",
-      equipment: "cable",
-      gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0172.gif",
-      id: "0172",
-      name: "cable incline pushdown",
-      target: "lats",
-    },
-    {
-      _id: "626400b50d925057f66d48a2",
-      bodyPart: "back",
-      equipment: "cable",
-      gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0172.gif",
-      id: "0172",
-      name: "cable incline pushdown",
-      target: "lats",
-    },
-    {
-      _id: "626400b50d925057f66d48a2",
-      bodyPart: "back",
-      equipment: "cable",
-      gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0172.gif",
-      id: "0172",
-      name: "cable incline pushdown",
-      target: "lats",
-    },
-    {
-      _id: "626400b50d925057f66d48a2",
-      bodyPart: "back",
-      equipment: "cable",
-      gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0172.gif",
-      id: "0172",
-      name: "cable incline pushdown",
-      target: "lats",
-    },
-  ];
 
   return (
     <Layout>
@@ -156,13 +110,13 @@ export default function LikePage() {
           <LikedFriendTab />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <LikedFoodTab />
+          <LikedFoodTab likedFoods={likedFoods} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <LikedExerciseTab likedExercises={likedExercises} />
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
-          <LikedMusicTab />
+          <LikedMusicTab likedMusics={likedMusics} />
         </TabPanel>
       </SwipeableViews>
     </Layout>

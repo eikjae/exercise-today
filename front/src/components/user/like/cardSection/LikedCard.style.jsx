@@ -7,9 +7,10 @@ export const Layout = styled.div`
   border: 1px solid #000000;
   border-radius: 5px;
   margin: 10px;
+  text-align: center;
 `;
 
-export const ExerciseImg = styled.img`
+export const LikeImg = styled.img`
   padding: 20px;
   width: 100%;
   justify-content: center;
