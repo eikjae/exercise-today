@@ -45,7 +45,7 @@ const UserSchema = new Schema(
       required: false,
       default: "TodayExercise",
     },
-    ImageLink: {
+    imageLink: {
       type: String,
       required: false,
       default: process.env.initial_image_Link,
