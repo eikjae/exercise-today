@@ -47,7 +47,7 @@ export class User {
   static async findByLikeId({ user_id }) {
     const user = await UserModel.findOne(
       { id: user_id },
-      "id name description type gender"
+      "email id name description type gender"
     );
     return user;
   }
