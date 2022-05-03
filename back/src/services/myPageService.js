@@ -42,6 +42,15 @@ class myPageService {
     });
     return attendance;
   }
+
+  static async getWeightSelectedDate({ userId, startDate, finishDate }) {
+    const attendance = await MyPage.findByUserIdSelectedDate({
+      userId,
+      startDate,
+      finishDate,
+    });
+    return attendance;
+  }
 }
 
 export { myPageService };
