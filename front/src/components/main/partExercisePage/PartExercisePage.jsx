@@ -86,6 +86,7 @@ export default function PartExercisePage() {
 
   // 운동을 원하는 신체부위 클릭시 bodyPart와 target을 알게 됨
   // POST 요청을 통해 targetList와 equipmentList를 가져옴
+  // Equipment와 ExerciseName이 초기화 되도록 함
   const handleClickPart = async (bodyPart, target) => {
     try {
       setBodyPart(bodyPart);
@@ -100,6 +101,8 @@ export default function PartExercisePage() {
         target,
       });
       setEquipmentList(res.data);
+      setEquipment("");
+      setExerciseName("");
     } catch (err) {
       console.error(err);
     }
@@ -161,10 +164,10 @@ export default function PartExercisePage() {
       // res를 이용하여 setIsLiked()를 세팅
       const res = await Api.get("like/exercise");
       const likedExercises = res.data;
-      console.log(res.data);
+      console.log(likedExercises[-1]);
       console.log(selectedExercise);
       const isExistExercise = likedExercises.findIndex(
-        (currentExercise) => currentExercise === selectedExercise
+        (currentExercise) => currentExercise.name === selectedExercise.name
       );
       if (isExistExercise !== -1) {
         // 있으면 true
@@ -184,7 +187,7 @@ export default function PartExercisePage() {
       setShowModal(true);
       return;
     }
-    await Api.put("like/exercise", { exercise });
+    await Api.put("like/exercise", { exercise: exercise.name });
     setIsLiked((prev) => !prev);
   };
 
@@ -377,7 +380,7 @@ export default function PartExercisePage() {
             onChange={handleChangeEquipment}
           >
             {equipmentList.map((equipment) => (
-              <MenuItem key={equipment} value={equipment || ""}>
+              <MenuItem key={equipment} value={equipment}>
                 {equipment}
               </MenuItem>
             ))}
@@ -393,7 +396,7 @@ export default function PartExercisePage() {
               onChange={handleChangeExercise}
             >
               {exerciseList.map((exercise) => (
-                <MenuItem key={exercise.name} value={exercise.name || ""}>
+                <MenuItem key={exercise.name} value={exercise.name}>
                   {exercise.name}
                 </MenuItem>
               ))}
