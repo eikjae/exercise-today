@@ -1,4 +1,4 @@
-import { Like } from "../db";
+import { Like, Exercise } from "../db";
 
 class likeService {
   static async addLike({ user_id }) {
@@ -191,6 +191,25 @@ class likeService {
 
     return LikeInfo;
   }
+
+  // static async getLikeExerciseInfo({ user_id }) {
+  //   const LikeInfo = await Like.findByUserId({ user_id });
+  //   if (!LikeInfo) {
+  //     const errorMessage = "user_id에 대한 likeInfo가 존재하지 않습니다.";
+  //     return { errorMessage };
+  //   }
+
+  //   const LikeExercises = LikeInfo.exercises;
+  //   const LikeExerciseInfo = LikeExercises.map(
+  //     (x) =>
+  //       async function () {
+  //         const Info = await Exercise.findByName({ x });
+  //         return Info;
+  //       }
+  //   );
+
+  //   return LikeExerciseInfo;
+  // }
 }
 
 export { likeService };
