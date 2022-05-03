@@ -10,8 +10,23 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   //useState로 description 상태를 생성함.
   const [description, setDescription] = useState(user.description);
 
+  // 비밀번호 변경 위치 논의 필요
+  const [currentPassword, setCurrentPassword] = useState(user.password);
+  const [newPassword, setNewPassword] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (newPassword.length >= 4) {
+      await Api.put("change_password", {
+        currentPassword,
+        newPassword,
+      });
+    } else if (newPassword.length < 4) {
+      alert(
+        "비밀번호는 최소 4자리여야 합니다. 비밀번호 이외의 다른 변경사항들만 적용됩니다."
+      );
+    }
 
     // "users/유저id" 엔드포인트로 PUT 요청함.
     const res = await Api.put(`users/${user.id}`, {
@@ -29,7 +44,10 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   };
 
   return (
-    <Card className="mb-2">
+    <Card
+      className="mb-2 ms-3 mr-5"
+      style={{ width: "18rem", height: "20rem" }}
+    >
       <Card.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="useEditName" className="mb-3">
@@ -50,12 +68,21 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             />
           </Form.Group>
 
-          <Form.Group controlId="userEditDescription">
+          <Form.Group controlId="userEditDescription" className="mb-3">
             <Form.Control
               type="text"
               placeholder="정보, 인사말"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="userEditPassword">
+            <Form.Control
+              type="password"
+              placeholder="비밀번호 변경"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
             />
           </Form.Group>
 

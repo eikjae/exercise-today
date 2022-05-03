@@ -14,7 +14,7 @@ export default function Abs({ fill, onClick }) {
       onClick={onClick}
     >
       <path
-        class="pt110"
+        className="pt110"
         d="M143,86.6c-1.2-2-2.2-3.7-3.4-5.7C138.1,85,138.9,86.3,143,86.6z"
       />
       <path

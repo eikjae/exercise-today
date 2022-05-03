@@ -1,6 +1,6 @@
 import { UserModel } from "../schemas/user";
 
-class User {
+export class User {
   static async create({ newUser }) {
     const createdNewUser = await UserModel.create(newUser);
     return createdNewUser;
@@ -12,7 +12,7 @@ class User {
   }
 
   static async findById({ user_id }) {
-    const user = await UserModel.findOne({ id: user_id });
+    const user = await UserModel.findOne({ id: user_id }).lean();
     return user;
   }
 
@@ -33,6 +33,14 @@ class User {
     );
     return updatedUser;
   }
-}
 
-export { User };
+  static async findByEmail({ email }) {
+    const user = await UserModel.findOne({ email });
+    return user;
+  }
+
+  static async deleteById({ user_id }) {
+    const user = await UserModel.deleteOne({ id: user_id });
+    return user;
+  }
+}

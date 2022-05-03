@@ -19,6 +19,11 @@ export const StyledInputLayout = styled(Box)`
   border: 1px solid rosybrown;
 `;
 
+export const StyledSocialImg = styled.img`
+  width: 100%;
+  margin-bottom: 1rem;
+`;
+
 export const StyledOutLine = styled(Box)`
   width: 300px;
 `;

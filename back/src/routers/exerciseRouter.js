@@ -27,10 +27,12 @@ exerciseRouter.post("/exercise/calories", async function (req, res, next) {
   try {
     const weight = req.body.weight;
     const name = req.body.name;
+    const time = req.body.time;
 
     const newCalories = await exerciseService.calculateCalories({
       weight,
       name,
+      time,
     });
 
     if (newCalories.errorMessage) {
@@ -64,5 +66,49 @@ exerciseRouter.post("/exercise/timeinfo", async function (req, res, next) {
     next(error);
   }
 });
+
+exerciseRouter.get("/exercise/categorylist", async function (req, res, next) {
+  try {
+    const categoryList = [
+      "유산소",
+      "무산소",
+      "구기",
+      "라켓",
+      "육상",
+      "수상",
+      "댄스",
+      "사이클",
+      "양궁",
+      "복싱",
+      "격투",
+      "기타",
+    ];
+
+    res.status(200).json(categoryList);
+  } catch (error) {
+    next(error);
+  }
+});
+
+exerciseRouter.get(
+  "/exercise/exerciselist/:category",
+  async function (req, res, next) {
+    try {
+      const category = req.params.category;
+
+      const exerciseList = await exerciseService.exerciseList({
+        category,
+      });
+
+      if (exerciseList.errorMessage) {
+        throw new Error(exerciseList.errorMessage);
+      }
+
+      res.status(200).json(exerciseList);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 export { exerciseRouter };
