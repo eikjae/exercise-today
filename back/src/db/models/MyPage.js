@@ -4,6 +4,7 @@ import {
   lastWeek,
   lastMonth,
   lastThreeMonth,
+  lastSixMonth,
 } from "../../utils/date-calculator.js";
 
 export class MyPage {
@@ -47,6 +48,19 @@ export class MyPage {
         $and: [
           { userId },
           { whenDate: { $gte: lastThreeMonth(), $lte: todayDate() } },
+        ],
+      },
+      "whenDate weight"
+    );
+    return attendance;
+  }
+
+  static async findByUserIdSixMonth({ userId }) {
+    const attendance = await AttendanceModel.find(
+      {
+        $and: [
+          { userId },
+          { whenDate: { $gte: lastSixMonth(), $lte: todayDate() } },
         ],
       },
       "whenDate weight"
