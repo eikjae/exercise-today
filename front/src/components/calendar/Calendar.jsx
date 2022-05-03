@@ -3,7 +3,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import "./Calendar.css";
-import { StyledCalendarLayout, StyledCalenderWrapper } from "./Calendar.style";
+import { StyledCalenderWrapper } from "./Calendar.style";
 import dayjs from "dayjs";
 
 const Calendar = ({
@@ -38,6 +38,7 @@ const Calendar = ({
         displayEventTime={false}
         height={1000}
         locale={"ko"}
+        eventBackgroundColor={"yellow"}
       />
     </StyledCalenderWrapper>
   );

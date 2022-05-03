@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { get, post } from "../../../api";
 import Calendar from "../../calendar/Calendar";
 import {
@@ -8,6 +8,8 @@ import {
   BodyWrapper,
   TodayChecked,
   TodayWeight,
+  StyledTextField,
+  WeightTitle,
 } from "./CalendarPage.style";
 import EatFoodList from "./eatFoodList/EatFoodList";
 import ExerciseSection from "./exerciseSection/ExerciseSection";
@@ -21,7 +23,6 @@ const CalendarPage = (props) => {
   const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
   const [date, setDate] = useState("");
   const [strDate, setStrDate] = useState("");
-  const [weight, setWeight] = useState(80);
   const [totalExerciseCalrorie, setTotalExerciseCalrorie] = useState(0);
 
   const [breakfastCalrorie, setBreakfastCalrorie] = useState(0);
@@ -40,6 +41,8 @@ const CalendarPage = (props) => {
 
   // 캘린더 데이터
   const [calendarData, setCalendarData] = useState([]);
+
+  const weightRef = useRef();
 
   const handleSetDate = (month, today, day) => {
     day = dayOfWeek[day];
@@ -61,8 +64,6 @@ const CalendarPage = (props) => {
   };
 
   const setChangeListWhenClick = (data) => {
-    // if (data.diet.length === 0) return;
-    console.log(data);
     const newBreakfastList = data.diet.filter((d) => d.type === "breakfast");
     const newLunchList = data.diet.filter((d) => d.type === "lunch");
     const newDinnerList = data.diet.filter((d) => d.type === "dinner");
@@ -74,16 +75,18 @@ const CalendarPage = (props) => {
   };
 
   const setCalorieWhenClick = (data) => {
-    console.log(data.calories.length);
-    if (data.calories.length === 0) {
+    console.log(data);
+    if (data.length === 0) {
       setBreakfastCalrorie(0);
       setLunchCalrorie(0);
       setDinnerCalrorie(0);
+      setTotalExerciseCalrorie(0);
       return;
     }
     setBreakfastCalrorie(Number(data.calories[0].title.split("+")[1]));
     setLunchCalrorie(Number(data.calories[1].title.split("+")[1]));
     setDinnerCalrorie(Number(data.calories[2].title.split("+")[1]));
+    setTotalExerciseCalrorie(Number(data.calories[3].title.split("-")[1]));
   };
 
   const setImageUrlWhenClick = (data) => {
@@ -115,9 +118,7 @@ const CalendarPage = (props) => {
       const res = await get(`calendar/items/${clickDate}`);
       setImageUrlWhenClick(res.data);
       setChangeListWhenClick(res.data);
-      console.log("여기까지 됨");
       const res2 = await get(`calendar/calories/${clickDate}`);
-      console.log(res2);
       setCalorieWhenClick(res2.data);
     } catch (e) {
       throw new Error(e);
@@ -196,8 +197,11 @@ const CalendarPage = (props) => {
         const res = await get(
           `calendar/items/${dayjs(newDate).format("YYYY-MM-DD")}`
         );
-
         setChangeListWhenClick(res.data);
+        const res2 = await get(
+          `calendar/calories/${dayjs(newDate).format("YYYY-MM-DD")}`
+        );
+        setCalorieWhenClick(res2.data);
       };
 
       getCalendarItems();
@@ -221,8 +225,16 @@ const CalendarPage = (props) => {
         <BodyWrapper>
           <TodayChecked>
             <TodayWeight>
-              <h4>오늘의 몸무게 :</h4>
-              <h4>{weight}kg</h4>
+              <WeightTitle>오늘의 몸무게 :</WeightTitle>
+              <StyledTextField
+                type="number"
+                size="small"
+                inputRef={weightRef}
+                onChange={() => {
+                  console.log(weightRef.current.value);
+                }}
+              />
+              <WeightTitle>kg</WeightTitle>
             </TodayWeight>
           </TodayChecked>
           <MealSection
@@ -277,14 +289,14 @@ const CalendarPage = (props) => {
             setFoodList={setDinnerList}
           />
           <ExerciseSection
-            weight={weight}
+            weight={weightRef.current?.value}
             setExerciseList={setExerciseList}
             totalExerciseCalrorie={totalExerciseCalrorie}
             handleSetTotalExerciseCalrorie={handleSetTotalExerciseCalrorie}
           />
           <ExerciseList
             title={"운동 리스트"}
-            weight={weight}
+            weight={weightRef.current?.value}
             exerciseList={exerciseList}
             setExerciseList={setExerciseList}
             setTotalExerciseCalrorie={setTotalExerciseCalrorie}

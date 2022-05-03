@@ -8,6 +8,9 @@ import {
   StyledTextField,
   StyledButton,
   MealWrapper,
+  FormWrapper,
+  Form,
+  SubmitImageButton,
 } from "./MealSection.style";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
@@ -27,6 +30,8 @@ const MealSection = ({
   // 선택한 음식
   const [meal, setMeal] = useState(null);
   const [count, setCount] = useState(0);
+
+  const [image, setImage] = useState(null);
 
   // api
   const getFoods = useCallback(async () => {
@@ -74,6 +79,21 @@ const MealSection = ({
     }
   };
 
+  const handleSubmitImage = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("whenDate", strDate);
+      formData.append("type", type);
+      formData.append("dietImg", image);
+
+      const res = await postImage("dietimage", formData);
+      setUrl(res.data.imgurl);
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
   useEffect(() => {
     try {
       getFoods();
@@ -82,49 +102,18 @@ const MealSection = ({
     }
   }, []);
 
-  const [image, setImage] = useState(null);
   return (
     <MealContainer>
       <h5>{title}</h5>
       <MealWrapper>
-        <div
-          style={{
-            width: "90px",
-            height: "90px",
-            border: "1px solid black",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <FormWrapper>
           {/* action="dietimage" method="post" */}
           {imgUrl === null ? (
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault();
-                const formData = new FormData();
-                formData.append("whenDate", strDate);
-                formData.append("type", type);
-                formData.append("dietImg", image);
-                try {
-                  const res = await postImage("dietimage", formData);
-                  // const res = await get("dietimage/items/type", {
-                  //   whenDate: strDate,
-                  //   tpye: "dinner",
-                  // });
-                  console.log(res);
-                  setUrl(res.data.imgurl);
-                } catch (e) {
-                  throw new Error(e);
-                }
-              }}
-            >
+            <Form onSubmit={handleSubmitImage}>
               <label>
                 <input
                   type="file"
                   style={{
-                    position: "relative",
-                    left: "40px",
                     display: "none",
                   }}
                   accept="image/*"
@@ -141,10 +130,8 @@ const MealSection = ({
                   업로드
                 </div>
               </label>
-              <div>
-                <input type="submit" />
-              </div>
-            </form>
+              <SubmitImageButton type="submit">확인</SubmitImageButton>
+            </Form>
           ) : (
             <img
               alt="temp"
@@ -152,7 +139,7 @@ const MealSection = ({
               style={{ width: "90px", height: "90px" }}
             ></img>
           )}
-        </div>
+        </FormWrapper>
         {/* <Image /> */}
         <MealInfoContainer>
           <InputWrapper>

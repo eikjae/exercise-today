@@ -1,23 +1,31 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as Api from "../../../api";
 import {
-  StyledRegitserButton,
+  RegitserButton,
   StyledContainer,
   StyledTextField,
-  StyledInputLayout,
-  StyledButtonWrapper,
-  StyledInputContainer,
-  StyledWarningMessage,
-  StyledBirthInput,
-  StyledOutLine,
+  InputLayout,
+  ButtonWrapper,
+  InputContainer,
+  WarningMessage,
+  BirthInput,
+  OutLine,
   StyledButtonGroup,
-  StyledSexButton,
-  StyledHeightInput,
-  StyledWeightInput,
-  StyledHWInfo,
+  SexButton,
+  HeightInput,
+  WeightInput,
+  HWInfo,
+  NoticeMessage,
+  ActivateInputWrapper,
+  SubmitActivateButton,
 } from "./RegisterForm.style";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { Button, TextField } from "@mui/material";
+import dayjs from "dayjs";
 
 function RegisterForm() {
   const navigate = useNavigate();
@@ -26,12 +34,64 @@ function RegisterForm() {
   // const [email, setEmail] = useState("");
 
   const [password, setPassword] = useState("");
-  const [isValidId, setIsValidId] = useState(true);
-  const [isValidpassword, setIsValidPassword] = useState(true);
-  const [isSamePassword, setIsSamePassword] = useState(true);
+
+  const status = {
+    WARNING: "WARNING",
+    ERROR: "ERROR",
+    SUCCESS: "SUCCESS",
+    CHECK: "CHECK",
+  };
+
+  const NOT_VALID_ID = {
+    status: status.WARNING,
+    type: "NOT_VALID_ID",
+    msg: "4자리 이상 적어주세요.",
+  };
+
+  const ALREADY_REGISTER_EMAIL = {
+    status: status.ERROR,
+    type: "ALREADY_REGISTER_EMAIL",
+    msg: "이미 가입 된 이메일 입니다.",
+  };
+
+  const NOT_VALID_PASSWORD = {
+    status: status.WARNING,
+    type: "NOT_VALID_PASSWORD",
+    msg: "4자리 이상 적어주세요.",
+  };
+
+  const NOT_SAME_PASSWORD = {
+    status: status.ERROR,
+    type: "NOT_SAME_PASSWORD",
+    msg: "비밀번호를 확인하세요.",
+  };
+
+  const ALL_VALID = {
+    status: status.SUCCESS,
+    type: "ALL_VALID",
+    msg: "",
+  };
+
+  const CHECK_ACTIVATE_KEY = {
+    status: status.CHECK,
+    type: "CHECK_ACTIVATE_KEY",
+    msg: "인증키가 해당이메일로 발송되었습니다.",
+  };
+
+  const VALID_ACTIVATE_KEY = {
+    status: status.SUCCESS,
+    type: "VALID_ACTIVATE_KEY",
+    msg: "",
+  };
+  const [msg, setMsg] = React.useState({
+    status: "",
+    type: "",
+    msg: "",
+  });
+
   // const [name, setName] = useState("");
   // 생년월일
-  const [birthday, setBirthday] = useState("");
+  const [birthday, setBirthday] = useState(new Date());
   // 성별
   const [isClickSexBtn, setIsClickSexBtn] = useState(false);
 
@@ -40,6 +100,7 @@ function RegisterForm() {
   const confirmPasswordRef = useRef();
   const heightRef = useRef();
   const weightRef = useRef();
+  const keyRef = useRef();
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -62,36 +123,36 @@ function RegisterForm() {
   // 위 4개 조건이 모두 동시에 만족되는지 여부를 확인함.
   // const isFormValid =
   //   isEmailValid && isPasswordValid && isPasswordSame && isNameValid;
+  const handleChangeBirthday = (value) => {
+    console.log(value);
+    setBirthday(dayjs(value).format("YYYY-MM-DD"));
+  };
 
   const handleOnClickRegister = async (e) => {
     // id가 4자리가 안되면 안됨
     if (idRef.current.value.length < 4) {
-      setIsValidId(false);
-    } else {
-      setIsValidId(true);
+      setMsg(NOT_VALID_ID);
+      return;
     }
     if (password.length < 4) {
-      setIsValidPassword(false);
+      setMsg(NOT_VALID_PASSWORD);
       return;
     } else {
       if (password !== confirmPasswordRef.current.value) {
-        setIsValidPassword(true);
-        setIsSamePassword(false);
+        setMsg(NOT_SAME_PASSWORD);
         return;
-      } else {
-        setIsValidPassword(true);
-        setIsSamePassword(true);
       }
     }
-
     e.preventDefault();
 
     try {
+      // 이메일 가입 존재 여부를 따진다.
+      checkEmail();
       await Api.post("user/register", {
+        name: idRef.current.value,
         email: emailRef.current.value,
         password,
         passwordCheck: confirmPasswordRef.current.value,
-        name: idRef.current.value,
         height: Number(heightRef.current.value),
         weight: Number(weightRef.current.value),
         gender: isClickSexBtn === true ? "male" : "female",
@@ -104,11 +165,36 @@ function RegisterForm() {
     }
   };
 
+  const checkEmail = async () => {
+    const res = await Api.get(`user/checkEmail/${emailRef.current.value}`);
+    console.log(res.data.status);
+    if (res.data.status === 1) {
+      setMsg(ALREADY_REGISTER_EMAIL);
+    } else {
+      // 메일로 인증키 쏘기
+      setMsg(CHECK_ACTIVATE_KEY);
+      await Api.post(`user/authEmail/${emailRef.current.value}/activateKey`);
+    }
+  };
+
+  const checkActivateKey = async () => {
+    const res = await Api.post(
+      `user/authEmail/${emailRef.current.value}/activate`,
+      {
+        activateKey: keyRef.current.value,
+      }
+    );
+    console.log(res);
+    if (res.data.status === 1) {
+      setMsg(ALL_VALID);
+    }
+  };
+
   return (
     <StyledContainer>
-      <StyledInputLayout>
-        <StyledOutLine>
-          <StyledInputContainer>
+      <InputLayout>
+        <OutLine>
+          <InputContainer>
             <StyledTextField
               id="id-input"
               label="id"
@@ -118,24 +204,54 @@ function RegisterForm() {
               color="secondary"
               inputRef={idRef}
             />
-            {!isValidId && (
-              <StyledWarningMessage>
-                4자리 이상 적어주세요.
-              </StyledWarningMessage>
+            {msg.type === NOT_VALID_ID.type && (
+              <WarningMessage>{msg.msg}</WarningMessage>
             )}
-          </StyledInputContainer>
-          <StyledInputContainer>
-            <StyledTextField
-              id="email-input"
-              label="email"
-              type="email"
-              autoComplete="current-email"
-              variant="standard"
-              color="secondary"
-              inputRef={emailRef}
-            />
-          </StyledInputContainer>
-          <StyledInputContainer>
+          </InputContainer>
+          <InputContainer>
+            <ActivateInputWrapper>
+              <StyledTextField
+                id="email-input"
+                label="email"
+                type="email"
+                autoComplete="current-email"
+                variant="standard"
+                color="secondary"
+                inputRef={emailRef}
+              />
+              <SubmitActivateButton
+                onClick={() => {
+                  setMsg(CHECK_ACTIVATE_KEY);
+                }}
+              >
+                인증
+              </SubmitActivateButton>
+            </ActivateInputWrapper>
+            {msg.type === ALREADY_REGISTER_EMAIL.type && (
+              <WarningMessage>{msg.msg}</WarningMessage>
+            )}
+          </InputContainer>
+          {msg.type === CHECK_ACTIVATE_KEY.type && (
+            <InputContainer>
+              <ActivateInputWrapper>
+                <StyledTextField
+                  id="key-input"
+                  label="activate key"
+                  type="text"
+                  autoComplete="current-key"
+                  variant="standard"
+                  color="secondary"
+                  inputRef={keyRef}
+                  disabled={msg.type !== CHECK_ACTIVATE_KEY.type}
+                />
+                <SubmitActivateButton onClick={checkActivateKey}>
+                  확인
+                </SubmitActivateButton>
+              </ActivateInputWrapper>
+              <NoticeMessage>{msg.msg}</NoticeMessage>
+            </InputContainer>
+          )}
+          <InputContainer>
             <StyledTextField
               id="password-input"
               label="password"
@@ -147,13 +263,11 @@ function RegisterForm() {
                 setPassword(e.target.value);
               }}
             />
-            {!isValidpassword && (
-              <StyledWarningMessage>
-                4자리 이상 적어주세요.
-              </StyledWarningMessage>
+            {msg.type === NOT_VALID_PASSWORD.type && (
+              <WarningMessage>{msg.msg}</WarningMessage>
             )}
-          </StyledInputContainer>
-          <StyledInputContainer>
+          </InputContainer>
+          <InputContainer>
             <StyledTextField
               id="password-check-input"
               label="password check"
@@ -164,49 +278,44 @@ function RegisterForm() {
               inputRef={confirmPasswordRef}
               disabled={password.length < 4}
             />
-            {!isSamePassword && (
-              <StyledWarningMessage>비밀번호를 확인하세요</StyledWarningMessage>
+            {msg.type === NOT_SAME_PASSWORD.type && (
+              <WarningMessage>{msg.msg}</WarningMessage>
             )}
-          </StyledInputContainer>
-          <StyledInputContainer>
-            <StyledWarningMessage style={{ color: "#767676" }}>
-              생년월일
-            </StyledWarningMessage>
-            <StyledBirthInput
-              id="birthday"
-              type="date"
-              variant="standard"
-              color="secondary"
-              onChange={(e) => {
-                setBirthday(e.target.value);
-                console.log("생년월일 : ", e.target.value);
-                console.log("생년월일 타입 : ", typeof e.target.value);
-              }}
-            />
-          </StyledInputContainer>
+          </InputContainer>
+          <InputContainer>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DesktopDatePicker
+                label="Date desktop"
+                inputFormat="MM/dd/yyyy"
+                value={birthday}
+                onChange={handleChangeBirthday}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+          </InputContainer>
           <StyledButtonGroup
             variant="outlined"
             aria-label="outlined button group"
           >
-            <StyledSexButton
+            <SexButton
               isclicksexbtn={isClickSexBtn + ""}
               onClick={() => {
                 setIsClickSexBtn(true);
               }}
             >
               남자
-            </StyledSexButton>
-            <StyledSexButton
+            </SexButton>
+            <SexButton
               isclicksexbtn={!isClickSexBtn + ""}
               onClick={() => {
                 setIsClickSexBtn(false);
               }}
             >
               여자
-            </StyledSexButton>
+            </SexButton>
           </StyledButtonGroup>
-          <StyledHWInfo>
-            <StyledHeightInput
+          <HWInfo>
+            <HeightInput
               id="height"
               label="height"
               type="number"
@@ -215,7 +324,7 @@ function RegisterForm() {
               color="secondary"
               inputRef={heightRef}
             />
-            <StyledWeightInput
+            <WeightInput
               id="weight"
               label="weight"
               type="text"
@@ -224,14 +333,17 @@ function RegisterForm() {
               color="secondary"
               inputRef={weightRef}
             />
-          </StyledHWInfo>
-          <StyledButtonWrapper>
-            <StyledRegitserButton onClick={handleOnClickRegister}>
+          </HWInfo>
+          <ButtonWrapper>
+            <RegitserButton
+              onClick={handleOnClickRegister}
+              disabled={msg.type !== ALL_VALID.type}
+            >
               가입하기
-            </StyledRegitserButton>
-          </StyledButtonWrapper>
-        </StyledOutLine>
-      </StyledInputLayout>
+            </RegitserButton>
+          </ButtonWrapper>
+        </OutLine>
+      </InputLayout>
     </StyledContainer>
   );
 }

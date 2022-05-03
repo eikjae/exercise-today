@@ -40,6 +40,7 @@ const ExerciseSection = ({
   }, []);
 
   const getTotalExerciseCalrorie = async () => {
+    console.log(weight);
     if (hour === 0) return;
     setExerciseCategory(null);
     setExercise(null);
@@ -114,6 +115,7 @@ const ExerciseSection = ({
         <HourTextFieldWrapper>
           <StyledTextField
             id="count-meal"
+            value={hour}
             label="시간"
             variant="outlined"
             size="small"

@@ -21,9 +21,27 @@ export const MealWrapper = styled.div`
   width: 100%;
 `;
 
+export const FormWrapper = styled.div`
+  width: 90px;
+  height: 100px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const Image = styled.img`
   width: 90px;
   height: 90px;
+`;
+
+export const SubmitImageButton = styled(Button)`
+  width: 70%;
+  height: 1.8rem;
+  line-height: 10px;
+  color: black;
+  background-color: lightgray;
+  margin-top: 0.3rem;
 `;
 
 export const MealInfoContainer = styled.div`
@@ -34,6 +52,10 @@ export const MealInfoContainer = styled.div`
 export const InputWrapper = styled.div`
   /* display: flex; */
   align-items: center;
+`;
+
+export const Form = styled.form`
+  text-align: center;
 `;
 
 export const IconWrapper = styled.div`
