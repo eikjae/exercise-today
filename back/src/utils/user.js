@@ -7,5 +7,6 @@ export function getRequiredInfoFromData(data) {
     weight: data.weight,
     description: data.description,
     imageLink: data.imageLink,
+    gender: data.gender,
   };
 }

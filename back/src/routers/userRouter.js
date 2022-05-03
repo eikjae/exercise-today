@@ -46,12 +46,12 @@ userAuthRouter.put(
       }
       const fieldToUpdate = "imageLink";
       const newValue = process.env.initial_image_Link;
-      console.log(newValue);
       const updatedUser = await User.update({
         user_id,
         fieldToUpdate,
         newValue,
       });
+
       const resultData = getRequiredInfoFromData(updatedUser);
       res.json(resultData);
     } catch (error) {
