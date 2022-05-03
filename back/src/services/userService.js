@@ -21,10 +21,10 @@ class userAuthService {
     const user = await User.findByEmail({ email });
     if (user) {
       const errorMessage =
-        "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요.";
+        "이 이메일은 현재 가입이력이 있는 이메일입니다. 다른 이메일을 이용해주세요.";
       return { errorMessage };
     }
-    if (!type) {
+    if (type === "TodayExercise") {
       const authEmail = await AuthEmail.findByEmail({ email });
       if (!authEmail || authEmail.status === 0) {
         const errorMessage =
@@ -55,6 +55,7 @@ class userAuthService {
         delete newUser[key];
       }
     });
+    console.log(newUser);
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });

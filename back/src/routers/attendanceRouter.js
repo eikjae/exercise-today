@@ -33,12 +33,12 @@ attendanceRouter.post(
 );
 
 attendanceRouter.get(
-  "/attendance",
+  "/attendance/whenDate",
   login_required,
   async function (req, res, next) {
     try {
       const userId = req.currentUserId;
-      const { whenDate } = req.body;
+      const { whenDate } = req.params;
       const attendance = await attendanceService.getAttendance({
         userId,
         whenDate,
