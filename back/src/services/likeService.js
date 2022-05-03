@@ -1,4 +1,4 @@
-import { Like, TargetExercise, Food, User } from "../db";
+import { Like, TargetExercise, Food, User, Music } from "../db";
 
 class likeService {
   static async addLike({ user_id }) {
@@ -241,10 +241,26 @@ class likeService {
 
     for (let i = 0; i < LikeInfo.people.length; i++) {
       const user_id = LikeInfo.people[i];
-      console.log("user_id:", user_id);
       const LikePersonInfo = await User.findByLikeId({ user_id });
-      console.log("LikePersonInfo:", LikePersonInfo);
       InfoList.push(LikePersonInfo);
+    }
+
+    return InfoList;
+  }
+
+  static async getLikeMusicInfo({ user_id }) {
+    const LikeInfo = await Like.findByUserId({ user_id });
+    if (!LikeInfo) {
+      const errorMessage = "user_id에 대한 likeInfo가 존재하지 않습니다.";
+      return { errorMessage };
+    }
+
+    let InfoList = [];
+
+    for (let i = 0; i < LikeInfo.musics.length; i++) {
+      const musicId = LikeInfo.musics[i];
+      const LikeMusicInfo = await Music.findByMusicId({ musicId });
+      InfoList.push(LikeMusicInfo);
     }
 
     return InfoList;
