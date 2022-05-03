@@ -65,6 +65,72 @@ export default function LikePage() {
     console.log("exerciseTab Test");
   }, []);
 
+  const likedExercises = [
+    {
+      _id: "626400b50d925057f66d488c",
+      bodyPart: "back",
+      equipment: "cable",
+      gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0153.gif",
+      id: "0153",
+      name: "cable cross-over lateral pulldown",
+      target: "lats",
+    },
+    {
+      _id: "626400b50d925057f66d48a2",
+      bodyPart: "back",
+      equipment: "cable",
+      gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0172.gif",
+      id: "0172",
+      name: "cable incline pushdown",
+      target: "lats",
+    },
+    {
+      _id: "626400b50d925057f66d48a2",
+      bodyPart: "back",
+      equipment: "cable",
+      gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0172.gif",
+      id: "0172",
+      name: "cable incline pushdown",
+      target: "lats",
+    },
+    {
+      _id: "626400b50d925057f66d48a2",
+      bodyPart: "back",
+      equipment: "cable",
+      gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0172.gif",
+      id: "0172",
+      name: "cable incline pushdown",
+      target: "lats",
+    },
+    {
+      _id: "626400b50d925057f66d48a2",
+      bodyPart: "back",
+      equipment: "cable",
+      gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0172.gif",
+      id: "0172",
+      name: "cable incline pushdown",
+      target: "lats",
+    },
+    {
+      _id: "626400b50d925057f66d48a2",
+      bodyPart: "back",
+      equipment: "cable",
+      gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0172.gif",
+      id: "0172",
+      name: "cable incline pushdown",
+      target: "lats",
+    },
+    {
+      _id: "626400b50d925057f66d48a2",
+      bodyPart: "back",
+      equipment: "cable",
+      gifUrl: "http://d205bpvrqc9yn1.cloudfront.net/0172.gif",
+      id: "0172",
+      name: "cable incline pushdown",
+      target: "lats",
+    },
+  ];
+
   return (
     <Layout>
       <AppBar position="static">
@@ -93,7 +159,7 @@ export default function LikePage() {
           <LikedFoodTab />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <LikedExerciseTab />
+          <LikedExerciseTab likedExercises={likedExercises} />
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
           <LikedMusicTab />
