@@ -181,14 +181,18 @@ export default function PartExercisePage() {
   };
 
   const handleClickLike = async (e) => {
-    // 로그인한 사용자가 아닐시 좋아요 기능을 사용할 수 없음
-    if (!userState.user) {
-      setShowModal(true);
-      return;
+    try {
+      // 로그인한 사용자가 아닐시 좋아요 기능을 사용할 수 없음
+      if (!userState.user) {
+        setShowModal(true);
+        return;
+      }
+      // 로그인 했을 경우 좋아요 항목에 추가/삭제 요청
+      await Api.put("like/exercise", { exercise: exercise.name });
+      setIsLiked((prev) => !prev);
+    } catch (err) {
+      console.error(err);
     }
-    // 로그인 했을 경우 좋아요 항목에 추가/삭제 요청
-    await Api.put("like/exercise", { exercise: exercise.name });
-    setIsLiked((prev) => !prev);
   };
 
   return (
