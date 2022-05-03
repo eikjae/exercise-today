@@ -166,7 +166,7 @@ export default function PartExercisePage() {
       const res = await Api.get("like/exercise");
       const likedExercises = res.data;
       const isExistExercise = likedExercises.findIndex(
-        (currentExercise) => currentExercise === selectedExercise.name
+        (currentExerciseName) => currentExerciseName === selectedExercise.name
       );
       if (isExistExercise !== -1) {
         // 있으면 true
