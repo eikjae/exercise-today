@@ -75,4 +75,18 @@ myPageRouter.get(
   }
 );
 
+myPageRouter.get(
+  "/mypage/weight/year",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const weightInfo = await myPageService.getWeightYear({ userId });
+      res.status(200).send(weightInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { myPageRouter };
