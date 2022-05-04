@@ -161,19 +161,21 @@ export default function PartExercisePage() {
       setExerciseImg(selectedExercise.gifUrl);
       setExerciseName(selectedExercise.name);
 
-      // GET 요청으로 이미 Like 됐는지 확인
+      // 로그인 했을시, GET 요청으로 이미 Like 됐는지 확인
       // res를 이용하여 setIsLiked()를 세팅
-      const res = await Api.get("like/exercise");
-      const likedExercises = res.data;
-      const isExistExercise = likedExercises.findIndex(
-        (currentExerciseName) => currentExerciseName === selectedExercise.name
-      );
-      if (isExistExercise !== -1) {
-        // 있으면 true
-        setIsLiked(true);
-      } else {
-        // 없으면 false
-        setIsLiked(false);
+      if (userState.user) {
+        const res = await Api.get("like/exercise");
+        const likedExercises = res.data;
+        const isExistExercise = likedExercises.findIndex(
+          (currentExerciseName) => currentExerciseName === selectedExercise.name
+        );
+        if (isExistExercise !== -1) {
+          // 있으면 true
+          setIsLiked(true);
+        } else {
+          // 없으면 false
+          setIsLiked(false);
+        }
       }
     } catch (err) {
       console.error(err);
