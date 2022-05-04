@@ -146,9 +146,7 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
       result.password = password;
       result.type = coperation;
       const createdUser = await userAuthService.addUser(result);
-      if (createdUser.errorMessage) {
-        throw new Error(createdUser.errorMessage);
-      }
+
       const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
       const token = jwt.sign({ user_id: result.id }, secretKey);
 
