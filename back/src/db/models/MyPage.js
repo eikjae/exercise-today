@@ -407,4 +407,33 @@ export class MyPage {
 
     return ansList;
   }
+
+  static async findWorkoutSelectedDateByUserId({
+    userId,
+    startDate,
+    finishDate,
+  }) {
+    const workoutInfo = await CalendarModel.find(
+      {
+        $and: [
+          { userId },
+          {
+            whenDate: {
+              $gte: startDate,
+              $lte: finishDate,
+            },
+          },
+        ],
+      },
+      "whenDate calories.type calories.calorie"
+    );
+    const ansList = workoutInfo.map((obj) => {
+      const whenDate = obj.whenDate;
+      const calorie = obj.calories[3].calorie;
+
+      return { whenDate, calorie };
+    });
+
+    return ansList;
+  }
 }
