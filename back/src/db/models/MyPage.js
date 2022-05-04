@@ -272,4 +272,19 @@ export class MyPage {
 
     return ansList;
   }
+
+  static async findWorkoutByUserId({ userId }) {
+    const workoutInfo = await CalendarModel.find(
+      { userId },
+      "whenDate calories.type calories.calorie"
+    );
+
+    const ansList = workoutInfo.map((obj) => {
+      const whenDate = obj.whenDate;
+      const calorie = obj.calories[3].calorie;
+      return { whenDate, calorie };
+    });
+
+    return ansList;
+  }
 }
