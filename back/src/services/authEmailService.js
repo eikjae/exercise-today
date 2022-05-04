@@ -6,25 +6,24 @@ class authEmailService {
   static async addAuthEmail({ email }) {
     const authEmail = await AuthEmail.findByEmail({ email });
     const activateKey = generateRandomNumberString(6);
-
-    if (authEmail) {
-      const updatedAuthEmail = await AuthEmail.update({
-        email,
-        fieldToUpdate: "status",
-        newValue: 0,
-      });
-    } else {
-      const newAuthEmail = await AuthEmail.create({
+    let resultAuthEmail;
+    if (!authEmail) {
+      //기존에  authEmail없다면 새로운것을 만든다.
+      resultAuthEmail = await AuthEmail.create({
         email,
         status: 0,
         activateKey,
       });
+    } else {
+      // 이미 존재한다면 활성화상태는 0,activateKey는 최신것으로 한꺼번에 업데이트하라.
+      const setter = {};
+      setter.status = 0;
+      setter.activateKey = activateKey;
+      resultAuthEmail = await AuthEmail.updateAll({
+        email,
+        setter,
+      });
     }
-    const resultAuthEmail = await AuthEmail.update({
-      email,
-      fieldToUpdate: "activateKey",
-      newValue: activateKey,
-    });
     const message = sendMail(
       email,
       "인증번호입니다.",
@@ -39,10 +38,11 @@ class authEmailService {
       return { errorMessage };
     }
     if (userKey === authEmail.activateKey) {
-      let resultAuthEmail = await AuthEmail.update({
+      const setter = {};
+      setter.status = 1;
+      const resultAuthEmail = await AuthEmail.updateAll({
         email,
-        fieldToUpdate: "status",
-        newValue: 1,
+        setter,
       });
       return resultAuthEmail;
     } else {
