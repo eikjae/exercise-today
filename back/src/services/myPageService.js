@@ -137,6 +137,13 @@ class myPageService {
     });
     return workoutInfo;
   }
+
+  static async getWorkoutYear({ userId }) {
+    const workoutInfo = await MyPage.findWorkoutYearByUserId({
+      userId,
+    });
+    return workoutInfo;
+  }
 }
 
 export { myPageService };
