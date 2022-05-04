@@ -86,6 +86,13 @@ class myPageService {
     });
     return dietInfo;
   }
+
+  static async getDietYear({ userId }) {
+    const dietInfo = await MyPage.findDietYearByUserId({
+      userId,
+    });
+    return dietInfo;
+  }
 }
 
 export { myPageService };
