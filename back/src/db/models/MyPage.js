@@ -287,4 +287,28 @@ export class MyPage {
 
     return ansList;
   }
+
+  static async findWorkoutWeekByUserId({ userId }) {
+    const dietInfo = await CalendarModel.find(
+      {
+        $and: [
+          { userId },
+          {
+            whenDate: {
+              $gte: lastWeek(),
+              $lte: todayDate(),
+            },
+          },
+        ],
+      },
+      "whenDate calories.type calories.calorie"
+    );
+    const ansList = dietInfo.map((obj) => {
+      const whenDate = obj.whenDate;
+      const calorie = obj.calories[3].calorie;
+      return { whenDate, calorie };
+    });
+
+    return ansList;
+  }
 }
