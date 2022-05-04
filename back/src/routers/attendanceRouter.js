@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { attendanceService } from "../services/attendanceService";
+import moment from 'moment';
 
 const attendanceRouter = Router();
 
@@ -11,12 +12,8 @@ attendanceRouter.post(
     try {
       const userId = req.currentUserId;
 
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = ("0" + (today.getMonth() + 1)).slice(-2);
-      const date = ("0" + today.getDate()).slice(-2);
-      const whenDate = `${year}-${month}-${date}`;
-
+      const whenDate = moment().format('YYYY-MM-DD');
+        console.log(whenDate)
       const { weight } = req.body;
 
       const newAttendance = await attendanceService.addAttendance({

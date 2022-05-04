@@ -28,6 +28,8 @@ class calendarService {
     const calories = [];
     for (let i = 0; i < calorieArray.length; i++) {
       const subSchema = {
+        type: `${typeList[i]}`,
+        calorie: `${calorieArray[i]}`,
         title: `${titleList[i]}${calorieArray[i]}`,
         start: `${whenDate}${startList[i]}`,
         backgroundColor: `${colorList[i]}`,
@@ -54,7 +56,10 @@ class calendarService {
   }
 
   static async getCaloriesByMonth({ userId, whenMonth }) {
-    const searchOpt = { $regex: whenMonth };
+    const searchOpt = {
+      $gte: `${whenMonth}-01T00:00:00.000Z`,
+      $lte: `${whenMonth}-31T00:00:00.000Z`,
+    };
     const items = await Calendar.findCaloriesByMonth({
       userId,
       whenDate: searchOpt,
