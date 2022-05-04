@@ -7,7 +7,7 @@ const DietSchema = new Schema(
       required: true,
     },
     whenDate: {
-      type: String,
+      type: Date,
       required: true,
     },
     type: {

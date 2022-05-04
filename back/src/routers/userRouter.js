@@ -6,9 +6,59 @@ import generateRandomPassword from "../utils/generate-random-password";
 import { likeService } from "../services/likeService";
 import { User } from "../db";
 import { authEmailService } from "../services/authEmailService";
+import { getRequiredInfoFromData } from "../utils/user";
 
+const { userImageUpload } = require("../utils/s3");
 const userAuthRouter = Router();
 
+userAuthRouter.put(
+  "/users/:id/profileImage",
+  login_required,
+  userImageUpload.single("userImg"),
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.id;
+      if (user_id != req.currentUserId) {
+        throw new Error("다른 소유자의 소유물을 변경할 권한이 없습니다.");
+      }
+      const fieldToUpdate = "imageLink";
+      const newValue = req.file.location;
+      const updatedUser = await User.update({
+        user_id,
+        fieldToUpdate,
+        newValue,
+      });
+      const resultData = getRequiredInfoFromData(updatedUser);
+      res.json(resultData);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+userAuthRouter.put(
+  "/users/:id/defaultProfileImage",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const user_id = req.params.id;
+      if (user_id != req.currentUserId) {
+        throw new Error("다른 소유자의 소유물을 변경할 권한이 없습니다.");
+      }
+      const fieldToUpdate = "imageLink";
+      const newValue = process.env.initial_image_Link;
+      const updatedUser = await User.update({
+        user_id,
+        fieldToUpdate,
+        newValue,
+      });
+
+      const resultData = getRequiredInfoFromData(updatedUser);
+      res.json(resultData);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 userAuthRouter.get("/user/checkEmail/:email", async function (req, res, next) {
   const email = req.params.email;
   const user = await User.findByEmail({ email });
@@ -28,7 +78,7 @@ userAuthRouter.post(
       const authEmail = await authEmailService.addAuthEmail({ email });
       if (authEmail) {
         //추후 authEmail이 존재하면 성공한 것이므로 status:true로 res.json을 내보낼 것
-        res.json(authEmail);
+        res.send("인증키가 해당이메일로 발송되었습니다.");
       } else {
         res.json({ status: false });
       }
@@ -37,6 +87,7 @@ userAuthRouter.post(
     }
   }
 );
+
 userAuthRouter.post(
   "/user/authEmail/:email/activate",
   async function (req, res, next) {
@@ -56,6 +107,7 @@ userAuthRouter.post(
     }
   }
 );
+
 userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
@@ -84,6 +136,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
       height,
       weight,
       gender,
+      type: "TodayExercise",
     });
 
     if (newUser.errorMessage) {
@@ -98,8 +151,8 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     if (newLike.errorMessage) {
       throw new Error(newLike.errorMessage);
     }
-
-    res.status(201).json(newUser);
+    const resultData = getRequiredInfoFromData(newUser);
+    res.status(201).json(resultData);
   } catch (error) {
     next(error);
   }
@@ -152,8 +205,8 @@ userAuthRouter.get(
       if (currentUserInfo.errorMessage) {
         throw new Error(currentUserInfo.errorMessage);
       }
-
-      res.status(200).send(currentUserInfo);
+      const resultData = getRequiredInfoFromData(currentUserInfo);
+      res.json(resultData);
     } catch (error) {
       next(error);
     }

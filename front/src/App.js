@@ -10,7 +10,7 @@ import Network from "./components/user/Network";
 import RegisterForm from "./components/user/Register/RegisterForm";
 import Portfolio from "./components/Portfolio";
 
-import MainPage from "./components/main/mainPage/MainPage";
+import FoodPage from "./components/main/foodPage/FoodPage";
 import MainChartPage from "./components/main/mainChartPage/MainChartPage";
 import MusicPage from "./components/main/musicPage/MusicPage";
 import PartExercisePage from "./components/main/partExercisePage/PartExercisePage";
@@ -19,6 +19,7 @@ import LikePage from "./components/user/like/LikePage";
 import ErrorPage from "./components/main/errorSection/ErrorPage";
 
 import { atom, RecoilRoot } from "recoil";
+import CalendarPage from "./components/user/calendarPage/CalendarPage";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -73,12 +74,13 @@ function App() {
         <Router>
           <Header />
           <Routes>
-            <Route path="/" exact element={<MainPage />} />
+            <Route path="/" exact element={<FoodPage />} />
             <Route
               path="/:calorie/:height/:weight"
               element={<MainChartPage />}
             />
             <Route path="/music" element={<MusicPage />} />
+            <Route path="/calendar" element={<CalendarPage />} />
             {/* <Route path="/" exact element={<Portfolio />} /> */}
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />

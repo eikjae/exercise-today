@@ -5,13 +5,15 @@ const DietImageSchema = new Schema(
     itemId: {
       type: String,
       required: true,
+      unique: true,
+      index: true,
     },
     userId: {
       type: String,
       required: true,
     },
     whenDate: {
-      type: String,
+      type: Date,
       required: true,
     },
     type: {

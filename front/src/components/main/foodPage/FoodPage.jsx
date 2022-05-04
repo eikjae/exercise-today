@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Api from "../../../api";
-import { Grid } from "@mui/material";
-import BadgeVisibility from "./badgeVisibilitySection/BadgeVisibility";
+import FoodBadge from "./foodBadgeSection/FoodBadge";
 import {
   StyledContainer,
   Title,
+  TotalFoodWrapper,
   FoodWrapper,
   SubmitButton,
   BodyInfoWrapper,
@@ -17,15 +18,16 @@ import {
   BodyInfoInput,
   BodyInfoLabel,
   WarningText,
-} from "./MainPage.style";
+} from "./FoodPage.style";
 
-export default function MainPage() {
+export default function FoodPage() {
   const navigate = useNavigate();
   const [foods, setFoods] = useState([]);
   const [foodsInfo, setFoodsInfo] = useState([]);
   // const [calories, setCalories] = useState(0);
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
+  const [likedFoods, setLikedFoods] = useState([]);
 
   const isHeightValid = height.length > 0;
   const isWeightValid = weight.length > 0;
@@ -42,7 +44,7 @@ export default function MainPage() {
 
       // POST 요청을 통해 칼로리 계산값을 받아옴
       const res = await Api.post("foods/calories", copyFoodsInfo);
-      setFoodsInfo(copyFoodsInfo);
+      setFoodsInfo([...copyFoodsInfo]);
       // setCalories(res.data.calories);
       navigate(`/${res.data.calories}/${height}/${weight}`);
     } catch (err) {
@@ -51,20 +53,24 @@ export default function MainPage() {
   };
 
   const updateFoodsInfo = (data) => {
-    setFoodsInfo(data);
+    setFoodsInfo([...data]);
   };
 
-  // 음식 데이터를 받아와서 화면에 표시
-  useEffect(() => {
-    const fetch = async () => {
-      try {
-        const res = await Api.get("foods");
-        setFoods(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetch();
+  // 음식 관련 데이터를 받아와서 화면에 표시
+  useEffect(async () => {
+    try {
+      // 전체 음식 리스트를 받아옴
+      let res = await Api.get("foods");
+      const foods = res.data;
+      setFoods([...foods]);
+
+      // 좋아요된 음식 리스트를 받아옴
+      res = await Api.get("like/food");
+      const likedFoods = res.data;
+      setLikedFoods([...likedFoods]);
+    } catch (err) {
+      console.error(err);
+    }
   }, []);
 
   // + 버튼이 눌리면 일단 foodsInfo에 정보를 넣음
@@ -75,31 +81,29 @@ export default function MainPage() {
       <header>
         <Title>🍴 오늘 무엇을 드셨나요? 🍴</Title>
       </header>
-      <Grid container justifyContent="center" alignItems="center">
+      <TotalFoodWrapper container>
         {foods.map((food, foodIdx) => (
           <FoodWrapper item key={foodIdx}>
-            <BadgeVisibility
+            <FoodBadge
               key={foodIdx}
               food={food}
               foodsInfo={foodsInfo}
               updateFoodsInfo={updateFoodsInfo}
+              likedFoods={likedFoods}
             />
           </FoodWrapper>
         ))}
-      </Grid>
-      <BodyInfoWrapper container>
+      </TotalFoodWrapper>
+      <BodyInfoWrapper>
         <ExplainLabelWrapper>
-          <ExplainLabel style={{ textAlign: "center" }}>
-            100g(ml) 단위로 평균 칼로리가 계산됩니다.
-          </ExplainLabel>
+          <ExplainLabel>100g(ml) 단위로 평균 칼로리가 계산됩니다.</ExplainLabel>
           <BodyInfoGrid item xs="auto">
             <StyledH1>키와 몸무게를 입력해주세요</StyledH1>
           </BodyInfoGrid>
         </ExplainLabelWrapper>
-        <BodyInfoInputWrapper style={{ display: "flex", flexDirection: "row" }}>
+        <BodyInfoInputWrapper>
           <BodyInfoGrid item xs="auto">
             <BodyInfoInput
-              id="outlined-basic"
               label="신장"
               onChange={(e) => setHeight(e.target.value)}
             />
@@ -107,7 +111,6 @@ export default function MainPage() {
           </BodyInfoGrid>
           <BodyInfoGrid item xs="auto">
             <BodyInfoInput
-              id="outlined-basic"
               label="체중"
               onChange={(e) => setWeight(e.target.value)}
             />

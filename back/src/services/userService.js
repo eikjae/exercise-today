@@ -21,10 +21,10 @@ class userAuthService {
     const user = await User.findByEmail({ email });
     if (user) {
       const errorMessage =
-        "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요.";
+        "이 이메일은 현재 가입이력이 있는 이메일입니다. 다른 이메일을 이용해주세요.";
       return { errorMessage };
     }
-    if (!type) {
+    if (type === "TodayExercise") {
       const authEmail = await AuthEmail.findByEmail({ email });
       if (!authEmail || authEmail.status === 0) {
         const errorMessage =
@@ -58,6 +58,7 @@ class userAuthService {
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });
+
     createdNewUser.errorMessage = null; // 문제 없이 db 저장 완료되었으므로 에러가 없음.
 
     return createdNewUser;
@@ -92,14 +93,16 @@ class userAuthService {
     const id = user.id;
     const name = user.name;
     const description = user.description;
-
+    const height = user.height;
+    const weight = user.weight;
+    const imageLink = user.imageLink;
     const loginUser = {
       token,
       id,
       email,
       name,
       height,
-
+      weight,
       description,
       imageLink,
     };

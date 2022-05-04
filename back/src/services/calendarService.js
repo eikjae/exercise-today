@@ -1,5 +1,13 @@
 import { Diet, Workout, Attendance, DietImage, Calendar } from "../db";
 import { v4 as uuidv4 } from "uuid";
+import {
+  titleList,
+  startList,
+  colorList,
+  typeList,
+  foodCategoryList,
+  exerciesCategoryList,
+} from "../utils/lookup";
 
 class calendarService {
   static async addCalories({ userId, whenDate, calorieArray }) {
@@ -13,14 +21,15 @@ class calendarService {
       throw new Error(errorMessage);
     }
 
+    await Calendar.deleteByDate({ userId, whenDate });
+
     const itemId = uuidv4();
 
-    const titleList = ["아침  +", "점심  +", "저녁  +", "운동  -"];
-    const startList = ["T08:00:00", "T13:00:00", "T18:00:00", "T20:00:00"];
-    const colorList = ["yellow", "pink", "orange", "red"];
     const calories = [];
     for (let i = 0; i < calorieArray.length; i++) {
       const subSchema = {
+        type: `${typeList[i]}`,
+        calorie: `${calorieArray[i]}`,
         title: `${titleList[i]}${calorieArray[i]}`,
         start: `${whenDate}${startList[i]}`,
         backgroundColor: `${colorList[i]}`,
@@ -41,15 +50,16 @@ class calendarService {
       whenDate,
     });
     if (!item) {
-      const errorMessage =
-        "해당하는 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      throw new Error(errorMessage);
+      return [];
     }
     return item;
   }
 
   static async getCaloriesByMonth({ userId, whenMonth }) {
-    const searchOpt = { $regex: whenMonth };
+    const searchOpt = {
+      $gte: `${whenMonth}-01T00:00:00.000Z`,
+      $lte: `${whenMonth}-31T00:00:00.000Z`,
+    };
     const items = await Calendar.findCaloriesByMonth({
       userId,
       whenDate: searchOpt,
@@ -65,44 +75,6 @@ class calendarService {
       return acc;
     }, []);
     return itemList;
-  }
-
-  static async setCalories({ userId, whenDate, calorieArray }) {
-    let item = await Calendar.findByDate({ userId, whenDate });
-    if (!item) {
-      const errorMessage =
-        "해당하는 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      throw new Error(errorMessage);
-    }
-
-    if (!calorieArray) {
-      const errorMessage = "calorieArray를 입력해주세요.";
-      throw new Error(errorMessage);
-    }
-
-    const titleList = ["아침  +", "점심  +", "저녁  +", "운동  -"];
-    const startList = ["T08:00:00", "T13:00:00", "T18:00:00", "T20:00:00"];
-    const colorList = ["yellow", "pink", "orange", "red"];
-    const calories = [];
-    for (let i = 0; i < calorieArray.length; i++) {
-      const subSchema = {
-        title: `${titleList[i]}${calorieArray[i]}`,
-        start: `${whenDate}${startList[i]}`,
-        backgroundColor: `${colorList[i]}`,
-      };
-      calories.push(subSchema);
-    }
-
-    const fieldToUpdate = "calories";
-    const newValue = calories;
-    item = await Calendar.update({
-      userId,
-      whenDate,
-      fieldToUpdate,
-      newValue,
-    });
-
-    return item;
   }
 
   static async deleteCalories({ itemId }) {
@@ -142,37 +114,12 @@ class calendarService {
         throw new Error(errorMessage);
       }
 
-      const typeList = ["breakfast", "lunch", "dinner"];
-
       if (!typeList.includes(type)) {
         const errorMessage = "breakfast, lunch, dinner 중에서만 입력해주세요";
         throw new Error(errorMessage);
       }
 
-      const categoryList = [
-        "견과류",
-        "치즈",
-        "잼/버터",
-        "케이크류",
-        "면류",
-        "빵류",
-        "육류",
-        "유제품",
-        "채소",
-        "콩류",
-        "주류",
-        "해산물",
-        "과일",
-        "스프",
-        "사탕",
-        "패스트푸드",
-        "음료(알코올x)",
-        "시리얼",
-        "아이스크림",
-        "감자류",
-      ];
-
-      if (!categoryList.includes(category)) {
+      if (!foodCategoryList.includes(category)) {
         const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
         throw new Error(errorMessage);
       }
@@ -184,22 +131,7 @@ class calendarService {
         throw new Error(errorMessage);
       }
 
-      const categoryList = [
-        "유산소",
-        "무산소",
-        "구기",
-        "라켓",
-        "육상",
-        "수상",
-        "댄스",
-        "사이클",
-        "양궁",
-        "복싱",
-        "격투",
-        "기타",
-      ];
-
-      if (!categoryList.includes(category)) {
+      if (!exerciesCategoryList.includes(category)) {
         const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
         throw new Error(errorMessage);
       }
@@ -233,4 +165,5 @@ class calendarService {
     return itemAll;
   }
 }
+
 export { calendarService };

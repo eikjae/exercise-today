@@ -104,6 +104,16 @@ const MainChartPage = (props) => {
       name: "기타",
     },
   ]);
+  const colors = [
+    "#B22727",
+    "#78938A",
+    "#525E75",
+    "#A64B2A",
+    "#B22727",
+    "#78938A",
+    "#525E75",
+    "#A64B2A",
+  ];
   const { calorie, height, weight } = useParams();
   const [graphData, setGraphData] = useState(null);
 
@@ -117,7 +127,13 @@ const MainChartPage = (props) => {
         category: name,
         calories: Number(calorie),
       });
-      setGraphData(exerciseInfo);
+      setGraphData(
+        exerciseInfo.data.sort((a, b) => {
+          if (a.time < b.time) return 1;
+          if (a.time > b.time) return -1;
+          return 0;
+        })
+      );
       setNewSwitch(index);
     } catch (e) {
       throw new Error(e);
@@ -144,13 +160,19 @@ const MainChartPage = (props) => {
           category: "유산소",
           calories: Number(calorie),
         });
-        setGraphData(exerciseInfo);
+        setGraphData(
+          exerciseInfo.data.sort((a, b) => {
+            if (a.time < b.time) return 1;
+            if (a.time > b.time) return -1;
+            return 0;
+          })
+        );
       };
       postGraphData();
     } catch (e) {
       throw new Error(e);
     }
-  }, [calorie, weight]);
+  }, []);
 
   return (
     <>
@@ -170,7 +192,7 @@ const MainChartPage = (props) => {
           <StyledSubTitle>
             칼로리 소비를 위해 얼마나 운동해야 할까요?
           </StyledSubTitle>
-          <ChartSection data={graphData?.data} />
+          <ChartSection data={graphData} colors={colors} />
         </StyledBottomSection>
       </StyledContainer>
       <StyledContainer fixed>

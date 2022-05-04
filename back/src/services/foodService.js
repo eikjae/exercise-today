@@ -14,10 +14,8 @@ class foodService {
       throw new Error(errorMessage);
     }
 
-    for (let i = 0; i < foodsInfo.length; i++) {
-      const food = await Food.findByCategory({
-        category: foodsInfo[i]["category"],
-      });
+    for (const { category } of foodsInfo) {
+      const food = await Food.findByCategory({ category });
       if (!food) {
         const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
         throw new Error(errorMessage);
