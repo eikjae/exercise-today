@@ -58,6 +58,13 @@ class myPageService {
     });
     return dietInfo;
   }
+
+  static async getDietWeek({ userId }) {
+    const dietInfo = await MyPage.findDietWeekByUserId({
+      userId,
+    });
+    return dietInfo;
+  }
 }
 
 export { myPageService };
