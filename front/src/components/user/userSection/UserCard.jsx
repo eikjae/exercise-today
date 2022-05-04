@@ -1,6 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { Card, Button } from "react-bootstrap";
-import { Layout, CardBody, CardImg } from "./UserCard.style";
+import {
+  Layout,
+  CardBody,
+  CardImg,
+  CardTitle,
+  CardSubTitle,
+  CardTextWrapper,
+} from "./UserCard.style";
 
 function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   const navigate = useNavigate();
@@ -8,9 +15,11 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
     <Layout>
       <CardBody>
         <CardImg src={user?.imageLink} alt="유저 프로필 사진" />
-        <Card.Title>{user?.name}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">{user?.email}</Card.Subtitle>
-        <Card.Text>{user?.description}</Card.Text>
+        <CardTitle>{user?.name}</CardTitle>
+        <CardSubTitle>{user?.email}</CardSubTitle>
+        <CardTextWrapper>
+          <span>{user?.description}</span>
+        </CardTextWrapper>
 
         {isEditable && (
           <Button
