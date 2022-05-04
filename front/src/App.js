@@ -88,7 +88,7 @@ function App() {
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />
             <Route path="/myPage" element={<MyPage />} />
-            <Route path="/like" element={<LikePage />} />
+            <Route path="/like/:userId" element={<LikePage />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Router>

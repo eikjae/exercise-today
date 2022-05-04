@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Api from "../../../api";
 import {} from "./LikePage.style";
 import {
@@ -13,6 +14,7 @@ import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
 import { AppBar, Tabs, Tab, Box } from "@mui/material";
+import { UserStateContext } from "../../../App";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -49,20 +51,30 @@ function a11yProps(index) {
 
 export default function LikePage() {
   const theme = useTheme();
+  const navigate = useNavigate();
+  // like 페이지에 해당하는 사용자 id
+  const { likeOwnerId } = useParams();
+  const tabElements = ["회원", "음식", "운동", "음악"];
   const [value, setValue] = useState(0);
   // const [likedFriends, setLikedFriends] = useState([]);
   const [likedFoods, setLikedFoods] = useState([]);
   const [likedExercises, setLikedExercises] = useState([]);
   const [likedMusics, setLikedMusics] = useState([]);
-
-  const tabElements = ["회원", "음식", "운동", "음악"];
+  const userState = useContext(UserStateContext);
 
   useEffect(async () => {
     try {
+      // 전역 상태의 user가 null이라면 로그인이 안 된 상태이므로, 로그인 페이지로 돌림.
+      if (!userState.user) {
+        navigate("/login", { replace: true });
+        return;
+      }
       // 회원 (아직 적용x)
       // let res = await Api.get("like/exercise/info");
       // setLikedFriends([...res.data]);
       // 음식
+      // const name = userState.user.id;
+
       let res = await Api.get("like/food/info");
       setLikedFoods([...res.data]);
       // 운동

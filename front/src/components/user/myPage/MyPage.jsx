@@ -26,10 +26,9 @@ export default function MyPage() {
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
   const userState = useContext(UserStateContext);
 
-  const fetchPorfolioOwner = async (ownerId) => {
+  const fetchMyPageOwner = async (ownerId) => {
     // 유저 id를 가지고 "/users/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
     const res = await Api.get("users", ownerId);
-    console.log(res);
     // 사용자 정보는 response의 data임.
     const ownerData = res.data;
     // myPageOwner을 해당 사용자 정보로 세팅함.
@@ -49,12 +48,12 @@ export default function MyPage() {
       // 만약 현재 URL이 "/users/:userId" 라면, 이 userId를 유저 id로 설정함.
       const ownerId = params.userId;
       // 해당 유저 id로 fetchPorfolioOwner 함수를 실행함.
-      fetchPorfolioOwner(ownerId);
+      fetchMyPageOwner(ownerId);
     } else {
       // 이외의 경우, 즉 URL이 "/" 라면, 전역 상태의 user.id를 유저 id로 설정함.
       const ownerId = userState.user.id;
       // 해당 유저 id로 fetchPorfolioOwner 함수를 실행함.
-      fetchPorfolioOwner(ownerId);
+      fetchMyPageOwner(ownerId);
     }
   }, [params, userState, navigate]);
 
@@ -67,7 +66,7 @@ export default function MyPage() {
       <LeftRowGrid>
         <ColGrid>
           <User
-            portfolioOwnerId={myPageOwner.id}
+            myPageOwnerId={myPageOwner.id}
             isEditable={myPageOwner.id === userState.user?.id}
           />
         </ColGrid>
@@ -81,7 +80,7 @@ export default function MyPage() {
           </ContentWrapper>
         </ColGrid>
         <ColGrid>
-          <ContentWrapper onClick={() => navigate("/like")}>
+          <ContentWrapper onClick={() => navigate(`/like/${myPageOwner.id}`)}>
             <BookmarkIcon />
             <ContentTitle>북마크</ContentTitle>
             <ContentDetail>좋아요 누른 항목을 확인할 수 있습니다</ContentDetail>
