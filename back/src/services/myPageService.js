@@ -167,6 +167,13 @@ class myPageService {
     });
     return calorieInfo;
   }
+
+  static async getCalorieMonth({ userId }) {
+    const calorieInfo = await MyPage.findCalorieMonthByUserId({
+      userId,
+    });
+    return calorieInfo;
+  }
 }
 
 export { myPageService };
