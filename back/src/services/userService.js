@@ -70,7 +70,11 @@ class userAuthService {
     const user = await User.findByEmail({ email, type });
     if (!user) {
       const errorMessage =
-        "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
+        "해당 계정은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+    if (user.deleted === true) {
+      const errorMessage = "해당 계정은 이미 탈퇴하였습니다.";
       return { errorMessage };
     }
 
@@ -125,6 +129,10 @@ class userAuthService {
       const errorMessage = "가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
+    if (user.deleted === true) {
+      const errorMessage = "해당 계정은 이미 탈퇴하였습니다.";
+      return { errorMessage };
+    }
     const setter = {};
     // 업데이트 대상에 name이 있다면, 즉 name 값이 null 이 아니라면 업데이트 진행
     if (toUpdate.name) {
@@ -161,18 +169,25 @@ class userAuthService {
         "해당 유저는 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
-
+    if (user.deleted === true) {
+      const errorMessage = "해당 계정은 이미 탈퇴하였습니다.";
+      return { errorMessage };
+    }
     return user;
   }
 
   static async checkPassword({ user_id, password }) {
     const user = await User.findById({ user_id });
-
+    if (user.deleted === true) {
+      const errorMessage = "해당 계정은 이미 탈퇴하였습니다.";
+      return { errorMessage };
+    }
     const correctPasswordHash = user.password;
     const isPasswordCorrect = await bcrypt.compare(
       password,
       correctPasswordHash
     );
+
     if (!isPasswordCorrect) {
       const errorMessage = "비밀번호를 다시 한 번 확인해 주세요.";
       return { errorMessage };
@@ -202,9 +217,14 @@ class userAuthService {
       const errorMessage = "해당 유저가 존재하지 않습니다.";
       return { errorMessage };
     }
-    await User.deleteById({ user_id });
+    if (user.deleted === true) {
+      const errorMessage = "해당 계정은 이미 탈퇴하였습니다.";
+      return { errorMessage };
+    }
+    const setter = { deleted: true };
+    const deletedUser = await User.updateAll({ user_id, setter });
 
-    return user;
+    return deletedUser;
   }
 }
 
