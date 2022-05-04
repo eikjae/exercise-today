@@ -244,4 +244,19 @@ myPageRouter.get(
   }
 );
 
+myPageRouter.get(
+  "/mypage/workout/month",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const workoutInfo = await myPageService.getWorkoutMonth({ userId });
+
+      res.status(200).send(workoutInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { myPageRouter };
