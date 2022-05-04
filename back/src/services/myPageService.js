@@ -153,6 +153,13 @@ class myPageService {
     });
     return workoutInfo;
   }
+
+  static async getCalorie({ userId }) {
+    const calorieInfo = await MyPage.findCalorieByUserId({
+      userId,
+    });
+    return calorieInfo;
+  }
 }
 
 export { myPageService };
