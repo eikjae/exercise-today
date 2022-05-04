@@ -117,6 +117,24 @@ const MainChartPage = (props) => {
   const { calorie, height, weight } = useParams();
   const [graphData, setGraphData] = useState(null);
 
+  const sortMappedGraphData = (exerciseInfo) => {
+    const mappedData = exerciseInfo.data.map((d) => {
+      const time = d.time.split("시간");
+      const hour = Number(time[0]);
+      const min = Number(time[1].replace("분", "")) / 60;
+      return {
+        name: d.name,
+        hour: Number((hour + min).toFixed(2)),
+      };
+    });
+    mappedData.sort((a, b) => {
+      console.log(a, b);
+      return Number(b.hour) - Number(a.hour);
+    });
+
+    return mappedData;
+  };
+
   const handleOnClick = async (e) => {
     const name = e.target.value;
     const index = e.target.id;
@@ -127,13 +145,8 @@ const MainChartPage = (props) => {
         category: name,
         calories: Number(calorie),
       });
-      setGraphData(
-        exerciseInfo.data.sort((a, b) => {
-          if (a.time < b.time) return 1;
-          if (a.time > b.time) return -1;
-          return 0;
-        })
-      );
+      const mappedData = sortMappedGraphData(exerciseInfo);
+      setGraphData(mappedData);
       setNewSwitch(index);
     } catch (e) {
       throw new Error(e);
@@ -160,13 +173,8 @@ const MainChartPage = (props) => {
           category: "유산소",
           calories: Number(calorie),
         });
-        setGraphData(
-          exerciseInfo.data.sort((a, b) => {
-            if (a.time < b.time) return 1;
-            if (a.time > b.time) return -1;
-            return 0;
-          })
-        );
+        const mappedData = sortMappedGraphData(exerciseInfo);
+        setGraphData(mappedData);
       };
       postGraphData();
     } catch (e) {
