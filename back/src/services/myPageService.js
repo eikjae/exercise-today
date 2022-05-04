@@ -188,6 +188,13 @@ class myPageService {
     });
     return calorieInfo;
   }
+
+  static async getCalorieYear({ userId }) {
+    const calorieInfo = await MyPage.findCalorieYearByUserId({
+      userId,
+    });
+    return calorieInfo;
+  }
 }
 
 export { myPageService };
