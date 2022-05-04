@@ -22,16 +22,7 @@ const BarChart = ({ data, colors }) => {
     <ResponsiveContainer width="100%" height="100%">
       <Barchart
         key={Math.round(Math.random() * 10000)}
-        data={data?.map((d, index) => {
-          const time = d.time.split("시간");
-          const hour = Number(time[0]);
-          const min = Number(time[1].replace("분", "")) / 60;
-          return {
-            name: d.name,
-            hour: Number((hour + min).toFixed(2)),
-            // hours: d.time,
-          };
-        })}
+        data={data}
         margin={{
           top: 5,
           right: 30,
