@@ -374,11 +374,10 @@ userAuthRouter.delete(
         user_id,
       });
 
-      if (deleted_result.errorMessage) {
-        throw new Error(deleted_result.errorMessage);
+      if (deletedUser.errorMessage) {
+        throw new Error(deletedUser.errorMessage);
       }
-
-      res.status(204).send("삭제가 완료되었습니다.");
+      res.status(200).send("회원탈퇴를 완료하였습니다.");
     } catch (err) {
       next(err);
     }

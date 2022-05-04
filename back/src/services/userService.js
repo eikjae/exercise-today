@@ -180,6 +180,11 @@ class userAuthService {
 
   static async checkPassword({ user_id, password }) {
     const user = await User.findById({ user_id });
+    if (!user) {
+      const errorMessage =
+        "해당 유저는 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
     if (user.deleted === true) {
       const errorMessage = "해당 계정은 이미 탈퇴하였습니다.";
       return { errorMessage };
