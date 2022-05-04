@@ -194,4 +194,24 @@ myPageRouter.get(
   }
 );
 
+myPageRouter.get(
+  "/mypage/diet/:startdate/:finishdate",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const startDate = req.params.startdate;
+      const finishDate = req.params.finishdate;
+      const dietInfo = await myPageService.getDietSelectedDate({
+        userId,
+        startDate,
+        finishDate,
+      });
+      res.status(200).send(dietInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { myPageRouter };
