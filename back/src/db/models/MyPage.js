@@ -455,4 +455,32 @@ export class MyPage {
 
     return ansList;
   }
+
+  static async findCalorieWeekByUserId({ userId }) {
+    const calorieInfo = await CalendarModel.find(
+      {
+        $and: [
+          { userId },
+          {
+            whenDate: {
+              $gte: lastWeek(),
+              $lte: todayDate(),
+            },
+          },
+        ],
+      },
+      "whenDate calories.type calories.calorie"
+    );
+    const ansList = calorieInfo.map((obj) => {
+      const whenDate = obj.whenDate;
+      const calorie =
+        obj.calories[0].calorie +
+        obj.calories[1].calorie +
+        obj.calories[2].calorie -
+        obj.calories[3].calorie;
+      return { whenDate, calorie };
+    });
+
+    return ansList;
+  }
 }
