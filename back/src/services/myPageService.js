@@ -102,6 +102,13 @@ class myPageService {
     });
     return dietInfo;
   }
+
+  static async getWorkout({ userId }) {
+    const workoutInfo = await MyPage.findWorkoutByUserId({
+      userId,
+    });
+    return workoutInfo;
+  }
 }
 
 export { myPageService };
