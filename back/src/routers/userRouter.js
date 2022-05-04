@@ -332,7 +332,6 @@ userAuthRouter.post(
       const email = user.email;
       //8개 무작위 숫자 string
       const newPassword = generateRandomPassword();
-      console.log(newPassword);
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       const toUpdate = { password: hashedPassword };
       const updatedUser = await userAuthService.setUser({ user_id, toUpdate });
