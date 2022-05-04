@@ -138,4 +138,18 @@ myPageRouter.get(
   }
 );
 
+myPageRouter.get(
+  "/mypage/diet/month",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const dietInfo = await myPageService.getDietMonth({ userId });
+      res.status(200).send(dietInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { myPageRouter };
