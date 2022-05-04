@@ -339,4 +339,19 @@ myPageRouter.get(
   }
 );
 
+myPageRouter.get(
+  "/mypage/calorie/week",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const calorieInfo = await myPageService.getCalorieWeek({ userId });
+
+      res.status(200).send(calorieInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { myPageRouter };
