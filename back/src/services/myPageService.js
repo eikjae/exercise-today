@@ -109,6 +109,13 @@ class myPageService {
     });
     return workoutInfo;
   }
+
+  static async getWorkoutWeek({ userId }) {
+    const workoutInfo = await MyPage.findWorkoutWeekByUserId({
+      userId,
+    });
+    return workoutInfo;
+  }
 }
 
 export { myPageService };
