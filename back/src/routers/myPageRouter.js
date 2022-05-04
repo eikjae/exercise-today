@@ -414,4 +414,24 @@ myPageRouter.get(
   }
 );
 
+myPageRouter.get(
+  "/mypage/calorie/:startdate/:finishdate",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const startDate = req.params.startdate;
+      const finishDate = req.params.finishdate;
+      const calorieInfo = await myPageService.getCalorieSelectedDate({
+        userId,
+        startDate,
+        finishDate,
+      });
+      res.status(200).send(calorieInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { myPageRouter };
