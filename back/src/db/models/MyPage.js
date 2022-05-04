@@ -1,5 +1,5 @@
 import { AttendanceModel } from "../schemas/attendance";
-import { DietModel } from "../schemas/diet";
+import { CalendarModel } from "../schemas/calendar";
 import {
   todayDate,
   lastWeek,
@@ -93,8 +93,8 @@ export class MyPage {
     return weightInfo;
   }
 
-  static async findByUserId({ userId }) {
-    const dietInfo = await DietModel.find({ userId }, "whenDate category");
+  static async findDietByUserId({ userId }) {
+    const dietInfo = await CalendarModel.find({ userId });
     return dietInfo;
   }
 }

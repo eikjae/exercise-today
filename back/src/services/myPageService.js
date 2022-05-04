@@ -53,7 +53,7 @@ class myPageService {
   }
 
   static async getDiet({ userId }) {
-    const dietInfo = await MyPage.findByUserId({
+    const dietInfo = await MyPage.findDietByUserId({
       userId,
     });
     return dietInfo;
