@@ -27,6 +27,9 @@ userAuthRouter.put(
         user_id,
         toUpdate,
       });
+      if (updatedUser.errorMessage) {
+        throw new Error(updatedUser.errorMessage);
+      }
       const resultData = getRequiredInfoFromData(updatedUser);
       res.json(resultData);
     } catch (error) {
@@ -48,6 +51,9 @@ userAuthRouter.put(
         user_id,
         toUpdate,
       });
+      if (updatedUser.errorMessage) {
+        throw new Error(updatedUser.errorMessage);
+      }
       const resultData = getRequiredInfoFromData(updatedUser);
       res.json(resultData);
     } catch (error) {
@@ -350,13 +356,29 @@ userAuthRouter.delete(
   async function (req, res, next) {
     try {
       const user_id = req.params.id;
-      const deleted_result = await userAuthService.deleteUser({ user_id });
+      const password = req.body.password;
+      if (user_id != req.currentUserId) {
+        throw new Error("다른 소유자의 소유물을 변경할 권한이 없습니다.");
+      }
+
+      const checkPassword = await userAuthService.checkPassword({
+        user_id,
+        password,
+      });
+
+      if (checkPassword.errorMessage) {
+        throw new Error(checkPassword.errorMessage);
+      }
+
+      const deletedUser = await userAuthService.deleteUser({
+        user_id,
+      });
 
       if (deleted_result.errorMessage) {
         throw new Error(deleted_result.errorMessage);
       }
 
-      res.status(204).send();
+      res.status(204).send("삭제가 완료되었습니다.");
     } catch (err) {
       next(err);
     }
