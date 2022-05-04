@@ -383,4 +383,28 @@ export class MyPage {
 
     return ansList;
   }
+
+  static async findWorkoutYearByUserId({ userId }) {
+    const dietInfo = await CalendarModel.find(
+      {
+        $and: [
+          { userId },
+          {
+            whenDate: {
+              $gte: lastYear(),
+              $lte: todayDate(),
+            },
+          },
+        ],
+      },
+      "whenDate calories.type calories.calorie"
+    );
+    const ansList = dietInfo.map((obj) => {
+      const whenDate = obj.whenDate;
+      const calorie = obj.calories[3].calorie;
+      return { whenDate, calorie };
+    });
+
+    return ansList;
+  }
 }
