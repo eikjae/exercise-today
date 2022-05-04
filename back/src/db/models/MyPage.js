@@ -98,7 +98,34 @@ export class MyPage {
       { userId },
       "whenDate calories.type calories.calorie"
     );
+    console.log("dietInfo:", dietInfo);
+    const ansList = dietInfo.map((obj) => {
+      const whenDate = obj.whenDate;
+      const calorie =
+        obj.calories[0].calorie +
+        obj.calories[1].calorie +
+        obj.calories[2].calorie;
+      return { whenDate, calorie };
+    });
 
+    return ansList;
+  }
+
+  static async findDietWeekByUserId({ userId }) {
+    const dietInfo = await CalendarModel.find(
+      {
+        $and: [
+          { userId },
+          {
+            whenDate: {
+              $gte: lastWeek(),
+              $lte: todayDate(),
+            },
+          },
+        ],
+      },
+      "whenDate calories.type calories.calorie"
+    );
     const ansList = dietInfo.map((obj) => {
       const whenDate = obj.whenDate;
       const calorie =
