@@ -116,6 +116,13 @@ class myPageService {
     });
     return workoutInfo;
   }
+
+  static async getWorkoutMonth({ userId }) {
+    const workoutInfo = await MyPage.findWorkoutMonthByUserId({
+      userId,
+    });
+    return workoutInfo;
+  }
 }
 
 export { myPageService };
