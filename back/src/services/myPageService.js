@@ -123,6 +123,13 @@ class myPageService {
     });
     return workoutInfo;
   }
+
+  static async getWorkoutThreeMonth({ userId }) {
+    const workoutInfo = await MyPage.findWorkoutThreeMonthByUserId({
+      userId,
+    });
+    return workoutInfo;
+  }
 }
 
 export { myPageService };
