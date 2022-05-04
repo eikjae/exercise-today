@@ -6,7 +6,7 @@ import { loginReducer } from "./reducer";
 
 import Header from "./components/Header";
 import LoginForm from "./components/user/Login/LoginForm";
-import Network from "./components/user/Network";
+import Network from "./components/user/network/Network";
 import RegisterForm from "./components/user/Register/RegisterForm";
 import Portfolio from "./components/Portfolio";
 

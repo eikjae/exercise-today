@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Api from "../../../api";
 import { UserStateContext } from "../../../App";
-import User from "../User";
+import User from "../userSection/User";
 import {
   Layout,
   LeftRowGrid,
