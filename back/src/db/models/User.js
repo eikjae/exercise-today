@@ -17,7 +17,8 @@ export class User {
   }
 
   static async findAll() {
-    const users = await UserModel.find({});
+    //회원탈퇴한 유저는 제외
+    const users = await UserModel.find({ deleted: false });
     return users;
   }
 
