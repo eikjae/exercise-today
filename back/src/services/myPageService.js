@@ -93,6 +93,15 @@ class myPageService {
     });
     return dietInfo;
   }
+
+  static async getDietSelectedDate({ userId, startDate, finishDate }) {
+    const dietInfo = await MyPage.findDietSelectedDateByUserId({
+      userId,
+      startDate,
+      finishDate,
+    });
+    return dietInfo;
+  }
 }
 
 export { myPageService };
