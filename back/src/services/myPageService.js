@@ -144,6 +144,15 @@ class myPageService {
     });
     return workoutInfo;
   }
+
+  static async getWorkoutSelectedDate({ userId, startDate, finishDate }) {
+    const workoutInfo = await MyPage.findWorkoutSelectedDateByUserId({
+      userId,
+      startDate,
+      finishDate,
+    });
+    return workoutInfo;
+  }
 }
 
 export { myPageService };
