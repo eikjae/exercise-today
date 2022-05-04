@@ -1,9 +1,9 @@
 import React from "react";
 import LikedFriendCard from "../cardSection/LikedFriendCard";
 
-export default function LikedFriendTab({ likedFriends }) {
+export default function LikedFriendTab({ likedFriends, isEditable }) {
   return <h1>LikedFriendTab</h1>;
   // return likedFriends.map((friend, idx) => (
-  //   <LikedFriendCard key={idx} friend={friend} />
+  //   <LikedFriendCard key={idx} friend={friend} isEditable={isEditable}/>
   // ));
 }

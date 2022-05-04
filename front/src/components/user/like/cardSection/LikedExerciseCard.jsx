@@ -3,7 +3,7 @@ import { Layout, LikeImg } from "./LikedCard.style";
 import LikeButtonComp from "./likeButtonSection/LikeButtonComp";
 import * as Api from "../../../../api";
 
-export default function LikedExerciseCard({ exercise }) {
+export default function LikedExerciseCard({ exercise, isEditable }) {
   const [isLiked, setIsLiked] = useState(true);
   const handleClick = async () => {
     try {
@@ -18,7 +18,7 @@ export default function LikedExerciseCard({ exercise }) {
     <Layout>
       <LikeImg src={exercise.gifUrl} />
       <h5>{exercise.name}</h5>
-      <LikeButtonComp isLiked={isLiked} onClick={handleClick} />
+      {isEditable && <LikeButtonComp isLiked={isLiked} onClick={handleClick} />}
     </Layout>
   );
 }
