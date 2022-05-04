@@ -166,4 +166,18 @@ myPageRouter.get(
   }
 );
 
+myPageRouter.get(
+  "/mypage/diet/sixmonth",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const dietInfo = await myPageService.getDietSixMonth({ userId });
+      res.status(200).send(dietInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { myPageRouter };
