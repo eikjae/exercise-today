@@ -80,12 +80,13 @@ const MealSection = ({
   };
 
   const handleSubmitImage = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
+      // setImage();
       const formData = new FormData();
       formData.append("whenDate", strDate);
       formData.append("type", type);
-      formData.append("dietImg", image);
+      formData.append("dietImg", e.target.files[0]);
 
       const res = await postImage("dietimage", formData);
       setUrl(res.data.imgurl);
@@ -102,6 +103,8 @@ const MealSection = ({
     }
   }, []);
 
+  useEffect(() => {}, []);
+
   return (
     <MealContainer>
       <h5>{title}</h5>
@@ -109,7 +112,7 @@ const MealSection = ({
         <FormWrapper>
           {/* action="dietimage" method="post" */}
           {imgUrl === null ? (
-            <Form onSubmit={handleSubmitImage}>
+            <Form>
               <label>
                 <input
                   type="file"
@@ -118,7 +121,7 @@ const MealSection = ({
                   }}
                   accept="image/*"
                   onChange={(e) => {
-                    setImage(e.target.files[0]);
+                    handleSubmitImage(e);
                   }}
                 />
                 <div
