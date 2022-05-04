@@ -194,11 +194,11 @@ likeRouter.get("/like", login_required, async function (req, res, next) {
 });
 
 likeRouter.get(
-  "/like/exercise/info",
+  "/like/exercise/info/:id",
   login_required,
   async function (req, res, next) {
     try {
-      const user_id = req.currentUserId;
+      const user_id = req.params.id;
 
       const LikeInfo = await likeService.getLikeExerciseInfo({ user_id });
 
@@ -214,11 +214,11 @@ likeRouter.get(
 );
 
 likeRouter.get(
-  "/like/food/info",
+  "/like/food/info/:id",
   login_required,
   async function (req, res, next) {
     try {
-      const user_id = req.currentUserId;
+      const user_id = req.params.id;
 
       const LikeInfo = await likeService.getLikeFoodInfo({ user_id });
 
@@ -234,11 +234,11 @@ likeRouter.get(
 );
 
 likeRouter.get(
-  "/like/person/info",
+  "/like/person/info/:id",
   login_required,
   async function (req, res, next) {
     try {
-      const user_id = req.currentUserId;
+      const user_id = req.params.id;
 
       const LikeInfo = await likeService.getLikePersonInfo({ user_id });
 
@@ -254,11 +254,11 @@ likeRouter.get(
 );
 
 likeRouter.get(
-  "/like/music/info",
+  "/like/music/info/:id",
   login_required,
   async function (req, res, next) {
     try {
-      const user_id = req.currentUserId;
+      const user_id = req.params.id;
 
       const LikeInfo = await likeService.getLikeMusicInfo({ user_id });
 
