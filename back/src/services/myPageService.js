@@ -160,6 +160,13 @@ class myPageService {
     });
     return calorieInfo;
   }
+
+  static async getCalorieWeek({ userId }) {
+    const calorieInfo = await MyPage.findCalorieWeekByUserId({
+      userId,
+    });
+    return calorieInfo;
+  }
 }
 
 export { myPageService };
