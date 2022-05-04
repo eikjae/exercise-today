@@ -101,6 +101,7 @@ class userAuthService {
     const height = user.height;
     const weight = user.weight;
     const imageLink = user.imageLink;
+    const gender = user.gender;
     const loginUser = {
       token,
       id,
@@ -110,6 +111,7 @@ class userAuthService {
       weight,
       description,
       imageLink,
+      gender,
     };
 
     return loginUser;
