@@ -79,6 +79,13 @@ class myPageService {
     });
     return dietInfo;
   }
+
+  static async getDietSixMonth({ userId }) {
+    const dietInfo = await MyPage.findDietSixMonthByUserId({
+      userId,
+    });
+    return dietInfo;
+  }
 }
 
 export { myPageService };
