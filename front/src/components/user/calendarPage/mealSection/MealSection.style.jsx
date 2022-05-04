@@ -10,21 +10,29 @@ export const MealContainer = styled.article`
   flex-direction: column;
   align-items: center;
 
-  border: 1px solid pink;
+  background-color: rgba(128, 128, 128, 0.1);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 
   margin: 0.5rem 0 0.5rem 0;
-  padding: 0.5rem;
+  padding: 0.5rem 0 0.5rem 0;
+  border-radius: 10px;
 `;
 
 export const MealWrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
 `;
 
 export const FormWrapper = styled.div`
   width: 90px;
-  height: 100px;
-  border: 1px solid black;
+  height: 90px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,12 +53,15 @@ export const SubmitImageButton = styled(Button)`
 `;
 
 export const MealInfoContainer = styled.div`
-  width: 65%;
-  margin: 0 0.5rem 0 0.5rem;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  /* margin: 0 0.5rem 0.2rem 0.5rem; */
+  /* background-color: red; */
 `;
 
 export const InputWrapper = styled.div`
-  /* display: flex; */
+  width: 60%;
   align-items: center;
 `;
 
@@ -64,7 +75,9 @@ export const IconWrapper = styled.div`
 
 export const StyledTextField = styled(TextField)`
   width: 80px;
-  margin-top: 0.3rem;
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+  margin-right: 0.3rem;
 `;
 
 export const CountWrapper = styled.div`
@@ -74,10 +87,11 @@ export const CountWrapper = styled.div`
 `;
 
 export const StyledButton = styled(Button)`
-  width: 100%;
+  width: 60%;
   color: black;
-  background-color: lightgray;
-  margin-top: 0.3rem;
+  background-color: white;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
 `;
 
 export const StyeldAddCircleOutlineIcon = styled(AddCircleOutlineIcon)`

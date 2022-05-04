@@ -4,12 +4,13 @@ export const ExerciseListContainer = styled.article`
   width: 100%;
   list-style: none;
 
-  border: 1px solid pink;
-
   margin: 0.5rem 0 0.5rem 0;
   padding: 0.5rem;
 
-  transition: all 0.5s ease-in;
+  box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+
+  /* box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset; */
 `;
 
 export const ListWrapper = styled.div`

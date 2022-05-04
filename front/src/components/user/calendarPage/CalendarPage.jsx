@@ -42,7 +42,8 @@ const CalendarPage = (props) => {
   // 캘린더 데이터
   const [calendarData, setCalendarData] = useState([]);
 
-  const weightRef = useRef();
+  // const weightRef = useRef();
+  const [weight, setWeight] = useState(0);
 
   const handleSetDate = (month, today, day) => {
     day = dayOfWeek[day];
@@ -64,6 +65,7 @@ const CalendarPage = (props) => {
   };
 
   const setChangeListWhenClick = (data) => {
+    console.log(data);
     const newBreakfastList = data.diet.filter((d) => d.type === "breakfast");
     const newLunchList = data.diet.filter((d) => d.type === "lunch");
     const newDinnerList = data.diet.filter((d) => d.type === "dinner");
@@ -75,7 +77,6 @@ const CalendarPage = (props) => {
   };
 
   const setCalorieWhenClick = (data) => {
-    console.log(data);
     if (data.length === 0) {
       setBreakfastCalrorie(0);
       setLunchCalrorie(0);
@@ -116,8 +117,14 @@ const CalendarPage = (props) => {
   const handleOnClickCalendar = async (clickDate) => {
     try {
       const res = await get(`calendar/items/${clickDate}`);
+      console.log(res);
       setImageUrlWhenClick(res.data);
       setChangeListWhenClick(res.data);
+      setWeight(
+        res.data.attendance?.weight === undefined
+          ? 0
+          : res.data.attendance?.weight
+      );
       const res2 = await get(`calendar/calories/${clickDate}`);
       setCalorieWhenClick(res2.data);
     } catch (e) {
@@ -142,6 +149,9 @@ const CalendarPage = (props) => {
           dinnerCalrorie,
           totalExerciseCalrorie,
         ],
+      });
+      await post("attendance", {
+        weight: weight,
       });
       const res = await get(
         `calendar/calorieslist/${dayjs(strDate).format("YYYY-MM")}`
@@ -182,6 +192,7 @@ const CalendarPage = (props) => {
         const res = await get(
           `calendar/calorieslist/${dayjs(newDate).format("YYYY-MM")}`
         );
+        console.log(res);
         setCalendarData(res.data);
       };
 
@@ -212,12 +223,14 @@ const CalendarPage = (props) => {
 
   return (
     <CalendarLayout>
-      <Calendar
-        data={calendarData}
-        handleSetDate={handleSetDate}
-        setStrDate={setStrDate}
-        handleOnClickCalendar={handleOnClickCalendar}
-      />
+      <div>
+        <Calendar
+          data={calendarData}
+          handleSetDate={handleSetDate}
+          setStrDate={setStrDate}
+          handleOnClickCalendar={handleOnClickCalendar}
+        />
+      </div>
       <CalendarBodyLayout>
         <TitleWrapper>
           <h2>{date}</h2>
@@ -229,10 +242,9 @@ const CalendarPage = (props) => {
               <StyledTextField
                 type="number"
                 size="small"
-                inputRef={weightRef}
-                onChange={() => {
-                  console.log(weightRef.current.value);
-                }}
+                // inputRef={weightRef}
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
               />
               <WeightTitle>kg</WeightTitle>
             </TodayWeight>
@@ -289,14 +301,14 @@ const CalendarPage = (props) => {
             setFoodList={setDinnerList}
           />
           <ExerciseSection
-            weight={weightRef.current?.value}
+            weight={weight}
             setExerciseList={setExerciseList}
             totalExerciseCalrorie={totalExerciseCalrorie}
             handleSetTotalExerciseCalrorie={handleSetTotalExerciseCalrorie}
           />
           <ExerciseList
             title={"운동 리스트"}
-            weight={weightRef.current?.value}
+            weight={weight}
             exerciseList={exerciseList}
             setExerciseList={setExerciseList}
             setTotalExerciseCalrorie={setTotalExerciseCalrorie}

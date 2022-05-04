@@ -11,9 +11,14 @@ export const ExerciseLayout = styled.div`
   justify-content: center;
   align-items: center;
 
-  border: 1px solid pink;
+  background-color: rgba(128, 128, 128, 0.1);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 
   margin: 0.5rem 0 0.5rem 0;
+  padding: 0.5rem 0 0.5rem 0;
+
+  border-radius: 10px;
 `;
 
 export const AutocompleteWrapper = styled.div`
@@ -29,7 +34,7 @@ export const ExerciseCategoriesWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.7rem;
 `;
 
 export const HourTextFieldWrapper = styled(ExerciseCategoriesWrapper)`
@@ -39,13 +44,16 @@ export const HourTextFieldWrapper = styled(ExerciseCategoriesWrapper)`
 
 export const StyledTextField = styled(TextField)`
   width: 80px;
+  margin-right: 0.3rem;
 `;
 
 export const StyledButton = styled(Button)`
-  width: 90%;
+  width: 60%;
   color: black;
-  background-color: lightgray;
+  background-color: white;
   margin-top: 0.3rem;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
 `;
 
 export const AddCircleOutlineIcon = styled(AddCircleOutline)`

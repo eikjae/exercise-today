@@ -5,19 +5,19 @@ export const CalendarLayout = styled.div`
   display: flex;
   justify-content: center;
 
-  width: 2000px;
-  margin: auto;
-  border: 1px solid green;
+  width: 1600px;
+  margin: 3rem auto 0 auto;
 `;
 
 export const CalendarBodyLayout = styled.div`
   display: flex;
   flex-direction: column;
 
-  margin: 3rem 1rem 0 1rem;
+  margin: 0 1rem 0 1rem;
   padding: 1rem;
 
-  border: 1px solid blue;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 
   width: 400px;
 `;
@@ -29,7 +29,6 @@ export const TitleWrapper = styled.div`
 
   flex: 0.1;
 
-  border: 1px solid pink;
   border-radius: 10px;
 `;
 
@@ -38,7 +37,7 @@ export const BodyWrapper = styled.section`
   display: flex;
   flex-direction: column;
 
-  border: 1px solid green;
+  /* border: 1px solid grey; */
   border-radius: 10px;
 
   margin-top: 1rem;
@@ -48,14 +47,14 @@ export const BodyWrapper = styled.section`
 
 export const TodayChecked = styled.article`
   display: flex;
-  border: 1px solid pink;
   flex: 0.1;
+  border-bottom: 2px solid grey;
 `;
 
 export const TodayWeight = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 `;
 
@@ -64,6 +63,6 @@ export const WeightTitle = styled.h4`
 `;
 
 export const StyledTextField = styled(TextField)`
-  width: 40%;
-  justify-content: center;
+  width: 30%;
+  margin-left: 2rem;
 `;

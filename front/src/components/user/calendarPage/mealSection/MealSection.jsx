@@ -109,42 +109,41 @@ const MealSection = ({
     <MealContainer>
       <h5>{title}</h5>
       <MealWrapper>
-        <FormWrapper>
-          {/* action="dietimage" method="post" */}
-          {imgUrl === null ? (
-            <Form>
-              <label>
-                <input
-                  type="file"
-                  style={{
-                    display: "none",
-                  }}
-                  accept="image/*"
-                  onChange={(e) => {
-                    handleSubmitImage(e);
-                  }}
-                />
-                <div
-                  style={{
-                    display: "inline",
-                  }}
-                >
-                  이미지 <br />
-                  업로드
-                </div>
-              </label>
-              <SubmitImageButton type="submit">확인</SubmitImageButton>
-            </Form>
-          ) : (
-            <img
-              alt="temp"
-              src={imgUrl}
-              style={{ width: "90px", height: "90px" }}
-            ></img>
-          )}
-        </FormWrapper>
-        {/* <Image /> */}
         <MealInfoContainer>
+          <FormWrapper>
+            {/* action="dietimage" method="post" */}
+            {imgUrl === null ? (
+              <Form>
+                <label>
+                  <input
+                    type="file"
+                    style={{
+                      display: "none",
+                    }}
+                    accept="image/*"
+                    onChange={(e) => {
+                      handleSubmitImage(e);
+                    }}
+                  />
+                  <div
+                    style={{
+                      display: "inline",
+                    }}
+                  >
+                    <span>이미지</span> <br />
+                    <span>업로드</span>
+                  </div>
+                </label>
+                <SubmitImageButton type="submit">확인</SubmitImageButton>
+              </Form>
+            ) : (
+              <img
+                alt="temp"
+                src={imgUrl}
+                style={{ width: "90px", height: "90px" }}
+              ></img>
+            )}
+          </FormWrapper>
           <InputWrapper>
             <Autocomplete
               disablePortal
@@ -154,6 +153,7 @@ const MealSection = ({
               options={mealOptions}
               size="small"
               value={meal}
+              style={{ backgroundColor: "white" }}
               onChange={(e, value) => {
                 setMeal(value);
               }}
@@ -166,6 +166,7 @@ const MealSection = ({
                 size="small"
                 type="number"
                 value={count}
+                style={{ backgroundColor: "white" }}
                 InputProps={{
                   inputProps: { min: 0 },
                 }}
@@ -175,11 +176,10 @@ const MealSection = ({
               />
               <h4 style={{ marginBottom: "0" }}>개</h4>
             </CountWrapper>
-            <StyledButton onClick={getTotalCal}>추가</StyledButton>
             {/* <StyeldAddCircleOutlineIcon onClick={getTotalCal} /> */}
           </InputWrapper>
-          <IconWrapper></IconWrapper>
         </MealInfoContainer>
+        <StyledButton onClick={getTotalCal}>추가</StyledButton>
       </MealWrapper>
     </MealContainer>
   );

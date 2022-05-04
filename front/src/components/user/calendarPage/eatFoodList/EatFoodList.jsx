@@ -82,7 +82,7 @@ const EatFoodList = ({
           );
         })}
       </ol>
-      <TotalWrapper>총 칼로리: {totalCalrorie}</TotalWrapper>
+      <TotalWrapper>{totalCalrorie} kacl</TotalWrapper>
     </FoodListContainer>
   );
 };

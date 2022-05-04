@@ -10,12 +10,16 @@ html {
   tab-size: 4;
 }
 
-*,
+* {
+  background-repeat: no-repeat;
+  box-sizing: inherit;
+  font-family: "Elice Digital Baeum", sans-serif;
+}
 ::before,
 ::after {
   background-repeat: no-repeat;
   box-sizing: inherit;
-  font-family: "Elice Digital Baeum", sans-serif;
+  /* font-family: "Elice Digital Baeum", sans-serif; */
 }
 
 ::before,
@@ -277,6 +281,31 @@ progress {
 /* Specify the unstyled cursor of disabled, not-editable, or otherwise inoperable elements */
 [aria-disabled='true'] {
   cursor: default;
+}
+
+.fc .fc-col-header-cell-cushion {
+  display: inline-block;
+  padding: 2px 4px;
+  text-decoration: none;
+  color: black;
+}
+
+.fc .fc-daygrid-day-number {
+  position: relative;
+  z-index: 4;
+  padding: 4px;
+  text-decoration: none;
+  color: black;
+}
+
+
+.fc-event-title {
+  color: black;
+}
+
+.fc-icon{
+  display: flex;
+  align-items: center;
 }
 
 
