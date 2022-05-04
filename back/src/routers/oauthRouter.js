@@ -134,6 +134,9 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
     }
     const userById = await User.findById({ user_id: result.id });
     if (userById) {
+      if (userById.deleted === true) {
+        throw new Error("해당 소셜계정은 이미 회원탈퇴하셨습니다.");
+      }
       const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
       const token = jwt.sign({ user_id: result.id }, secretKey);
       userById.token = token;
