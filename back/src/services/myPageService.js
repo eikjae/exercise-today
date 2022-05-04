@@ -195,6 +195,15 @@ class myPageService {
     });
     return calorieInfo;
   }
+
+  static async getCalorieSelectedDate({ userId, startDate, finishDate }) {
+    const calorieInfo = await MyPage.findCalorieSelectedDateByUserId({
+      userId,
+      startDate,
+      finishDate,
+    });
+    return calorieInfo;
+  }
 }
 
 export { myPageService };
