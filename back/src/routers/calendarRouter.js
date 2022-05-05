@@ -9,7 +9,7 @@ calendarRouter.post(
   login_required,
   async function (req, res, next) {
     try {
-      const userId = req.currentUserId;
+      const { currentUserId: userId } = req;
       const { whenDate, calorieArray } = req.body;
 
       const newItem = await calendarService.addCalories({
@@ -30,7 +30,7 @@ calendarRouter.get(
   login_required,
   async function (req, res, next) {
     try {
-      const userId = req.currentUserId;
+      const { currentUserId: userId } = req;
       const { whenDate } = req.params;
       const foundList = await calendarService.getCaloriesByDate({
         userId,
@@ -49,7 +49,7 @@ calendarRouter.get(
   login_required,
   async function (req, res, next) {
     try {
-      const userId = req.currentUserId;
+      const { currentUserId: userId } = req;
       const { whenMonth } = req.params;
       const foundList = await calendarService.getCaloriesByMonth({
         userId,
@@ -83,7 +83,7 @@ calendarRouter.delete(
   login_required,
   async function (req, res, next) {
     try {
-      const userId = req.currentUserId;
+      const { currentUserId: userId } = req;
       await calendarService.deleteCaloriesList({ userId });
 
       res.status(200).end();
@@ -98,7 +98,7 @@ calendarRouter.post(
   login_required,
   async function (req, res, next) {
     try {
-      const userId = req.currentUserId;
+      const { currentUserId: userId } = req;
       const { whenDate, itemArray } = req.body;
 
       const newItem = await calendarService.addItemList({
@@ -119,7 +119,7 @@ calendarRouter.get(
   login_required,
   async function (req, res, next) {
     try {
-      const userId = req.currentUserId;
+      const { currentUserId: userId } = req;
       const { whenDate } = req.params;
       const foundList = await calendarService.getItemList({
         userId,
@@ -138,7 +138,7 @@ calendarRouter.post(
   login_required,
   async function (req, res, next) {
     try {
-      const userId = req.currentUserId;
+      const { currentUserId: userId } = req;
       const { whenDate, itemArray } = req.body;
 
       const newItem = await calendarService.addItemList({
@@ -159,7 +159,7 @@ calendarRouter.get(
   login_required,
   async function (req, res, next) {
     try {
-      const userId = req.currentUserId;
+      const { currentUserId: userId } = req;
       const { whenDate } = req.params;
       const foundList = await calendarService.getItemList({
         userId,

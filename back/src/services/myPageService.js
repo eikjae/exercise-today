@@ -2,207 +2,207 @@ import { MyPage } from "../db";
 
 class myPageService {
   static async getWeight({ userId }) {
-    const weightInfo = await MyPage.findByUserId({
+    const weight = await MyPage.findByUserId({
       userId,
     });
-    return weightInfo;
+    return weight;
   }
 
   static async getWeightWeek({ userId }) {
-    const weightInfo = await MyPage.findByUserIdWeek({
+    const weight = await MyPage.findByUserIdWeek({
       userId,
     });
-    return weightInfo;
+    return weight;
   }
 
   static async getWeightMonth({ userId }) {
-    const weightInfo = await MyPage.findByUserIdMonth({
+    const weight = await MyPage.findByUserIdMonth({
       userId,
     });
-    return weightInfo;
+    return weight;
   }
 
   static async getWeightThreeMonth({ userId }) {
-    const weightInfo = await MyPage.findByUserIdThreeMonth({
+    const weight = await MyPage.findByUserIdThreeMonth({
       userId,
     });
-    return weightInfo;
+    return weight;
   }
 
   static async getWeightSixMonth({ userId }) {
-    const weightInfo = await MyPage.findByUserIdSixMonth({
+    const weight = await MyPage.findByUserIdSixMonth({
       userId,
     });
-    return weightInfo;
+    return weight;
   }
 
   static async getWeightYear({ userId }) {
-    const weightInfo = await MyPage.findByUserIdYear({
+    const weight = await MyPage.findByUserIdYear({
       userId,
     });
-    return weightInfo;
+    return weight;
   }
 
   static async getWeightSelectedDate({ userId, startDate, finishDate }) {
-    const weightInfo = await MyPage.findByUserIdSelectedDate({
+    const weight = await MyPage.findByUserIdSelectedDate({
       userId,
       startDate,
       finishDate,
     });
-    return weightInfo;
+    return weight;
   }
 
   static async getDiet({ userId }) {
-    const dietInfo = await MyPage.findDietByUserId({
+    const calorie = await MyPage.findDietByUserId({
       userId,
     });
-    return dietInfo;
+    return calorie;
   }
 
   static async getDietWeek({ userId }) {
-    const dietInfo = await MyPage.findDietWeekByUserId({
+    const calorie = await MyPage.findDietWeekByUserId({
       userId,
     });
-    return dietInfo;
+    return calorie;
   }
 
   static async getDietMonth({ userId }) {
-    const dietInfo = await MyPage.findDietMonthByUserId({
+    const calorie = await MyPage.findDietMonthByUserId({
       userId,
     });
-    return dietInfo;
+    return calorie;
   }
 
   static async getDietThreeMonth({ userId }) {
-    const dietInfo = await MyPage.findDietThreeMonthByUserId({
+    const calorie = await MyPage.findDietThreeMonthByUserId({
       userId,
     });
-    return dietInfo;
+    return calorie;
   }
 
   static async getDietSixMonth({ userId }) {
-    const dietInfo = await MyPage.findDietSixMonthByUserId({
+    const calorie = await MyPage.findDietSixMonthByUserId({
       userId,
     });
-    return dietInfo;
+    return calorie;
   }
 
   static async getDietYear({ userId }) {
-    const dietInfo = await MyPage.findDietYearByUserId({
+    const calorie = await MyPage.findDietYearByUserId({
       userId,
     });
-    return dietInfo;
+    return calorie;
   }
 
   static async getDietSelectedDate({ userId, startDate, finishDate }) {
-    const dietInfo = await MyPage.findDietSelectedDateByUserId({
+    const calorie = await MyPage.findDietSelectedDateByUserId({
       userId,
       startDate,
       finishDate,
     });
-    return dietInfo;
+    return calorie;
   }
 
   static async getWorkout({ userId }) {
-    const workoutInfo = await MyPage.findWorkoutByUserId({
+    const calorie = await MyPage.findWorkoutByUserId({
       userId,
     });
-    return workoutInfo;
+    return calorie;
   }
 
   static async getWorkoutWeek({ userId }) {
-    const workoutInfo = await MyPage.findWorkoutWeekByUserId({
+    const calorie = await MyPage.findWorkoutWeekByUserId({
       userId,
     });
-    return workoutInfo;
+    return calorie;
   }
 
   static async getWorkoutMonth({ userId }) {
-    const workoutInfo = await MyPage.findWorkoutMonthByUserId({
+    const calorie = await MyPage.findWorkoutMonthByUserId({
       userId,
     });
-    return workoutInfo;
+    return calorie;
   }
 
   static async getWorkoutThreeMonth({ userId }) {
-    const workoutInfo = await MyPage.findWorkoutThreeMonthByUserId({
+    const calorie = await MyPage.findWorkoutThreeMonthByUserId({
       userId,
     });
-    return workoutInfo;
+    return calorie;
   }
 
   static async getWorkoutSixMonth({ userId }) {
-    const workoutInfo = await MyPage.findWorkoutSixMonthByUserId({
+    const calorie = await MyPage.findWorkoutSixMonthByUserId({
       userId,
     });
-    return workoutInfo;
+    return calorie;
   }
 
   static async getWorkoutYear({ userId }) {
-    const workoutInfo = await MyPage.findWorkoutYearByUserId({
+    const calorie = await MyPage.findWorkoutYearByUserId({
       userId,
     });
-    return workoutInfo;
+    return calorie;
   }
 
   static async getWorkoutSelectedDate({ userId, startDate, finishDate }) {
-    const workoutInfo = await MyPage.findWorkoutSelectedDateByUserId({
+    const calorie = await MyPage.findWorkoutSelectedDateByUserId({
       userId,
       startDate,
       finishDate,
     });
-    return workoutInfo;
+    return calorie;
   }
 
   static async getCalorie({ userId }) {
-    const calorieInfo = await MyPage.findCalorieByUserId({
+    const calorie = await MyPage.findCalorieByUserId({
       userId,
     });
-    return calorieInfo;
+    return calorie;
   }
 
   static async getCalorieWeek({ userId }) {
-    const calorieInfo = await MyPage.findCalorieWeekByUserId({
+    const calorie = await MyPage.findCalorieWeekByUserId({
       userId,
     });
-    return calorieInfo;
+    return calorie;
   }
 
   static async getCalorieMonth({ userId }) {
-    const calorieInfo = await MyPage.findCalorieMonthByUserId({
+    const calorie = await MyPage.findCalorieMonthByUserId({
       userId,
     });
-    return calorieInfo;
+    return calorie;
   }
 
   static async getCalorieThreeMonth({ userId }) {
-    const calorieInfo = await MyPage.findCalorieThreeMonthByUserId({
+    const calorie = await MyPage.findCalorieThreeMonthByUserId({
       userId,
     });
-    return calorieInfo;
+    return calorie;
   }
 
   static async getCalorieSixMonth({ userId }) {
-    const calorieInfo = await MyPage.findCalorieSixMonthByUserId({
+    const calorie = await MyPage.findCalorieSixMonthByUserId({
       userId,
     });
-    return calorieInfo;
+    return calorie;
   }
 
   static async getCalorieYear({ userId }) {
-    const calorieInfo = await MyPage.findCalorieYearByUserId({
+    const calorie = await MyPage.findCalorieYearByUserId({
       userId,
     });
-    return calorieInfo;
+    return calorie;
   }
 
   static async getCalorieSelectedDate({ userId, startDate, finishDate }) {
-    const calorieInfo = await MyPage.findCalorieSelectedDateByUserId({
+    const calorie = await MyPage.findCalorieSelectedDateByUserId({
       userId,
       startDate,
       finishDate,
     });
-    return calorieInfo;
+    return calorie;
   }
 }
 

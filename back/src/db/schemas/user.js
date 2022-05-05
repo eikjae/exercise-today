@@ -50,6 +50,11 @@ const UserSchema = new Schema(
       required: false,
       default: process.env.initial_image_Link,
     },
+    deleted: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   {
     timestamps: true,

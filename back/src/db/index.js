@@ -7,7 +7,7 @@ import { TargetExercise } from "./models/TargetExercise";
 import { Like } from "./models/Like";
 import { Diet } from "./models/Diet";
 import { Workout } from "./models/Workout";
-import { Attendance } from "./models/Attendance";
+import { Weight } from "./models/Weight";
 import { Friend } from "./models/Friend";
 import { AuthEmail } from "./models/AuthEmail";
 import { DietImage } from "./models/DietImage";
@@ -37,7 +37,7 @@ export {
   Like,
   Diet,
   Workout,
-  Attendance,
+  Weight,
   Friend,
   AuthEmail,
   DietImage,
