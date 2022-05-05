@@ -100,9 +100,9 @@ const getOption = (coperation, code) => {
 oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
   try {
     const coperation = req.params.coperation;
-    const code = req.param("code");
+
     const options = getOption(coperation, code);
-    const token = await getAccessToken(options);
+    const token = req.param("accessToken");
     let userInfo;
     if (coperation === "google") {
       oauth2Client.generateAuthUrl({
@@ -123,7 +123,7 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
     } else {
       userInfo = await getUserInfo(options.userInfoUri, token.access_token);
     }
-
+    console.log("asd: ", userInfo);
     let result;
     if (coperation === "kakao") {
       result = getInfoFromKakao(userInfo);
