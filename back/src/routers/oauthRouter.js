@@ -143,11 +143,8 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
       const resultData = getRequiredInfoFromData(userById);
       resultData.token = token;
 
-      const query = querystring.stringify({
-        ...resultData,
-      });
       //   console.log(querystring.parse(query));
-      res.redirect(process.env.FrontHost + "/?" + query);
+      res.json(resultData);
     } else {
       const password = generateRandomPassword();
       result.password = password;
@@ -158,14 +155,11 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
       const token = jwt.sign({ user_id: result.id }, secretKey);
       const resultData = getRequiredInfoFromData(createdUser);
       resultData.token = token;
-      const query = querystring.stringify({
-        ...resultData,
-      });
       await likeService.addLike({
         user_id: result.id,
       });
       //   console.log(querystring.parse(query));
-      res.redirect(process.env.FrontHost + "/?" + query);
+      res.json(resultData);
     }
   } catch (error) {
     next(error);
