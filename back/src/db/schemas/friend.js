@@ -5,6 +5,8 @@ const FriendSchema = new Schema(
     id: {
       type: String,
       required: true,
+      unique: true,
+      index: true,
     },
     user_id: {
       type: String,
