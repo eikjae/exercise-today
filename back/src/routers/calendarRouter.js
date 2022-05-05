@@ -10,7 +10,7 @@ calendarRouter.post(
   "/calendar/calories",
   login_required,
   [
-    body("whenDate").isDate().withMessage("Enter whenDate in date format"),
+    body("whenDate").isISO8601().withMessage("Enter whenDate in date format"),
     body("calorieArray")
       .isArray({ min: 4, max: 4 })
       .withMessage("calorieArray should be an array of length 4"),
@@ -41,7 +41,7 @@ calendarRouter.get(
   "/calendar/calories/:whenDate",
   login_required,
   [
-    param("whenDate").isDate().withMessage("Enter whenDate in date format"),
+    param("whenDate").isISO8601().withMessage("Enter whenDate in date format"),
     validatorErrorChecker,
   ],
   async function (req, res, next) {
@@ -65,8 +65,8 @@ calendarRouter.get(
   login_required,
   [
     param("whenMonth")
-      .isDate({ format: "YYYY-MM" })
-      .withMessage("Enter whenMonth in date format"),
+      .isISO8601("yyyy-mm")
+      .withMessage("Enter whenMonth in YYYY-MM format"),
     validatorErrorChecker,
   ],
   async function (req, res, next) {
@@ -104,7 +104,7 @@ calendarRouter.post(
   "/calendar/items",
   login_required,
   [
-    body("whenDate").isDate().withMessage("Enter whenDate in date format"),
+    body("whenDate").isISO8601().withMessage("Enter whenDate in date format"),
     body("itemArray.diet")
       .exists()
       .isArray()
@@ -123,7 +123,6 @@ calendarRouter.post(
     try {
       const { currentUserId: userId } = req;
       const { whenDate, itemArray } = req.body;
-      console.log("아이템어레이", typeof itemArray);
       const newItem = await calendarService.addItemList({
         userId,
         whenDate,
@@ -141,7 +140,7 @@ calendarRouter.get(
   "/calendar/items/:whenDate",
   login_required,
   [
-    param("whenDate").isDate().withMessage("Enter whenDate in date format"),
+    param("whenDate").isISO8601().withMessage("Enter whenDate in date format"),
     validatorErrorChecker,
   ],
   async function (req, res, next) {
