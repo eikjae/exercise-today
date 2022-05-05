@@ -1,13 +1,13 @@
 import React from "react";
 import LikedFriendCard from "../cardSection/LikedFriendCard";
-import { Layout } from "./LikedTab.style";
+import { FriendLayout } from "./LikedTab.style";
 
 export default function LikedFriendTab({ likedFriends, isEditable }) {
   return (
-    <Layout>
+    <FriendLayout>
       {likedFriends.map((friend, idx) => (
         <LikedFriendCard key={idx} friend={friend} isEditable={isEditable} />
       ))}
-    </Layout>
+    </FriendLayout>
   );
 }
