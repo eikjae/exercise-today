@@ -33,6 +33,11 @@ class userAuthService {
           "인증이 완료되지 않은 이메일입니다.인증번호 발급후 인증을 완료해주세요.";
         return { errorMessage };
       }
+      if (gender === "male") {
+        imageLink = process.env.initial_male;
+      } else {
+        imageLink = process.env.initial_female;
+      }
     }
     // 비밀번호 해쉬화
     const hashedPassword = await bcrypt.hash(password, 10);
