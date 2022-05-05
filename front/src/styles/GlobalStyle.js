@@ -14,7 +14,6 @@ html {
   background-repeat: no-repeat;
   box-sizing: inherit;
   font-family: "Elice Digital Baeum", sans-serif;
-  list-style: none;
 }
 ::before,
 ::after {
@@ -40,6 +39,8 @@ html {
 
 ul {
   margin-bottom: 0;
+  list-style: none;
+
 }
 
 hr {

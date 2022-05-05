@@ -10,6 +10,8 @@ import {
   TodayWeight,
   StyledTextField,
   WeightTitle,
+  InputWeightWrapper,
+  StyledButton,
 } from "./CalendarPage.style";
 import EatFoodList from "./eatFoodList/EatFoodList";
 import ExerciseSection from "./exerciseSection/ExerciseSection";
@@ -17,6 +19,7 @@ import MealSection from "./mealSection/MealSection";
 import ExerciseList from "./selectExerciseList/ExerciseList";
 import TotalSection from "./totalSection/TotalSection";
 import dayjs from "dayjs";
+import { Button } from "@mui/material";
 
 const CalendarPage = (props) => {
   const newDate = new Date();
@@ -64,8 +67,7 @@ const CalendarPage = (props) => {
     });
   };
 
-  const setChangeListWhenClick = (data) => {
-    console.log(data);
+  const setChangeListWhenUpdate = (data) => {
     const newBreakfastList = data.diet.filter((d) => d.type === "breakfast");
     const newLunchList = data.diet.filter((d) => d.type === "lunch");
     const newDinnerList = data.diet.filter((d) => d.type === "dinner");
@@ -76,7 +78,7 @@ const CalendarPage = (props) => {
     setExerciseList([...data.workout]);
   };
 
-  const setCalorieWhenClick = (data) => {
+  const setCalorieWhenUpdate = (data) => {
     if (data.length === 0) {
       setBreakfastCalrorie(0);
       setLunchCalrorie(0);
@@ -90,7 +92,7 @@ const CalendarPage = (props) => {
     setTotalExerciseCalrorie(Number(data.calories[3].title.split("-")[1]));
   };
 
-  const setImageUrlWhenClick = (data) => {
+  const setImageUrlWhenUpdate = (data) => {
     if (data.dietimage.length === 0) {
       setBreakfastUrl(null);
       setLunchUrl(null);
@@ -114,22 +116,32 @@ const CalendarPage = (props) => {
     }
   };
 
+  const setWeightWhenUpdate = (data) => {
+    if (data.weight === null) {
+      setWeight(0);
+      return;
+    }
+    setWeight(data.weight.weight);
+  };
+
   const handleOnClickCalendar = async (clickDate) => {
     try {
       const res = await get(`calendar/items/${clickDate}`);
-      console.log(res);
-      setImageUrlWhenClick(res.data);
-      setChangeListWhenClick(res.data);
-      setWeight(
-        res.data.attendance?.weight === undefined
-          ? 0
-          : res.data.attendance?.weight
-      );
+      setImageUrlWhenUpdate(res.data);
+      setChangeListWhenUpdate(res.data);
+      setWeightWhenUpdate(res.data);
       const res2 = await get(`calendar/calories/${clickDate}`);
-      setCalorieWhenClick(res2.data);
+      setCalorieWhenUpdate(res2.data);
     } catch (e) {
       throw new Error(e);
     }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const postDateData = async () => {
@@ -137,6 +149,7 @@ const CalendarPage = (props) => {
       await post("calendar/items", {
         whenDate: strDate,
         itemArray: {
+          weight,
           diet: [...breakfastList, ...lunchList, ...dinnerList],
           workout: [...exerciseList],
         },
@@ -150,14 +163,12 @@ const CalendarPage = (props) => {
           totalExerciseCalrorie,
         ],
       });
-      await post("attendance", {
-        weight: weight,
-      });
       const res = await get(
         `calendar/calorieslist/${dayjs(strDate).format("YYYY-MM")}`
       );
       setCalendarData(res.data);
-      console.log(res.data);
+
+      scrollToTop();
     } catch (e) {
       throw new Error(e);
     }
@@ -168,7 +179,7 @@ const CalendarPage = (props) => {
       `calendar/items/${dayjs(newDate).format("YYYY-MM-DD")}`
     );
 
-    setImageUrlWhenClick(res.data);
+    setImageUrlWhenUpdate(res.data);
   };
 
   // 오늘자 날짜 저장하기
@@ -192,7 +203,6 @@ const CalendarPage = (props) => {
         const res = await get(
           `calendar/calorieslist/${dayjs(newDate).format("YYYY-MM")}`
         );
-        console.log(res);
         setCalendarData(res.data);
       };
 
@@ -208,11 +218,13 @@ const CalendarPage = (props) => {
         const res = await get(
           `calendar/items/${dayjs(newDate).format("YYYY-MM-DD")}`
         );
-        setChangeListWhenClick(res.data);
+        setChangeListWhenUpdate(res.data);
+        setWeightWhenUpdate(res.data);
+        // setChangeWeight
         const res2 = await get(
           `calendar/calories/${dayjs(newDate).format("YYYY-MM-DD")}`
         );
-        setCalorieWhenClick(res2.data);
+        setCalorieWhenUpdate(res2.data);
       };
 
       getCalendarItems();
@@ -240,10 +252,11 @@ const CalendarPage = (props) => {
             <TodayWeight>
               <WeightTitle>오늘의 몸무게 :</WeightTitle>
               <StyledTextField
+                variant="standard"
                 type="number"
                 size="small"
-                // inputRef={weightRef}
                 value={weight}
+                color="primary"
                 onChange={(e) => setWeight(e.target.value)}
               />
               <WeightTitle>kg</WeightTitle>
@@ -318,7 +331,7 @@ const CalendarPage = (props) => {
             totalCalrorie={breakfastCalrorie + lunchCalrorie + dinnerCalrorie}
             totalExerciseCalrorie={totalExerciseCalrorie}
           />
-          <button onClick={postDateData}>등록</button>
+          <StyledButton onClick={postDateData}>등록</StyledButton>
         </BodyWrapper>
       </CalendarBodyLayout>
     </CalendarLayout>

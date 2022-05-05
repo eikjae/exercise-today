@@ -43,6 +43,7 @@ const ExerciseSection = ({
     if (hour === 0) return;
     setExerciseCategory(null);
     setExercise(null);
+    setHour(0);
     try {
       const res = await post("exercise/calories", {
         weight,

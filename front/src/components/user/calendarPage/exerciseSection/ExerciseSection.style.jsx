@@ -11,14 +11,8 @@ export const ExerciseLayout = styled.div`
   justify-content: center;
   align-items: center;
 
-  background-color: rgba(128, 128, 128, 0.1);
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-
   margin: 0.5rem 0 0.5rem 0;
   padding: 0.5rem 0 0.5rem 0;
-
-  border-radius: 10px;
 `;
 
 export const AutocompleteWrapper = styled.div`
@@ -27,6 +21,13 @@ export const AutocompleteWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+
+  padding: 1rem 0 1rem 0;
+
+  background-color: rgba(128, 128, 128, 0.1);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  border-radius: 10px;
 `;
 
 export const ExerciseCategoriesWrapper = styled.div`

@@ -10,13 +10,8 @@ export const MealContainer = styled.article`
   flex-direction: column;
   align-items: center;
 
-  background-color: rgba(128, 128, 128, 0.1);
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-
   margin: 0.5rem 0 0.5rem 0;
   padding: 0.5rem 0 0.5rem 0;
-  border-radius: 10px;
 `;
 
 export const MealWrapper = styled.div`
@@ -25,11 +20,17 @@ export const MealWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+
+  padding: 1rem 0 1rem 0;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  background-color: rgba(128, 128, 128, 0.1);
+  border-radius: 10px;
 `;
 
 export const FormWrapper = styled.div`
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
     rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
   background-color: white;
@@ -61,7 +62,7 @@ export const MealInfoContainer = styled.div`
 `;
 
 export const InputWrapper = styled.div`
-  width: 60%;
+  width: 50%;
   align-items: center;
 `;
 

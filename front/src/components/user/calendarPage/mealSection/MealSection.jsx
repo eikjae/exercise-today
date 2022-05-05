@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import {
   MealContainer,
   MealInfoContainer,
-  IconWrapper,
   InputWrapper,
   CountWrapper,
   StyledTextField,
@@ -140,7 +139,7 @@ const MealSection = ({
               <img
                 alt="temp"
                 src={imgUrl}
-                style={{ width: "90px", height: "90px" }}
+                style={{ width: "100px", height: "100pxpx" }}
               ></img>
             )}
           </FormWrapper>
@@ -149,11 +148,13 @@ const MealSection = ({
               disablePortal
               id="food-combo-box"
               sx={{ width: "100%" }}
-              renderInput={(params) => <TextField {...params} label="Food" />}
+              renderInput={(params) => (
+                <TextField {...params} label="Food" variant="standard" />
+              )}
               options={mealOptions}
               size="small"
               value={meal}
-              style={{ backgroundColor: "white" }}
+              style={{ backgroundColor: "transparent" }}
               onChange={(e, value) => {
                 setMeal(value);
               }}
@@ -162,11 +163,11 @@ const MealSection = ({
               <StyledTextField
                 id="count-meal"
                 label="개수"
-                variant="outlined"
+                variant="standard"
                 size="small"
                 type="number"
                 value={count}
-                style={{ backgroundColor: "white" }}
+                style={{ backgroundColor: "transparent" }}
                 InputProps={{
                   inputProps: { min: 0 },
                 }}

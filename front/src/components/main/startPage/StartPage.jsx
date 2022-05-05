@@ -21,7 +21,6 @@ import {
 
 export default function StartPage() {
   const [section, setSection] = useState([]);
-  let [curIndex, setCurIndex] = useState(0);
   const section_1 = useRef();
   const section_2 = useRef();
   const section_3 = useRef();
@@ -44,7 +43,7 @@ export default function StartPage() {
         <ScrollList handleOnClick={handleOnClick} />
       </ListWrapper>
       <SectionWrapper>
-        <Section className="section 1" ref={section_1}>
+        <Section ref={section_1}>
           <WideSection>
             <h1>행복과 건강</h1>
             <h3>건강 수명이 높은 사람들은 행복해질 확률이 높습니다</h3>
@@ -59,7 +58,7 @@ export default function StartPage() {
             <img src={HealthAndHappinessGraph} alt={"행복과 건강"} />
           </NarrowSection>
         </Section>
-        <Section className="section 2" ref={section_2}>
+        <Section ref={section_2}>
           <NarrowSection>
             <DiabetesGraph />
           </NarrowSection>
@@ -79,7 +78,7 @@ export default function StartPage() {
             </p>
           </WideSection>
         </Section>
-        <Section className="section 3" ref={section_3}>
+        <Section ref={section_3}>
           <WideSection>
             <h1>체중별 심장병의 비율</h1>
             <h3>비만인 사람들... 심장병으로부터 안전할까요?</h3>
@@ -92,7 +91,7 @@ export default function StartPage() {
             <HeartStrokeGraph />
           </NarrowSection>
         </Section>
-        <Section2 className="section 4" ref={section_4}>
+        <Section2 ref={section_4}>
           <div>
             <h1>제목 짓는중~</h1>
             <h1>

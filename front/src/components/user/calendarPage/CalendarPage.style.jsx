@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import styled from "styled-components";
 
 export const CalendarLayout = styled.div`
@@ -49,13 +49,20 @@ export const TodayChecked = styled.article`
   display: flex;
   flex: 0.1;
   border-bottom: 2px solid grey;
+  margin-bottom: 0.3rem;
 `;
 
 export const TodayWeight = styled.div`
-  width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
+
+  width: 100%;
+  margin-bottom: 0.3rem;
+`;
+
+export const InputWeightWrapper = styled.div`
+  width: 30%;
 `;
 
 export const WeightTitle = styled.h4`
@@ -63,6 +70,11 @@ export const WeightTitle = styled.h4`
 `;
 
 export const StyledTextField = styled(TextField)`
-  width: 30%;
-  margin-left: 2rem;
+  width: 15%;
+  margin-left: 5rem;
+`;
+
+export const StyledButton = styled(Button)`
+  color: black;
+  margin-top: 1rem;
 `;
