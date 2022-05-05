@@ -77,8 +77,8 @@ class calendarService {
     return itemList;
   }
 
-  static async deleteCalories({ itemId }) {
-    const deletedResult = await Calendar.deleteByItemId({ itemId });
+  static async deleteCalories({ userId, whenDate }) {
+    const deletedResult = await Calendar.deleteByDate({ userId, whenDate });
     if (!deletedResult) {
       const errorMessage =
         "해당하는 내역이 없습니다. 다시 한 번 확인해 주세요.";
