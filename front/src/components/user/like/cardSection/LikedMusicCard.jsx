@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, LikeImg } from "./LikedCard.style";
+import { Layout, LikeImg, SmallTitle, CardSubTitle } from "./LikedCard.style";
 import { LikeButtonComp } from "./likeButtonSection/LikeButtonComp";
 import * as Api from "../../../../api";
 
@@ -17,7 +17,8 @@ export default function LikedMusicCard({ music, isEditable }) {
   return (
     <Layout>
       <LikeImg src={music?.image_link} />
-      <h5>{music.title}</h5>
+      <SmallTitle>{music.title}</SmallTitle>
+      <CardSubTitle>{music.artists}</CardSubTitle>
       {isEditable && <LikeButtonComp isLiked={isLiked} onClick={handleClick} />}
     </Layout>
   );

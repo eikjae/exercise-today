@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, LikeImg } from "./LikedCard.style";
+import { Layout, LikeImg, CardTitle, CardSubTitle } from "./LikedCard.style";
 import { LikeButtonComp } from "./likeButtonSection/LikeButtonComp";
 import * as Api from "../../../../api";
 
@@ -17,7 +17,10 @@ export default function LikedFoodCard({ food, isEditable }) {
   return (
     <Layout>
       {/* <LikeImg src={food} /> */}
-      <h5>{food.category}</h5>
+      <CardTitle>{food.category}</CardTitle>
+      <CardSubTitle>
+        {food.calories}kcal/{food.unit}
+      </CardSubTitle>
       {isEditable && <LikeButtonComp isLiked={isLiked} onClick={handleClick} />}
     </Layout>
   );

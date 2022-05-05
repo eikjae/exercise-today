@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout, LikeImg } from "./LikedCard.style";
+import { Layout, LikeImg, SmallTitle } from "./LikedCard.style";
 import { LikeButtonComp } from "./likeButtonSection/LikeButtonComp";
 import * as Api from "../../../../api";
 
@@ -17,7 +17,7 @@ export default function LikedExerciseCard({ exercise, isEditable }) {
   return (
     <Layout>
       <LikeImg src={exercise.gifUrl} />
-      <h5>{exercise.name}</h5>
+      <SmallTitle>{exercise.name}</SmallTitle>
       {isEditable && <LikeButtonComp isLiked={isLiked} onClick={handleClick} />}
     </Layout>
   );
