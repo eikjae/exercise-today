@@ -232,7 +232,9 @@ class likeService {
     for (let i = 0; i < LikeInfo.people.length; i++) {
       const user_id = LikeInfo.people[i];
       const LikePersonInfo = await User.findByLikeId({ user_id });
-      InfoList.push(LikePersonInfo);
+      if (LikePersonInfo) {
+        InfoList.push(LikePersonInfo);
+      }
     }
 
     return InfoList;
