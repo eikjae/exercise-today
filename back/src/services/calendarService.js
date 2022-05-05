@@ -1,4 +1,4 @@
-import { Diet, Workout, Attendance, DietImage, Calendar } from "../db";
+import { Diet, Workout, Weight, DietImage, Calendar } from "../db";
 import { v4 as uuidv4 } from "uuid";
 import {
   titleList,
@@ -98,6 +98,11 @@ class calendarService {
       throw new Error(errorMessage);
     }
 
+    if (!itemArray.weight) {
+      const errorMessage = "itemArray에 weight값을 입력해주세요";
+      throw new Error(errorMessage);
+    }
+
     if (!itemArray.diet) {
       const errorMessage = "itemArray에 diet값을 입력해주세요";
       throw new Error(errorMessage);
@@ -137,6 +142,11 @@ class calendarService {
       }
     }
 
+    await Weight.deleteByDate({ userId, whenDate });
+    const { weight } = itemArray;
+    const newWeight = { userId, whenDate, weight };
+    await Weight.create({ newWeight });
+
     await Diet.deleteByDate({ userId, whenDate });
     for (const { type, category, volume } of itemArray.diet) {
       const newItem = { userId, whenDate, type, category, volume };
@@ -151,12 +161,12 @@ class calendarService {
   }
 
   static async getItemList({ userId, whenDate }) {
-    const itemList1 = await Attendance.findByDate({ userId, whenDate });
+    const itemList1 = await Weight.findByDate({ userId, whenDate });
     const itemList2 = await DietImage.findByDate({ userId, whenDate });
     const itemList3 = await Diet.findByDate({ userId, whenDate });
     const itemList4 = await Workout.findByDate({ userId, whenDate });
     const itemAll = {
-      attendance: itemList1,
+      weight: itemList1,
       dietimage: itemList2,
       diet: itemList3,
       workout: itemList4,

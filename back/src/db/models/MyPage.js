@@ -1,4 +1,4 @@
-import { AttendanceModel } from "../schemas/attendance";
+import { WeightModel } from "../schemas/weight";
 import {
   todayDate,
   lastWeek,
@@ -10,15 +10,12 @@ import {
 
 export class MyPage {
   static async findByUserId({ userId }) {
-    const attendance = await AttendanceModel.find(
-      { userId },
-      "whenDate weight"
-    );
-    return attendance;
+    const weight = await WeightModel.find({ userId }, "whenDate weight");
+    return weight;
   }
 
   static async findByUserIdWeek({ userId }) {
-    const attendance = await AttendanceModel.find(
+    const weight = await WeightModel.find(
       {
         $and: [
           { userId },
@@ -27,11 +24,11 @@ export class MyPage {
       },
       "whenDate weight"
     );
-    return attendance;
+    return weight;
   }
 
   static async findByUserIdMonth({ userId }) {
-    const attendance = await AttendanceModel.find(
+    const weight = await WeightModel.find(
       {
         $and: [
           { userId },
@@ -40,11 +37,11 @@ export class MyPage {
       },
       "whenDate weight"
     );
-    return attendance;
+    return weight;
   }
 
   static async findByUserIdThreeMonth({ userId }) {
-    const attendance = await AttendanceModel.find(
+    const weight = await WeightModel.find(
       {
         $and: [
           { userId },
@@ -53,11 +50,11 @@ export class MyPage {
       },
       "whenDate weight"
     );
-    return attendance;
+    return weight;
   }
 
   static async findByUserIdSixMonth({ userId }) {
-    const attendance = await AttendanceModel.find(
+    const weight = await WeightModel.find(
       {
         $and: [
           { userId },
@@ -66,11 +63,11 @@ export class MyPage {
       },
       "whenDate weight"
     );
-    return attendance;
+    return weight;
   }
 
   static async findByUserIdYear({ userId }) {
-    const attendance = await AttendanceModel.find(
+    const weight = await WeightModel.find(
       {
         $and: [
           { userId },
@@ -79,16 +76,16 @@ export class MyPage {
       },
       "whenDate weight"
     );
-    return attendance;
+    return weight;
   }
 
   static async findByUserIdSelectedDate({ userId, startDate, finishDate }) {
-    const attendance = await AttendanceModel.find(
+    const weight = await WeightModel.find(
       {
         $and: [{ userId }, { whenDate: { $gte: startDate, $lte: finishDate } }],
       },
       "whenDate weight"
     );
-    return attendance;
+    return weight;
   }
 }

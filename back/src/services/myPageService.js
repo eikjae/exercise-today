@@ -2,54 +2,54 @@ import { MyPage } from "../db";
 
 class myPageService {
   static async getWeight({ userId }) {
-    const attendance = await MyPage.findByUserId({
+    const weight = await MyPage.findByUserId({
       userId,
     });
-    return attendance;
+    return weight;
   }
 
   static async getWeightWeek({ userId }) {
-    const attendance = await MyPage.findByUserIdWeek({
+    const weight = await MyPage.findByUserIdWeek({
       userId,
     });
-    return attendance;
+    return weight;
   }
 
   static async getWeightMonth({ userId }) {
-    const attendance = await MyPage.findByUserIdMonth({
+    const weight = await MyPage.findByUserIdMonth({
       userId,
     });
-    return attendance;
+    return weight;
   }
 
   static async getWeightThreeMonth({ userId }) {
-    const attendance = await MyPage.findByUserIdThreeMonth({
+    const weight = await MyPage.findByUserIdThreeMonth({
       userId,
     });
-    return attendance;
+    return weight;
   }
 
   static async getWeightSixMonth({ userId }) {
-    const attendance = await MyPage.findByUserIdSixMonth({
+    const weight = await MyPage.findByUserIdSixMonth({
       userId,
     });
-    return attendance;
+    return weight;
   }
 
   static async getWeightYear({ userId }) {
-    const attendance = await MyPage.findByUserIdYear({
+    const weight = await MyPage.findByUserIdYear({
       userId,
     });
-    return attendance;
+    return weight;
   }
 
   static async getWeightSelectedDate({ userId, startDate, finishDate }) {
-    const attendance = await MyPage.findByUserIdSelectedDate({
+    const weight = await MyPage.findByUserIdSelectedDate({
       userId,
       startDate,
       finishDate,
     });
-    return attendance;
+    return weight;
   }
 }
 
