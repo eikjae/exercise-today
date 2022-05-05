@@ -97,7 +97,7 @@ export default function LikePage() {
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  }, [userId]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
