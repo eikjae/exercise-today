@@ -76,8 +76,8 @@ function App() {
         <Router>
           <Header />
           <Routes>
-            <Route path="/" exact element={<FoodPage />} />
-            <Route path="/start" exact element={<StartPage />} />
+            <Route path="/" exact element={<StartPage />} />
+            <Route path="/food" exact element={<FoodPage />} />
             <Route
               path="/:calorie/:height/:weight"
               element={<MainChartPage />}
