@@ -7,6 +7,7 @@ import {
   StyledNav,
   StyledNavContainer,
   StyledTitle,
+  TitleIcon,
 } from "./Header.style";
 
 function Header() {
@@ -34,6 +35,7 @@ function Header() {
           navigate("/");
         }}
       >
+        <TitleIcon />
         오늘도 운동
       </StyledTitle>
       <StyledNavContainer>
