@@ -10,7 +10,7 @@ import {
 } from "../utils/authEmail";
 import { getRequiredInfoFromData } from "../utils/user";
 import { likeService } from "../services/likeService";
-
+const querystring = require("querystring");
 const qs = require("qs");
 const fetch = require("node-fetch");
 
@@ -24,7 +24,7 @@ class Kakao {
     this.url = "https://kauth.kakao.com/oauth/token";
     this.clientId = process.env.KAKAO_ID;
     this.clientSecret = process.env.KAKAO_SecretCode;
-    this.redirectUri = process.env.HOST + "/oauth/kakao";
+    this.redirectUri = process.env.BackHost + "/oauth/kakao";
     this.code = code;
     this.userInfoUri = "https://kapi.kakao.com/v2/user/me";
   }
@@ -35,7 +35,7 @@ class Naver {
     this.url = "https://nid.naver.com/oauth2.0/token";
     this.clientId = process.env.NAVER_ID;
     this.clientSecret = process.env.NAVER_SercretCode;
-    this.redirectUri = process.env.HOST + "/oauth/naver";
+    this.redirectUri = process.env.BackHost + "/oauth/naver";
     this.code = code;
     this.userInfoUri = "https://openapi.naver.com/v1/nid/me";
   }
@@ -46,7 +46,7 @@ class Google {
     this.url = "https://www.googleapis.com/oauth2/v4/token";
     this.clientId = process.env.GOOGLE_ID;
     this.clientSecret = process.env.GOOGLE_SercretCode;
-    this.redirectUri = process.env.HOST + "/oauth/google";
+    this.redirectUri = process.env.BackHost + "/oauth/google";
     this.code = code;
     this.userInfoUri = "https://www.googleapis.com/oauth2/v1/tokeninfo";
   }
@@ -139,11 +139,15 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
       }
       const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
       const token = jwt.sign({ user_id: result.id }, secretKey);
-      userById.token = token;
-      delete userById["password"];
+
       const resultData = getRequiredInfoFromData(userById);
       resultData.token = token;
-      res.json(resultData);
+
+      const query = querystring.stringify({
+        ...resultData,
+      });
+      //   console.log(querystring.parse(query));
+      res.redirect(process.env.FrontHost + "/?" + query);
     } else {
       const password = generateRandomPassword();
       result.password = password;
@@ -152,13 +156,16 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
 
       const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
       const token = jwt.sign({ user_id: result.id }, secretKey);
-
+      const resultData = getRequiredInfoFromData(createdUser);
+      resultData.token = token;
+      const query = querystring.stringify({
+        ...resultData,
+      });
       await likeService.addLike({
         user_id: result.id,
       });
-      const resultData = getRequiredInfoFromData(createdUser);
-      resultData.token = token;
-      res.json(resultData);
+      //   console.log(querystring.parse(query));
+      res.redirect(process.env.FrontHost + "/?" + query);
     }
   } catch (error) {
     next(error);
