@@ -18,6 +18,7 @@ import PartExercisePage from "./components/main/partExercisePage/PartExercisePag
 import MyPage from "./components/user/myPage/MyPage";
 import LikePage from "./components/user/like/LikePage";
 import ErrorPage from "./components/main/errorSection/ErrorPage";
+import OuathPage from "./components/oauthPage/OauthPage";
 
 import { ToastContainer } from "react-toastify";
 import { atom, RecoilRoot } from "recoil";
@@ -92,6 +93,7 @@ function App() {
             <Route path="/network" element={<Network />} />
             <Route path="/myPage" element={<MyPage />} />
             <Route path="/like/:userId" element={<LikePage />} />
+            <Route path="/oauth/:coperation" element={<OuathPage />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Router>

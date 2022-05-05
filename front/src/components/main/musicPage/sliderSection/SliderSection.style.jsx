@@ -89,11 +89,4 @@ export const AutoCompleteWrapper = styled.div`
 
 export const StyledAutocomplete = styled(Autocomplete)`
   margin: 8px;
-  ${({ theme }) => {
-    return css`
-      &:before {
-        border-color: ${theme.colors.identityColor};
-      }
-    `;
-  }}
 `;
