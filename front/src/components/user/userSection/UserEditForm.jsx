@@ -45,10 +45,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   };
 
   return (
-    <Layout
-      className="mb-2 ms-3 mr-5"
-      style={{ width: "18rem", height: "20rem" }}
-    >
+    <Layout>
       <CardBody>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="useEditName" className="mb-3">

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Layout = styled.div`
   width: 18rem;
-  height: 22rem;
+  height: 23rem;
   /* border: 2px solid #462a53; */
   border-radius: 5px;
   margin: 20px;
@@ -36,6 +36,7 @@ export const CardTitle = styled.h4`
 
 export const CardSubTitle = styled.h6`
   color: #a0a0a0;
+  margin-bottom: 5px;
 `;
 
 export const CardTextWrapper = styled.div`
@@ -45,29 +46,11 @@ export const CardTextWrapper = styled.div`
   overflow: auto;
 `;
 
-export const LikeWrapper = styled.div`
+export const NetworkButtonWrapper = styled.div`
   width: 100%;
-  height: 40px;
   display: flex;
+  /* flex-wrap: wrap; */
+  /* flex-direction: row; */
   justify-content: center;
-  margin-top: auto;
-  margin-bottom: 20px;
-`;
-
-export const LikeButton = styled.button`
-  width: 60px;
-  height: 100%;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  background-color: #281461;
-  font-weight: bold;
-  -webkit-appearance: none;
-  cursor: pointer;
-  &:hover {
-    background-color: #785dc0;
-  }
-  display: flex;
   align-items: center;
-  justify-content: center;
 `;

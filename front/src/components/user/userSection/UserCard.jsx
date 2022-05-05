@@ -1,5 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import * as Api from "../../../api";
 import {
   Layout,
   CardBody,
@@ -7,10 +10,48 @@ import {
   CardTitle,
   CardSubTitle,
   CardTextWrapper,
+  NetworkButtonWrapper,
 } from "./UserCard.style";
+import {
+  UserLikePageButton,
+  UserLikeButton,
+} from "./likeButtonSection/UserLikeButton";
 
-function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
+function UserCard({ user, setIsEditing, isEditable, likedUsers, isNetwork }) {
   const navigate = useNavigate();
+  const [isLiked, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    // 네트워크일 경우 like를 표시해야 함
+    if (isNetwork) {
+      const isExistUser = likedUsers.findIndex(
+        (currentUserId) => currentUserId === user.id
+      );
+      if (isExistUser !== -1) {
+        // 좋아요 목록에 존재하는 유저일 경우 liked 표시
+        setIsLiked(true);
+      } else {
+        // 아닐 경우 liked 표시 하지 않음
+        setIsLiked(false);
+      }
+    }
+  }, [likedUsers]);
+
+  // 클릭시 북마크 페이지로 이동시킴
+  const handleClickLikePage = () => {
+    navigate(`/like/${user.id}`);
+  };
+
+  // 좋아요 수정
+  const handleClickLike = async () => {
+    try {
+      await Api.put("like/person", { person: user.id });
+      setIsLiked((prev) => !prev);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Layout>
       <CardBody>
@@ -32,13 +73,10 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
         )}
 
         {isNetwork && (
-          <Card.Link
-            className="mt-3"
-            href="#"
-            onClick={() => navigate(`/like/${user.id}`)}
-          >
-            북마크 페이지
-          </Card.Link>
+          <NetworkButtonWrapper>
+            <UserLikePageButton onClick={handleClickLikePage} />
+            <UserLikeButton isLiked={isLiked} onClick={handleClickLike} />
+          </NetworkButtonWrapper>
         )}
       </CardBody>
     </Layout>
