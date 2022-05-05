@@ -238,139 +238,137 @@ export default function PartExercisePage() {
           >
             <Body />
             <Cardiovascular
-              fill={
-                partClick === "cardiovascular system" ? "#FF6666" : undefined
-              }
+              fill={partClick === "심혈관계" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("cardio", "cardiovascular system");
-                setPartClick("cardiovascular system");
+                handleClickPart("전신", "심혈관계");
+                setPartClick("심혈관계");
               }}
             />
             <Quads
-              fill={partClick === "quads" ? "#FF6666" : undefined}
+              fill={partClick === "허벅지 앞근육" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("upper legs", "quads");
-                setPartClick("quads");
+                handleClickPart("윗 다리", "허벅지 앞근육");
+                setPartClick("허벅지 앞근육");
               }}
             />
             <Calves
-              fill={partClick === "calves" ? "#FF6666" : undefined}
+              fill={partClick === "종아리 근육" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("lower legs", "calves");
-                setPartClick("calves");
+                handleClickPart("아랫 다리", "종아리 근육");
+                setPartClick("종아리 근육");
               }}
             />
             <Pectorals
-              fill={partClick === "pectorals" ? "#FF6666" : undefined}
+              fill={partClick === "가슴근육" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("chest", "pectorals");
-                setPartClick("pectorals");
+                handleClickPart("가슴", "가슴근육");
+                setPartClick("가슴근육");
               }}
             />
             <Glutes
-              fill={partClick === "glutes" ? "#FF6666" : undefined}
+              fill={partClick === "둔근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("upper legs", "glutes");
-                setPartClick("glutes");
+                handleClickPart("윗 다리", "둔근");
+                setPartClick("둔근");
               }}
             />
             <Hamstrings
-              fill={partClick === "hamstrings" ? "#FF6666" : undefined}
+              fill={partClick === "허벅지 뒷근육" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("upper legs", "hamstrings");
-                setPartClick("hamstrings");
+                handleClickPart("윗 다리", "허벅지 뒷근육");
+                setPartClick("허벅지 뒷근육");
               }}
             />
             <Adductors
-              fill={partClick === "adductors" ? "#FF6666" : undefined}
+              fill={partClick === "내전근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("upper legs", "adductors");
-                setPartClick("adductors");
+                handleClickPart("윗 다리", "내전근");
+                setPartClick("내전근");
               }}
             />
 
             <Triceps
-              fill={partClick === "triceps" ? "#FF6666" : undefined}
+              fill={partClick === "삼두근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("upper arms", "triceps");
-                setPartClick("triceps");
+                handleClickPart("윗 팔", "삼두근");
+                setPartClick("삼두근");
               }}
             />
             <Spine
-              fill={partClick === "spine" ? "#FF6666" : undefined}
+              fill={partClick === "척추" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("back", "spine");
-                setPartClick("spine");
+                handleClickPart("등", "척추");
+                setPartClick("척추");
               }}
             />
             <Upper_back
-              fill={partClick === "upper back" ? "#FF6666" : undefined}
+              fill={partClick === "등 상부" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("back", "upper back");
-                setPartClick("upper back");
+                handleClickPart("등", "등 상부");
+                setPartClick("등 상부");
               }}
             />
             <Biceps
-              fill={partClick === "biceps" ? "#FF6666" : undefined}
+              fill={partClick === "이두근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("upper arms", "biceps");
-                setPartClick("biceps");
+                handleClickPart("윗 팔", "이두근");
+                setPartClick("이두근");
               }}
             />
             <Delts
-              fill={partClick === "delts" ? "#FF6666" : undefined}
+              fill={partClick === "삼각근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("shoulders", "delts");
-                setPartClick("delts");
+                handleClickPart("어깨", "삼각근");
+                setPartClick("삼각근");
               }}
             />
             <Forearms
-              fill={partClick === "forearms" ? "#FF6666" : undefined}
+              fill={partClick === "팔뚝" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("lower arms", "forearms");
-                setPartClick("forearms");
+                handleClickPart("아랫 팔", "팔뚝");
+                setPartClick("팔뚝");
               }}
             />
             <Traps
-              fill={partClick === "traps" ? "#FF6666" : undefined}
+              fill={partClick === "상모근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("back", "traps");
-                setPartClick("traps");
+                handleClickPart("등", "상모근");
+                setPartClick("상모근");
               }}
             />
             <Serratus_anterior
-              fill={partClick === "serratus anterior" ? "#FF6666" : undefined}
+              fill={partClick === "전거근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("chest", "serratus anterior");
-                setPartClick("serratus anterior");
+                handleClickPart("가슴", "전거근");
+                setPartClick("전거근");
               }}
             />
             <Abductors
-              fill={partClick === "abductors" ? "#FF6666" : undefined}
+              fill={partClick === "외전근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("upper legs", "abductors");
-                setPartClick("abductors");
+                handleClickPart("윗 다리", "외전근");
+                setPartClick("외전근");
               }}
             />
             <Levator_scapulae
-              fill={partClick === "levator scapulae" ? "#FF6666" : undefined}
+              fill={partClick === "견갑거근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("neck", "levator scapulae");
-                setPartClick("levator scapulae");
+                handleClickPart("목", "견갑거근");
+                setPartClick("견갑거근");
               }}
             />
             <Abs
-              fill={partClick === "abs" ? "#FF6666" : undefined}
+              fill={partClick === "복근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("waist", "abs");
-                setPartClick("abs");
+                handleClickPart("허리", "복근");
+                setPartClick("복근");
               }}
             />
             <Lats
-              fill={partClick === "lats" ? "#FF6666" : undefined}
+              fill={partClick === "광배근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClickPart("back", "lats");
-                setPartClick("lats");
+                handleClickPart("등", "광배근");
+                setPartClick("광배근");
               }}
             />
           </svg>
