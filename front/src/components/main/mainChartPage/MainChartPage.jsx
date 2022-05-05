@@ -136,6 +136,7 @@ const MainChartPage = (props) => {
   };
 
   const handleOnClick = async (e) => {
+    console.log("dd");
     const name = e.target.value;
     const index = e.target.id;
     try {

@@ -14,6 +14,7 @@ html {
   background-repeat: no-repeat;
   box-sizing: inherit;
   font-family: "Elice Digital Baeum", sans-serif;
+  list-style: none;
 }
 ::before,
 ::after {
@@ -36,6 +37,10 @@ html {
 /* # =================================================================
    # General elements
    # ================================================================= */
+
+ul {
+  margin-bottom: 0;
+}
 
 hr {
   overflow: visible; /* Show the overflow in Edge and IE */

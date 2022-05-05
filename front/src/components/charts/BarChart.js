@@ -21,7 +21,7 @@ const BarChart = ({ data, colors }) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <Barchart
-        key={Math.round(Math.random() * 10000)}
+        // key={Math.round(Math.random() * 10000)}
         data={data}
         margin={{
           top: 5,
@@ -36,6 +36,7 @@ const BarChart = ({ data, colors }) => {
         <Tooltip />
         <Legend />
         <Bar
+          isAnimationActive
           dataKey="hour"
           fill="#8884d8"
           barSize={40}
