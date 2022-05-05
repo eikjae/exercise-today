@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import UserCard from "../../userSection/UserCard";
 
 export default function LikedFriendCard({ friend, isEditable }) {
