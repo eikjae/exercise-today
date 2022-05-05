@@ -104,10 +104,39 @@ const MainChartPage = (props) => {
       name: "기타",
     },
   ]);
+  const colors = [
+    "#B22727",
+    "#78938A",
+    "#525E75",
+    "#A64B2A",
+    "#B22727",
+    "#78938A",
+    "#525E75",
+    "#A64B2A",
+  ];
   const { calorie, height, weight } = useParams();
   const [graphData, setGraphData] = useState(null);
 
+  const sortMappedGraphData = (exerciseInfo) => {
+    const mappedData = exerciseInfo.data.map((d) => {
+      const time = d.time.split("시간");
+      const hour = Number(time[0]);
+      const min = Number(time[1].replace("분", "")) / 60;
+      return {
+        name: d.name,
+        hour: Number((hour + min).toFixed(2)),
+      };
+    });
+    mappedData.sort((a, b) => {
+      console.log(a, b);
+      return Number(b.hour) - Number(a.hour);
+    });
+
+    return mappedData;
+  };
+
   const handleOnClick = async (e) => {
+    console.log("dd");
     const name = e.target.value;
     const index = e.target.id;
     try {
@@ -117,7 +146,8 @@ const MainChartPage = (props) => {
         category: name,
         calories: Number(calorie),
       });
-      setGraphData(exerciseInfo);
+      const mappedData = sortMappedGraphData(exerciseInfo);
+      setGraphData(mappedData);
       setNewSwitch(index);
     } catch (e) {
       throw new Error(e);
@@ -144,13 +174,14 @@ const MainChartPage = (props) => {
           category: "유산소",
           calories: Number(calorie),
         });
-        setGraphData(exerciseInfo);
+        const mappedData = sortMappedGraphData(exerciseInfo);
+        setGraphData(mappedData);
       };
       postGraphData();
     } catch (e) {
       throw new Error(e);
     }
-  }, [calorie, weight]);
+  }, []);
 
   return (
     <>
@@ -170,7 +201,7 @@ const MainChartPage = (props) => {
           <StyledSubTitle>
             칼로리 소비를 위해 얼마나 운동해야 할까요?
           </StyledSubTitle>
-          <ChartSection data={graphData?.data} />
+          <ChartSection data={graphData} colors={colors} />
         </StyledBottomSection>
       </StyledContainer>
       <StyledContainer fixed>

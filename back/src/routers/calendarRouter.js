@@ -123,7 +123,47 @@ calendarRouter.get(
       const { whenDate } = req.params;
       const foundList = await calendarService.getItemList({
         userId,
-        whenMonth,
+        whenDate,
+      });
+
+      res.status(200).send(foundList);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+calendarRouter.post(
+  "/calendar/items",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const { whenDate, itemArray } = req.body;
+
+      const newItem = await calendarService.addItemList({
+        userId,
+        whenDate,
+        itemArray,
+      });
+
+      res.status(201).send(newItem);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+calendarRouter.get(
+  "/calendar/items/:whenDate",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const { whenDate } = req.params;
+      const foundList = await calendarService.getItemList({
+        userId,
+        whenDate,
       });
 
       res.status(200).send(foundList);

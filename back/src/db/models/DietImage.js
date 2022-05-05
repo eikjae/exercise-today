@@ -21,9 +21,9 @@ export class DietImage {
     return item;
   }
 
-  static async update({ itemId, fieldToUpdate, newValue }) {
+  static async update({ itemId, toUpdate }) {
     const filter = { itemId };
-    const update = { [fieldToUpdate]: newValue };
+    const update = { $set: toUpdate };
     const option = { returnOriginal: false };
 
     const updatedItem = await DietImageModel.findOneAndUpdate(
@@ -36,7 +36,7 @@ export class DietImage {
 
   static async deleteByItemId({ itemId }) {
     const result = await DietImageModel.deleteOne({ itemId });
-    const deletedResult = result.deletedCount == 1; //Boolean
+    const deletedResult = result.deletedCount === 1; //Boolean
     return deletedResult;
   }
 

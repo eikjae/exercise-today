@@ -6,6 +6,7 @@ import generateRandomPassword from "../utils/generate-random-password";
 import { likeService } from "../services/likeService";
 import { User } from "../db";
 import { authEmailService } from "../services/authEmailService";
+import { getRequiredInfoFromData } from "../utils/user";
 
 const { userImageUpload } = require("../utils/s3");
 const userAuthRouter = Router();
@@ -27,7 +28,8 @@ userAuthRouter.put(
         fieldToUpdate,
         newValue,
       });
-      res.json(updatedUser);
+      const resultData = getRequiredInfoFromData(updatedUser);
+      res.json(resultData);
     } catch (error) {
       next(error);
     }
@@ -44,13 +46,14 @@ userAuthRouter.put(
       }
       const fieldToUpdate = "imageLink";
       const newValue = process.env.initial_image_Link;
-      console.log(newValue);
       const updatedUser = await User.update({
         user_id,
         fieldToUpdate,
         newValue,
       });
-      res.json(updatedUser);
+
+      const resultData = getRequiredInfoFromData(updatedUser);
+      res.json(resultData);
     } catch (error) {
       next(error);
     }
@@ -84,6 +87,7 @@ userAuthRouter.post(
     }
   }
 );
+
 userAuthRouter.post(
   "/user/authEmail/:email/activate",
   async function (req, res, next) {
@@ -103,6 +107,7 @@ userAuthRouter.post(
     }
   }
 );
+
 userAuthRouter.post("/user/register", async function (req, res, next) {
   try {
     if (is.emptyObject(req.body)) {
@@ -131,6 +136,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
       height,
       weight,
       gender,
+      type: "TodayExercise",
     });
 
     if (newUser.errorMessage) {
@@ -145,8 +151,8 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     if (newLike.errorMessage) {
       throw new Error(newLike.errorMessage);
     }
-
-    res.status(201).json(newUser);
+    const resultData = getRequiredInfoFromData(newUser);
+    res.status(201).json(resultData);
   } catch (error) {
     next(error);
   }
@@ -199,8 +205,8 @@ userAuthRouter.get(
       if (currentUserInfo.errorMessage) {
         throw new Error(currentUserInfo.errorMessage);
       }
-
-      res.status(200).send(currentUserInfo);
+      const resultData = getRequiredInfoFromData(currentUserInfo);
+      res.json(resultData);
     } catch (error) {
       next(error);
     }

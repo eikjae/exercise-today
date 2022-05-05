@@ -40,10 +40,10 @@ const ExerciseSection = ({
   }, []);
 
   const getTotalExerciseCalrorie = async () => {
-    console.log(weight);
     if (hour === 0) return;
     setExerciseCategory(null);
     setExercise(null);
+    setHour(0);
     try {
       const res = await post("exercise/calories", {
         weight,
@@ -92,6 +92,7 @@ const ExerciseSection = ({
             renderInput={(params) => <TextField {...params} label="카테고리" />}
             options={categoryOptions}
             size="small"
+            style={{ backgroundColor: "white" }}
             onChange={(e, value) => {
               getExercise(value);
               setExerciseCategory(value);
@@ -107,6 +108,7 @@ const ExerciseSection = ({
             renderInput={(params) => <TextField {...params} label="운동" />}
             options={exerciseOptions}
             size="small"
+            style={{ backgroundColor: "white" }}
             onChange={(e, value) => {
               setExercise(value);
             }}
@@ -120,6 +122,7 @@ const ExerciseSection = ({
             variant="outlined"
             size="small"
             type="number"
+            style={{ backgroundColor: "white" }}
             InputProps={{
               inputProps: { min: 0 },
             }}
@@ -133,12 +136,12 @@ const ExerciseSection = ({
         {/* <AddCircleOutlineIcon onClick={getTotalExerciseCalrorie} /> */}
       </AutocompleteWrapper>
       <ExerciseCategoriesWrapper>
-        <ExerciseTotalWrapper>
+        {/* <ExerciseTotalWrapper>
           <ExerciseTotal>총 칼로리:</ExerciseTotal>
-        </ExerciseTotalWrapper>
-        <ExerciseTotalWrapper>
+        </ExerciseTotalWrapper> */}
+        {/* <ExerciseTotalWrapper>
           <ExerciseTotal>{totalExerciseCalrorie}kcal</ExerciseTotal>
-        </ExerciseTotalWrapper>
+        </ExerciseTotalWrapper> */}
       </ExerciseCategoriesWrapper>
     </ExerciseLayout>
   );

@@ -5,6 +5,8 @@ const DietImageSchema = new Schema(
     itemId: {
       type: String,
       required: true,
+      unique: true,
+      index: true,
     },
     userId: {
       type: String,

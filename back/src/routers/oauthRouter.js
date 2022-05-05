@@ -3,11 +3,19 @@ import { userAuthService } from "../services/userService";
 import { User } from "../db";
 import jwt from "jsonwebtoken";
 import generateRandomPassword from "../utils/generate-random-password";
-import { getInfoFromKakao, getInfoFromNaver } from "../utils/authEmail";
+import {
+  getInfoFromKakao,
+  getInfoFromNaver,
+  getInfoFromGoogle,
+} from "../utils/authEmail";
+import { getRequiredInfoFromData } from "../utils/user";
 import { likeService } from "../services/likeService";
 
 const qs = require("qs");
 const fetch = require("node-fetch");
+
+var google = require("googleapis").google;
+var oauth2Client = new google.auth.OAuth2();
 
 const oauthRouter = Router();
 
@@ -33,16 +41,16 @@ class Naver {
   }
 }
 
-// class Google {
-//   constructor(code) {
-//     this.url = "https://nid.naver.com/oauth2.0/token";
-//     this.clientId = process.env.NAVER_ID;
-//     this.clientSecret = process.env.NAVER_Sercret_ID;
-//     this.redirectUri = "http://localhost:5000/oauth/naver";
-//     this.code = code;
-//     this.userInfoUri = "https://openapi.naver.com/v1/nid/me";
-//   }
-// }
+class Google {
+  constructor(code) {
+    this.url = "https://www.googleapis.com/oauth2/v4/token";
+    this.clientId = process.env.GOOGLE_ID;
+    this.clientSecret = process.env.GOOGLE_SercretCode;
+    this.redirectUri = process.env.HOST + "/oauth/google";
+    this.code = code;
+    this.userInfoUri = "https://www.googleapis.com/oauth2/v1/tokeninfo";
+  }
+}
 const getAccessToken = async (options) => {
   try {
     return await fetch(options.url, {
@@ -54,7 +62,7 @@ const getAccessToken = async (options) => {
         grant_type: "authorization_code",
         client_id: options.clientId,
         client_secret: options.clientSecret,
-        redirectUri: options.redirectUri,
+        redirect_uri: options.redirectUri,
         code: options.code,
       }),
     }).then((res) => res.json());
@@ -81,7 +89,7 @@ const getOption = (coperation, code) => {
       return new Kakao(code);
       break;
     case "google":
-      //return new Google(code)
+      return new Google(code);
       break;
     case "naver":
       return new Naver(code);
@@ -95,13 +103,34 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
     const code = req.param("code");
     const options = getOption(coperation, code);
     const token = await getAccessToken(options);
-    const userInfo = await getUserInfo(options.userInfoUri, token.access_token);
+    let userInfo;
+    if (coperation === "google") {
+      oauth2Client.generateAuthUrl({
+        access_type: "offline",
+        scope: [
+          "https://www.googleapis.com/auth/userinfo.profile",
+          "https://www.googleapis.com/auth/userinfo.email",
+        ],
+        prompt: "consent",
+        state: "GOOGLE_LOGIN",
+      });
+      oauth2Client.setCredentials({ access_token: token.access_token });
+      var oauth2 = google.oauth2({
+        auth: oauth2Client,
+        version: "v2",
+      });
+      userInfo = await oauth2.userinfo.get();
+    } else {
+      userInfo = await getUserInfo(options.userInfoUri, token.access_token);
+    }
+
     let result;
     if (coperation === "kakao") {
       result = getInfoFromKakao(userInfo);
     } else if (coperation === "naver") {
       result = getInfoFromNaver(userInfo);
     } else {
+      result = getInfoFromGoogle(userInfo);
     }
     const userById = await User.findById({ user_id: result.id });
     if (userById) {
@@ -109,8 +138,9 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
       const token = jwt.sign({ user_id: result.id }, secretKey);
       userById.token = token;
       delete userById["password"];
-      // console.log(userById);
-      res.json(userById);
+      const resultData = getRequiredInfoFromData(userById);
+      resultData.token = token;
+      res.json(resultData);
     } else {
       const password = generateRandomPassword();
       result.password = password;
@@ -121,13 +151,13 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
       }
       const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
       const token = jwt.sign({ user_id: result.id }, secretKey);
-      createdUser.token = token;
-      // console.log(createdUser);
-      //회원가입을 자동으로 해주고 로그인처리를 위해 토큰값을 넘겨준다.
-      const newLike = await likeService.addLike({
+
+      await likeService.addLike({
         user_id: result.id,
       });
-      res.json(createdUser);
+      const resultData = getRequiredInfoFromData(createdUser);
+      resultData.token = token;
+      res.json(resultData);
     }
   } catch (error) {
     next(error);

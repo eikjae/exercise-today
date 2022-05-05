@@ -74,7 +74,7 @@ export default function MyPage() {
       </LeftRowGrid>
       <RightRowGrid>
         <ColGrid>
-          <ContentWrapper onClick={() => navigate("/calender")}>
+          <ContentWrapper onClick={() => navigate("/calendar")}>
             <DateIcon />
             <ContentTitle>캘린더</ContentTitle>
             <ContentDetail>이것저것 기록할 수 있습니다</ContentDetail>
