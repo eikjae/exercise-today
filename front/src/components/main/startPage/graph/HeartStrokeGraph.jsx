@@ -4,9 +4,9 @@ import { Tooltip, BarChart, XAxis, YAxis, Bar, Cell, Legend } from "recharts";
 export default function HeartStrokeGraph() {
   // 심장병과 BMI의 관계
   const StrokesData = [
-    { name: "Overweight", value: (115 / (115 + 1495)).toFixed(5) },
-    { name: "Ideal", value: (37 / (37 + 1159)).toFixed(5) },
-    { name: "Underweight", value: (1 / (1 + 410)).toFixed(5) },
+    { name: "비만", 체중: (115 / (115 + 1495)).toFixed(5) },
+    { name: "정상", 체중: (37 / (37 + 1159)).toFixed(5) },
+    { name: "저체중", 체중: (1 / (1 + 410)).toFixed(5) },
   ];
 
   const COLORS = ["red", "skyblue", "#2ca02c"];
@@ -16,13 +16,20 @@ export default function HeartStrokeGraph() {
       <BarChart width={400} height={400} data={StrokesData}>
         <Tooltip />
         <Legend />
-        <Bar barSize={30} dataKey="value" fill="#8884d8">
+        <Bar barSize={30} dataKey="체중" fill="#8884d8">
           {StrokesData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Bar>
         <XAxis dataKey="name" />
-        <YAxis />
+        <YAxis
+          label={{
+            value: "심장병 발병률",
+            angle: -90,
+            position: "insideLeft",
+            fill: "grey",
+          }}
+        />
       </BarChart>
     </div>
   );

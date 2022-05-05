@@ -1,13 +1,21 @@
 import { Box } from "@mui/material";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 
 export const StyledNav = styled.nav`
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 5rem;
+  ${({ theme }) => {
+    return css`
+      height: ${theme.navbar.height};
+    `;
+  }}
   padding: 0.3rem;
   background: linear-gradient(90deg, #c0a5ff 80%, #e981cf);
   margin-bottom: 10px;

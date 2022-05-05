@@ -314,7 +314,6 @@ progress {
   align-items: center;
 }
 
-
 `;
 
 export default GlobalStyle;

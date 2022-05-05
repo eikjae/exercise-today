@@ -135,7 +135,7 @@ function LoginForm() {
             <StyledSocialImg src="socialLoginImg/naver.png" alt="naver" />
           </a>
           <a
-            href={`https://accounts.google.com/o/oauth2/auth?client_id=${process.env.REACT_APP_GOOGLE_ID}&redirect_uri=${process.env.REACT_APP_HOST}&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&response_type=code`}
+            href={`https://accounts.google.com/o/oauth2/auth?client_id=${process.env.REACT_APP_GOOGLE_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/google&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&response_type=code`}
           >
             <StyledSocialImg src="socialLoginImg/google.png" alt="google" />
           </a>

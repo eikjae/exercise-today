@@ -1,5 +1,11 @@
-import { Button, FormControl, RadioGroup } from "@mui/material";
-import styled from "styled-components";
+import {
+  Autocomplete,
+  Button,
+  FormControl,
+  Input,
+  RadioGroup,
+} from "@mui/material";
+import styled, { css } from "styled-components";
 
 export const StyledTopSection = styled.section`
   display: flex;
@@ -13,7 +19,11 @@ export const StyledTopSection = styled.section`
 
   border-radius: 1rem;
 
-  border: 2px solid #cd95f2;
+  ${({ theme }) => {
+    return css`
+      border: 2px solid ${theme.colors.identityColor};
+    `;
+  }}
 `;
 
 export const StyledSliderContainer = styled.article`
@@ -41,9 +51,12 @@ export const StyledButton = styled(Button)`
   width: 20rem;
   height: 3rem;
 
-  color: #52af77;
-
-  border: 2px solid #52af77;
+  ${({ theme }) => {
+    return css`
+      border: 2px solid ${theme.colors.identityColor};
+      color: ${theme.colors.identityColor};
+    `;
+  }}
   border-radius: 10px;
 
   margin-top: 1rem;
@@ -53,13 +66,34 @@ export const StyledButton = styled(Button)`
   font-weight: 600;
 
   transition: background-color 0.3s ease-in;
-  &:hover {
-    background-color: #52af77;
-    color: white;
-  }
+
+  ${({ theme }) => {
+    return css`
+      &:hover {
+        background-color: ${theme.colors.identityColor};
+        color: white;
+      }
+    `;
+  }}
 `;
 
 export const StyledFormControl = styled(FormControl)`
   margin-top: 2rem;
   margin-bottom: 1rem;
+`;
+
+export const AutoCompleteWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+`;
+
+export const StyledAutocomplete = styled(Autocomplete)`
+  margin: 8px;
+  ${({ theme }) => {
+    return css`
+      &:before {
+        border-color: ${theme.colors.identityColor};
+      }
+    `;
+  }}
 `;

@@ -36,6 +36,12 @@ const ScrollList = ({ handleOnClick }) => {
       >
         <P>데이터</P>
       </List>
+      <List
+        onClick={handleClickList(4)}
+        className={clickedNum === 4 ? "clicked" : ""}
+      >
+        <P>칼로리 확인</P>
+      </List>
     </ul>
   );
 };

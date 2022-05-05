@@ -1,11 +1,14 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const StyledContainer = styled.div`
+export const Container = styled.div`
   max-width: 1200px;
-  margin: auto;
+  ${({ theme }) => {
+    return css`
+      margin: ${theme.navbar.height} auto 0 auto;
+      min-height: calc(100vh - ${theme.navbar.height});
+    `;
+  }}
   padding: 2rem;
-  min-height: 95vh;
-  border: 2px solid black;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -18,7 +21,7 @@ export const StyledContainer = styled.div`
   `}
 `;
 
-export const StyledSubTitle = styled.h2`
+export const SubTitle = styled.h2`
   font-size: 2rem;
   text-align: center;
   ${({ theme }) => theme.tablet`
@@ -29,7 +32,7 @@ export const StyledSubTitle = styled.h2`
     `}
 `;
 
-export const StyledTopSection = styled.section`
+export const TopSection = styled.section`
   display: flex;
   ${({ theme }) => theme.tablet`
         display: flex;
@@ -38,7 +41,7 @@ export const StyledTopSection = styled.section`
   text-align: center;
 `;
 
-export const StyledBottomSection = styled.section`
+export const BottomSection = styled.section`
   display: flex;
   flex-direction: column;
 
@@ -49,4 +52,43 @@ export const StyledBottomSection = styled.section`
   ${({ theme }) => theme.miniTablet`
         height: 30vh;
     `}
+`;
+
+export const TextWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 150px;
+  justify-content: center;
+`;
+
+export const Text = styled.h2`
+  ${({ theme }) => {
+    return css`
+      color: ${theme.colors.identityColor};
+    `;
+  }}
+`;
+
+export const StyledButton = styled.button`
+  margin-top: 10px;
+  padding: 5px;
+
+  border-radius: 15px;
+
+  width: 400px;
+  height: 40px;
+
+  color: white;
+  font-weight: bold;
+
+  ${({ theme }) => {
+    return css`
+      background-color: ${theme.colors.identityColor};
+      &:hover {
+        background-color: ${theme.colors.hoverIdentityColor};
+      }
+    `;
+  }}
+  cursor: pointer;
 `;

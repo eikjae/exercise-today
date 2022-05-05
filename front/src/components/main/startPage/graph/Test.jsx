@@ -127,7 +127,7 @@ export default function Example() {
   return (
     <Treemap
       width={400}
-      height={300}
+      height={350}
       data={data}
       dataKey="size"
       ratio={4 / 3}
