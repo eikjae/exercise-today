@@ -5,6 +5,8 @@ const FoodSchema = new Schema(
     category: {
       type: String,
       required: true,
+      index: true,
+      unique: true,
     },
     unit: {
       type: String,

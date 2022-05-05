@@ -9,8 +9,6 @@ const sizes = {
 };
 
 export default Object.keys(sizes).reduce((acc, label) => {
-  console.log("acc: ", acc);
-  console.log("label: ", label);
   acc[label] = (...args) => css`
     @media screen and (max-width: ${sizes[label]}px) {
       ${css(...args)};

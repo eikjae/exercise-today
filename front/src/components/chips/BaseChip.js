@@ -1,4 +1,4 @@
-import { Chip } from "@mui/material";
+import { StyledMainPageChip } from "./StyledChip";
 import React from "react";
 import styled from "styled-components";
 
@@ -11,7 +11,7 @@ const BaseChip = ({ title, content }) => {
   return (
     <StyleWrapper>
       <h3>{title}</h3>
-      <Chip label={content} variant="outlined" size="medium" />
+      <StyledMainPageChip label={content} variant="outlined" size="medium" />
     </StyleWrapper>
   );
 };

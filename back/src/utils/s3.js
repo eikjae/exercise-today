@@ -1,0 +1,46 @@
+const multer = require("multer");
+const multerS3 = require("multer-s3");
+const aws = require("aws-sdk");
+require("dotenv").config();
+
+import { v4 as uuidv4 } from "uuid";
+
+const s3 = new aws.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
+
+let dietImageUpload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.S3_BUCKET_NAME,
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    acl: "public-read",
+    key: (req, file, cb) => {
+      cb(null, `diets/${Date.now()}_${file.originalname}`);
+    },
+  }),
+});
+
+const userS3 = new aws.S3({
+  endpoint: new aws.Endpoint(process.env.IMAGE_ENDPOINT),
+  accessKeyId: process.env.IMAGE_ACCESSKEY,
+  secretAccessKey: process.env.IMAGE_SECRETACCESSKEY,
+  region: process.env.IMAGE_REGION,
+});
+
+let userImageUpload = multer({
+  storage: multerS3({
+    s3: userS3,
+    bucket: process.env.IMAGE_BUCKET,
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    acl: "public-read",
+    key: (req, file, cb) => {
+      cb(null, `users/${Date.now()}_${uuidv4()}`);
+    },
+  }),
+});
+
+exports.dietImageUpload = multer(dietImageUpload);
+exports.userImageUpload = multer(userImageUpload);

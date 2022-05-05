@@ -5,17 +5,29 @@ import * as Api from "./api";
 import { loginReducer } from "./reducer";
 
 import Header from "./components/Header";
-// import LoginForm from "./components/user/LoginForm";
+import LoginForm from "./components/user/Login/LoginForm";
 import Network from "./components/user/Network";
-// import RegisterForm from "./components/user/RegisterForm";
+import RegisterForm from "./components/user/Register/RegisterForm";
 import Portfolio from "./components/Portfolio";
 
-import MainPage from "./components/main/MainPage";
+import FoodPage from "./components/main/foodPage/FoodPage";
 import MainChartPage from "./components/main/mainChartPage/MainChartPage";
-import BodyPartPage from "./components/main/BodyPartPage";
+import MusicPage from "./components/main/musicPage/MusicPage";
+import PartExercisePage from "./components/main/partExercisePage/PartExercisePage";
+import MyPage from "./components/user/myPage/MyPage";
+import LikePage from "./components/user/like/LikePage";
+import ErrorPage from "./components/main/errorSection/ErrorPage";
+
+import { atom, RecoilRoot } from "recoil";
+import CalendarPage from "./components/user/calendarPage/CalendarPage";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
+
+// export const userState = atom({
+//   key: "userState",
+//   default: null,
+// });
 
 function App() {
   // useReducer 훅을 통해 userState 상태와 dispatch함수를 생성함.
@@ -62,18 +74,22 @@ function App() {
         <Router>
           <Header />
           <Routes>
-            <Route path="/" exact element={<MainPage />} />
+            <Route path="/" exact element={<FoodPage />} />
             <Route
               path="/:calorie/:height/:weight"
               element={<MainChartPage />}
             />
-            {/* <Route path="/" exact element={<Portfolio />} />
+            <Route path="/music" element={<MusicPage />} />
+            <Route path="/calendar" element={<CalendarPage />} />
+            {/* <Route path="/" exact element={<Portfolio />} /> */}
             <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} /> */}
-            <Route path="/exercise" element={<BodyPartPage />} />
+            <Route path="/register" element={<RegisterForm />} />
+            <Route path="/exercise" element={<PartExercisePage />} />
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />
-            <Route path="*" element={<Portfolio />} />
+            <Route path="/myPage" element={<MyPage />} />
+            <Route path="/like" element={<LikePage />} />
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Router>
       </UserStateContext.Provider>

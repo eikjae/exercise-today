@@ -4,14 +4,14 @@ class exerciseService {
   static async calculateBmi({ height, weight }) {
     const bmi = weight / (height * 0.01) ** 2;
     const refindBmi = bmi.toFixed(2);
-    if (refindBmi == "NaN") {
+    if (refindBmi === "NaN") {
       const errorMessage = "키와 몸무게를 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
     return refindBmi;
   }
 
-  static async calculateCalories({ weight, name }) {
+  static async calculateCalories({ weight, name, time }) {
     const exercise = await Exercise.findByName({
       name,
     });
@@ -19,12 +19,12 @@ class exerciseService {
     const caloriesPerLb = exercise.CaloriesPerLb;
     // 1 kg == 2.205 lb
     const caloriesPerHour = weight * 2.205 * caloriesPerLb;
-    const refindCaloriesPerHour = caloriesPerHour.toFixed(2);
-    if (refindCaloriesPerHour == "NaN") {
+    const calories = (caloriesPerHour * time).toFixed(2);
+    if (calories === "NaN") {
       const errorMessage = "몸무게와 운동 이름을 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
-    return refindCaloriesPerHour;
+    return calories;
   }
 
   static async timeinfo({ weight, category, calories }) {
@@ -42,7 +42,7 @@ class exerciseService {
       "격투",
       "기타",
     ];
-    if (categoryList.includes(category) == false) {
+    if (categoryList.includes(category) === false) {
       const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
@@ -66,7 +66,7 @@ class exerciseService {
       const CaloriesPerLb = exercise.CaloriesPerLb;
       const caloriesBurned = weight * 2.205 * CaloriesPerLb;
       // 운동을 해야하는 시간 = 먹은 칼로리 / 1시간 기준 소모되는 칼로리
-      const time = String(calories / caloriesBurned);
+      const time = (calories / caloriesBurned).toString();
       return { name, time };
     });
 
@@ -83,6 +83,35 @@ class exerciseService {
     });
 
     return timeList;
+  }
+
+  static async exerciseList({ category }) {
+    const categoryList = [
+      "유산소",
+      "무산소",
+      "구기",
+      "라켓",
+      "육상",
+      "수상",
+      "댄스",
+      "사이클",
+      "양궁",
+      "복싱",
+      "격투",
+      "기타",
+    ];
+    if (categoryList.includes(category) === false) {
+      const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    let exerciseList = await Exercise.findByCategory({
+      category,
+    });
+    console.log("exerciseList:", exerciseList);
+    let exerciseNameList = exerciseList.map((exercise) => exercise.name);
+
+    return exerciseNameList;
   }
 }
 

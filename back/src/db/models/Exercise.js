@@ -1,6 +1,6 @@
 import { ExerciseModel } from "../schemas/exercise";
 
-class Exercise {
+export class Exercise {
   static async findByName({ name }) {
     const exercise = await ExerciseModel.findOne({ name });
     return exercise;
@@ -11,5 +11,3 @@ class Exercise {
     return exercise;
   }
 }
-
-export { Exercise };
