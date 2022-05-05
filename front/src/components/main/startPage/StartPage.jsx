@@ -1,4 +1,5 @@
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   CalorieExerciseGraph,
   DiabetesGraph,
@@ -9,6 +10,7 @@ import {
 
 import HealthAndHappinessGraph from "./graph/HealthAndHappinessGraph.png";
 import ScrollList from "./scrollList/ScrollList";
+import queryString from "query-string";
 import {
   ListWrapper,
   NarrowSection,
@@ -18,6 +20,7 @@ import {
   SectionWrapper,
   WideSection,
 } from "./StatPage.style";
+import { DispatchContext } from "../../../App";
 
 export default function StartPage() {
   const [section, setSection] = useState([]);
@@ -25,6 +28,9 @@ export default function StartPage() {
   const section_2 = useRef();
   const section_3 = useRef();
   const section_4 = useRef();
+  const location = useLocation();
+  const dispatch = useContext(DispatchContext);
+  const navigate = useNavigate();
 
   const handleOnClick = (num) => {
     window.scrollTo({
@@ -35,6 +41,22 @@ export default function StartPage() {
 
   useEffect(() => {
     setSection([section_1, section_2, section_3, section_4]);
+    // console.log(location.search);
+    if (location.search) {
+      const query = queryString.parse(location.search);
+      query.height = Number(query.height);
+      query.weight = Number(query.weight);
+      console.log(query);
+
+      const user = query;
+      const jwtToken = user.token;
+      sessionStorage.setItem("userToken", jwtToken);
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: user,
+      });
+      navigate("/", { replace: true });
+    }
   }, []);
 
   return (

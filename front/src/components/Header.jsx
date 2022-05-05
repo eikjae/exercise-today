@@ -9,6 +9,7 @@ import {
   StyledTitle,
   TitleIcon,
 } from "./Header.style";
+import { ROUTE } from "./route";
 
 function Header() {
   const navigate = useNavigate();
@@ -39,12 +40,12 @@ function Header() {
         오늘도 운동
       </StyledTitle>
       <StyledNavContainer>
-        {!isLogin && <StyledLink to="login">로그인</StyledLink>}
-        {isLogin && <StyledLink to="calendar">캘린더</StyledLink>}
-        {isLogin && <StyledLink to="network">네트워크</StyledLink>}
-        {isLogin && <StyledLink to="myPage">마이페이지</StyledLink>}
+        {!isLogin && <StyledLink to={ROUTE.LOGIN.link}>로그인</StyledLink>}
+        {isLogin && <StyledLink to={ROUTE.CALENDAR.link}>캘린더</StyledLink>}
+        {isLogin && <StyledLink to={ROUTE.NETWORK.link}>네트워크</StyledLink>}
+        {isLogin && <StyledLink to={ROUTE.MYPAGE.link}>마이페이지</StyledLink>}
         {isLogin && (
-          <StyledLink to="login" onClick={logout}>
+          <StyledLink to={ROUTE.LOGIN.link} onClick={logout}>
             로그아웃
           </StyledLink>
         )}

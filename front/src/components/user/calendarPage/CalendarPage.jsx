@@ -19,7 +19,6 @@ import MealSection from "./mealSection/MealSection";
 import ExerciseList from "./selectExerciseList/ExerciseList";
 import TotalSection from "./totalSection/TotalSection";
 import dayjs from "dayjs";
-import { Button } from "@mui/material";
 
 const CalendarPage = (props) => {
   const newDate = new Date();
