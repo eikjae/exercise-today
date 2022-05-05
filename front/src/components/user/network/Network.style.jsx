@@ -3,14 +3,13 @@ import styled from "styled-components";
 export const Layout = styled.div`
   width: 100%;
   height: 100%;
-  border-radius: 5px;
+  /* border: 2px solid #462a53; */
+  /* border-radius: 5px; */
+  /* margin: 20px; */
+  text-align: center;
   display: flex;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
-  padding: 10px;
+  padding: 5px;
   flex-wrap: wrap;
-`;
-
-export const FriendLayout = styled(Layout)`
-  padding: 0px 10px 10px 10px;
 `;

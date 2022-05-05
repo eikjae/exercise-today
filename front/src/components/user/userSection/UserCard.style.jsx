@@ -1,27 +1,6 @@
 import styled from "styled-components";
 
 export const Layout = styled.div`
-  width: 250px;
-  height: 370px;
-  /* border: 2px solid #462a53; */
-  border-radius: 5px;
-  margin: 10px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-  box-shadow: 0px 0px 10px #462a53;
-`;
-
-export const LikeImg = styled.img`
-  padding: 15px;
-  width: 90%;
-  border-radius: 20px;
-`;
-
-export const FriendLayout = styled.div`
   width: 18rem;
   height: 23rem;
   /* border: 2px solid #462a53; */
@@ -55,10 +34,10 @@ export const CardTitle = styled.h4`
   margin-bottom: 8px;
 `;
 
-export const SmallTitle = styled.h4`
-  font-size: 20px;
+export const FriendTitle = styled.h4`
+  font-size: 24px;
   font-weight: bold;
-  color: #281461;
+  color: #146147;
   margin-bottom: 8px;
 `;
 

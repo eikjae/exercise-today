@@ -77,16 +77,16 @@ targetExerciseRouter.get(
   async function (req, res, next) {
     try {
       const bodypartList = [
-        "waist",
-        "upper legs",
-        "lower legs",
-        "back",
-        "chest",
-        "upper arms",
-        "lower arms",
-        "cardio",
-        "shoulders",
-        "neck",
+        "허리",
+        "윗 다리",
+        "아랫 다리",
+        "등",
+        "가슴",
+        "윗 팔",
+        "아랫 팔",
+        "전신",
+        "어깨",
+        "목",
       ];
 
       res.status(200).json(bodypartList);

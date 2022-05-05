@@ -8,6 +8,7 @@ import { UserStateContext } from "../../../../../App";
 import NotLoginedModal from "../../../errorSection/NotLoginedModal";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { likedMusicsState, searchClickedState } from "../../MusicAtom";
+import { toast } from "react-toastify";
 
 const StyledBack = styled.div`
   box-sizing: border-box;
@@ -84,6 +85,15 @@ const BackImage = ({ music, closeModalFlip }) => {
       const res = await Api.get("like/music");
       const newLikedMusics = res.data;
       setLikedMusics([...newLikedMusics]);
+
+      // 좋아요 완료를 보여주는 toast
+      let message = "";
+      if (isLiked) {
+        message = "❌좋아요가 취소되었습니다!";
+      } else {
+        message = "⭕좋아요가 완료되었습니다!";
+      }
+      return toast.success(message);
     } catch (err) {
       console.error(err);
     }

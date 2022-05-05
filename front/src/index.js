@@ -10,13 +10,11 @@ import myTheme from "./styles/theme";
 import media from "./styles/media";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={{ ...myTheme, ...media }}>
-        <GlobalStyle />
-        <App />
-      </ThemeProvider>
-    </StyledEngineProvider>
-  </React.StrictMode>,
+  <StyledEngineProvider injectFirst>
+    <ThemeProvider theme={{ ...myTheme, ...media }}>
+      <GlobalStyle />
+      <App />
+    </ThemeProvider>
+  </StyledEngineProvider>,
   document.getElementById("root")
 );

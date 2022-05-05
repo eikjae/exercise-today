@@ -7,7 +7,8 @@ import {
   StyledNav,
   StyledNavContainer,
   StyledTitle,
-} from "./Haeader.style";
+  TitleIcon,
+} from "./Header.style";
 
 function Header() {
   const navigate = useNavigate();
@@ -34,12 +35,13 @@ function Header() {
           navigate("/");
         }}
       >
+        <TitleIcon />
         오늘도 운동
       </StyledTitle>
       <StyledNavContainer>
         {!isLogin && <StyledLink to="login">로그인</StyledLink>}
-        <StyledLink to="calendar">캘린더</StyledLink>
-        <StyledLink to="login">다른것</StyledLink>
+        {isLogin && <StyledLink to="calendar">캘린더</StyledLink>}
+        {isLogin && <StyledLink to="network">네트워크</StyledLink>}
         {isLogin && <StyledLink to="myPage">마이페이지</StyledLink>}
         {isLogin && (
           <StyledLink to="login" onClick={logout}>
