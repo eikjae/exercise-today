@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import * as Api from "../../../api";
+import { UserStateContext } from "../../../App";
 import {
   Layout,
   CardBody,
@@ -21,18 +22,23 @@ function UserCard({ user, setIsEditing, isEditable, likedUsers, isNetwork }) {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
 
+  // 자신의 카드인지 확인하기 위한 용도
+  const userState = useContext(UserStateContext);
+  const [isMyCard, setIsMyCard] = useState(false);
+
   useEffect(() => {
     // 네트워크일 경우 like를 표시해야 함
     if (isNetwork) {
+      if (userState.user.id === user.id) {
+        setIsMyCard(true);
+      }
+
       const isExistUser = likedUsers.findIndex(
         (currentUserId) => currentUserId === user.id
       );
       if (isExistUser !== -1) {
         // 좋아요 목록에 존재하는 유저일 경우 liked 표시
         setIsLiked(true);
-      } else {
-        // 아닐 경우 liked 표시 하지 않음
-        setIsLiked(false);
       }
     }
   }, [likedUsers]);
@@ -75,7 +81,9 @@ function UserCard({ user, setIsEditing, isEditable, likedUsers, isNetwork }) {
         {isNetwork && (
           <NetworkButtonWrapper>
             <UserLikePageButton onClick={handleClickLikePage} />
-            <UserLikeButton isLiked={isLiked} onClick={handleClickLike} />
+            {!isMyCard && (
+              <UserLikeButton isLiked={isLiked} onClick={handleClickLike} />
+            )}
           </NetworkButtonWrapper>
         )}
       </CardBody>
