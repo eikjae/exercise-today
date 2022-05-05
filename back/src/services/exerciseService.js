@@ -4,7 +4,7 @@ class exerciseService {
   static async calculateBmi({ height, weight }) {
     const bmi = weight / (height * 0.01) ** 2;
     const refindBmi = bmi.toFixed(2);
-    if (refindBmi === "NaN") {
+    if (isNaN(refindBmi)) {
       const errorMessage = "키와 몸무게를 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
@@ -20,7 +20,7 @@ class exerciseService {
     // 1 kg == 2.205 lb
     const caloriesPerHour = weight * 2.205 * caloriesPerLb;
     const calories = (caloriesPerHour * time).toFixed(2);
-    if (calories === "NaN") {
+    if (isNaN(calories)) {
       const errorMessage = "몸무게와 운동 이름을 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
