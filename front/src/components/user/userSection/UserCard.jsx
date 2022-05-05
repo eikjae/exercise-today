@@ -18,6 +18,7 @@ import {
   UserLikePageButton,
   UserLikeButton,
 } from "./likeButtonSection/UserLikeButton";
+import { toast } from "react-toastify";
 
 function UserCard({
   user,
@@ -67,6 +68,13 @@ function UserCard({
     try {
       await Api.put("like/person", { person: user.id });
       setIsLiked((prev) => !prev);
+      let message = "";
+      if (isLiked) {
+        message = "좋아요가 취소되었습니다!";
+      } else {
+        message = "좋아요가 복구되었습니다!";
+      }
+      return toast.success(message);
     } catch (err) {
       console.error(err);
     }

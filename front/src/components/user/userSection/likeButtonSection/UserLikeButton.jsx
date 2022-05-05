@@ -11,7 +11,7 @@ import {
 export function UserLikePageButton({ onClick }) {
   return (
     <LikePageWrapper>
-      <LikePageButton onClick={onClick}>북마크 페이지로</LikePageButton>
+      <LikePageButton onClick={onClick}>북마크 페이지</LikePageButton>
     </LikePageWrapper>
   );
 }

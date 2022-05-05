@@ -18,6 +18,7 @@ export const Layout = styled.div`
 export const LikeImg = styled.img`
   padding: 15px;
   width: 90%;
+  border-radius: 20px;
 `;
 
 export const FriendLayout = styled.div`

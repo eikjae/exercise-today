@@ -16,7 +16,7 @@ export default function LikedFoodCard({ food, isEditable }) {
   };
   return (
     <Layout>
-      {/* <LikeImg src={food} /> */}
+      <LikeImg src={food.imgurl} />
       <CardTitle>{food.category}</CardTitle>
       <CardSubTitle>
         {food.calories}kcal/{food.unit}

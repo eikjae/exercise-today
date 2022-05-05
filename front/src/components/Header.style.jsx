@@ -10,6 +10,7 @@ export const StyledNav = styled.nav`
   height: 5rem;
   padding: 0.3rem;
   background: linear-gradient(90deg, #c0a5ff 80%, #e981cf);
+  margin-bottom: 10px;
 `;
 
 export const StyledTitle = styled.h4`

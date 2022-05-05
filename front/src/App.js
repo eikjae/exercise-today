@@ -18,6 +18,7 @@ import MyPage from "./components/user/myPage/MyPage";
 import LikePage from "./components/user/like/LikePage";
 import ErrorPage from "./components/main/errorSection/ErrorPage";
 
+import { ToastContainer } from "react-toastify";
 import { atom, RecoilRoot } from "recoil";
 import CalendarPage from "./components/user/calendarPage/CalendarPage";
 
@@ -92,6 +93,11 @@ function App() {
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Router>
+        <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          draggable={true}
+        />
       </UserStateContext.Provider>
     </DispatchContext.Provider>
   );
