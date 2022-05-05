@@ -1,12 +1,21 @@
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { calendarService } from "../services/calendarService";
+import { body, param } from "express-validator";
+import { validatorErrorChecker } from "../middlewares/validator";
 
 const calendarRouter = Router();
 
 calendarRouter.post(
   "/calendar/calories",
   login_required,
+  [
+    body("whenDate").isDate().withMessage("Enter whenDate in date format"),
+    body("calorieArray")
+      .isArray({ min: 4, max: 4 })
+      .withMessage("Check the calorieArray length"),
+    validatorErrorChecker,
+  ],
   async function (req, res, next) {
     try {
       const { currentUserId: userId } = req;
@@ -28,6 +37,10 @@ calendarRouter.post(
 calendarRouter.get(
   "/calendar/calories/:whenDate",
   login_required,
+  [
+    param("whenDate").isDate().withMessage("Enter whenDate in date format"),
+    validatorErrorChecker,
+  ],
   async function (req, res, next) {
     try {
       const { currentUserId: userId } = req;
@@ -47,6 +60,10 @@ calendarRouter.get(
 calendarRouter.get(
   "/calendar/calorieslist/:whenMonth",
   login_required,
+  [
+    param("whenDate").isDate().withMessage("Enter whenDate in date format"),
+    validatorErrorChecker,
+  ],
   async function (req, res, next) {
     try {
       const { currentUserId: userId } = req;
@@ -66,6 +83,10 @@ calendarRouter.get(
 calendarRouter.delete(
   "/calendar/calories/:itemId",
   login_required,
+  [
+    param("itemId").isDate().withMessage("Enter whenDate in date format"),
+    validatorErrorChecker,
+  ],
   async function (req, res, next) {
     try {
       const { itemId } = req.params;
