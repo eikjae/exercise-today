@@ -1,4 +1,5 @@
 import { Like, TargetExercise, Food, User, Music } from "../db";
+import { LikeModel } from "../db/schemas/like";
 
 class likeService {
   static async addLike({ user_id }) {
@@ -23,7 +24,6 @@ class likeService {
       return { errorMessage };
     }
 
-    const fieldToUpdate = "exercises";
     let exercisesInfo = likeInfo.exercises;
     let newValue = {};
     if (exercisesInfo.includes(toUpdate.exercise)) {
@@ -39,7 +39,11 @@ class likeService {
       exercisesInfo.push(toUpdate.exercise);
     }
     newValue = exercisesInfo;
-    const updatedLike = await Like.update({ user_id, fieldToUpdate, newValue });
+    const updatedLike = await LikeModel.findOneAndUpdate(
+      { user_id },
+      { $set: { exercises: newValue } },
+      { returnOriginal: false }
+    );
 
     return updatedLike;
   }
@@ -53,7 +57,6 @@ class likeService {
       return { errorMessage };
     }
 
-    const fieldToUpdate = "foods";
     let foodsInfo = likeInfo.foods;
     let newValue = {};
     if (foodsInfo.includes(toUpdate.food)) {
@@ -69,7 +72,11 @@ class likeService {
       foodsInfo.push(toUpdate.food);
     }
     newValue = foodsInfo;
-    const updatedLike = await Like.update({ user_id, fieldToUpdate, newValue });
+    const updatedLike = await LikeModel.findOneAndUpdate(
+      { user_id },
+      { $set: { foods: newValue } },
+      { returnOriginal: false }
+    );
 
     return updatedLike;
   }
@@ -83,7 +90,6 @@ class likeService {
       return { errorMessage };
     }
 
-    const fieldToUpdate = "people";
     let peopleInfo = likeInfo.people;
     let newValue = {};
     if (peopleInfo.includes(toUpdate.person)) {
@@ -99,7 +105,11 @@ class likeService {
       peopleInfo.push(toUpdate.person);
     }
     newValue = peopleInfo;
-    const updatedLike = await Like.update({ user_id, fieldToUpdate, newValue });
+    const updatedLike = await LikeModel.findOneAndUpdate(
+      { user_id },
+      { $set: { people: newValue } },
+      { returnOriginal: false }
+    );
 
     return updatedLike;
   }
@@ -113,7 +123,6 @@ class likeService {
       return { errorMessage };
     }
 
-    const fieldToUpdate = "musics";
     let musicsInfo = likeInfo.musics;
     let newValue = {};
     if (musicsInfo.includes(toUpdate.music)) {
@@ -129,7 +138,11 @@ class likeService {
       musicsInfo.push(toUpdate.music);
     }
     newValue = musicsInfo;
-    const updatedLike = await Like.update({ user_id, fieldToUpdate, newValue });
+    const updatedLike = await LikeModel.findOneAndUpdate(
+      { user_id },
+      { $set: { musics: newValue } },
+      { returnOriginal: false }
+    );
 
     return updatedLike;
   }
