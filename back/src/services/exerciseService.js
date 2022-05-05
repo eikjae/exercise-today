@@ -1,4 +1,5 @@
 import { Exercise } from "../db";
+import { categoryList } from "../lists/categoryList";
 
 class exerciseService {
   static async calculateBmi({ height, weight }) {
@@ -28,21 +29,7 @@ class exerciseService {
   }
 
   static async timeinfo({ weight, category, calories }) {
-    const categoryList = [
-      "유산소",
-      "무산소",
-      "구기",
-      "라켓",
-      "육상",
-      "수상",
-      "댄스",
-      "사이클",
-      "양궁",
-      "복싱",
-      "격투",
-      "기타",
-    ];
-    if (categoryList.includes(category) === false) {
+    if (categoryList().includes(category) === false) {
       const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
@@ -86,21 +73,7 @@ class exerciseService {
   }
 
   static async exerciseList({ category }) {
-    const categoryList = [
-      "유산소",
-      "무산소",
-      "구기",
-      "라켓",
-      "육상",
-      "수상",
-      "댄스",
-      "사이클",
-      "양궁",
-      "복싱",
-      "격투",
-      "기타",
-    ];
-    if (categoryList.includes(category) === false) {
+    if (categoryList().includes(category) === false) {
       const errorMessage = "카테고리를 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
