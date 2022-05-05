@@ -26,15 +26,9 @@ class likeService {
 
     let exercisesInfo = likeInfo.exercises;
     let newValue = {};
-    if (exercisesInfo.includes(toUpdate.exercise)) {
-      const d = exercisesInfo.length;
-      for (let i = 0; i < d; i++) {
-        if (exercisesInfo[i] == toUpdate.exercise) {
-          exercisesInfo.splice(i, 1);
-          break;
-        }
-      }
-      newValue = exercisesInfo;
+    const index = exercisesInfo.findIndex((f) => f === toUpdate.exercise);
+    if (index > -1) {
+      exercisesInfo.splice(index, 1);
     } else {
       exercisesInfo.push(toUpdate.exercise);
     }
@@ -59,15 +53,10 @@ class likeService {
 
     let foodsInfo = likeInfo.foods;
     let newValue = {};
-    if (foodsInfo.includes(toUpdate.food)) {
-      const d = foodsInfo.length;
-      for (let i = 0; i < d; i++) {
-        if (foodsInfo[i] == toUpdate.food) {
-          foodsInfo.splice(i, 1);
-          break;
-        }
-      }
-      newValue = foodsInfo;
+
+    const index = foodsInfo.findIndex((f) => f === toUpdate.food);
+    if (index > -1) {
+      foodsInfo.splice(index, 1);
     } else {
       foodsInfo.push(toUpdate.food);
     }
@@ -92,15 +81,9 @@ class likeService {
 
     let peopleInfo = likeInfo.people;
     let newValue = {};
-    if (peopleInfo.includes(toUpdate.person)) {
-      const d = peopleInfo.length;
-      for (let i = 0; i < d; i++) {
-        if (peopleInfo[i] == toUpdate.person) {
-          peopleInfo.splice(i, 1);
-          break;
-        }
-      }
-      newValue = peopleInfo;
+    const index = peopleInfo.findIndex((f) => f === toUpdate.person);
+    if (index > -1) {
+      peopleInfo.splice(index, 1);
     } else {
       peopleInfo.push(toUpdate.person);
     }
@@ -125,15 +108,9 @@ class likeService {
 
     let musicsInfo = likeInfo.musics;
     let newValue = {};
-    if (musicsInfo.includes(toUpdate.music)) {
-      const d = musicsInfo.length;
-      for (let i = 0; i < d; i++) {
-        if (musicsInfo[i] == toUpdate.music) {
-          musicsInfo.splice(i, 1);
-          break;
-        }
-      }
-      newValue = musicsInfo;
+    const index = musicsInfo.findIndex((f) => f === toUpdate.music);
+    if (index > -1) {
+      musicsInfo.splice(index, 1);
     } else {
       musicsInfo.push(toUpdate.music);
     }
