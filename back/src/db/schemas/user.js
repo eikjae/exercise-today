@@ -47,8 +47,7 @@ const UserSchema = new Schema(
     },
     imageLink: {
       type: String,
-      required: false,
-      default: process.env.initial_image_Link,
+      required: true,
     },
     deleted: {
       type: Boolean,
