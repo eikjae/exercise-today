@@ -6,11 +6,12 @@ import { loginReducer } from "./reducer";
 
 import Header from "./components/Header";
 import LoginForm from "./components/user/Login/LoginForm";
-import Network from "./components/user/Network";
+import Network from "./components/user/network/Network";
 import RegisterForm from "./components/user/Register/RegisterForm";
 import Portfolio from "./components/Portfolio";
 
 import FoodPage from "./components/main/foodPage/FoodPage";
+import StartPage from "./components/main/startPage/StartPage";
 import MainChartPage from "./components/main/mainChartPage/MainChartPage";
 import MusicPage from "./components/main/musicPage/MusicPage";
 import PartExercisePage from "./components/main/partExercisePage/PartExercisePage";
@@ -18,6 +19,7 @@ import MyPage from "./components/user/myPage/MyPage";
 import LikePage from "./components/user/like/LikePage";
 import ErrorPage from "./components/main/errorSection/ErrorPage";
 
+import { ToastContainer } from "react-toastify";
 import { atom, RecoilRoot } from "recoil";
 import CalendarPage from "./components/user/calendarPage/CalendarPage";
 
@@ -74,7 +76,8 @@ function App() {
         <Router>
           <Header />
           <Routes>
-            <Route path="/" exact element={<FoodPage />} />
+            <Route path="/" exact element={<StartPage />} />
+            <Route path="/food" exact element={<FoodPage />} />
             <Route
               path="/:calorie/:height/:weight"
               element={<MainChartPage />}
@@ -88,10 +91,15 @@ function App() {
             <Route path="/users/:userId" element={<Portfolio />} />
             <Route path="/network" element={<Network />} />
             <Route path="/myPage" element={<MyPage />} />
-            <Route path="/like" element={<LikePage />} />
+            <Route path="/like/:userId" element={<LikePage />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Router>
+        <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          draggable={true}
+        />
       </UserStateContext.Provider>
     </DispatchContext.Provider>
   );

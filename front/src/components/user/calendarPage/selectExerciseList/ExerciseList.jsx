@@ -5,9 +5,10 @@ import {
   IconWrapper,
   H6,
   TotalWrapper,
+  StyledAddIcon,
+  StyledRemoveIcon,
 } from "./ExerciseList.style";
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
+
 import { post } from "../../../../api";
 
 const ExerciseList = ({
@@ -29,7 +30,7 @@ const ExerciseList = ({
                 <H6>{e.name}</H6>
                 <IconWrapper>
                   <H6 style={{ marginRight: "0.5rem" }}>{e.time}시간</H6>
-                  <AddIcon
+                  <StyledAddIcon
                     style={{ cursor: "pointer" }}
                     onClick={async () => {
                       try {
@@ -49,7 +50,7 @@ const ExerciseList = ({
                       }
                     }}
                   />
-                  <RemoveIcon
+                  <StyledRemoveIcon
                     style={{ cursor: "pointer" }}
                     onClick={async () => {
                       try {

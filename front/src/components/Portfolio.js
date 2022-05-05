@@ -4,7 +4,7 @@ import { Container, Col, Row } from "react-bootstrap";
 
 import { UserStateContext } from "../App";
 import * as Api from "../api";
-import User from "./user/User";
+import User from "./user/userSection/User";
 
 function Portfolio() {
   const navigate = useNavigate();

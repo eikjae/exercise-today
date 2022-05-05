@@ -15,6 +15,7 @@ import {
 } from "./FoodBadge.style";
 import FoodBadgeLike from "./FoodBadgeLike";
 import NotLoginedModal from "../../errorSection/NotLoginedModal";
+import { toast } from "react-toastify";
 
 export default function FoodBadge({
   food,
@@ -84,6 +85,15 @@ export default function FoodBadge({
       }
       await Api.put("like/food", { food });
       setIsLiked((prev) => !prev);
+
+      // 좋아요 완료를 보여주는 toast
+      let message = "";
+      if (isLiked) {
+        message = "❌좋아요가 취소되었습니다!";
+      } else {
+        message = "⭕좋아요가 완료되었습니다!";
+      }
+      return toast.success(message);
     } catch (err) {
       console.error(err);
     }
