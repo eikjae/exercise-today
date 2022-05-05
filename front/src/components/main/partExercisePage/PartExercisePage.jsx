@@ -5,6 +5,7 @@ import { InputLabel, MenuItem } from "@mui/material";
 import * as Api from "../../../api";
 import { UserStateContext } from "../../../App";
 import NotLoginedModal from "../errorSection/NotLoginedModal";
+import { toast } from "react-toastify";
 
 import {
   StyledContainer,
@@ -192,6 +193,15 @@ export default function PartExercisePage() {
       // 로그인 했을 경우 좋아요 항목에 추가/삭제 요청
       await Api.put("like/exercise", { exercise: exercise.name });
       setIsLiked((prev) => !prev);
+
+      // 좋아요 완료를 보여주는 toast
+      let message = "";
+      if (isLiked) {
+        message = "❌좋아요가 취소되었습니다!";
+      } else {
+        message = "⭕좋아요가 완료되었습니다!";
+      }
+      return toast.success(message);
     } catch (err) {
       console.error(err);
     }
