@@ -10,19 +10,6 @@ class Like {
     const likeInfo = await LikeModel.create(newUser);
     return likeInfo;
   }
-
-  static async update({ user_id, fieldToUpdate, newValue }) {
-    const filter = { user_id };
-    const update = { [fieldToUpdate]: newValue };
-    const option = { returnOriginal: false };
-
-    const updatedLike = await LikeModel.findOneAndUpdate(
-      filter,
-      update,
-      option
-    );
-    return updatedLike;
-  }
 }
 
 export { Like };
