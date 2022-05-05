@@ -34,6 +34,13 @@ export const CardTitle = styled.h4`
   margin-bottom: 8px;
 `;
 
+export const FriendTitle = styled.h4`
+  font-size: 24px;
+  font-weight: bold;
+  color: #146147;
+  margin-bottom: 8px;
+`;
+
 export const CardSubTitle = styled.h6`
   color: #a0a0a0;
   margin-bottom: 5px;

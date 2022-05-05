@@ -55,7 +55,7 @@ export default function LikePage() {
   const { userId } = useParams();
   const tabElements = ["Friend", "Food", "Exercise", "Music"];
   const [value, setValue] = useState(0);
-  // const [likedFriends, setLikedFriends] = useState([]);
+  const [likedFriends, setLikedFriends] = useState([]);
   const [likedFoods, setLikedFoods] = useState([]);
   const [likedExercises, setLikedExercises] = useState([]);
   const [likedMusics, setLikedMusics] = useState([]);
@@ -81,9 +81,9 @@ export default function LikePage() {
       let res = await Api.get(`users/${userId}`);
       setPageUserName(res.data.name);
 
-      // 회원 (아직 적용x)
-      // let res = await Api.get("like/exercise/info");
-      // setLikedFriends([...res.data]);
+      // 회원
+      res = await Api.get(`like/person/info/${userId}`);
+      setLikedFriends([...res.data]);
       // 음식
       // const name = userState.user.id;
       res = await Api.get(`like/food/info/${userId}`);
@@ -123,7 +123,7 @@ export default function LikePage() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <LikedFriendTab isEditable={isEditable} />
+          <LikedFriendTab likedFriends={likedFriends} isEditable={isEditable} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <LikedFoodTab likedFoods={likedFoods} isEditable={isEditable} />

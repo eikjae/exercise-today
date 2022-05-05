@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Layout, LikeImg } from "./LikedCard.style";
-import LikeButtonComp from "./likeButtonSection/LikeButtonComp";
+import { LikeButtonComp } from "./likeButtonSection/LikeButtonComp";
 import * as Api from "../../../../api";
 
 export default function LikedFoodCard({ food, isEditable }) {

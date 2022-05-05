@@ -9,6 +9,7 @@ import {
   CardBody,
   CardImg,
   CardTitle,
+  FriendTitle,
   CardSubTitle,
   CardTextWrapper,
   NetworkButtonWrapper,
@@ -18,7 +19,15 @@ import {
   UserLikeButton,
 } from "./likeButtonSection/UserLikeButton";
 
-function UserCard({ user, setIsEditing, isEditable, likedUsers, isNetwork }) {
+function UserCard({
+  user,
+  setIsEditing,
+  isEditable,
+  likedUsers,
+  isNetwork,
+  isLikePage,
+  isLikeEditable,
+}) {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
 
@@ -41,6 +50,11 @@ function UserCard({ user, setIsEditing, isEditable, likedUsers, isNetwork }) {
         setIsLiked(true);
       }
     }
+
+    // 북마크 페이지일 경우 isLiked의 기본은 true
+    if (isLikePage) {
+      setIsLiked(true);
+    }
   }, [likedUsers]);
 
   // 클릭시 북마크 페이지로 이동시킴
@@ -62,6 +76,11 @@ function UserCard({ user, setIsEditing, isEditable, likedUsers, isNetwork }) {
     <Layout>
       <CardBody>
         <CardImg src={user?.imageLink} alt="유저 프로필 사진" />
+        {/* {!isNetwork && isLiked ? (
+          <FriendTitle>{user?.name}</FriendTitle>
+        ) : (
+          <CardTitle>{user?.name}</CardTitle>
+        )} */}
         <CardTitle>{user?.name}</CardTitle>
         <CardSubTitle>{user?.email}</CardSubTitle>
         <CardTextWrapper>
@@ -82,6 +101,15 @@ function UserCard({ user, setIsEditing, isEditable, likedUsers, isNetwork }) {
           <NetworkButtonWrapper>
             <UserLikePageButton onClick={handleClickLikePage} />
             {!isMyCard && (
+              <UserLikeButton isLiked={isLiked} onClick={handleClickLike} />
+            )}
+          </NetworkButtonWrapper>
+        )}
+
+        {isLikePage && (
+          <NetworkButtonWrapper>
+            <UserLikePageButton onClick={handleClickLikePage} />
+            {isLikeEditable && (
               <UserLikeButton isLiked={isLiked} onClick={handleClickLike} />
             )}
           </NetworkButtonWrapper>
