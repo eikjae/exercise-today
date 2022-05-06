@@ -24,7 +24,7 @@ class Kakao {
     this.url = "https://kauth.kakao.com/oauth/token";
     this.clientId = process.env.KAKAO_ID;
     this.clientSecret = process.env.KAKAO_SecretCode;
-    this.redirectUri = process.env.FrontHost + "/oauth/kakao";
+    this.redirectUri = process.env.KakaoRedirectUrl;
     this.code = code;
     this.userInfoUri = "https://kapi.kakao.com/v2/user/me";
   }
@@ -35,7 +35,7 @@ class Naver {
     this.url = "https://nid.naver.com/oauth2.0/token";
     this.clientId = process.env.NAVER_ID;
     this.clientSecret = process.env.NAVER_SercretCode;
-    this.redirectUri = process.env.FrontHost + "/oauth/naver";
+    this.redirectUri = process.env.NaverRedirectUrl;
     this.code = code;
     this.userInfoUri = "https://openapi.naver.com/v1/nid/me";
   }
@@ -46,7 +46,7 @@ class Google {
     this.url = "https://www.googleapis.com/oauth2/v4/token";
     this.clientId = process.env.GOOGLE_ID;
     this.clientSecret = process.env.GOOGLE_SercretCode;
-    this.redirectUri = process.env.FrontHost + "/oauth/google";
+    this.redirectUri = process.env.GoogleRedirectUrl;
     this.code = code;
     this.userInfoUri = "https://www.googleapis.com/oauth2/v1/tokeninfo";
   }
