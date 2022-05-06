@@ -9,7 +9,7 @@ export const ROUTE = {
     link: "network",
   },
   MYPAGE: {
-    link: "myPage",
+    link: "like",
   },
   PROLOG: {
     link: "prolog",
