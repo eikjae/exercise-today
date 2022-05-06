@@ -43,8 +43,10 @@ function LoginForm() {
 
   const handleOnClickLogin = async (e) => {
     const isValidResult = validateEmail(email);
-    if (isValidResult === false) return;
-    setIsValid(isValidResult);
+    if (isValidResult === null || password.length === 0) {
+      setIsValid(false);
+      return;
+    }
 
     e.preventDefault();
 
@@ -69,6 +71,7 @@ function LoginForm() {
       // 기본 페이지로 이동함.
       navigate("/", { replace: true });
     } catch (err) {
+      setIsValid(false);
       console.log("로그인에 실패하였습니다.\n", err);
     }
   };
