@@ -8,6 +8,7 @@ export const StyledMusicContainer = styled.article`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  perspective: 900px;
 `;
 
 export const StyledMusicTitleWrapper = styled.div`

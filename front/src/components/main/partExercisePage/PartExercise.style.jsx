@@ -1,6 +1,6 @@
 import FormControl from "@mui/material/FormControl";
 import { Container, Select } from "@mui/material";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
@@ -9,33 +9,47 @@ export const StyledContainer = styled(Container)`
   grid-template-columns: 1.3fr 1fr;
   max-width: 1200px;
   max-height: 1000px;
+
+  ${({ theme }) => {
+    return css`
+      margin-top: calc(${theme.navbar.height} + 2rem);
+    `;
+  }}
 `;
 
-export const StyledLeftContainer = styled.div`
+export const LeftWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
 `;
 
-export const StyledH2 = styled.h2`
-  color: #281461;
+export const H2 = styled.h2`
+  ${({ theme }) => {
+    return css`
+      color: ${theme.colors.identityColor};
+    `;
+  }}
   margin-bottom: 15px;
 `;
 
-export const StyledH2Margin = styled.h2`
-  color: #281461;
+export const H2Margin = styled.h2`
+  ${({ theme }) => {
+    return css`
+      color: ${theme.colors.identityColor};
+    `;
+  }}
   margin-top: 30px;
   margin-bottom: 15px;
 `;
 
-export const StyledSelectBodyContainer = styled.div`
+export const SelectBodyWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
 `;
 
-export const StyledSvgContainer = styled.div`
+export const SvgWrapper = styled.div`
   width: 100%;
   height: 100%;
   border: 3px solid #281461;
@@ -43,7 +57,7 @@ export const StyledSvgContainer = styled.div`
   margin-top: 20px;
 `;
 
-export const StyledRightContainer = styled.div`
+export const RightWrapper = styled.div`
   display: flex;
   flex-direction: column;
   /* justify-content: space-between; */

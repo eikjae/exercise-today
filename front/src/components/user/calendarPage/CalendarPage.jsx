@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { get, post } from "../../../api";
 import Calendar from "../../calendar/Calendar";
 import {
@@ -10,7 +10,6 @@ import {
   TodayWeight,
   StyledTextField,
   WeightTitle,
-  InputWeightWrapper,
   StyledButton,
 } from "./CalendarPage.style";
 import EatFoodList from "./eatFoodList/EatFoodList";
@@ -19,7 +18,6 @@ import MealSection from "./mealSection/MealSection";
 import ExerciseList from "./selectExerciseList/ExerciseList";
 import TotalSection from "./totalSection/TotalSection";
 import dayjs from "dayjs";
-import { Button } from "@mui/material";
 
 const CalendarPage = (props) => {
   const newDate = new Date();

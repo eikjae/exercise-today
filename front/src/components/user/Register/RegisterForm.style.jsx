@@ -52,7 +52,7 @@ export const WarningMessage = styled.p`
 export const NoticeMessage = styled(WarningMessage)`
   margin-bottom: 0;
 
-  color: black;
+  color: green;
   font-size: 12px;
 `;
 
