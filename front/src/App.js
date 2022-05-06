@@ -79,7 +79,7 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" exact element={<StartPage />} />
-            <Route path="/temp" exact element={<PrologPage />} />
+            <Route path="/prolog" exact element={<PrologPage />} />
             <Route path="/food" exact element={<FoodPage />} />
             <Route
               path="/:calorie/:height/:weight"

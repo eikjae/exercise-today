@@ -6,7 +6,7 @@ export const List = styled.li`
   ${({ theme }) => {
     return css`
       &.clicked {
-        font-weight: 700;
+        font-weight: 800;
         color: ${theme.colors.identityColor};
       }
       &:hover {

@@ -11,7 +11,7 @@ export const ROUTE = {
   MYPAGE: {
     link: "myPage",
   },
-  TEMP: {
-    link: "temp",
+  PROLOG: {
+    link: "prolog",
   },
 };

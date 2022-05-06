@@ -9,7 +9,7 @@ export default function HeartStrokeGraph() {
     { name: "저체중", 체중: (1 / (1 + 410)).toFixed(5) },
   ];
 
-  const COLORS = ["red", "skyblue", "#2ca02c"];
+  const COLORS = ["#F32424", "#8FBDD3", "#2ca02c"];
 
   return (
     <div className="App">
