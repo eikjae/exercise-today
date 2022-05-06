@@ -213,7 +213,6 @@ class likeService {
       const category = LikeInfo.foods[i];
 
       const LikeFoodInfo = await Food.findByName({ category });
-      console.log("LikeFoodInfo:", LikeFoodInfo);
       InfoList.push(LikeFoodInfo);
     }
 
