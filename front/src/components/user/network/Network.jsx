@@ -24,13 +24,11 @@ function Network() {
       // "userlist" 엔드포인트로 GET 요청을 하고, users를 response의 data로 세팅함.
       await Api.get("userlist").then((res) => {
         setUsers(res.data);
-        console.log(res.data);
       });
       // 자신이 좋아요한 유저 목록을 가져와서 세팅
       const res = await Api.get("like/person");
       const likedUsers = res.data;
       setLikedUsers([...likedUsers]);
-      console.log(likedUsers);
     } catch (err) {
       console.error(err);
     }

@@ -33,6 +33,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     data: "",
   });
   const [originImage, setOriginImage] = useState("");
+  const [isDefaultImage, setIsDefaultImage] = useState(false);
   const setIsInfoChanged = useSetRecoilState(isInfoChangedState);
 
   // 이미지 미리보기
@@ -74,7 +75,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
       setUser(updatedUser);
 
       // 선택된 이미지가 있을 경우
-      if (pickedImage.data !== "") {
+      if (pickedImage.data !== "" && !isDefaultImage) {
         const formData = new FormData();
         formData.append("userImg", pickedImage.data);
         await Api.putImg(`users/${user.id}/profileImage`, formData);
@@ -82,6 +83,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
 
       // isEditing을 false로 세팅함.
       setIsEditing(false);
+      // 정보가 바뀌었음을 알려주어 재렌더링 되도록 함
       setIsInfoChanged((prev) => !prev);
       return toast.success("회원 정보가 수정되었습니다.");
     } catch (err) {
@@ -96,17 +98,19 @@ function UserEditForm({ user, setIsEditing, setUser }) {
       data: e.target.files[0],
     };
     setPickedImage(img);
+    setIsDefaultImage(false);
   };
 
-  const handleClickDefaultImg = (e) => {
-    const res = Api.put(`users/${user.id}/defaultProfileImage`);
+  const handleClickDefaultImg = async (e) => {
+    const res = await Api.put(`users/${user.id}/defaultProfileImage`);
     setOriginImage(res.data.imageLink);
+    setIsDefaultImage(true);
   };
 
   return (
     <EditLayout>
       <CardBody>
-        {pickedImage.preview ? (
+        {pickedImage.preview && !isDefaultImage ? (
           <CardImg src={pickedImage.preview} alt="profile_image" />
         ) : (
           <CardImg src={originImage} />

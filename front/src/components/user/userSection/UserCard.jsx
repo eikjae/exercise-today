@@ -72,7 +72,7 @@ function UserCard({
       if (isLiked) {
         message = "좋아요가 취소되었습니다!";
       } else {
-        message = "좋아요가 복구되었습니다!";
+        message = "좋아요가 완료되었습니다!";
       }
       return toast.success(message);
     } catch (err) {
