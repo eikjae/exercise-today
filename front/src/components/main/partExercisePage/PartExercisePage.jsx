@@ -4,7 +4,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { InputLabel, MenuItem } from "@mui/material";
 import * as Api from "../../../api";
 import { UserStateContext } from "../../../App";
-import NotLoginedModal from "../errorSection/NotLoginedModal";
 import { toast } from "react-toastify";
 
 import {
@@ -69,8 +68,6 @@ export default function PartExercisePage() {
 
   const userState = useContext(UserStateContext);
   const [isLiked, setIsLiked] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const handleCloseModal = () => setShowModal(false);
 
   // 처음 렌더링시 GET 요청으로 bodyPart 카테고리를 가져옴
   useEffect(() => {
@@ -187,8 +184,7 @@ export default function PartExercisePage() {
     try {
       // 로그인한 사용자가 아닐시 좋아요 기능을 사용할 수 없음
       if (!userState.user) {
-        setShowModal(true);
-        return;
+        return toast.error("로그인 후 사용 가능한 서비스입니다.");
       }
       // 로그인 했을 경우 좋아요 항목에 추가/삭제 요청
       await Api.put("like/exercise", { exercise: exercise.name });
@@ -441,7 +437,6 @@ export default function PartExercisePage() {
           )}
         </StyledSvgContainer>
       </StyledRightContainer>
-      <NotLoginedModal showModal={showModal} closeModal={handleCloseModal} />
     </StyledContainer>
   );
 }

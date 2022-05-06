@@ -14,7 +14,6 @@ import {
   FoodLabel,
 } from "./FoodBadge.style";
 import FoodBadgeLike from "./FoodBadgeLike";
-import NotLoginedModal from "../../errorSection/NotLoginedModal";
 import { toast } from "react-toastify";
 
 export default function FoodBadge({
@@ -24,8 +23,6 @@ export default function FoodBadge({
   likedFoods,
 }) {
   const [count, setCount] = useState(0);
-  // 로그인 필요 경고 Modal 관련 상태
-  const [showModal, setShowModal] = useState(false);
   // 유저 로그인 확인용 상태
   const userState = useContext(UserStateContext);
   const [isLiked, setIsLiked] = useState(false);
@@ -71,17 +68,11 @@ export default function FoodBadge({
     }
   };
 
-  // Modal이 닫힐 경우 MusicImage도 filp을 진행
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
   const handleClick = async () => {
     try {
-      // 비로그인 시, 경고 Modal을 띄움
+      // 비로그인 시, 경고 toast를 띄움
       if (!userState.user) {
-        setShowModal(true);
-        return;
+        return toast.error("로그인 후 사용 가능한 서비스입니다.");
       }
       await Api.put("like/food", { food });
       setIsLiked((prev) => !prev);
@@ -100,45 +91,42 @@ export default function FoodBadge({
   };
 
   return (
-    <>
-      <StyledWrapper>
-        <FoodInfoWrapper>
-          <FoodIconBadge color="secondary" badgeContent={count}>
-            <RestaurantIcon />
-          </FoodIconBadge>
-          <ButtonGroup color="secondary">
-            <Button
-              onClick={() => {
-                let params;
-                setCount((current) => {
-                  params = Math.max(current - 1, 0);
-                  return params;
-                });
-                handleFoodsInfo(params);
-              }}
-            >
-              <RemoveIcon fontSize="small" />
-            </Button>
-            <Button
-              onClick={() => {
-                let params;
-                setCount((current) => {
-                  params = current + 1;
-                  return params;
-                });
-                handleFoodsInfo(params);
-              }}
-            >
-              <AddIcon fontSize="small" />
-            </Button>
-          </ButtonGroup>
-          <FoodLabelWrapper>
-            <FoodLabel>{food}</FoodLabel>
-          </FoodLabelWrapper>
-          <FoodBadgeLike isLiked={isLiked} onClick={handleClick} />
-        </FoodInfoWrapper>
-      </StyledWrapper>
-      <NotLoginedModal showModal={showModal} closeModal={handleCloseModal} />
-    </>
+    <StyledWrapper>
+      <FoodInfoWrapper>
+        <FoodIconBadge color="secondary" badgeContent={count}>
+          <RestaurantIcon />
+        </FoodIconBadge>
+        <ButtonGroup color="secondary">
+          <Button
+            onClick={() => {
+              let params;
+              setCount((current) => {
+                params = Math.max(current - 1, 0);
+                return params;
+              });
+              handleFoodsInfo(params);
+            }}
+          >
+            <RemoveIcon fontSize="small" />
+          </Button>
+          <Button
+            onClick={() => {
+              let params;
+              setCount((current) => {
+                params = current + 1;
+                return params;
+              });
+              handleFoodsInfo(params);
+            }}
+          >
+            <AddIcon fontSize="small" />
+          </Button>
+        </ButtonGroup>
+        <FoodLabelWrapper>
+          <FoodLabel>{food}</FoodLabel>
+        </FoodLabelWrapper>
+        <FoodBadgeLike isLiked={isLiked} onClick={handleClick} />
+      </FoodInfoWrapper>
+    </StyledWrapper>
   );
 }
