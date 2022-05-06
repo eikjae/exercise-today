@@ -1,12 +1,16 @@
 import { Button, TextField } from "@mui/material";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const CalendarLayout = styled.div`
   display: flex;
   justify-content: center;
 
   width: 1600px;
-  margin: 3rem auto 0 auto;
+  ${({ theme }) => {
+    return css`
+      margin: calc(${theme.navbar.height} + 2rem) auto 0 auto;
+    `;
+  }}
 `;
 
 export const CalendarBodyLayout = styled.div`

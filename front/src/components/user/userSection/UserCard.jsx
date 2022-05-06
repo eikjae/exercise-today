@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
 import * as Api from "../../../api";
 import { UserStateContext } from "../../../App";
 import {
@@ -13,6 +12,7 @@ import {
   CardSubTitle,
   CardTextWrapper,
   NetworkButtonWrapper,
+  EditButton,
 } from "./UserCard.style";
 import {
   UserLikePageButton,
@@ -36,7 +36,7 @@ function UserCard({
   const userState = useContext(UserStateContext);
   const [isMyCard, setIsMyCard] = useState(false);
 
-  useEffect(() => {
+  useEffect(async () => {
     // 네트워크일 경우 like를 표시해야 함
     if (isNetwork) {
       if (userState.user.id === user.id) {
@@ -72,7 +72,7 @@ function UserCard({
       if (isLiked) {
         message = "좋아요가 취소되었습니다!";
       } else {
-        message = "좋아요가 복구되었습니다!";
+        message = "좋아요가 완료되었습니다!";
       }
       return toast.success(message);
     } catch (err) {
@@ -84,11 +84,6 @@ function UserCard({
     <Layout>
       <CardBody>
         <CardImg src={user?.imageLink} alt="유저 프로필 사진" />
-        {/* {!isNetwork && isLiked ? (
-          <FriendTitle>{user?.name}</FriendTitle>
-        ) : (
-          <CardTitle>{user?.name}</CardTitle>
-        )} */}
         <CardTitle>{user?.name}</CardTitle>
         <CardSubTitle>{user?.email}</CardSubTitle>
         <CardTextWrapper>
@@ -96,13 +91,7 @@ function UserCard({
         </CardTextWrapper>
 
         {isEditable && (
-          <Button
-            variant="outline-info"
-            size="sm"
-            onClick={() => setIsEditing(true)}
-          >
-            편집
-          </Button>
+          <EditButton onClick={() => setIsEditing(true)}>편집</EditButton>
         )}
 
         {isNetwork && (

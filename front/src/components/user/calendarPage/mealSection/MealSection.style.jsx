@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Button, TextField } from "@mui/material";
 
@@ -22,10 +22,14 @@ export const MealWrapper = styled.div`
   width: 100%;
 
   padding: 1rem 0 1rem 0;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-  background-color: rgba(128, 128, 128, 0.1);
+  /* box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; */
   border-radius: 10px;
+  ${({ theme }) => {
+    return css`
+      border: 2px solid ${theme.colors.identityColor};
+    `;
+  }}
 `;
 
 export const FormWrapper = styled.div`
@@ -89,10 +93,17 @@ export const CountWrapper = styled.div`
 
 export const StyledButton = styled(Button)`
   width: 60%;
-  color: black;
-  background-color: white;
-  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
-    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  color: white;
+  font-weight: 700;
+  ${({ theme }) => {
+    return css`
+      background-color: ${theme.colors.identityColor};
+      &:hover {
+        background-color: ${theme.colors.hoverIdentityColor};
+      }
+    `;
+  }}/* box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px; */
 `;
 
 export const StyeldAddCircleOutlineIcon = styled(AddCircleOutlineIcon)`

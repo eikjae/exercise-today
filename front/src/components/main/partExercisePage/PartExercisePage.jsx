@@ -4,17 +4,16 @@ import React, { useState, useEffect, useContext } from "react";
 import { InputLabel, MenuItem } from "@mui/material";
 import * as Api from "../../../api";
 import { UserStateContext } from "../../../App";
-import NotLoginedModal from "../errorSection/NotLoginedModal";
 import { toast } from "react-toastify";
 
 import {
   StyledContainer,
-  StyledLeftContainer,
-  StyledH2,
-  StyledH2Margin,
-  StyledSelectBodyContainer,
-  StyledSvgContainer,
-  StyledRightContainer,
+  LeftWrapper,
+  H2,
+  H2Margin,
+  SelectBodyWrapper,
+  SvgWrapper,
+  RightWrapper,
   StyledBodyFormControl,
   StyledSelect,
   StyledMuscleFormControl,
@@ -69,8 +68,6 @@ export default function PartExercisePage() {
 
   const userState = useContext(UserStateContext);
   const [isLiked, setIsLiked] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const handleCloseModal = () => setShowModal(false);
 
   // 처음 렌더링시 GET 요청으로 bodyPart 카테고리를 가져옴
   useEffect(() => {
@@ -187,8 +184,7 @@ export default function PartExercisePage() {
     try {
       // 로그인한 사용자가 아닐시 좋아요 기능을 사용할 수 없음
       if (!userState.user) {
-        setShowModal(true);
-        return;
+        return toast.error("로그인 후 사용 가능한 서비스입니다.");
       }
       // 로그인 했을 경우 좋아요 항목에 추가/삭제 요청
       await Api.put("like/exercise", { exercise: exercise.name });
@@ -209,9 +205,9 @@ export default function PartExercisePage() {
 
   return (
     <StyledContainer>
-      <StyledLeftContainer>
-        <StyledH2>운동을 원하는 부위를 선택해주세요</StyledH2>
-        <StyledSelectBodyContainer>
+      <LeftWrapper>
+        <H2>운동을 원하는 부위를 선택해주세요</H2>
+        <SelectBodyWrapper>
           <StyledBodyFormControl>
             <InputLabel>BodyPart</InputLabel>
             <StyledSelect
@@ -240,8 +236,8 @@ export default function PartExercisePage() {
               ))}
             </StyledSelect>
           </StyledBodyFormControl>
-        </StyledSelectBodyContainer>
-        <StyledSvgContainer>
+        </SelectBodyWrapper>
+        <SvgWrapper>
           <svg
             style={{ width: "100%", height: "100%", border: "1px" }}
             viewBox="50 -50 413 400"
@@ -382,10 +378,10 @@ export default function PartExercisePage() {
               }}
             />
           </svg>
-        </StyledSvgContainer>
-      </StyledLeftContainer>
-      <StyledRightContainer>
-        <StyledH2>사용할 기구를 선택해주세요</StyledH2>
+        </SvgWrapper>
+      </LeftWrapper>
+      <RightWrapper>
+        <H2>사용할 기구를 선택해주세요</H2>
         <StyledMuscleFormControl>
           <InputLabel>Equipment</InputLabel>
           <StyledSelect
@@ -400,7 +396,7 @@ export default function PartExercisePage() {
             ))}
           </StyledSelect>
         </StyledMuscleFormControl>
-        <StyledH2Margin>추천 운동</StyledH2Margin>
+        <H2Margin>추천 운동</H2Margin>
         <StyledMuscleFormControl>
           <InputLabel>Exercise</InputLabel>
           <ExerciseWrapper>
@@ -420,7 +416,7 @@ export default function PartExercisePage() {
             </LikeButton>
           </ExerciseWrapper>
         </StyledMuscleFormControl>
-        <StyledSvgContainer>
+        <SvgWrapper>
           {exerciseImg !== null ? (
             <img
               src={exerciseImg}
@@ -439,9 +435,8 @@ export default function PartExercisePage() {
           ) : (
             <StyledH5 style={{ visibility: "hidden" }}>빈 운동</StyledH5>
           )}
-        </StyledSvgContainer>
-      </StyledRightContainer>
-      <NotLoginedModal showModal={showModal} closeModal={handleCloseModal} />
+        </SvgWrapper>
+      </RightWrapper>
     </StyledContainer>
   );
 }
