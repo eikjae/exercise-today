@@ -46,7 +46,23 @@ userAuthRouter.put(
       if (user_id != req.currentUserId) {
         throw new Error("다른 소유자의 소유물을 변경할 권한이 없습니다.");
       }
-      const toUpdate = { imageLink: process.env.initial_image_Link };
+      const user = await userAuthService.getUserInfo({ user_id });
+      if (user.errorMessage) {
+        throw new Error(updatedUser.errorMessage);
+      }
+      const toUpdate = {};
+      if (user.gender === "male") {
+        toUpdate.imageLink = process.env.initial_male;
+      } else if (user.gender === "female") {
+        toUpdate.imageLink = process.env.initial_female;
+      } else if (user.type === "naver") {
+        toUpdate.imageLink = process.env.initial_naver;
+      } else if (user.type === "kakao") {
+        toUpdate.imageLink = process.env.initial_kakao;
+      } else {
+        toUpdate.imageLink = process.env.initial_google;
+      }
+
       const updatedUser = await userAuthService.setUser({
         user_id,
         toUpdate,
