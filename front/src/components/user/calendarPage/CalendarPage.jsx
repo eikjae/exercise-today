@@ -19,6 +19,10 @@ import MealSection from "./mealSection/MealSection";
 import ExerciseList from "./selectExerciseList/ExerciseList";
 import TotalSection from "./totalSection/TotalSection";
 import dayjs from "dayjs";
+import {
+  CalendarSuccess,
+  CalendarWeightWarning,
+} from "../like/cardSection/calendarButtonSection/CalendarButtonComp";
 
 const CalendarPage = (props) => {
   const newDate = new Date();
@@ -167,8 +171,13 @@ const CalendarPage = (props) => {
       );
       setCalendarData(res.data);
 
+      CalendarSuccess();
+
       scrollToTop();
     } catch (e) {
+      if (!weight || weight === 0) {
+        CalendarWeightWarning();
+      }
       throw new Error(e);
     }
   };

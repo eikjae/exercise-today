@@ -79,8 +79,18 @@ export const StyledTextField = styled(TextField)`
 `;
 
 export const StyledButton = styled(Button)`
-  color: black;
+  color: white;
+  font-weight: 700;
   margin-top: 1rem;
+
+  ${({ theme }) => {
+    return css`
+      background-color: ${theme.colors.identityColor};
+      &:hover {
+        background-color: ${theme.colors.hoverIdentityColor};
+      }
+    `;
+  }}
 `;
 
 export const StyledArrow = styled(ArrowCircleUpIcon)`
@@ -91,7 +101,7 @@ export const StyledArrow = styled(ArrowCircleUpIcon)`
   ${({ theme }) => {
     return css`
       right: 3rem;
-      bottom: 7rem;
+      bottom: 3rem;
     `;
   }}
   font-size: 5rem;

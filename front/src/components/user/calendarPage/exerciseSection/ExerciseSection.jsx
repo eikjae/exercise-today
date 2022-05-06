@@ -5,14 +5,15 @@ import {
   ExerciseLayout,
   AutocompleteWrapper,
   ExerciseCategoriesWrapper,
-  ExerciseTotalWrapper,
-  ExerciseTotal,
-  AddCircleOutlineIcon,
   StyledTextField,
   StyledButton,
   HourTextFieldWrapper,
 } from "./ExerciseSection.style";
 import { get, post } from "../../../../api";
+import {
+  CalendarExerciseWarning,
+  CalendarSuccess,
+} from "../../like/cardSection/calendarButtonSection/CalendarButtonComp";
 
 const ExerciseSection = ({
   weight,
@@ -34,13 +35,15 @@ const ExerciseSection = ({
   }, []);
 
   const getExercise = useCallback(async (value) => {
-    console.log(value);
     const res = await get(`exercise/exerciselist/${value}`);
     setExerciseOptions(res.data);
   }, []);
 
   const getTotalExerciseCalrorie = async () => {
-    if (hour === 0) return;
+    if (hour === 0 || !exerciseCategory || !exercise) {
+      CalendarExerciseWarning();
+      return;
+    }
     setExerciseCategory(null);
     setExercise(null);
     setHour(0);
@@ -66,6 +69,7 @@ const ExerciseSection = ({
       });
 
       handleSetTotalExerciseCalrorie(res.data);
+      CalendarSuccess();
     } catch (e) {
       throw new Error(e);
     }
@@ -132,7 +136,7 @@ const ExerciseSection = ({
           />
           <h4 style={{ marginBottom: "0" }}>시간</h4>
         </HourTextFieldWrapper>
-        <StyledButton onClick={getTotalExerciseCalrorie}>추가</StyledButton>
+        <StyledButton onClick={getTotalExerciseCalrorie}>등록</StyledButton>
         {/* <AddCircleOutlineIcon onClick={getTotalExerciseCalrorie} /> */}
       </AutocompleteWrapper>
       <ExerciseCategoriesWrapper>

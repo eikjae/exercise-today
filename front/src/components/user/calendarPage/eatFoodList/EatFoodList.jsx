@@ -10,6 +10,7 @@ import {
   StyledRemoveIcon,
 } from "./EatFoodList.style";
 import { post } from "../../../../api";
+import { CalendarDeleteList } from "../../like/cardSection/calendarButtonSection/CalendarButtonComp";
 
 const EatFoodList = ({
   title,
@@ -68,6 +69,7 @@ const EatFoodList = ({
                         if (f.volume === 1) {
                           temp.splice(index, 1);
                           setFoodList([...temp]);
+                          CalendarDeleteList(f.category);
                           return;
                         }
                         temp[index].volume -= 1;

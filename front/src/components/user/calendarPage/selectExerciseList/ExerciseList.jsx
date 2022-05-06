@@ -10,6 +10,7 @@ import {
 } from "./ExerciseList.style";
 
 import { post } from "../../../../api";
+import { CalendarDeleteList } from "../../like/cardSection/calendarButtonSection/CalendarButtonComp";
 
 const ExerciseList = ({
   title,
@@ -67,6 +68,8 @@ const ExerciseList = ({
                           setTotalExerciseCalrorie(0);
                           temp.splice(index, 1);
                           setExerciseList([...temp]);
+                          CalendarDeleteList(e.name);
+
                           return;
                         }
                         temp[index].time -= 1;

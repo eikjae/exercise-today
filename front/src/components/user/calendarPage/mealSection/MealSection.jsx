@@ -14,6 +14,10 @@ import {
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
 import { get, post, postImage } from "../../../../api";
+import {
+  CalendarMealWarning,
+  CalendarSuccess,
+} from "../../like/cardSection/calendarButtonSection/CalendarButtonComp";
 
 const MealSection = ({
   title,
@@ -40,7 +44,10 @@ const MealSection = ({
   }, []);
 
   const getTotalCal = async () => {
-    if (count === 0) return;
+    if (count === 0 || !meal) {
+      CalendarMealWarning();
+      return;
+    }
     setMeal(null);
     setCount(0);
     try {
@@ -74,6 +81,7 @@ const MealSection = ({
       setMealCalrorie((current) => {
         return current + res.data.calories;
       });
+      CalendarSuccess();
     } catch (e) {
       throw new Error(e);
     }
@@ -134,7 +142,7 @@ const MealSection = ({
                     <span>업로드</span>
                   </div>
                 </label>
-                <SubmitImageButton type="submit">확인</SubmitImageButton>
+                {/* <SubmitImageButton type="submit">확인</SubmitImageButton> */}
               </Form>
             ) : (
               <img
@@ -181,7 +189,7 @@ const MealSection = ({
             {/* <StyeldAddCircleOutlineIcon onClick={getTotalCal} /> */}
           </InputWrapper>
         </MealInfoContainer>
-        <StyledButton onClick={getTotalCal}>추가</StyledButton>
+        <StyledButton onClick={getTotalCal}>등록</StyledButton>
       </MealWrapper>
     </MealContainer>
   );
