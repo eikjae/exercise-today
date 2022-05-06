@@ -24,7 +24,7 @@ class Kakao {
     this.url = "https://kauth.kakao.com/oauth/token";
     this.clientId = process.env.KAKAO_ID;
     this.clientSecret = process.env.KAKAO_SecretCode;
-    this.redirectUri = process.env.BackHost + "/oauth/kakao";
+    this.redirectUri = process.env.FrontHost + "/oauth/kakao";
     this.code = code;
     this.userInfoUri = "https://kapi.kakao.com/v2/user/me";
   }
@@ -35,7 +35,7 @@ class Naver {
     this.url = "https://nid.naver.com/oauth2.0/token";
     this.clientId = process.env.NAVER_ID;
     this.clientSecret = process.env.NAVER_SercretCode;
-    this.redirectUri = process.env.BackHost + "/oauth/naver";
+    this.redirectUri = process.env.FrontHost + "/oauth/naver";
     this.code = code;
     this.userInfoUri = "https://openapi.naver.com/v1/nid/me";
   }
@@ -46,7 +46,7 @@ class Google {
     this.url = "https://www.googleapis.com/oauth2/v4/token";
     this.clientId = process.env.GOOGLE_ID;
     this.clientSecret = process.env.GOOGLE_SercretCode;
-    this.redirectUri = process.env.BackHost + "/oauth/google";
+    this.redirectUri = process.env.FrontHost + "/oauth/google";
     this.code = code;
     this.userInfoUri = "https://www.googleapis.com/oauth2/v1/tokeninfo";
   }
@@ -104,8 +104,11 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
     if (code[code.length - 1] === "/") {
       code = code.slice(0, -1);
     }
+    // console.log(code);
     const options = getOption(coperation, code);
     const token = await getAccessToken(options);
+    // console.log(token);
+
     let userInfo;
     if (coperation === "google") {
       oauth2Client.generateAuthUrl({
@@ -127,7 +130,7 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
       userInfo = await getUserInfo(options.userInfoUri, token.access_token);
     }
 
-    console.log("asd: ", userInfo);
+    // console.log("asd: ", userInfo);
 
     let result;
     if (coperation === "kakao") {
