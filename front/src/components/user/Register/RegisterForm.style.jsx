@@ -35,11 +35,18 @@ export const StyledTextField = styled(TextField)`
 export const ActivateInputWrapper = styled.div`
   display: flex;
   align-items: flex-end;
+  /* background-color: red; */
+`;
+
+export const EmailField = styled(StyledTextField)`
+  width: 73%;
 `;
 
 export const SubmitActivateButton = styled(Button)`
   height: 70%;
   color: #767676;
+  padding-bottom: 0.2rem;
+  margin-left: 0.2rem;
 `;
 
 export const WarningMessage = styled.p`

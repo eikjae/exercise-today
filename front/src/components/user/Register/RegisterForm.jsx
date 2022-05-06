@@ -19,6 +19,7 @@ import {
   NoticeMessage,
   ActivateInputWrapper,
   SubmitActivateButton,
+  EmailField,
 } from "./RegisterForm.style";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -33,6 +34,8 @@ function RegisterForm() {
   // const [email, setEmail] = useState("");
 
   const [password, setPassword] = useState("");
+  const [certification, seCertification] = useState(false);
+  const [checkOverlap, setCheckOverlap] = useState(false);
 
   const status = {
     WARNING: "WARNING",
@@ -77,10 +80,16 @@ function RegisterForm() {
     msg: "비밀번호를 확인하세요.",
   };
 
-  const ALL_VALID = {
+  const SUCCESS_CERTIFICATION = {
     status: status.SUCCESS,
-    type: "ALL_VALID",
-    msg: "",
+    type: "SUCCESS_CERTIFICATION",
+    msg: "인증이 완료 되었습니다.",
+  };
+
+  const FAIL_ACTIVATE_KEY = {
+    status: status.ERROR,
+    type: "FAIL_ACTIVATE_KEY",
+    msg: "인증 번호를 확인해주세요.",
   };
 
   const CHECK_ACTIVATE_KEY = {
@@ -130,7 +139,6 @@ function RegisterForm() {
   // const isFormValid =
   //   isEmailValid && isPasswordValid && isPasswordSame && isNameValid;
   const handleChangeBirthday = (value) => {
-    console.log(value);
     setBirthday(dayjs(value).format("YYYY-MM-DD"));
   };
 
@@ -139,22 +147,35 @@ function RegisterForm() {
     if (idRef.current.value.length < 4) {
       setMsg(NOT_VALID_ID);
       return;
-    }
-    console.log(validateEmail(emailRef.current?.value));
-
-    if (validateEmail(emailRef.current?.value) === null) {
+    } else if (validateEmail(emailRef.current.value) === null) {
       setMsg(NOT_VALID_EMAIL);
       return;
     }
+    const res = await Api.get(`user/checkEmail/${emailRef.current.value}`);
+
+    if (res.data.status === 1) {
+      setMsg(ALREADY_REGISTER_EMAIL);
+      return;
+    } else {
+      setMsg(ABLE_REGISTER_EMAIL);
+    }
+
+    if (certification === false && checkOverlap === false) {
+      setMsg(FAIL_ACTIVATE_KEY);
+      return;
+    }
+
     if (password.length < 4) {
       setMsg(NOT_VALID_PASSWORD);
       return;
     } else {
       if (password !== confirmPasswordRef.current.value) {
+        console.log("not same");
         setMsg(NOT_SAME_PASSWORD);
         return;
       }
     }
+
     e.preventDefault();
 
     try {
@@ -178,11 +199,14 @@ function RegisterForm() {
   const checkEmail = async () => {
     // 이메일 가입 존재 여부를 따진다.
     const res = await Api.get(`user/checkEmail/${emailRef.current.value}`);
-    console.log(res.data.status);
+
     if (res.data.status === 1) {
       setMsg(ALREADY_REGISTER_EMAIL);
+      setCheckOverlap(false);
+      return;
     } else {
       setMsg(ABLE_REGISTER_EMAIL);
+      setCheckOverlap(true);
     }
   };
 
@@ -193,9 +217,9 @@ function RegisterForm() {
         activateKey: keyRef.current.value,
       }
     );
-    console.log(res);
     if (res.data.status === 1) {
-      setMsg(ALL_VALID);
+      setMsg(SUCCESS_CERTIFICATION);
+      seCertification(true);
     }
   };
 
@@ -219,7 +243,7 @@ function RegisterForm() {
           </InputContainer>
           <InputContainer>
             <ActivateInputWrapper>
-              <StyledTextField
+              <EmailField
                 id="email-input"
                 label="email"
                 type="email"
@@ -228,7 +252,6 @@ function RegisterForm() {
                 color="secondary"
                 inputRef={emailRef}
               />
-
               {msg.type === ABLE_REGISTER_EMAIL.type ? (
                 <SubmitActivateButton
                   onClick={async () => {
@@ -246,7 +269,7 @@ function RegisterForm() {
                     checkEmail();
                   }}
                 >
-                  중복 <br /> 확인
+                  중복 확인
                 </SubmitActivateButton>
               )}
             </ActivateInputWrapper>
@@ -257,6 +280,9 @@ function RegisterForm() {
               <NoticeMessage>{msg.msg}</NoticeMessage>
             )}
             {msg.type === NOT_VALID_EMAIL.type && (
+              <WarningMessage>{msg.msg}</WarningMessage>
+            )}
+            {msg.type === FAIL_ACTIVATE_KEY.type && (
               <WarningMessage>{msg.msg}</WarningMessage>
             )}
           </InputContainer>
@@ -356,7 +382,7 @@ function RegisterForm() {
             <WeightInput
               id="weight"
               label="weight"
-              type="text"
+              type="number"
               autoComplete="current-weight"
               variant="standard"
               color="secondary"

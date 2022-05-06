@@ -54,7 +54,10 @@ function Header() {
 
   return (
     <StyledNav ref={navbarRef} navbarIsTop={navbarIsTop}>
-      <StyledeMenuIcon onClick={handleClickMenuIcon} isClicked={isClicked} />
+      <StyledeMenuIcon
+        onClick={handleClickMenuIcon}
+        isclicked={isClicked + ""}
+      />
       <StyledTitle
         onClick={() => {
           navigate("/");

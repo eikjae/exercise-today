@@ -11,6 +11,7 @@ import {
   StyledTextField,
   WeightTitle,
   StyledButton,
+  StyledArrow,
 } from "./CalendarPage.style";
 import EatFoodList from "./eatFoodList/EatFoodList";
 import ExerciseSection from "./exerciseSection/ExerciseSection";
@@ -180,6 +181,13 @@ const CalendarPage = (props) => {
     setImageUrlWhenUpdate(res.data);
   };
 
+  const handleClickArrow = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   // 오늘자 날짜 저장하기
   useEffect(() => {
     getTodayDate();
@@ -233,6 +241,7 @@ const CalendarPage = (props) => {
 
   return (
     <CalendarLayout>
+      <StyledArrow onClick={handleClickArrow} />
       <div>
         <Calendar
           data={calendarData}
