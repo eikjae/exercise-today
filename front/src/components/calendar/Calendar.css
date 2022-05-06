@@ -1,0 +1,5 @@
+@import "~@fullcalendar/daygrid/main.css";
+
+.temp {
+  color: rgb(128, 128, 128);
+}

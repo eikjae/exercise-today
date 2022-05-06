@@ -6,3 +6,20 @@ export function generateRandomNumberString(n) {
   }
   return result;
 }
+
+export function getInfoFromNaver(profile) {
+  const { id, nickname, profile_image, email } = profile.response;
+  return { id, name: nickname, email, imageLink: profile_image };
+}
+export function getInfoFromKakao(profile) {
+  const userProfile = profile.kakao_account.profile;
+  const { nickname, profile_image_url } = userProfile;
+  const email = profile.kakao_account.email;
+  const id = profile.id;
+  return { id, name: nickname, email, imageLink: profile_image_url };
+}
+
+export function getInfoFromGoogle(profile) {
+  const { id, email, name, picture } = profile.data;
+  return { id, name, email, imageLink: picture };
+}

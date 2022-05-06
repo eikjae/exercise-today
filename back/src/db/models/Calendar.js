@@ -11,7 +11,7 @@ export class Calendar {
     return item;
   }
 
-  static async findCalories({ userId, whenDate }) {
+  static async findCaloriesByDate({ userId, whenDate }) {
     const item = await CalendarModel.findOne(
       { userId, whenDate },
       "calories.title calories.start calories.backgroundColor"
@@ -19,22 +19,17 @@ export class Calendar {
     return item;
   }
 
-  static async update({ userId, whenDate, fieldToUpdate, newValue }) {
-    const filter = { userId, whenDate };
-    const update = { [fieldToUpdate]: newValue };
-    const option = { returnOriginal: false };
-
-    const updatedItem = await CalendarModel.findOneAndUpdate(
-      filter,
-      update,
-      option
+  static async findCaloriesByMonth({ userId, whenDate }) {
+    const items = await CalendarModel.find(
+      { userId, whenDate },
+      "calories.title calories.start calories.backgroundColor"
     );
-    return updatedItem;
+    return items;
   }
 
-  static async deleteByItemId({ itemId }) {
-    const result = await CalendarModel.deleteOne({ itemId });
-    const deletedResult = result.deletedCount == 1; //Boolean
+  static async deleteByDate({ userId, whenDate }) {
+    const result = await CalendarModel.deleteOne({ userId, whenDate });
+    const deletedResult = result.deletedCount === 1;
     return deletedResult;
   }
 

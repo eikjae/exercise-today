@@ -6,12 +6,17 @@ const FoodSchema = new Schema(
       type: String,
       required: true,
       index: true,
+      unique: true,
     },
     unit: {
       type: String,
       required: true,
     },
     calories: {
+      type: String,
+      required: true,
+    },
+    imgurl: {
       type: String,
       required: true,
     },

@@ -1,18 +1,30 @@
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { calendarService } from "../services/calendarService";
+import { body, param } from "express-validator";
+import { validatorErrorChecker } from "../middlewares/validator";
 
 const calendarRouter = Router();
 
 calendarRouter.post(
-  "/calendar",
+  "/calendar/calories",
   login_required,
+  [
+    body("whenDate").isISO8601().withMessage("Enter whenDate in date format"),
+    body("calorieArray")
+      .isArray({ min: 4, max: 4 })
+      .withMessage("calorieArray should be an array of length 4"),
+    body("calorieArray.*")
+      .isNumeric()
+      .withMessage("Calories should be numbers"),
+    validatorErrorChecker,
+  ],
   async function (req, res, next) {
     try {
-      const userId = req.currentUserId;
+      const { currentUserId: userId } = req;
       const { whenDate, calorieArray } = req.body;
 
-      const newItem = await calendarService.addItem({
+      const newItem = await calendarService.addCalories({
         userId,
         whenDate,
         calorieArray,
@@ -26,13 +38,17 @@ calendarRouter.post(
 );
 
 calendarRouter.get(
-  "/calendar/calories/date",
+  "/calendar/calories/:whenDate",
   login_required,
+  [
+    param("whenDate").isISO8601().withMessage("Enter whenDate in date format"),
+    validatorErrorChecker,
+  ],
   async function (req, res, next) {
     try {
-      const userId = req.currentUserId;
-      const { whenDate } = req.body;
-      const foundList = await calendarService.getCalories({
+      const { currentUserId: userId } = req;
+      const { whenDate } = req.params;
+      const foundList = await calendarService.getCaloriesByDate({
         userId,
         whenDate,
       });
@@ -45,15 +61,21 @@ calendarRouter.get(
 );
 
 calendarRouter.get(
-  "/calendar/items/date",
+  "/calendar/calorieslist/:whenMonth",
   login_required,
+  [
+    param("whenMonth")
+      .isISO8601("yyyy-mm")
+      .withMessage("Enter whenMonth in YYYY-MM format"),
+    validatorErrorChecker,
+  ],
   async function (req, res, next) {
     try {
-      const userId = req.currentUserId;
-      const { whenDate } = req.body;
-      const foundList = await calendarService.getItemList({
+      const { currentUserId: userId } = req;
+      const { whenMonth } = req.params;
+      const foundList = await calendarService.getCaloriesByMonth({
         userId,
-        whenDate,
+        whenMonth,
       });
 
       res.status(200).send(foundList);
@@ -63,34 +85,13 @@ calendarRouter.get(
   }
 );
 
-calendarRouter.put(
-  "/calendar",
-  login_required,
-  async function (req, res, next) {
-    try {
-      const userId = req.currentUserId;
-      const { whenDate, calorieArray } = req.body;
-
-      const updatedItem = await calendarService.setItem({
-        userId,
-        whenDate,
-        calorieArray,
-      });
-
-      res.status(200).json(updatedItem);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
 calendarRouter.delete(
-  "/calendar/:itemId",
+  "/calendar/calories",
   login_required,
   async function (req, res, next) {
     try {
-      const { itemId } = req.params;
-      await calendarService.deleteItem({ itemId });
+      const { currentUserId: userId } = req;
+      await calendarService.deleteCaloriesList({ userId });
 
       res.status(200).end();
     } catch (error) {
@@ -99,15 +100,59 @@ calendarRouter.delete(
   }
 );
 
-calendarRouter.delete(
+calendarRouter.post(
   "/calendar/items",
   login_required,
+  [
+    body("whenDate").isISO8601().withMessage("Enter whenDate in date format"),
+    body("itemArray.diet")
+      .exists()
+      .isArray()
+      .withMessage("Diet should be Array"),
+    body("itemArray.workout")
+      .exists()
+      .isArray()
+      .withMessage("Workout should be Array"),
+    body("itemArray.weight")
+      .exists()
+      .isNumeric()
+      .withMessage("Weight should be numbers"),
+    validatorErrorChecker,
+  ],
   async function (req, res, next) {
     try {
-      const userId = req.currentUserId;
-      await calendarService.deleteItemList({ userId });
+      const { currentUserId: userId } = req;
+      const { whenDate, itemArray } = req.body;
+      const newItem = await calendarService.addItemList({
+        userId,
+        whenDate,
+        itemArray,
+      });
 
-      res.status(200).end();
+      res.status(201).send(newItem);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+calendarRouter.get(
+  "/calendar/items/:whenDate",
+  login_required,
+  [
+    param("whenDate").isISO8601().withMessage("Enter whenDate in date format"),
+    validatorErrorChecker,
+  ],
+  async function (req, res, next) {
+    try {
+      const { currentUserId: userId } = req;
+      const { whenDate } = req.params;
+      const foundList = await calendarService.getItemList({
+        userId,
+        whenDate,
+      });
+
+      res.status(200).send(foundList);
     } catch (error) {
       next(error);
     }

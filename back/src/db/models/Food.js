@@ -10,4 +10,9 @@ export class Food {
     const foods = await FoodModel.find({});
     return foods;
   }
+
+  static async findByName({ category }) {
+    const food = await FoodModel.findOne({ category });
+    return food;
+  }
 }

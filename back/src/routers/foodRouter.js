@@ -1,6 +1,7 @@
-import is from "@sindresorhus/is";
 import { Router } from "express";
 import { foodService } from "../services/foodService";
+import { body } from "express-validator";
+import { validatorErrorChecker } from "../middlewares/validator";
 
 const foodRouter = Router();
 
@@ -13,15 +14,22 @@ foodRouter.get("/foods", async function (req, res, next) {
   }
 });
 
-foodRouter.post("/foods/calories", async function (req, res, next) {
-  try {
-    const foodsInfo = req.body;
-    const calories = await foodService.calculateCalories({ foodsInfo });
+foodRouter.post(
+  "/foods/calories",
+  [
+    body().isArray().withMessage("food information should be an array"),
+    validatorErrorChecker,
+  ],
+  async function (req, res, next) {
+    try {
+      const foodsInfo = req.body;
+      const calories = await foodService.calculateCalories({ foodsInfo });
 
-    res.status(200).send({ calories });
-  } catch (error) {
-    next(error);
+      res.status(200).send({ calories });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 export { foodRouter };

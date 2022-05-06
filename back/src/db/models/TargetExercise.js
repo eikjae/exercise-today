@@ -24,4 +24,9 @@ export class TargetExercise {
     });
     return exercises;
   }
+
+  static async findByName({ name }) {
+    const exercise = await TargetExerciseModel.findOne({ name });
+    return exercise;
+  }
 }

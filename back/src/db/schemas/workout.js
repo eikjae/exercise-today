@@ -2,16 +2,12 @@ import { Schema, model } from "mongoose";
 
 const WorkoutSchema = new Schema(
   {
-    itemId: {
-      type: String,
-      required: true,
-    },
     userId: {
       type: String,
       required: true,
     },
     whenDate: {
-      type: String,
+      type: Date,
       required: true,
     },
     category: {
