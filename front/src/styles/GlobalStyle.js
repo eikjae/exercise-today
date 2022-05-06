@@ -10,12 +10,16 @@ html {
   tab-size: 4;
 }
 
-*,
+* {
+  background-repeat: no-repeat;
+  box-sizing: inherit;
+  font-family: "Elice Digital Baeum", sans-serif;
+}
 ::before,
 ::after {
   background-repeat: no-repeat;
   box-sizing: inherit;
-  font-family: "Elice Digital Baeum", sans-serif;
+  /* font-family: "Elice Digital Baeum", sans-serif; */
 }
 
 ::before,
@@ -32,6 +36,12 @@ html {
 /* # =================================================================
    # General elements
    # ================================================================= */
+
+ul {
+  margin-bottom: 0;
+  list-style: none;
+
+}
 
 hr {
   overflow: visible; /* Show the overflow in Edge and IE */
@@ -279,6 +289,30 @@ progress {
   cursor: default;
 }
 
+.fc .fc-col-header-cell-cushion {
+  display: inline-block;
+  padding: 2px 4px;
+  text-decoration: none;
+  color: black;
+}
+
+.fc .fc-daygrid-day-number {
+  position: relative;
+  z-index: 4;
+  padding: 4px;
+  text-decoration: none;
+  color: black;
+}
+
+
+.fc-event-title {
+  color: black;
+}
+
+.fc-icon{
+  display: flex;
+  align-items: center;
+}
 
 `;
 

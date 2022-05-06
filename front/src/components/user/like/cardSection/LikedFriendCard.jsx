@@ -1,10 +1,12 @@
-import React from "react";
-import { Layout, LikeImg } from "./LikedCard.style";
+import UserCard from "../../userSection/UserCard";
 
-export default function LikedFriendCard({ friend }) {
+export default function LikedFriendCard({ friend, isEditable }) {
   return (
-    <Layout>
-      <h5>(구현중)</h5>
-    </Layout>
+    <UserCard
+      key={friend?.id}
+      user={friend}
+      isLikePage
+      isLikeEditable={isEditable}
+    />
   );
 }

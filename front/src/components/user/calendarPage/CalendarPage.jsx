@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { get, post } from "../../../api";
 import Calendar from "../../calendar/Calendar";
 import {
@@ -10,6 +10,7 @@ import {
   TodayWeight,
   StyledTextField,
   WeightTitle,
+  StyledButton,
 } from "./CalendarPage.style";
 import EatFoodList from "./eatFoodList/EatFoodList";
 import ExerciseSection from "./exerciseSection/ExerciseSection";
@@ -42,7 +43,8 @@ const CalendarPage = (props) => {
   // 캘린더 데이터
   const [calendarData, setCalendarData] = useState([]);
 
-  const weightRef = useRef();
+  // const weightRef = useRef();
+  const [weight, setWeight] = useState(0);
 
   const handleSetDate = (month, today, day) => {
     day = dayOfWeek[day];
@@ -63,7 +65,7 @@ const CalendarPage = (props) => {
     });
   };
 
-  const setChangeListWhenClick = (data) => {
+  const setChangeListWhenUpdate = (data) => {
     const newBreakfastList = data.diet.filter((d) => d.type === "breakfast");
     const newLunchList = data.diet.filter((d) => d.type === "lunch");
     const newDinnerList = data.diet.filter((d) => d.type === "dinner");
@@ -74,8 +76,7 @@ const CalendarPage = (props) => {
     setExerciseList([...data.workout]);
   };
 
-  const setCalorieWhenClick = (data) => {
-    console.log(data);
+  const setCalorieWhenUpdate = (data) => {
     if (data.length === 0) {
       setBreakfastCalrorie(0);
       setLunchCalrorie(0);
@@ -89,7 +90,7 @@ const CalendarPage = (props) => {
     setTotalExerciseCalrorie(Number(data.calories[3].title.split("-")[1]));
   };
 
-  const setImageUrlWhenClick = (data) => {
+  const setImageUrlWhenUpdate = (data) => {
     if (data.dietimage.length === 0) {
       setBreakfastUrl(null);
       setLunchUrl(null);
@@ -113,16 +114,32 @@ const CalendarPage = (props) => {
     }
   };
 
+  const setWeightWhenUpdate = (data) => {
+    if (data.weight === null) {
+      setWeight(0);
+      return;
+    }
+    setWeight(data.weight.weight);
+  };
+
   const handleOnClickCalendar = async (clickDate) => {
     try {
       const res = await get(`calendar/items/${clickDate}`);
-      setImageUrlWhenClick(res.data);
-      setChangeListWhenClick(res.data);
+      setImageUrlWhenUpdate(res.data);
+      setChangeListWhenUpdate(res.data);
+      setWeightWhenUpdate(res.data);
       const res2 = await get(`calendar/calories/${clickDate}`);
-      setCalorieWhenClick(res2.data);
+      setCalorieWhenUpdate(res2.data);
     } catch (e) {
       throw new Error(e);
     }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const postDateData = async () => {
@@ -130,6 +147,7 @@ const CalendarPage = (props) => {
       await post("calendar/items", {
         whenDate: strDate,
         itemArray: {
+          weight,
           diet: [...breakfastList, ...lunchList, ...dinnerList],
           workout: [...exerciseList],
         },
@@ -147,7 +165,8 @@ const CalendarPage = (props) => {
         `calendar/calorieslist/${dayjs(strDate).format("YYYY-MM")}`
       );
       setCalendarData(res.data);
-      console.log(res.data);
+
+      scrollToTop();
     } catch (e) {
       throw new Error(e);
     }
@@ -158,7 +177,7 @@ const CalendarPage = (props) => {
       `calendar/items/${dayjs(newDate).format("YYYY-MM-DD")}`
     );
 
-    setImageUrlWhenClick(res.data);
+    setImageUrlWhenUpdate(res.data);
   };
 
   // 오늘자 날짜 저장하기
@@ -197,11 +216,13 @@ const CalendarPage = (props) => {
         const res = await get(
           `calendar/items/${dayjs(newDate).format("YYYY-MM-DD")}`
         );
-        setChangeListWhenClick(res.data);
+        setChangeListWhenUpdate(res.data);
+        setWeightWhenUpdate(res.data);
+        // setChangeWeight
         const res2 = await get(
           `calendar/calories/${dayjs(newDate).format("YYYY-MM-DD")}`
         );
-        setCalorieWhenClick(res2.data);
+        setCalorieWhenUpdate(res2.data);
       };
 
       getCalendarItems();
@@ -212,12 +233,14 @@ const CalendarPage = (props) => {
 
   return (
     <CalendarLayout>
-      <Calendar
-        data={calendarData}
-        handleSetDate={handleSetDate}
-        setStrDate={setStrDate}
-        handleOnClickCalendar={handleOnClickCalendar}
-      />
+      <div>
+        <Calendar
+          data={calendarData}
+          handleSetDate={handleSetDate}
+          setStrDate={setStrDate}
+          handleOnClickCalendar={handleOnClickCalendar}
+        />
+      </div>
       <CalendarBodyLayout>
         <TitleWrapper>
           <h2>{date}</h2>
@@ -227,12 +250,12 @@ const CalendarPage = (props) => {
             <TodayWeight>
               <WeightTitle>오늘의 몸무게 :</WeightTitle>
               <StyledTextField
+                variant="standard"
                 type="number"
                 size="small"
-                inputRef={weightRef}
-                onChange={() => {
-                  console.log(weightRef.current.value);
-                }}
+                value={weight}
+                color="primary"
+                onChange={(e) => setWeight(e.target.value)}
               />
               <WeightTitle>kg</WeightTitle>
             </TodayWeight>
@@ -289,14 +312,14 @@ const CalendarPage = (props) => {
             setFoodList={setDinnerList}
           />
           <ExerciseSection
-            weight={weightRef.current?.value}
+            weight={weight}
             setExerciseList={setExerciseList}
             totalExerciseCalrorie={totalExerciseCalrorie}
             handleSetTotalExerciseCalrorie={handleSetTotalExerciseCalrorie}
           />
           <ExerciseList
             title={"운동 리스트"}
-            weight={weightRef.current?.value}
+            weight={weight}
             exerciseList={exerciseList}
             setExerciseList={setExerciseList}
             setTotalExerciseCalrorie={setTotalExerciseCalrorie}
@@ -306,7 +329,7 @@ const CalendarPage = (props) => {
             totalCalrorie={breakfastCalrorie + lunchCalrorie + dinnerCalrorie}
             totalExerciseCalrorie={totalExerciseCalrorie}
           />
-          <button onClick={postDateData}>등록</button>
+          <StyledButton onClick={postDateData}>등록</StyledButton>
         </BodyWrapper>
       </CalendarBodyLayout>
     </CalendarLayout>

@@ -1,22 +1,27 @@
 import {
+  Autocomplete,
   FormControl,
   FormControlLabel,
   FormLabel,
+  Input,
   InputAdornment,
   OutlinedInput,
   Radio,
+  TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import MusicSlider from "../../../slider/MusicSlider";
 import {
+  AutoCompleteWrapper,
   StyledButton,
   StyledFormControl,
   StyledOrderListContainer,
   StyledSliderContainer,
   StyledSliderTitle,
   StyledTopSection,
+  StyledAutocomplete,
 } from "./SliderSection.style";
-import { post, get } from "./../../../../api";
+import { post } from "./../../../../api";
 import { useSetRecoilState } from "recoil";
 import { searchClickedState } from "../MusicAtom";
 
@@ -29,6 +34,8 @@ const SliderSection = ({ handleSetMusics }) => {
   const [limit, setLimit] = useState(0);
   // 검색 버튼 클릭시 like 업데이트를 위한 상태
   const setSearchClicked = useSetRecoilState(searchClickedState);
+
+  const options = ["제목순", "제목역순", "년도순", "년도역순", "무작위"];
 
   const handleOnChangeEnergy = (value) => {
     setEnergy(value);
@@ -46,8 +53,8 @@ const SliderSection = ({ handleSetMusics }) => {
     setYear(value);
   };
 
-  const handleOnChangeOrderBtn = (e) => {
-    setOrder(e.target.value);
+  const handleOnChangeOrderBtn = (value) => {
+    setOrder(value);
   };
 
   const handleOnChangeLimits = (e) => {
@@ -84,10 +91,10 @@ const SliderSection = ({ handleSetMusics }) => {
         const res = await post("musics/filtered", {
           orderby: "title",
           filter: {
-            Tempo: [110, 126],
-            Danceability: [0.62, 1.0],
-            Year: [2014, 2020],
-            Energy: [0.7, 1.0],
+            Tempo: bpm,
+            Danceability: danceability,
+            Year: year,
+            Energy: energy,
           },
           limit: 9,
         });
@@ -143,36 +150,45 @@ const SliderSection = ({ handleSetMusics }) => {
       </StyledSliderContainer>
       <StyledFormControl>
         <FormLabel id="orderlist-radio-buttons-group-label">Order</FormLabel>
-        <StyledOrderListContainer
-          aria-labelledby="orderlist-radio-buttons-group-label"
-          defaultValue="title"
-          name="radio-buttons-group"
-          onChange={handleOnChangeOrderBtn}
-        >
-          <FormControlLabel value="title" control={<Radio />} label="제목순" />
-          <FormControlLabel
-            value="-title"
-            control={<Radio />}
-            label="제목역순"
-          />
-          <FormControlLabel value="year" control={<Radio />} label="년도순" />
-          <FormControlLabel
-            value="-year"
-            control={<Radio />}
-            label="년도역순"
-          />
-          <FormControlLabel value="random" control={<Radio />} label="무작위" />
-        </StyledOrderListContainer>
       </StyledFormControl>
-      <FormControl sx={{ m: 1, width: "10rem" }} variant="outlined">
-        <OutlinedInput
-          id="outlined-adornment-limit"
-          style={{ paddingLeft: "3rem" }}
-          value={limit}
-          onChange={handleOnChangeLimits}
-          endAdornment={<InputAdornment position="start">곡</InputAdornment>}
+      <AutoCompleteWrapper>
+        <StyledAutocomplete
+          disablePortal
+          id="order-combo-box"
+          sx={{ width: "12rem" }}
+          onChange={(e, value) => {
+            let result = "제목";
+            if (value === "제목순") {
+              result = "title";
+            } else if (value === "제목역순") {
+              result = "-title";
+            } else if (value === "년도순") {
+              result = "year";
+            } else if (value === "년도역순") {
+              result = "-year";
+            } else {
+              result = "random";
+            }
+            console.log(result);
+            handleOnChangeOrderBtn(result);
+          }}
+          renderInput={(params) => (
+            <TextField {...params} label="정렬순" variant="standard" />
+          )}
+          options={options}
+          size="small"
         />
-      </FormControl>
+        <FormControl sx={{ m: 1, width: "6rem" }} variant="outlined">
+          <Input
+            id="outlined-adornment-limit"
+            style={{ paddingLeft: "2rem" }}
+            value={limit}
+            color={"info"}
+            onChange={handleOnChangeLimits}
+            endAdornment={<InputAdornment position="start">곡</InputAdornment>}
+          />
+        </FormControl>
+      </AutoCompleteWrapper>
       <StyledButton onClick={handloeOnClickSearch}>검색</StyledButton>
     </StyledTopSection>
   );

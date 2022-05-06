@@ -1,18 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import * as Api from "../../../api";
-import {} from "./LikePage.style";
 import {
   LikedFriendTab,
   LikedFoodTab,
   LikedExerciseTab,
   LikedMusicTab,
 } from "./tabSection/AllLikedTab";
-import { Layout } from "./LikePage.style";
+import {
+  Layout,
+  LeftRowGrid,
+  ColGrid,
+  RightRowGrid,
+  LikeTabs,
+  UserName,
+} from "./LikePage.style";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
-import { AppBar, Tabs, Tab, Box } from "@mui/material";
+import { AppBar, Tab, Box } from "@mui/material";
+import { UserStateContext } from "../../../App";
+import User from "../userSection/User";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -49,33 +58,54 @@ function a11yProps(index) {
 
 export default function LikePage() {
   const theme = useTheme();
+  const navigate = useNavigate();
+  // like 페이지에 해당하는 사용자 id
+  const { userId } = useParams();
+  const tabElements = ["Friend", "Food", "Exercise", "Music"];
   const [value, setValue] = useState(0);
-  // const [likedFriends, setLikedFriends] = useState([]);
+  const [likedFriends, setLikedFriends] = useState([]);
   const [likedFoods, setLikedFoods] = useState([]);
   const [likedExercises, setLikedExercises] = useState([]);
   const [likedMusics, setLikedMusics] = useState([]);
-
-  const tabElements = ["회원", "음식", "운동", "음악"];
+  const userState = useContext(UserStateContext);
+  const [pageUserName, setPageUserName] = useState("");
+  const [isEditable, setIsEditable] = useState(false);
 
   useEffect(async () => {
     try {
-      // 회원 (아직 적용x)
-      // let res = await Api.get("like/exercise/info");
-      // setLikedFriends([...res.data]);
+      // 전역 상태의 user가 null이라면 로그인이 안 된 상태이므로, 로그인 페이지로 돌림.
+      if (!userState.user) {
+        navigate("/login", { replace: true });
+        return;
+      }
+      // Like 페이지의 유저id와 현재 로그인된 유저id가 같다면 편집 가능
+      if (userId === userState.user?.id) {
+        setIsEditable(true);
+      } else {
+        setIsEditable(false);
+      }
+
+      // 현재 Like 페이지의 이름을 설정
+      let res = await Api.get(`users/${userId}`);
+      setPageUserName(res.data.name);
+
+      // 회원
+      res = await Api.get(`like/person/info/${userId}`);
+      setLikedFriends([...res.data]);
       // 음식
-      let res = await Api.get("like/food/info");
+      // const name = userState.user.id;
+      res = await Api.get(`like/food/info/${userId}`);
       setLikedFoods([...res.data]);
       // 운동
-      res = await Api.get("like/exercise/info");
+      res = await Api.get(`like/exercise/info/${userId}`);
       setLikedExercises([...res.data]);
       // 음악
-      res = await Api.get("like/music/info");
-      console.log(res.data);
+      res = await Api.get(`like/music/info/${userId}`);
       setLikedMusics([...res.data]);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
-  }, []);
+  }, [userId]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -87,38 +117,46 @@ export default function LikePage() {
 
   return (
     <Layout>
-      <AppBar position="static">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="secondary"
-          textColor="inherit"
-          variant="fullWidth"
-          aria-label="full width tabs example"
+      <LeftRowGrid>
+        <User
+          myPageOwnerId={userId}
+          isEditable={userId === userState.user?.id}
+        />
+      </LeftRowGrid>
+      <RightRowGrid>
+        <UserName>{pageUserName} 님의 북마크 목록</UserName>
+        <AppBar position="static">
+          <LikeTabs value={value} onChange={handleChange}>
+            {tabElements.map((element, idx) => (
+              <Tab key={idx} label={element} {...a11yProps(idx)} />
+            ))}
+          </LikeTabs>
+        </AppBar>
+        <SwipeableViews
+          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+          index={value}
+          onChangeIndex={handleChangeIndex}
         >
-          {tabElements.map((element, idx) => (
-            <Tab key={idx} label={element} {...a11yProps(idx)} />
-          ))}
-        </Tabs>
-      </AppBar>
-      <SwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
-        <TabPanel value={value} index={0} dir={theme.direction}>
-          <LikedFriendTab />
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-          <LikedFoodTab likedFoods={likedFoods} />
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-          <LikedExerciseTab likedExercises={likedExercises} />
-        </TabPanel>
-        <TabPanel value={value} index={3} dir={theme.direction}>
-          <LikedMusicTab likedMusics={likedMusics} />
-        </TabPanel>
-      </SwipeableViews>
+          <TabPanel value={value} index={0} dir={theme.direction}>
+            <LikedFriendTab
+              likedFriends={likedFriends}
+              isEditable={isEditable}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={1} dir={theme.direction}>
+            <LikedFoodTab likedFoods={likedFoods} isEditable={isEditable} />
+          </TabPanel>
+          <TabPanel value={value} index={2} dir={theme.direction}>
+            <LikedExerciseTab
+              likedExercises={likedExercises}
+              isEditable={isEditable}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={3} dir={theme.direction}>
+            <LikedMusicTab likedMusics={likedMusics} isEditable={isEditable} />
+          </TabPanel>
+        </SwipeableViews>
+      </RightRowGrid>
     </Layout>
   );
 }

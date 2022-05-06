@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Api from "../../../api";
+import { UserStateContext } from "../../../App";
 import FoodBadge from "./foodBadgeSection/FoodBadge";
 import {
   StyledContainer,
@@ -28,6 +29,7 @@ export default function FoodPage() {
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [likedFoods, setLikedFoods] = useState([]);
+  const userState = useContext(UserStateContext);
 
   const isHeightValid = height.length > 0;
   const isWeightValid = weight.length > 0;
@@ -60,14 +62,16 @@ export default function FoodPage() {
   useEffect(async () => {
     try {
       // 전체 음식 리스트를 받아옴
-      let res = await Api.get("foods");
+      const res = await Api.get("foods");
       const foods = res.data;
       setFoods([...foods]);
 
-      // 좋아요된 음식 리스트를 받아옴
-      res = await Api.get("like/food");
-      const likedFoods = res.data;
-      setLikedFoods([...likedFoods]);
+      if (userState.user) {
+        // 로그인 했을시, 좋아요된 음식 리스트를 받아옴
+        const res = await Api.get("like/food");
+        const likedFoods = res.data;
+        setLikedFoods([...likedFoods]);
+      }
     } catch (err) {
       console.error(err);
     }

@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FoodListContainer,
   ListWrapper,
   IconWrapper,
   H5,
   TotalWrapper,
+  Li,
+  StyledAddIcon,
+  StyledRemoveIcon,
 } from "./EatFoodList.style";
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
 import { post } from "../../../../api";
 
 const EatFoodList = ({
@@ -24,12 +25,12 @@ const EatFoodList = ({
       <ol>
         {foodList?.map((f, index) => {
           return (
-            <li key={index}>
+            <Li key={index}>
               <ListWrapper>
                 <H5>{f.category}</H5>
                 <IconWrapper>
                   <H5 style={{ marginRight: "0.5rem" }}>{f.volume}개</H5>
-                  <AddIcon
+                  <StyledAddIcon
                     style={{ cursor: "pointer" }}
                     onClick={async () => {
                       try {
@@ -50,7 +51,7 @@ const EatFoodList = ({
                       }
                     }}
                   />
-                  <RemoveIcon
+                  <StyledRemoveIcon
                     style={{ cursor: "pointer" }}
                     onClick={async () => {
                       try {
@@ -78,11 +79,11 @@ const EatFoodList = ({
                   />
                 </IconWrapper>
               </ListWrapper>
-            </li>
+            </Li>
           );
         })}
       </ol>
-      <TotalWrapper>총 칼로리: {totalCalrorie}</TotalWrapper>
+      <TotalWrapper>{totalCalrorie} kacl</TotalWrapper>
     </FoodListContainer>
   );
 };

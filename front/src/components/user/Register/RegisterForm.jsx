@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as Api from "../../../api";
@@ -10,7 +10,6 @@ import {
   ButtonWrapper,
   InputContainer,
   WarningMessage,
-  BirthInput,
   OutLine,
   StyledButtonGroup,
   SexButton,
@@ -24,7 +23,7 @@ import {
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import { Button, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import dayjs from "dayjs";
 
 function RegisterForm() {
@@ -48,10 +47,22 @@ function RegisterForm() {
     msg: "4자리 이상 적어주세요.",
   };
 
+  const NOT_VALID_EMAIL = {
+    status: status.WARNING,
+    type: "NOT_VALID_EMAIL",
+    msg: "이메일을 확인해주세요.",
+  };
+
   const ALREADY_REGISTER_EMAIL = {
     status: status.ERROR,
     type: "ALREADY_REGISTER_EMAIL",
     msg: "이미 가입 된 이메일 입니다.",
+  };
+
+  const ABLE_REGISTER_EMAIL = {
+    status: status.SUCCESS,
+    type: "ABLE_REGISTER_EMAIL",
+    msg: "사용 가능한 이메일 입니다.",
   };
 
   const NOT_VALID_PASSWORD = {
@@ -78,11 +89,6 @@ function RegisterForm() {
     msg: "인증키가 해당이메일로 발송되었습니다.",
   };
 
-  const VALID_ACTIVATE_KEY = {
-    status: status.SUCCESS,
-    type: "VALID_ACTIVATE_KEY",
-    msg: "",
-  };
   const [msg, setMsg] = React.useState({
     status: "",
     type: "",
@@ -134,6 +140,12 @@ function RegisterForm() {
       setMsg(NOT_VALID_ID);
       return;
     }
+    console.log(validateEmail(emailRef.current?.value));
+
+    if (validateEmail(emailRef.current?.value) === null) {
+      setMsg(NOT_VALID_EMAIL);
+      return;
+    }
     if (password.length < 4) {
       setMsg(NOT_VALID_PASSWORD);
       return;
@@ -146,8 +158,6 @@ function RegisterForm() {
     e.preventDefault();
 
     try {
-      // 이메일 가입 존재 여부를 따진다.
-      checkEmail();
       await Api.post("user/register", {
         name: idRef.current.value,
         email: emailRef.current.value,
@@ -166,10 +176,13 @@ function RegisterForm() {
   };
 
   const checkEmail = async () => {
+    // 이메일 가입 존재 여부를 따진다.
     const res = await Api.get(`user/checkEmail/${emailRef.current.value}`);
     console.log(res.data.status);
     if (res.data.status === 1) {
       setMsg(ALREADY_REGISTER_EMAIL);
+    } else {
+      setMsg(ABLE_REGISTER_EMAIL);
     }
   };
 
@@ -215,18 +228,35 @@ function RegisterForm() {
                 color="secondary"
                 inputRef={emailRef}
               />
-              <SubmitActivateButton
-                onClick={async () => {
-                  setMsg(CHECK_ACTIVATE_KEY);
-                  await Api.post(
-                    `user/authEmail/${emailRef.current.value}/activateKey`
-                  );
-                }}
-              >
-                인증
-              </SubmitActivateButton>
+
+              {msg.type === ABLE_REGISTER_EMAIL.type ? (
+                <SubmitActivateButton
+                  onClick={async () => {
+                    setMsg(CHECK_ACTIVATE_KEY);
+                    await Api.post(
+                      `user/authEmail/${emailRef.current.value}/activateKey`
+                    );
+                  }}
+                >
+                  인증
+                </SubmitActivateButton>
+              ) : (
+                <SubmitActivateButton
+                  onClick={() => {
+                    checkEmail();
+                  }}
+                >
+                  중복 <br /> 확인
+                </SubmitActivateButton>
+              )}
             </ActivateInputWrapper>
             {msg.type === ALREADY_REGISTER_EMAIL.type && (
+              <WarningMessage>{msg.msg}</WarningMessage>
+            )}
+            {msg.type === ABLE_REGISTER_EMAIL.type && (
+              <NoticeMessage>{msg.msg}</NoticeMessage>
+            )}
+            {msg.type === NOT_VALID_EMAIL.type && (
               <WarningMessage>{msg.msg}</WarningMessage>
             )}
           </InputContainer>

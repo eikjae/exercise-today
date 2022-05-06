@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required";
 import { dietImageService } from "../services/dietImageService";
+import { param } from "express-validator";
+import { validatorErrorChecker } from "../middlewares/validator";
 
 const dietImageRouter = Router();
 const { dietImageUpload } = require("../utils/s3");
@@ -55,6 +57,10 @@ dietImageRouter.put(
 dietImageRouter.delete(
   "/dietimage/item/:itemId",
   login_required,
+  [
+    param("itemId").isUUID(4).withMessage("Not valid uuid format"),
+    validatorErrorChecker,
+  ],
   async function (req, res, next) {
     try {
       const { itemId } = req.params;

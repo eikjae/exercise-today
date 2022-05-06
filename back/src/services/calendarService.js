@@ -1,4 +1,4 @@
-import { Diet, Workout, Attendance, DietImage, Calendar } from "../db";
+import { Diet, Workout, Weight, DietImage, Calendar } from "../db";
 import { v4 as uuidv4 } from "uuid";
 import {
   titleList,
@@ -28,6 +28,8 @@ class calendarService {
     const calories = [];
     for (let i = 0; i < calorieArray.length; i++) {
       const subSchema = {
+        type: `${typeList[i]}`,
+        calorie: `${calorieArray[i]}`,
         title: `${titleList[i]}${calorieArray[i]}`,
         start: `${whenDate}${startList[i]}`,
         backgroundColor: `${colorList[i]}`,
@@ -54,7 +56,10 @@ class calendarService {
   }
 
   static async getCaloriesByMonth({ userId, whenMonth }) {
-    const searchOpt = { $regex: whenMonth };
+    const searchOpt = {
+      $gte: `${whenMonth}-01T00:00:00.000Z`,
+      $lte: `${whenMonth}-31T00:00:00.000Z`,
+    };
     const items = await Calendar.findCaloriesByMonth({
       userId,
       whenDate: searchOpt,
@@ -72,8 +77,8 @@ class calendarService {
     return itemList;
   }
 
-  static async deleteCalories({ itemId }) {
-    const deletedResult = await Calendar.deleteByItemId({ itemId });
+  static async deleteCalories({ userId, whenDate }) {
+    const deletedResult = await Calendar.deleteByDate({ userId, whenDate });
     if (!deletedResult) {
       const errorMessage =
         "해당하는 내역이 없습니다. 다시 한 번 확인해 주세요.";
@@ -90,6 +95,11 @@ class calendarService {
   static async addItemList({ userId, whenDate, itemArray }) {
     if (!whenDate || !itemArray) {
       const errorMessage = "whenDate, itemArray를 모두 입력해주세요";
+      throw new Error(errorMessage);
+    }
+
+    if (!itemArray.weight) {
+      const errorMessage = "itemArray에 weight값을 입력해주세요";
       throw new Error(errorMessage);
     }
 
@@ -132,6 +142,11 @@ class calendarService {
       }
     }
 
+    await Weight.deleteByDate({ userId, whenDate });
+    const { weight } = itemArray;
+    const newWeight = { userId, whenDate, weight };
+    await Weight.create({ newWeight });
+
     await Diet.deleteByDate({ userId, whenDate });
     for (const { type, category, volume } of itemArray.diet) {
       const newItem = { userId, whenDate, type, category, volume };
@@ -146,12 +161,12 @@ class calendarService {
   }
 
   static async getItemList({ userId, whenDate }) {
-    const itemList1 = await Attendance.findByDate({ userId, whenDate });
+    const itemList1 = await Weight.findByDate({ userId, whenDate });
     const itemList2 = await DietImage.findByDate({ userId, whenDate });
     const itemList3 = await Diet.findByDate({ userId, whenDate });
     const itemList4 = await Workout.findByDate({ userId, whenDate });
     const itemAll = {
-      attendance: itemList1,
+      weight: itemList1,
       dietimage: itemList2,
       diet: itemList3,
       workout: itemList4,

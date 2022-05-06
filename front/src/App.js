@@ -6,20 +6,24 @@ import { loginReducer } from "./reducer";
 
 import Header from "./components/Header";
 import LoginForm from "./components/user/Login/LoginForm";
-import Network from "./components/user/Network";
+import Network from "./components/user/network/Network";
 import RegisterForm from "./components/user/Register/RegisterForm";
 import Portfolio from "./components/Portfolio";
 
 import FoodPage from "./components/main/foodPage/FoodPage";
+import PrologPage from "./components/main/prologPage/PrologPage";
 import MainChartPage from "./components/main/mainChartPage/MainChartPage";
 import MusicPage from "./components/main/musicPage/MusicPage";
 import PartExercisePage from "./components/main/partExercisePage/PartExercisePage";
 import MyPage from "./components/user/myPage/MyPage";
 import LikePage from "./components/user/like/LikePage";
 import ErrorPage from "./components/main/errorSection/ErrorPage";
+import OuathPage from "./components/oauthPage/OauthPage";
 
+import { ToastContainer } from "react-toastify";
 import { atom, RecoilRoot } from "recoil";
 import CalendarPage from "./components/user/calendarPage/CalendarPage";
+import StartPage from "./components/startPage/StartPage";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -69,31 +73,39 @@ function App() {
   }
 
   return (
-    <DispatchContext.Provider value={dispatch}>
-      <UserStateContext.Provider value={userState}>
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/" exact element={<FoodPage />} />
-            <Route
-              path="/:calorie/:height/:weight"
-              element={<MainChartPage />}
-            />
-            <Route path="/music" element={<MusicPage />} />
-            <Route path="/calendar" element={<CalendarPage />} />
-            {/* <Route path="/" exact element={<Portfolio />} /> */}
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
-            <Route path="/exercise" element={<PartExercisePage />} />
-            <Route path="/users/:userId" element={<Portfolio />} />
-            <Route path="/network" element={<Network />} />
-            <Route path="/myPage" element={<MyPage />} />
-            <Route path="/like" element={<LikePage />} />
-            <Route path="*" element={<ErrorPage />} />
-          </Routes>
-        </Router>
-      </UserStateContext.Provider>
-    </DispatchContext.Provider>
+    <RecoilRoot>
+      <DispatchContext.Provider value={dispatch}>
+        <UserStateContext.Provider value={userState}>
+          <Router>
+            <Header />
+            <Routes>
+              <Route path="/" exact element={<StartPage />} />
+              <Route path="/prolog" exact element={<PrologPage />} />
+              <Route path="/food" exact element={<FoodPage />} />
+              <Route
+                path="/:calorie/:height/:weight"
+                element={<MainChartPage />}
+              />
+              <Route path="/music" element={<MusicPage />} />
+              <Route path="/calendar" element={<CalendarPage />} />
+              <Route path="/login" element={<LoginForm />} />
+              <Route path="/register" element={<RegisterForm />} />
+              <Route path="/exercise" element={<PartExercisePage />} />
+              <Route path="/network" element={<Network />} />
+              <Route path="/myPage" element={<MyPage />} />
+              <Route path="/like/:userId" element={<LikePage />} />
+              <Route path="/oauth/:coperation" element={<OuathPage />} />
+              <Route path="*" element={<ErrorPage />} />
+            </Routes>
+          </Router>
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            draggable={true}
+          />
+        </UserStateContext.Provider>
+      </DispatchContext.Provider>
+    </RecoilRoot>
   );
 }
 

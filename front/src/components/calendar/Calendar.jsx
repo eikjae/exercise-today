@@ -4,6 +4,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import "./Calendar.css";
 import { StyledCalenderWrapper } from "./Calendar.style";
+
 import dayjs from "dayjs";
 
 const Calendar = ({

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Button, TextField } from "@mui/material";
 
@@ -10,21 +10,34 @@ export const MealContainer = styled.article`
   flex-direction: column;
   align-items: center;
 
-  border: 1px solid pink;
-
   margin: 0.5rem 0 0.5rem 0;
-  padding: 0.5rem;
+  padding: 0.5rem 0 0.5rem 0;
 `;
 
 export const MealWrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
+
+  padding: 1rem 0 1rem 0;
+  /* box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px; */
+  border-radius: 10px;
+  ${({ theme }) => {
+    return css`
+      border: 2px solid ${theme.colors.identityColor};
+    `;
+  }}
 `;
 
 export const FormWrapper = styled.div`
-  width: 90px;
+  width: 100px;
   height: 100px;
-  border: 1px solid black;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,12 +58,15 @@ export const SubmitImageButton = styled(Button)`
 `;
 
 export const MealInfoContainer = styled.div`
-  width: 65%;
-  margin: 0 0.5rem 0 0.5rem;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  /* margin: 0 0.5rem 0.2rem 0.5rem; */
+  /* background-color: red; */
 `;
 
 export const InputWrapper = styled.div`
-  /* display: flex; */
+  width: 50%;
   align-items: center;
 `;
 
@@ -64,7 +80,9 @@ export const IconWrapper = styled.div`
 
 export const StyledTextField = styled(TextField)`
   width: 80px;
-  margin-top: 0.3rem;
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+  margin-right: 0.3rem;
 `;
 
 export const CountWrapper = styled.div`
@@ -74,10 +92,18 @@ export const CountWrapper = styled.div`
 `;
 
 export const StyledButton = styled(Button)`
-  width: 100%;
-  color: black;
-  background-color: lightgray;
-  margin-top: 0.3rem;
+  width: 60%;
+  color: white;
+  font-weight: 700;
+  ${({ theme }) => {
+    return css`
+      background-color: ${theme.colors.identityColor};
+      &:hover {
+        background-color: ${theme.colors.hoverIdentityColor};
+      }
+    `;
+  }}/* box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px; */
 `;
 
 export const StyeldAddCircleOutlineIcon = styled(AddCircleOutlineIcon)`

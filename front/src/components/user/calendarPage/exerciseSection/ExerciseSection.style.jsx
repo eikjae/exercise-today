@@ -1,6 +1,6 @@
 import AddCircleOutline from "@mui/icons-material/AddCircleOutline";
 import { Button, TextField } from "@mui/material";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const ExerciseLayout = styled.div`
   width: 100%;
@@ -11,9 +11,8 @@ export const ExerciseLayout = styled.div`
   justify-content: center;
   align-items: center;
 
-  border: 1px solid pink;
-
   margin: 0.5rem 0 0.5rem 0;
+  padding: 0.5rem 0 0.5rem 0;
 `;
 
 export const AutocompleteWrapper = styled.div`
@@ -21,7 +20,20 @@ export const AutocompleteWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   width: 100%;
+
+  padding: 1rem 0 1rem 0;
+
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  border-radius: 10px;
+
+  ${({ theme }) => {
+    return css`
+      border: 2px solid ${theme.colors.identityColor};
+    `;
+  }}
 `;
 
 export const ExerciseCategoriesWrapper = styled.div`
@@ -29,7 +41,7 @@ export const ExerciseCategoriesWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.7rem;
 `;
 
 export const HourTextFieldWrapper = styled(ExerciseCategoriesWrapper)`
@@ -39,13 +51,23 @@ export const HourTextFieldWrapper = styled(ExerciseCategoriesWrapper)`
 
 export const StyledTextField = styled(TextField)`
   width: 80px;
+  margin-right: 0.3rem;
 `;
 
 export const StyledButton = styled(Button)`
-  width: 90%;
-  color: black;
-  background-color: lightgray;
+  width: 60%;
+  color: white;
+  ${({ theme }) => {
+    return css`
+      background-color: ${theme.colors.identityColor};
+      &:hover {
+        background-color: ${theme.colors.hoverIdentityColor};
+      }
+    `;
+  }}
   margin-top: 0.3rem;
+  /* box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px; */
 `;
 
 export const AddCircleOutlineIcon = styled(AddCircleOutline)`

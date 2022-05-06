@@ -28,8 +28,9 @@ export class Calendar {
   }
 
   static async deleteByDate({ userId, whenDate }) {
-    const result = await CalendarModel.deleteMany({ userId, whenDate });
-    return result;
+    const result = await CalendarModel.deleteOne({ userId, whenDate });
+    const deletedResult = result.deletedCount === 1;
+    return deletedResult;
   }
 
   static async deleteByUserId({ userId }) {

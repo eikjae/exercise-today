@@ -1,5 +1,4 @@
 import { Food } from "../db";
-import assert from "assert";
 
 class foodService {
   static async getFoods() {

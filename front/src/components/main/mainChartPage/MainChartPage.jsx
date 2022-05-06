@@ -6,39 +6,14 @@ import InformationSection from "./informationSection/InformationSection";
 import SelectExerciseSection from "./selectExerciseSection/SelectExerciseSection";
 import ChartSection from "./chartSection/ChartSection";
 import {
-  StyledBottomSection,
-  StyledContainer,
-  StyledSubTitle,
-  StyledTopSection,
+  BottomSection,
+  Container,
+  SubTitle,
+  TopSection,
+  TextWrapper,
+  Text,
+  StyledButton,
 } from "./MainChartPage.style";
-
-const StyledTextWrapper = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 150px;
-  justify-content: center;
-`;
-
-const StyledText = styled.h2`
-  color: #281461;
-`;
-
-const StyledButton = styled.button`
-  margin-top: 10px;
-  border-radius: 15px;
-  padding: 5px;
-  width: 400px;
-  height: 40px;
-  color: white;
-  border: none;
-  background-color: #281461;
-  font-weight: bold;
-  cursor: pointer;
-  &:hover {
-    background-color: #785dc0;
-  }
-`;
 
 const MainChartPage = (props) => {
   const navigate = useNavigate();
@@ -136,6 +111,7 @@ const MainChartPage = (props) => {
   };
 
   const handleOnClick = async (e) => {
+    console.log("dd");
     const name = e.target.value;
     const index = e.target.id;
     try {
@@ -184,8 +160,8 @@ const MainChartPage = (props) => {
 
   return (
     <>
-      <StyledContainer fixed>
-        <StyledTopSection>
+      <Container fixed>
+        <TopSection>
           <InformationSection
             calorie={calorie}
             height={height}
@@ -195,28 +171,26 @@ const MainChartPage = (props) => {
             selectSwitch={selectSwitch}
             handleOnClick={handleOnClick}
           />
-        </StyledTopSection>
-        <StyledBottomSection>
-          <StyledSubTitle>
-            칼로리 소비를 위해 얼마나 운동해야 할까요?
-          </StyledSubTitle>
+        </TopSection>
+        <BottomSection>
+          <SubTitle>칼로리 소비를 위해 얼마나 운동해야 할까요?</SubTitle>
           <ChartSection data={graphData} colors={colors} />
-        </StyledBottomSection>
-      </StyledContainer>
-      <StyledContainer fixed>
-        <StyledTextWrapper>
-          <StyledText>운동과 함께할 음악도 추천해드려요!</StyledText>
+        </BottomSection>
+      </Container>
+      <Container fixed>
+        <TextWrapper>
+          <Text>운동과 함께할 음악도 추천해드려요!</Text>
           <StyledButton onClick={() => navigate("/music")}>
             운동에 맞는 음악 추천받기
           </StyledButton>
-        </StyledTextWrapper>
-        <StyledTextWrapper>
-          <StyledText>원하는 운동이 없나요?!</StyledText>
+        </TextWrapper>
+        <TextWrapper>
+          <Text>원하는 운동이 없나요?!</Text>
           <StyledButton onClick={() => navigate("/exercise")}>
             부위별 운동 추천받기
           </StyledButton>
-        </StyledTextWrapper>
-      </StyledContainer>
+        </TextWrapper>
+      </Container>
     </>
   );
 };

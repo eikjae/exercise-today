@@ -1,20 +1,5 @@
 @import "~@fullcalendar/daygrid/main.css";
 
-.fc .fc-col-header-cell-cushion {
-  display: inline-block;
-  padding: 2px 4px;
-  text-decoration: none;
-  color: black;
-}
-
-.fc .fc-daygrid-day-number {
-  position: relative;
-  z-index: 4;
-  padding: 4px;
-  text-decoration: none;
-  color: black;
-}
-
-.fc-event-title {
-  color: black;
+.temp {
+  color: rgb(128, 128, 128);
 }
