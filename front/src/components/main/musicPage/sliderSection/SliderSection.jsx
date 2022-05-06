@@ -53,8 +53,8 @@ const SliderSection = ({ handleSetMusics }) => {
     setYear(value);
   };
 
-  const handleOnChangeOrderBtn = (e) => {
-    setOrder(e.target.value);
+  const handleOnChangeOrderBtn = (value) => {
+    setOrder(value);
   };
 
   const handleOnChangeLimits = (e) => {
@@ -150,32 +150,28 @@ const SliderSection = ({ handleSetMusics }) => {
       </StyledSliderContainer>
       <StyledFormControl>
         <FormLabel id="orderlist-radio-buttons-group-label">Order</FormLabel>
-        <StyledOrderListContainer
-          aria-labelledby="orderlist-radio-buttons-group-label"
-          defaultValue="title"
-          name="radio-buttons-group"
-          onChange={handleOnChangeOrderBtn}
-        >
-          <FormControlLabel value="title" control={<Radio />} label="제목순" />
-          <FormControlLabel
-            value="-title"
-            control={<Radio />}
-            label="제목역순"
-          />
-          <FormControlLabel value="year" control={<Radio />} label="년도순" />
-          <FormControlLabel
-            value="-year"
-            control={<Radio />}
-            label="년도역순"
-          />
-          <FormControlLabel value="random" control={<Radio />} label="무작위" />
-        </StyledOrderListContainer>
       </StyledFormControl>
       <AutoCompleteWrapper>
         <StyledAutocomplete
           disablePortal
           id="order-combo-box"
           sx={{ width: "12rem" }}
+          onChange={(e, value) => {
+            let result = "제목";
+            if (value === "제목순") {
+              result = "title";
+            } else if (value === "제목역순") {
+              result = "-title";
+            } else if (value === "년도순") {
+              result = "year";
+            } else if (value === "년도역순") {
+              result = "-year";
+            } else {
+              result = "random";
+            }
+            console.log(result);
+            handleOnChangeOrderBtn(result);
+          }}
           renderInput={(params) => (
             <TextField {...params} label="정렬순" variant="standard" />
           )}

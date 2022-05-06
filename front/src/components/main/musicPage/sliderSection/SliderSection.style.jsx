@@ -85,6 +85,7 @@ export const StyledFormControl = styled(FormControl)`
 export const AutoCompleteWrapper = styled.div`
   display: flex;
   align-items: flex-end;
+  margibo: 1rem;
 `;
 
 export const StyledAutocomplete = styled(Autocomplete)`
