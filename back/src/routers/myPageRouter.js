@@ -109,4 +109,329 @@ myPageRouter.get(
   }
 );
 
+myPageRouter.get(
+  "/mypage/diet/all",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const dietInfo = await myPageService.getDiet({ userId });
+
+      res.status(200).send(dietInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/diet/week",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const dietInfo = await myPageService.getDietWeek({ userId });
+      res.status(200).send(dietInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/diet/month",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const dietInfo = await myPageService.getDietMonth({ userId });
+      res.status(200).send(dietInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/diet/threemonth",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const dietInfo = await myPageService.getDietThreeMonth({ userId });
+      res.status(200).send(dietInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/diet/sixmonth",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const dietInfo = await myPageService.getDietSixMonth({ userId });
+      res.status(200).send(dietInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/diet/year",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const dietInfo = await myPageService.getDietYear({ userId });
+      res.status(200).send(dietInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/diet/:startdate/:finishdate",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const startDate = req.params.startdate;
+      const finishDate = req.params.finishdate;
+      const dietInfo = await myPageService.getDietSelectedDate({
+        userId,
+        startDate,
+        finishDate,
+      });
+      res.status(200).send(dietInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/workout/all",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const workoutInfo = await myPageService.getWorkout({ userId });
+
+      res.status(200).send(workoutInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/workout/week",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const workoutInfo = await myPageService.getWorkoutWeek({ userId });
+
+      res.status(200).send(workoutInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/workout/month",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const workoutInfo = await myPageService.getWorkoutMonth({ userId });
+
+      res.status(200).send(workoutInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/workout/threemonth",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const workoutInfo = await myPageService.getWorkoutThreeMonth({ userId });
+
+      res.status(200).send(workoutInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/workout/sixmonth",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const workoutInfo = await myPageService.getWorkoutSixMonth({ userId });
+
+      res.status(200).send(workoutInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/workout/year",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const workoutInfo = await myPageService.getWorkoutYear({ userId });
+
+      res.status(200).send(workoutInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/workout/:startdate/:finishdate",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const startDate = req.params.startdate;
+      const finishDate = req.params.finishdate;
+      const workoutInfo = await myPageService.getWorkoutSelectedDate({
+        userId,
+        startDate,
+        finishDate,
+      });
+      res.status(200).send(workoutInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/calorie/all",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const calorieInfo = await myPageService.getCalorie({ userId });
+
+      res.status(200).send(calorieInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/calorie/week",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const calorieInfo = await myPageService.getCalorieWeek({ userId });
+
+      res.status(200).send(calorieInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/calorie/month",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const calorieInfo = await myPageService.getCalorieMonth({ userId });
+
+      res.status(200).send(calorieInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/calorie/threemonth",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const calorieInfo = await myPageService.getCalorieThreeMonth({ userId });
+
+      res.status(200).send(calorieInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/calorie/sixmonth",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const calorieInfo = await myPageService.getCalorieSixMonth({ userId });
+
+      res.status(200).send(calorieInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/calorie/year",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const calorieInfo = await myPageService.getCalorieYear({ userId });
+
+      res.status(200).send(calorieInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+myPageRouter.get(
+  "/mypage/calorie/:startdate/:finishdate",
+  login_required,
+  async function (req, res, next) {
+    try {
+      const userId = req.currentUserId;
+      const startDate = req.params.startdate;
+      const finishDate = req.params.finishdate;
+      const calorieInfo = await myPageService.getCalorieSelectedDate({
+        userId,
+        startDate,
+        finishDate,
+      });
+      res.status(200).send(calorieInfo);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { myPageRouter };
