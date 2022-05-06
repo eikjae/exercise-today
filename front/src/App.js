@@ -11,7 +11,7 @@ import RegisterForm from "./components/user/Register/RegisterForm";
 import Portfolio from "./components/Portfolio";
 
 import FoodPage from "./components/main/foodPage/FoodPage";
-import StartPage from "./components/main/startPage/StartPage";
+import PrologPage from "./components/main/prologPage/PrologPage";
 import MainChartPage from "./components/main/mainChartPage/MainChartPage";
 import MusicPage from "./components/main/musicPage/MusicPage";
 import PartExercisePage from "./components/main/partExercisePage/PartExercisePage";
@@ -77,7 +77,8 @@ function App() {
         <Router>
           <Header />
           <Routes>
-            <Route path="/" exact element={<StartPage />} />
+            <Route />
+            <Route path="/temp" exact element={<PrologPage />} />
             <Route path="/food" exact element={<FoodPage />} />
             <Route
               path="/:calorie/:height/:weight"

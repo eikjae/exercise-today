@@ -11,4 +11,7 @@ export const ROUTE = {
   MYPAGE: {
     link: "myPage",
   },
+  TEMP: {
+    link: "temp",
+  },
 };

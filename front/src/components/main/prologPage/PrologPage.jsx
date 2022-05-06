@@ -27,10 +27,10 @@ import {
   StyledButton,
   ThirdSectionLeft,
   ThirdSectionRight,
-} from "./StatPage.style";
+} from "./PrologPage.style";
 import { DispatchContext } from "../../../App";
 
-export default function StartPage() {
+export default function PrologPage() {
   const navigate = useNavigate();
   const [section, setSection] = useState([]);
   const section_1 = useRef();
