@@ -71,37 +71,39 @@ function App() {
   }
 
   return (
-    <DispatchContext.Provider value={dispatch}>
-      <UserStateContext.Provider value={userState}>
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/" exact element={<StartPage />} />
-            <Route path="/food" exact element={<FoodPage />} />
-            <Route
-              path="/:calorie/:height/:weight"
-              element={<MainChartPage />}
-            />
-            <Route path="/music" element={<MusicPage />} />
-            <Route path="/calendar" element={<CalendarPage />} />
-            {/* <Route path="/" exact element={<Portfolio />} /> */}
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
-            <Route path="/exercise" element={<PartExercisePage />} />
-            <Route path="/users/:userId" element={<Portfolio />} />
-            <Route path="/network" element={<Network />} />
-            <Route path="/myPage" element={<MyPage />} />
-            <Route path="/like/:userId" element={<LikePage />} />
-            <Route path="*" element={<ErrorPage />} />
-          </Routes>
-        </Router>
-        <ToastContainer
-          position="top-center"
-          autoClose={2000}
-          draggable={true}
-        />
-      </UserStateContext.Provider>
-    </DispatchContext.Provider>
+    <RecoilRoot>
+      <DispatchContext.Provider value={dispatch}>
+        <UserStateContext.Provider value={userState}>
+          <Router>
+            <Header />
+            <Routes>
+              <Route path="/" exact element={<StartPage />} />
+              <Route path="/food" exact element={<FoodPage />} />
+              <Route
+                path="/:calorie/:height/:weight"
+                element={<MainChartPage />}
+              />
+              <Route path="/music" element={<MusicPage />} />
+              <Route path="/calendar" element={<CalendarPage />} />
+              {/* <Route path="/" exact element={<Portfolio />} /> */}
+              <Route path="/login" element={<LoginForm />} />
+              <Route path="/register" element={<RegisterForm />} />
+              <Route path="/exercise" element={<PartExercisePage />} />
+              <Route path="/users/:userId" element={<Portfolio />} />
+              <Route path="/network" element={<Network />} />
+              <Route path="/myPage" element={<MyPage />} />
+              <Route path="/like/:userId" element={<LikePage />} />
+              <Route path="*" element={<ErrorPage />} />
+            </Routes>
+          </Router>
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            draggable={true}
+          />
+        </UserStateContext.Provider>
+      </DispatchContext.Provider>
+    </RecoilRoot>
   );
 }
 

@@ -22,6 +22,8 @@ import { useTheme } from "@mui/material/styles";
 import { AppBar, Tab, Box } from "@mui/material";
 import { UserStateContext } from "../../../App";
 import User from "../userSection/User";
+import { useRecoilValue } from "recoil";
+import { isInfoChangedState } from "../userSection/UserAtom";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -70,6 +72,7 @@ export default function LikePage() {
   const userState = useContext(UserStateContext);
   const [pageUserName, setPageUserName] = useState("");
   const [isEditable, setIsEditable] = useState(false);
+  const isInfoChanged = useRecoilValue(isInfoChangedState);
 
   useEffect(async () => {
     try {

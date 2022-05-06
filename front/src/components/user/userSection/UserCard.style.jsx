@@ -53,11 +53,48 @@ export const CardTextWrapper = styled.div`
   overflow: auto;
 `;
 
+export const EditButton = styled.button`
+  width: 70px;
+  height: 40px;
+  background-color: #281461;
+  color: white;
+  border-radius: 5px;
+  font-size: 17px;
+  cursor: pointer;
+  &:hover {
+    background-color: #785dc0;
+  }
+`;
+
 export const NetworkButtonWrapper = styled.div`
   width: 100%;
   display: flex;
   /* flex-wrap: wrap; */
-  /* flex-direction: row; */
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: end;
+`;
+
+export const EditLayout = styled(Layout)`
+  height: 40rem;
+`;
+
+export const EditPWMessage = styled.h6`
+  margin-top: 25px;
+  color: #c45d5d;
+`;
+
+export const EditButtonWrapper = styled(NetworkButtonWrapper)`
+  margin-top: 20px;
+`;
+
+export const ChangeDefaultWrapper = styled.div`
+  margin-top: 0px;
+`;
+
+export const ChangeDefaultImgButton = styled(EditButton)`
+  width: 150px;
+  height: 35px;
+  margin: 10px;
+  font-size: 15px;
 `;

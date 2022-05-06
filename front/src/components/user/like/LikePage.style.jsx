@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { styled as styledMui } from "@mui/material/styles";
-import { Container, Tabs, Grid } from "@mui/material";
+import { Tabs } from "@mui/material";
 
-export const Layout = styled(Container)`
+export const Layout = styled.div`
   margin-top: 10px;
   display: flex;
   flex-direction: row;
@@ -10,22 +10,22 @@ export const Layout = styled(Container)`
   text-align: center;
 `;
 
-export const LeftRowGrid = styled(Grid)`
+export const LeftRowGrid = styled.div`
   /* margin-left: 120px; */
   margin-top: 37px;
-  width: 20%;
+  width: 20rem;
 `;
 
-export const ColGrid = styled(Grid)`
+export const ColGrid = styled.div`
   flex-direction: column;
   margin-bottom: 50px;
 `;
 
-export const RightRowGrid = styled(Grid)`
-  width: 100%;
+export const RightRowGrid = styled.div`
+  width: 80rem;
   height: 100%;
   margin-left: 10px;
-  /* margin-right: 100px; */
+  margin-right: 50px;
 `;
 
 export const UserName = styled.h2`
