@@ -7,14 +7,6 @@ export const PageWrapper = styled.div`
   min-width: 1000px;
 `;
 
-export const ListWrapper = styled.div`
-  width: 200px;
-  height: 200px;
-  position: fixed;
-  top: 120px;
-  left: 0;
-`;
-
 export const SectionWrapper = styled.div`
   margin-left: 200px;
   padding: 1rem 0 1rem 0;

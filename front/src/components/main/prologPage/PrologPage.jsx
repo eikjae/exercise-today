@@ -9,7 +9,7 @@ import {
 } from "./graph/all_graph";
 
 import HealthAndHappinessGraph from "./graph/HealthAndHappinessGraph.png";
-import ScrollList from "./scrollList/ScrollList";
+import ScrollList from "../../scrollList/ScrollList";
 import queryString from "query-string";
 import {
   FirstSectionLeft,
@@ -41,7 +41,13 @@ export default function PrologPage() {
 
   const location = useLocation();
   const dispatch = useContext(DispatchContext);
-
+  const scrollNames = [
+    "행복과 건강",
+    "당뇨와 운동",
+    "체중별 심장병",
+    "데이터",
+    "칼로리 확인",
+  ];
   const handleOnClick = (num) => {
     window.scrollTo({
       top: section[num]?.current?.offsetTop,
@@ -56,28 +62,26 @@ export default function PrologPage() {
   useEffect(() => {
     setSection([section_1, section_2, section_3, section_4, section_5]);
     // console.log(location.search);
-    if (location.search) {
-      const query = queryString.parse(location.search);
-      query.height = Number(query.height);
-      query.weight = Number(query.weight);
-      console.log(query);
+    // if (location.search) {
+    //   const query = queryString.parse(location.search);
+    //   query.height = Number(query.height);
+    //   query.weight = Number(query.weight);
+    //   console.log(query);
 
-      const user = query;
-      const jwtToken = user.token;
-      sessionStorage.setItem("userToken", jwtToken);
-      dispatch({
-        type: "LOGIN_SUCCESS",
-        payload: user,
-      });
-      navigate("/", { replace: true });
-    }
+    //   const user = query;
+    //   const jwtToken = user.token;
+    //   sessionStorage.setItem("userToken", jwtToken);
+    //   dispatch({
+    //     type: "LOGIN_SUCCESS",
+    //     payload: user,
+    //   });
+    //   navigate("/", { replace: true });
+    // }
   }, []);
 
   return (
     <PageWrapper>
-      <ListWrapper>
-        <ScrollList handleOnClick={handleOnClick} />
-      </ListWrapper>
+      <ScrollList handleOnClick={handleOnClick} scrollNames={scrollNames} />
       <SectionWrapper>
         <Section ref={section_1}>
           <FirstSectionLeft>

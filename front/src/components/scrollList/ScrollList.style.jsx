@@ -1,8 +1,15 @@
 import styled, { css } from "styled-components";
 
+export const ListWrapper = styled.div`
+  width: 200px;
+  height: 200px;
+  position: fixed;
+  top: 120px;
+  left: 0;
+`;
+
 export const List = styled.li`
   cursor: pointer;
-
   ${({ theme }) => {
     return css`
       &.clicked {

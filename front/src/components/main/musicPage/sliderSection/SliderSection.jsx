@@ -1,21 +1,10 @@
-import {
-  Autocomplete,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Input,
-  InputAdornment,
-  OutlinedInput,
-  Radio,
-  TextField,
-} from "@mui/material";
+import { FormControl, Input, InputAdornment, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import MusicSlider from "../../../slider/MusicSlider";
 import {
   AutoCompleteWrapper,
   StyledButton,
   StyledFormControl,
-  StyledOrderListContainer,
   StyledSliderContainer,
   StyledSliderTitle,
   StyledTopSection,
