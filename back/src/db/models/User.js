@@ -55,12 +55,7 @@ export class User {
 
   static async findByLikeId({ user_id }) {
     const user = await UserModel.findOne(
-<<<<<<< HEAD
       { id: user_id, deleted: false },
-
-=======
-      { id: user_id },
->>>>>>> 17c39752e8c1ebf4288fd62478c7e73356bd851f
       "email id name description type gender imageLink"
     );
     return user;
