@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { exerciseService } from "../services/exerciseService";
+import { categoryList } from "../lists/categoryList";
 
 const exerciseRouter = Router();
 
@@ -69,22 +70,7 @@ exerciseRouter.post("/exercise/timeinfo", async function (req, res, next) {
 
 exerciseRouter.get("/exercise/categorylist", async function (req, res, next) {
   try {
-    const categoryList = [
-      "유산소",
-      "무산소",
-      "구기",
-      "라켓",
-      "육상",
-      "수상",
-      "댄스",
-      "사이클",
-      "양궁",
-      "복싱",
-      "격투",
-      "기타",
-    ];
-
-    res.status(200).json(categoryList);
+    res.status(200).json(categoryList());
   } catch (error) {
     next(error);
   }
