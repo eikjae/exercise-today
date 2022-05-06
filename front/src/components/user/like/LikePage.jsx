@@ -8,12 +8,20 @@ import {
   LikedExerciseTab,
   LikedMusicTab,
 } from "./tabSection/AllLikedTab";
-import { Layout, LikeTabs, UserName } from "./LikePage.style";
+import {
+  Layout,
+  LeftRowGrid,
+  ColGrid,
+  RightRowGrid,
+  LikeTabs,
+  UserName,
+} from "./LikePage.style";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
 import { AppBar, Tab, Box } from "@mui/material";
 import { UserStateContext } from "../../../App";
+import User from "../userSection/User";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -95,7 +103,7 @@ export default function LikePage() {
       res = await Api.get(`like/music/info/${userId}`);
       setLikedMusics([...res.data]);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }, [userId]);
 
@@ -109,35 +117,46 @@ export default function LikePage() {
 
   return (
     <Layout>
-      <UserName>{pageUserName} 님의 북마크 목록</UserName>
-      <AppBar position="static">
-        <LikeTabs value={value} onChange={handleChange}>
-          {tabElements.map((element, idx) => (
-            <Tab key={idx} label={element} {...a11yProps(idx)} />
-          ))}
-        </LikeTabs>
-      </AppBar>
-      <SwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
-        <TabPanel value={value} index={0} dir={theme.direction}>
-          <LikedFriendTab likedFriends={likedFriends} isEditable={isEditable} />
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-          <LikedFoodTab likedFoods={likedFoods} isEditable={isEditable} />
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-          <LikedExerciseTab
-            likedExercises={likedExercises}
-            isEditable={isEditable}
-          />
-        </TabPanel>
-        <TabPanel value={value} index={3} dir={theme.direction}>
-          <LikedMusicTab likedMusics={likedMusics} isEditable={isEditable} />
-        </TabPanel>
-      </SwipeableViews>
+      <LeftRowGrid>
+        <User
+          myPageOwnerId={userId}
+          isEditable={userId === userState.user?.id}
+        />
+      </LeftRowGrid>
+      <RightRowGrid>
+        <UserName>{pageUserName} 님의 북마크 목록</UserName>
+        <AppBar position="static">
+          <LikeTabs value={value} onChange={handleChange}>
+            {tabElements.map((element, idx) => (
+              <Tab key={idx} label={element} {...a11yProps(idx)} />
+            ))}
+          </LikeTabs>
+        </AppBar>
+        <SwipeableViews
+          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+          index={value}
+          onChangeIndex={handleChangeIndex}
+        >
+          <TabPanel value={value} index={0} dir={theme.direction}>
+            <LikedFriendTab
+              likedFriends={likedFriends}
+              isEditable={isEditable}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={1} dir={theme.direction}>
+            <LikedFoodTab likedFoods={likedFoods} isEditable={isEditable} />
+          </TabPanel>
+          <TabPanel value={value} index={2} dir={theme.direction}>
+            <LikedExerciseTab
+              likedExercises={likedExercises}
+              isEditable={isEditable}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={3} dir={theme.direction}>
+            <LikedMusicTab likedMusics={likedMusics} isEditable={isEditable} />
+          </TabPanel>
+        </SwipeableViews>
+      </RightRowGrid>
     </Layout>
   );
 }

@@ -5,13 +5,21 @@ export class AuthEmail {
     const createdNewAuthEmail = await AuthEmailModel.create(newAuthEmail);
     return createdNewAuthEmail;
   }
-  static async update({ email, fieldToUpdate, newValue }) {
-    const updatedAuthEmail = await AuthEmailModel.findOneAndUpdate(
+  //   static async update({ email, fieldToUpdate, newValue }) {
+  //     const updatedAuthEmail = await AuthEmailModel.findOneAndUpdate(
+  //       { email },
+  //       { [fieldToUpdate]: newValue },
+  //       { returnOriginal: false }
+  //     );
+  //     return updatedAuthEmail;
+  //   }
+  static async updateAll({ email, setter }) {
+    const updatedUser = await AuthEmailModel.findOneAndUpdate(
       { email },
-      { [fieldToUpdate]: newValue },
+      { $set: setter },
       { returnOriginal: false }
     );
-    return updatedAuthEmail;
+    return updatedUser;
   }
   static async findByEmail({ email }) {
     const AuthEmail = await AuthEmailModel.findOne({ email });

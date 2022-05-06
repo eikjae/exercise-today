@@ -10,7 +10,7 @@ import {
 } from "../utils/authEmail";
 import { getRequiredInfoFromData } from "../utils/user";
 import { likeService } from "../services/likeService";
-
+const querystring = require("querystring");
 const qs = require("qs");
 const fetch = require("node-fetch");
 
@@ -24,7 +24,7 @@ class Kakao {
     this.url = "https://kauth.kakao.com/oauth/token";
     this.clientId = process.env.KAKAO_ID;
     this.clientSecret = process.env.KAKAO_SecretCode;
-    this.redirectUri = process.env.HOST + "/oauth/kakao";
+    this.redirectUri = process.env.FrontHost + "/oauth/kakao";
     this.code = code;
     this.userInfoUri = "https://kapi.kakao.com/v2/user/me";
   }
@@ -35,7 +35,7 @@ class Naver {
     this.url = "https://nid.naver.com/oauth2.0/token";
     this.clientId = process.env.NAVER_ID;
     this.clientSecret = process.env.NAVER_SercretCode;
-    this.redirectUri = process.env.HOST + "/oauth/naver";
+    this.redirectUri = process.env.FrontHost + "/oauth/naver";
     this.code = code;
     this.userInfoUri = "https://openapi.naver.com/v1/nid/me";
   }
@@ -46,7 +46,7 @@ class Google {
     this.url = "https://www.googleapis.com/oauth2/v4/token";
     this.clientId = process.env.GOOGLE_ID;
     this.clientSecret = process.env.GOOGLE_SercretCode;
-    this.redirectUri = process.env.HOST + "/oauth/google";
+    this.redirectUri = process.env.FrontHost + "/oauth/google";
     this.code = code;
     this.userInfoUri = "https://www.googleapis.com/oauth2/v1/tokeninfo";
   }
@@ -100,9 +100,15 @@ const getOption = (coperation, code) => {
 oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
   try {
     const coperation = req.params.coperation;
-    const code = req.param("code");
+    let code = req.param("code");
+    if (code[code.length - 1] === "/") {
+      code = code.slice(0, -1);
+    }
+    // console.log(code);
     const options = getOption(coperation, code);
     const token = await getAccessToken(options);
+    // console.log(token);
+
     let userInfo;
     if (coperation === "google") {
       oauth2Client.generateAuthUrl({
@@ -124,6 +130,8 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
       userInfo = await getUserInfo(options.userInfoUri, token.access_token);
     }
 
+    // console.log("asd: ", userInfo);
+
     let result;
     if (coperation === "kakao") {
       result = getInfoFromKakao(userInfo);
@@ -134,29 +142,31 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
     }
     const userById = await User.findById({ user_id: result.id });
     if (userById) {
+      if (userById.deleted === true) {
+        throw new Error("해당 소셜계정은 이미 회원탈퇴하셨습니다.");
+      }
       const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
       const token = jwt.sign({ user_id: result.id }, secretKey);
-      userById.token = token;
-      delete userById["password"];
+
       const resultData = getRequiredInfoFromData(userById);
       resultData.token = token;
+
+      //   console.log(querystring.parse(query));
       res.json(resultData);
     } else {
       const password = generateRandomPassword();
       result.password = password;
       result.type = coperation;
       const createdUser = await userAuthService.addUser(result);
-      if (createdUser.errorMessage) {
-        throw new Error(createdUser.errorMessage);
-      }
+
       const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
       const token = jwt.sign({ user_id: result.id }, secretKey);
-
+      const resultData = getRequiredInfoFromData(createdUser);
+      resultData.token = token;
       await likeService.addLike({
         user_id: result.id,
       });
-      const resultData = getRequiredInfoFromData(createdUser);
-      resultData.token = token;
+      //   console.log(querystring.parse(query));
       res.json(resultData);
     }
   } catch (error) {
