@@ -23,6 +23,7 @@ import OuathPage from "./components/oauthPage/OauthPage";
 import { ToastContainer } from "react-toastify";
 import { atom, RecoilRoot } from "recoil";
 import CalendarPage from "./components/user/calendarPage/CalendarPage";
+import StartPage from "./components/startPage/StartPage";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -77,7 +78,7 @@ function App() {
         <Router>
           <Header />
           <Routes>
-            <Route />
+            <Route path="/" exact element={<StartPage />} />
             <Route path="/temp" exact element={<PrologPage />} />
             <Route path="/food" exact element={<FoodPage />} />
             <Route

@@ -2,12 +2,20 @@ import styled, { css } from "styled-components";
 
 export const List = styled.li`
   cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-  &.clicked {
-    font-weight: 700;
-  }
+
+  ${({ theme }) => {
+    return css`
+      &.clicked {
+        font-weight: 700;
+        color: ${theme.colors.identityColor};
+      }
+      &:hover {
+        text-decoration: underline;
+        text-decoration-color: ${theme.colors.identityColor};
+      }
+    `;
+  }}
+
   margin-bottom: 0.5rem;
 `;
 
