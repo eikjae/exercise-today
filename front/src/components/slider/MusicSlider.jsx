@@ -6,15 +6,23 @@ import {
   StyledSliderRight,
 } from "./StyledSlider";
 
-const MusicSlider = ({ min, max, step, handleOnChange, value }) => {
+const MusicSlider = ({
+  min,
+  max,
+  step,
+  handleOnChange,
+  value,
+  leftLabel,
+  rightLabel,
+}) => {
   const handleChange = (event, newValue) => {
     handleOnChange(newValue);
   };
 
   return (
     <StyledSliderContainer>
-      <StyledSliderLeft>low</StyledSliderLeft>
-      <StyledSliderRight>high</StyledSliderRight>
+      <StyledSliderLeft>{leftLabel}</StyledSliderLeft>
+      <StyledSliderRight>{rightLabel}</StyledSliderRight>
       <StyledMusicSlider
         valueLabelDisplay="auto"
         marks

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const StyledBottomSection = styled.div`
   width: 85%;
@@ -9,7 +9,11 @@ export const StyledBottomSection = styled.div`
 
   border-radius: 1rem;
 
-  border: 2px solid #cd95f2;
+  ${({ theme }) => {
+    return css`
+      border: 2px solid ${theme.colors.identityColor};
+    `;
+  }}
 `;
 
 export const StyledBottomLayout = styled.section`

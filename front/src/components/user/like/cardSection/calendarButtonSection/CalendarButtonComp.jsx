@@ -1,7 +1,6 @@
 import React from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Wrapper, Button, FailIcon } from "./CalendarButtonComp.style";
 
 export function CalendarWeightWarning() {
   const message = "❌몸무게를 입력해주세요!";
@@ -25,5 +24,10 @@ export function CalendarExerciseWarning() {
 
 export function CalendarDeleteList(text) {
   const message = `📌${text}(이)가 리스트에서 제외되었습니다!`;
+  return toast.success(message);
+}
+
+export function MusicSearcgWarning() {
+  const message = `❌1곡 이상으로 입력해주세요 !`;
   return toast.success(message);
 }

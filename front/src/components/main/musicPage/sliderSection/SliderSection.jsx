@@ -24,6 +24,7 @@ import {
 import { post } from "./../../../../api";
 import { useSetRecoilState } from "recoil";
 import { searchClickedState } from "../MusicAtom";
+import { MusicSearcgWarning } from "../../../user/like/cardSection/calendarButtonSection/CalendarButtonComp";
 
 const SliderSection = ({ handleSetMusics }) => {
   const [energy, setEnergy] = useState([0.7, 1.0]);
@@ -67,6 +68,9 @@ const SliderSection = ({ handleSetMusics }) => {
   };
 
   const handloeOnClickSearch = async () => {
+    if (limit === 0) {
+      MusicSearcgWarning();
+    }
     try {
       const res = await post("musics/filtered", {
         orderby: order,
@@ -116,6 +120,8 @@ const SliderSection = ({ handleSetMusics }) => {
           step={0.1}
           handleOnChange={handleOnChangeEnergy}
           value={energy}
+          leftLabel="low"
+          rightLabel="high"
         />
       </StyledSliderContainer>
       <StyledSliderContainer>
@@ -126,6 +132,8 @@ const SliderSection = ({ handleSetMusics }) => {
           step={1}
           handleOnChange={handleOnChangeBPM}
           value={bpm}
+          leftLabel="slow"
+          rightLabel="fast"
         />
       </StyledSliderContainer>
       <StyledSliderContainer>
@@ -136,6 +144,8 @@ const SliderSection = ({ handleSetMusics }) => {
           step={0.01}
           handleOnChange={handleOnChangeDanceability}
           value={danceability}
+          leftLabel="low"
+          rightLabel="high"
         />
       </StyledSliderContainer>
       <StyledSliderContainer>
@@ -146,16 +156,17 @@ const SliderSection = ({ handleSetMusics }) => {
           step={1}
           handleOnChange={handleOnChangeYear}
           value={year}
+          leftLabel="past"
+          rightLabel="recent"
         />
       </StyledSliderContainer>
-      <StyledFormControl>
-        <FormLabel id="orderlist-radio-buttons-group-label">Order</FormLabel>
-      </StyledFormControl>
+      <StyledFormControl></StyledFormControl>
       <AutoCompleteWrapper>
         <StyledAutocomplete
           disablePortal
           id="order-combo-box"
           sx={{ width: "12rem" }}
+          defaultValue={"제목순"}
           onChange={(e, value) => {
             let result = "제목";
             if (value === "제목순") {

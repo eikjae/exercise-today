@@ -15,13 +15,13 @@ export const StyledSliderContainer = styled.div`
 export const StyledSliderLeft = styled.span`
   position: absolute;
   left: 0;
-  top: -0.7rem;
+  top: -1rem;
 `;
 
 export const StyledSliderRight = styled.span`
   position: absolute;
   right: 0;
-  top: -0.7rem;
+  top: -1rem;
 `;
 
 export const StyledMusicSlider = styled(Slider)({
