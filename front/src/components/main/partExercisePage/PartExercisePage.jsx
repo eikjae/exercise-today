@@ -8,12 +8,12 @@ import { toast } from "react-toastify";
 
 import {
   StyledContainer,
-  StyledLeftContainer,
-  StyledH2,
-  StyledH2Margin,
-  StyledSelectBodyContainer,
-  StyledSvgContainer,
-  StyledRightContainer,
+  LeftWrapper,
+  H2,
+  H2Margin,
+  SelectBodyWrapper,
+  SvgWrapper,
+  RightWrapper,
   StyledBodyFormControl,
   StyledSelect,
   StyledMuscleFormControl,
@@ -205,9 +205,9 @@ export default function PartExercisePage() {
 
   return (
     <StyledContainer>
-      <StyledLeftContainer>
-        <StyledH2>운동을 원하는 부위를 선택해주세요</StyledH2>
-        <StyledSelectBodyContainer>
+      <LeftWrapper>
+        <H2>운동을 원하는 부위를 선택해주세요</H2>
+        <SelectBodyWrapper>
           <StyledBodyFormControl>
             <InputLabel>BodyPart</InputLabel>
             <StyledSelect
@@ -236,8 +236,8 @@ export default function PartExercisePage() {
               ))}
             </StyledSelect>
           </StyledBodyFormControl>
-        </StyledSelectBodyContainer>
-        <StyledSvgContainer>
+        </SelectBodyWrapper>
+        <SvgWrapper>
           <svg
             style={{ width: "100%", height: "100%", border: "1px" }}
             viewBox="50 -50 413 400"
@@ -378,10 +378,10 @@ export default function PartExercisePage() {
               }}
             />
           </svg>
-        </StyledSvgContainer>
-      </StyledLeftContainer>
-      <StyledRightContainer>
-        <StyledH2>사용할 기구를 선택해주세요</StyledH2>
+        </SvgWrapper>
+      </LeftWrapper>
+      <RightWrapper>
+        <H2>사용할 기구를 선택해주세요</H2>
         <StyledMuscleFormControl>
           <InputLabel>Equipment</InputLabel>
           <StyledSelect
@@ -396,7 +396,7 @@ export default function PartExercisePage() {
             ))}
           </StyledSelect>
         </StyledMuscleFormControl>
-        <StyledH2Margin>추천 운동</StyledH2Margin>
+        <H2Margin>추천 운동</H2Margin>
         <StyledMuscleFormControl>
           <InputLabel>Exercise</InputLabel>
           <ExerciseWrapper>
@@ -416,7 +416,7 @@ export default function PartExercisePage() {
             </LikeButton>
           </ExerciseWrapper>
         </StyledMuscleFormControl>
-        <StyledSvgContainer>
+        <SvgWrapper>
           {exerciseImg !== null ? (
             <img
               src={exerciseImg}
@@ -435,8 +435,8 @@ export default function PartExercisePage() {
           ) : (
             <StyledH5 style={{ visibility: "hidden" }}>빈 운동</StyledH5>
           )}
-        </StyledSvgContainer>
-      </StyledRightContainer>
+        </SvgWrapper>
+      </RightWrapper>
     </StyledContainer>
   );
 }

@@ -15,13 +15,6 @@ export const FoodListContainer = styled.article`
   /* box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset; */
   transition: height 2s ease-in;
   /* display: ; */
-
-  &.clicked {
-    height: 0;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-  }
 `;
 
 export const Li = styled.li`
