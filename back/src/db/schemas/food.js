@@ -16,6 +16,10 @@ const FoodSchema = new Schema(
       type: String,
       required: true,
     },
+    imgurl: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

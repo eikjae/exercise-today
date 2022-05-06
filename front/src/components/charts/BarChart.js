@@ -4,35 +4,25 @@ import {
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
-  LabelList,
+  Cell,
 } from "recharts";
 
 const tickFormatter = (name) => {
-  const limit = 8;
+  const limit = 20;
   if (name && name.length < 10) return name;
   return name && `${name.substring(0, limit)}...`;
 };
 
-const BarChart = ({ data }) => {
+const BarChart = ({ data, colors }) => {
   // console.log(data);
   return (
     <ResponsiveContainer width="100%" height="100%">
       <Barchart
-        key={Math.round(Math.random() * 10000)}
-        data={data?.map((d) => {
-          const time = d.time.split("시간");
-          const hour = Number(time[0]);
-          const min = Number(time[1].replace("분", "")) / 60;
-          return {
-            name: d.name,
-            hour: Number((hour + min).toFixed(2)),
-            hours: d.time,
-          };
-        })}
+        // key={Math.round(Math.random() * 10000)}
+        data={data}
         margin={{
           top: 5,
           right: 30,
@@ -46,11 +36,16 @@ const BarChart = ({ data }) => {
         <Tooltip />
         <Legend />
         <Bar
+          isAnimationActive
           dataKey="hour"
           fill="#8884d8"
           barSize={40}
           label={{ position: "top" }}
-        />
+        >
+          {data?.map((d, index) => (
+            <Cell key={`cell-${index}`} fill={colors[index]}></Cell>
+          ))}
+        </Bar>
       </Barchart>
     </ResponsiveContainer>
   );

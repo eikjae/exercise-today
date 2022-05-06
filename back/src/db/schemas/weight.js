@@ -1,13 +1,13 @@
 import { Schema, model } from "mongoose";
 
-const AttendanceSchema = new Schema(
+const WeightSchema = new Schema(
   {
     userId: {
       type: String,
       required: true,
     },
     whenDate: {
-      type: String,
+      type: Date,
       required: true,
     },
     weight: {
@@ -20,6 +20,6 @@ const AttendanceSchema = new Schema(
   }
 );
 
-const AttendanceModel = model("Attendance", AttendanceSchema);
+const WeightModel = model("Weight", WeightSchema);
 
-export { AttendanceModel };
+export { WeightModel };

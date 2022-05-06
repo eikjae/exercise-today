@@ -7,7 +7,7 @@ const WorkoutSchema = new Schema(
       required: true,
     },
     whenDate: {
-      type: String,
+      type: Date,
       required: true,
     },
     category: {
