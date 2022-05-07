@@ -32,9 +32,15 @@ const BarChart = ({ data, colors }) => {
       >
         {/* <CartesianGrid strokeDasharray="3 3" /> */}
         <XAxis dataKey="name" tickFormatter={tickFormatter} interval={0} />
-        <YAxis label={{ value: "hour", angle: -90, position: "insideLeft" }} />
+        <YAxis
+          label={{
+            value: "hour",
+            angle: -90,
+            position: "insideLeft",
+            fill: "grey",
+          }}
+        />
         <Tooltip />
-        <Legend />
         <Bar
           isAnimationActive
           dataKey="hour"

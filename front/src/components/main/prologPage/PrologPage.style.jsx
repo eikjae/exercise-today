@@ -111,6 +111,7 @@ export const StyledButton = styled(Button)`
   height: 60px;
   color: white;
   font-weight: 700;
+  font-size: 20px;
   border-radius: 10px;
   margin-top: 1rem;
   ${({ theme }) => {

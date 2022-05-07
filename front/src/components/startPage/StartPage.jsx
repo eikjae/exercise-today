@@ -22,18 +22,31 @@ import {
   SecondSectionContentWrapper,
   ThirdSectionContentWrapper,
   FourthSectionContentWrapper,
+  FourthSectionLeft,
+  FourthSectionRight,
+  LastSectionContentWrapper,
+  StyledButton,
 } from "./StartPage.style";
 import ScrollList from "../scrollList/ScrollList";
+import { useNavigate } from "react-router-dom";
 
 const StartPage = (props) => {
   const [section, setSection] = useState([]);
+  const navigate = useNavigate();
   const section_1 = useRef();
   const section_2 = useRef();
   const section_3 = useRef();
   const section_4 = useRef();
+  const section_5 = useRef();
   let [curIndex, setCurIndex] = useState(0);
 
-  const scrollNames = ["얼마나?", "어떻게?", "음악을 통해!", "기록을 통해!"];
+  const scrollNames = [
+    "얼마나?",
+    "어떻게?",
+    "음악을 통해!",
+    "기록을 통해!",
+    "칼로리 확인",
+  ];
   const handleOnClick = (num) => {
     window.scrollTo({
       top: section[num]?.current?.offsetTop - 80,
@@ -59,13 +72,17 @@ const StartPage = (props) => {
     }
   }, [section]);
 
+  const handleClickGoFoodLink = () => {
+    navigate("/food");
+  };
+
   useEffect(() => {
     window.addEventListener("scroll", handleScrollEvent);
     return () => window.removeEventListener("scroll", handleScrollEvent);
   }, [handleScrollEvent]);
 
   useEffect(() => {
-    setSection([section_1, section_2, section_3, section_4]);
+    setSection([section_1, section_2, section_3, section_4, section_5]);
   }, []);
   return (
     <StyledContainer>
@@ -198,7 +215,7 @@ const StartPage = (props) => {
         ref={section_4}
         className={curIndex === 3 ? "target" : "non-target"}
       >
-        <LastSectionLeft>
+        <FourthSectionLeft>
           <Image
             src="startPageImg/image_4.jpg"
             alt="
@@ -207,8 +224,8 @@ const StartPage = (props) => {
             height={"600px"}
             className={curIndex === 3 ? "target" : "non-target"}
           />
-        </LastSectionLeft>
-        <LastSectionRight>
+        </FourthSectionLeft>
+        <FourthSectionRight>
           <RightTitle className={curIndex === 3 ? "target" : "non-target"}>
             <ExerciseSpan>
               <b>기록</b>
@@ -227,11 +244,23 @@ const StartPage = (props) => {
               </B>는 <br />
               <B>84%</B>보다 평균 <B>10배</B>의 성과를 얻었다고 합니다. <br />
               <br />
-              캘린더 기능을 통해 매일 기록하며 원하는 목표를 위해 꾸준하게
-              나아갈 수 있도록 도와드리겠습니다.
+              캘린더 기능을 통해 매일 기록하며 원하는 목표를 위해 <br />{" "}
+              꾸준하게 나아갈 수 있도록 도와드리겠습니다.
             </P>
           </FourthSectionContentWrapper>
-        </LastSectionRight>
+        </FourthSectionRight>
+      </Section>
+      <Section
+        ref={section_5}
+        className={curIndex === 4 ? "target" : "non-target"}
+      >
+        <LastSectionContentWrapper>
+          <h1>오늘 먹은 음식의 칼로리를 확인하러 가볼까요?</h1>
+          <h4>🍕🍔🍟🌭🍿🥨🥗🍗</h4>
+          <StyledButton onClick={handleClickGoFoodLink}>
+            확인하러 가기
+          </StyledButton>
+        </LastSectionContentWrapper>
       </Section>
     </StyledContainer>
   );

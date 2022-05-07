@@ -133,6 +133,8 @@ export default function Example() {
       ratio={4 / 3}
       stroke="#fff"
       fill="#8884d8"
+      isAnimationActive={true}
+      key={Math.random()}
       content={<CustomizedContent colors={COLORS} />}
     ></Treemap>
   );

@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import styled, { css, keyframes } from "styled-components";
 
 const imageFade = keyframes`
@@ -205,9 +206,14 @@ export const ThirdSectionContentWrapper = styled.div`
 
 export const ThirdSpan = styled.span``;
 
+export const FourthSectionLeft = styled.div``;
+export const FourthSectionRight = styled.div`
+  padding-left: 2rem;
+`;
+
 export const LastSectionLeft = styled.div``;
 export const LastSectionRight = styled.div`
-  padding-left: 2rem;
+  /* padding-left: 2rem; */
 `;
 
 export const FourthSectionContentWrapper = styled.div`
@@ -215,6 +221,39 @@ export const FourthSectionContentWrapper = styled.div`
     return css`
       &.target {
         animation: 2.5s ${contentFade} ease;
+      }
+    `;
+  }}
+`;
+
+export const LastSectionContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 4rem;
+
+  ${({ theme }) => {
+    return css`
+      &.target {
+        animation: 2.5s ${contentFade} ease;
+      }
+    `;
+  }}
+`;
+
+export const StyledButton = styled(Button)`
+  width: 300px;
+  height: 60px;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  border-radius: 10px;
+  margin-top: 1rem;
+  ${({ theme }) => {
+    return css`
+      background-color: ${theme.colors.identityColor};
+      &:hover {
+        background-color: ${theme.colors.hoverIdentityColor};
       }
     `;
   }}
