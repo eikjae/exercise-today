@@ -1,6 +1,22 @@
 import { Box, Button, ButtonGroup, Container, TextField } from "@mui/material";
 import styled from "styled-components";
 
+export const Background = styled.div`
+  width: auto;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(
+      to right,
+      rgba(20, 20, 20, 0) 10%,
+      rgba(20, 20, 20, 0.25) 25%,
+      rgba(20, 20, 20, 0.5) 50%,
+      rgba(20, 20, 20, 0.75) 75%,
+      rgba(20, 20, 20, 0.8) 100%
+    ),
+    url(/imgs/exercise_background.jpg);
+  background-size: cover;
+`;
+
 export const StyledContainer = styled(Container)`
   display: flex;
   justify-content: center;
@@ -12,11 +28,13 @@ export const InputLayout = styled(Box)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 15vh;
+  width: 50vh;
+  height: 70vh;
 
-  width: 100%;
-  height: 80vh;
-
-  border: 1px solid rosybrown;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 40px;
 `;
 
 export const OutLine = styled(Box)`
@@ -44,9 +62,14 @@ export const EmailField = styled(StyledTextField)`
 
 export const SubmitActivateButton = styled(Button)`
   height: 70%;
-  color: #767676;
+  width: 100px;
+  color: #ffffff;
   padding-bottom: 0.2rem;
-  margin-left: 0.2rem;
+  margin-left: 0.5rem;
+  background-color: #281461;
+  &:hover {
+    background-color: #785dc0;
+  }
 `;
 
 export const WarningMessage = styled.p`
@@ -65,7 +88,7 @@ export const NoticeMessage = styled(WarningMessage)`
 
 export const BirthInput = styled(TextField)`
   width: 100%;
-  color: #767676;
+  color: #281461;
 `;
 
 export const StyledButtonGroup = styled(ButtonGroup)`
@@ -75,15 +98,15 @@ export const StyledButtonGroup = styled(ButtonGroup)`
 
 export const SexButton = styled(Button)`
   flex: 0.5;
-  border: 1px solid #767676;
-  color: #767676;
+  border: 1px solid #281461;
+  color: #281461;
   &:hover {
-    border: 1px solid #767676;
-    color: #767676;
+    border: 1px solid #281461;
+    color: #281461;
   }
 
   background-color: ${(props) =>
-    props.isclicksexbtn === "true" ? "#767676" : "none"};
+    props.isclicksexbtn === "true" ? "#281461" : "none"};
   color: ${(props) => (props.isclicksexbtn === "true" ? "white" : "#767676")};
 `;
 
@@ -109,6 +132,12 @@ export const WeightInput = styled(TextField)`
 export const RegitserButton = styled(Button)`
   /* border: 1px solid #767676; */
   border-radius: 5px;
-  color: #767676;
+  color: white;
+  font-weight: bold;
   margin-left: 1rem;
+  background-color: #281461;
+  width: 8rem;
+  &:hover {
+    background-color: #785dc0;
+  }
 `;

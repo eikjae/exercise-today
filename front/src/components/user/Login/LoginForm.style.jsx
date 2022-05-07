@@ -32,7 +32,7 @@ export const StyledInputLayout = styled(Box)`
   width: 50vh;
   height: 70vh;
 
-  background-color: rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 40px;
 `;
@@ -70,12 +70,21 @@ export const StyledWarningMessage = styled.p`
 
 export const StyledButtonWrapper = styled(Box)`
   width: 100%;
-  text-align: end;
+  /* text-align: center; */
+  display: flex;
+  justify-content: center;
 `;
 
 export const StyledButton = styled(Button)`
   /* border: 1px solid #767676; */
   border-radius: 5px;
   color: #767676;
-  margin-left: 1rem;
+  height: 70%;
+  width: 100px;
+  color: #ffffff;
+  margin: 10px;
+  background-color: #281461;
+  &:hover {
+    background-color: #785dc0;
+  }
 `;

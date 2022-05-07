@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as Api from "../../../api";
@@ -16,6 +16,7 @@ import {
   StyledSocialImg,
   SocialLoginWrapper,
 } from "./LoginForm.style";
+import Loading from "../../loading/Loading";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -25,6 +26,8 @@ function LoginForm() {
   const [password, setPassword] = useState("");
 
   const [isValid, setIsValid] = useState(true);
+
+  const [endLoading, setEndLoading] = useState(false);
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -81,8 +84,22 @@ function LoginForm() {
   const handleOnClickRegister = () => {
     navigate("/register");
   };
+
+  // 로딩 화면 렌더링
+  useEffect(() => {
+    const timer = renderingLoading();
+    return () => clearTimeout(timer);
+  }, [endLoading]);
+
+  const renderingLoading = () => {
+    return setTimeout(() => {
+      setEndLoading(true);
+    }, 500);
+  };
+
   return (
     <Background>
+      {endLoading === false ? <Loading /> : <></>}
       <StyledContainer>
         <StyledInputLayout>
           <StyledOutLine>
