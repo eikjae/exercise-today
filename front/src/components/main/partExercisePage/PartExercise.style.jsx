@@ -60,7 +60,6 @@ export const SvgWrapper = styled.div`
 export const RightWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
   align-items: center;
   margin-left: 20px;
 `;
@@ -110,6 +109,11 @@ export const NotLikeIcon = styled(FavoriteBorderIcon)`
 
 export const LikeIcon = styled(FavoriteIcon)`
   font-size: 30px;
+`;
+
+export const HiddenImg = styled.img`
+  width: 100%;
+  visibility: hidden;
 `;
 
 export const StyledH5 = styled.h5`
