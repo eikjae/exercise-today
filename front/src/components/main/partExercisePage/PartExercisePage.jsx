@@ -48,6 +48,7 @@ import {
   Abductors,
   Levator_scapulae,
 } from "./bodySection/all_body";
+import Loading from "../../loading/Loading";
 
 export default function PartExercisePage() {
   // 부위 카테고리, 상세 부위, 기구, 운동, 좋아요
@@ -206,6 +207,7 @@ export default function PartExercisePage() {
 
   return (
     <StyledContainer>
+      {bodyPartList.length === 0 ? <Loading /> : <></>}
       <LeftWrapper>
         <H2>운동을 원하는 부위를 선택해주세요</H2>
         <SelectBodyWrapper>

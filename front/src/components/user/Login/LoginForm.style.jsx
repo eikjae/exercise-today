@@ -46,6 +46,13 @@ export const StyledOutLine = styled(Box)`
   width: 300px;
 `;
 
+export const SocialLoginWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+`;
+
 export const StyledInputContainer = styled.div`
   margin-bottom: 1rem;
 `;
