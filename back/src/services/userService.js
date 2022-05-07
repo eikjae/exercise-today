@@ -27,8 +27,9 @@ class userAuthService {
         return { errorMessage };
       }
       //이메일이 인증완료된 이메일인지 체크
-      const authEmail = await AuthEmail.findByEmail({ email });
-      if (!authEmail || authEmail.status === 0) {
+      const authEmailResult = await AuthEmail.isAuthenticated({ email });
+      //   console.log(authEmailResult);
+      if (!authEmailResult) {
         const errorMessage =
           "인증이 완료되지 않은 이메일입니다.인증번호 발급후 인증을 완료해주세요.";
         return { errorMessage };
