@@ -44,7 +44,7 @@ class musicService {
     });
     const { CaloriesPerLb } = exerciseInfo;
     const properFactor = calculateProperFactor(CaloriesPerLb);
-    let musics = await Music.findAll();
+    let musics = await Music.findAllField();
     const socredMusics = getScoredMusics(musics, properFactor);
     const orderedScoredMusics = scoreMergeSort(socredMusics);
     const result = orderedScoredMusics.slice(0, limit);
