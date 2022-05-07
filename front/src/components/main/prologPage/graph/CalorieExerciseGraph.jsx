@@ -49,8 +49,8 @@ export default function CalorieExerciseGraph() {
   return (
     <ComposedChart
       layout="vertical"
-      width={400}
-      height={350}
+      width={370}
+      height={320}
       data={data}
       margin={{
         top: 20,

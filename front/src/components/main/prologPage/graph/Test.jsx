@@ -126,8 +126,8 @@ function CustomizedContent({
 export default function Example() {
   return (
     <Treemap
-      width={400}
-      height={350}
+      width={370}
+      height={320}
       data={data}
       dataKey="size"
       ratio={4 / 3}
