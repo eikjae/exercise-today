@@ -7,12 +7,10 @@ export const Layout = styled.div`
   margin-left: 100px;
   display: flex;
   flex-direction: row;
-  /* max-width: 100%; */
   text-align: center;
 `;
 
 export const LeftRowGrid = styled.div`
-  /* margin-left: 120px; */
   margin-top: 37px;
   width: 20rem;
 `;
@@ -23,7 +21,7 @@ export const ColGrid = styled.div`
 `;
 
 export const RightRowGrid = styled.div`
-  width: 85rem;
+  width: 85%;
   height: 100%;
   margin-left: 10px;
   margin-right: 100px;

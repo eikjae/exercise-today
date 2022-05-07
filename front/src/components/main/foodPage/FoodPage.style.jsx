@@ -6,7 +6,7 @@ export const StyledContainer = styled(Container)`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  max-width: 1800px;
+  max-width: 2000px;
   width: 100%;
   height: 100%;
   margin-top: 100px;
