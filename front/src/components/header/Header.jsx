@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { UserStateContext, DispatchContext } from "../../App";
-import { Tab, Tabs } from "@mui/material";
 import {
   StyledLink,
   StyledNav,
@@ -11,10 +10,10 @@ import {
   StyledeMenuIcon,
 } from "./Header.style";
 import { ROUTE } from "./route";
+import MyPageMenu from "./menuSection/PageMenu";
 
 function Header() {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const userState = useContext(UserStateContext);
   const dispatch = useContext(DispatchContext);
@@ -68,14 +67,10 @@ function Header() {
       </StyledTitle>
       <StyledNavContainer>
         <StyledLink to={ROUTE.PROLOG.link}>프롤로그</StyledLink>
+        <MyPageMenu isRecommendPage />
         {!isLogin && <StyledLink to={ROUTE.LOGIN.link}>로그인</StyledLink>}
         {isLogin && <StyledLink to={ROUTE.NETWORK.link}>네트워크</StyledLink>}
-        {isLogin && <StyledLink to={ROUTE.CALENDAR.link}>캘린더</StyledLink>}
-        {isLogin && (
-          <StyledLink to={ROUTE.MYPAGE.link + `/${userState.user?.id}`}>
-            마이페이지
-          </StyledLink>
-        )}
+        {isLogin && <MyPageMenu isMyPage />}
         {isLogin && (
           <StyledLink to={ROUTE.LOGIN.link} onClick={logout}>
             로그아웃
