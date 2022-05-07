@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ExerciseSpan,
   FirstSectionLeft,
@@ -26,6 +26,7 @@ const StartPage = (props) => {
   const section_2 = useRef();
   const section_3 = useRef();
   const section_4 = useRef();
+  let [curIndex, setCurIndex] = useState(0);
 
   const scrollNames = ["얼마나?", "어떻게?", "음악을 통해!", "기록을 통해!"];
   const handleOnClick = (num) => {
@@ -35,6 +36,28 @@ const StartPage = (props) => {
     });
   };
 
+  const handleScrollEvent = useCallback(() => {
+    const y = window.scrollY;
+    const height = window.innerHeight / 1.5;
+    for (let i = 0; section.length; i++) {
+      if (
+        y > section[i].current.offsetTop - height &&
+        y <=
+          section[i].current.offsetTop -
+            height +
+            section[i].current.offsetHeight
+      ) {
+        setCurIndex(i);
+        break;
+      }
+    }
+  }, [section]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScrollEvent);
+    return () => window.removeEventListener("scroll", handleScrollEvent);
+  }, [handleScrollEvent]);
+
   useEffect(() => {
     setSection([section_1, section_2, section_3, section_4]);
   }, []);
@@ -43,6 +66,7 @@ const StartPage = (props) => {
       <ScrollList
         handleOnClick={handleOnClick}
         scrollNames={scrollNames}
+        curIndex={curIndex}
       ></ScrollList>
       <Section ref={section_1}>
         <FirstSectionLeft>

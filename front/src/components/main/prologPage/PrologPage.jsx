@@ -1,4 +1,10 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   CalorieExerciseGraph,
@@ -36,6 +42,7 @@ export default function PrologPage() {
   const section_3 = useRef();
   const section_4 = useRef();
   const section_5 = useRef();
+  let [curIndex, setCurIndex] = useState(0);
 
   const scrollNames = [
     "행복과 건강",
@@ -55,29 +62,39 @@ export default function PrologPage() {
     navigate("/food");
   };
 
+  const handleScrollEvent = useCallback(() => {
+    const y = window.scrollY;
+    const height = window.innerHeight / 1.5;
+    for (let i = 0; section.length; i++) {
+      if (
+        y > section[i].current.offsetTop - height &&
+        y <=
+          section[i].current.offsetTop -
+            height +
+            section[i].current.offsetHeight
+      ) {
+        setCurIndex(i);
+        break;
+      }
+    }
+  }, [section]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScrollEvent);
+    return () => window.removeEventListener("scroll", handleScrollEvent);
+  }, [handleScrollEvent]);
+
   useEffect(() => {
     setSection([section_1, section_2, section_3, section_4, section_5]);
-    // console.log(location.search);
-    // if (location.search) {
-    //   const query = queryString.parse(location.search);
-    //   query.height = Number(query.height);
-    //   query.weight = Number(query.weight);
-    //   console.log(query);
-
-    //   const user = query;
-    //   const jwtToken = user.token;
-    //   sessionStorage.setItem("userToken", jwtToken);
-    //   dispatch({
-    //     type: "LOGIN_SUCCESS",
-    //     payload: user,
-    //   });
-    //   navigate("/", { replace: true });
-    // }
   }, []);
 
   return (
     <PageWrapper>
-      <ScrollList handleOnClick={handleOnClick} scrollNames={scrollNames} />
+      <ScrollList
+        handleOnClick={handleOnClick}
+        scrollNames={scrollNames}
+        curIndex={curIndex}
+      />
       <SectionWrapper>
         <Section ref={section_1}>
           <FirstSectionLeft>

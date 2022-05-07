@@ -67,7 +67,7 @@ export const Image = styled.img`
 
 export const Section = styled.section`
   width: 80%;
-  height: 550px;
+  height: 600px;
 
   display: flex;
   align-items: center;
