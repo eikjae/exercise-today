@@ -240,8 +240,8 @@ export default function PartExercisePage() {
         </SelectBodyWrapper>
         <SvgWrapper>
           <svg
-            style={{ width: "100%", height: "100%", border: "1px" }}
-            viewBox="50 -50 413 400"
+            style={{ width: "700px", height: "100%" }}
+            viewBox="45 -50 413 400"
           >
             <Body />
             <Cardiovascular

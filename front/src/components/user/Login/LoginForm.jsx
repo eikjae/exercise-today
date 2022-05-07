@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import * as Api from "../../../api";
 import { DispatchContext } from "../../../App";
 import {
+  Background,
   StyledButton,
   StyledContainer,
   StyledTextField,
@@ -80,71 +81,73 @@ function LoginForm() {
     navigate("/register");
   };
   return (
-    <StyledContainer>
-      <StyledInputLayout>
-        <StyledOutLine>
-          <StyledInputContainer>
-            <StyledTextField
-              id="email-input"
-              label="email"
-              type="email"
-              autoComplete="current-email"
-              variant="standard"
-              color="secondary"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-            {!isValid && (
-              <StyledWarningMessage>
-                이메일 혹은 패스워드가 유효하지 않습니다.
-              </StyledWarningMessage>
-            )}
-          </StyledInputContainer>
-          <StyledInputContainer>
-            <StyledTextField
-              id="password-input"
-              label="password"
-              type="password"
-              autoComplete="current-password"
-              variant="standard"
-              color="secondary"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            {!isValid && (
-              <StyledWarningMessage>
-                이메일 혹은 패스워드가 유효하지 않습니다.
-              </StyledWarningMessage>
-            )}
-          </StyledInputContainer>
-          <StyledButtonWrapper>
-            <StyledButton onClick={handleOnClickLogin} type="submit">
-              로그인
-            </StyledButton>
-            <StyledButton onClick={handleOnClickRegister}>
-              회원가입
-            </StyledButton>
-          </StyledButtonWrapper>
-          <a
-            href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/kakao`}
-          >
-            <StyledSocialImg src="socialLoginImg/kakao.png" alt="kakao" />
-          </a>
-          <a
-            href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/naver`}
-          >
-            <StyledSocialImg src="socialLoginImg/naver.png" alt="naver" />
-          </a>
-          <a
-            href={`https://accounts.google.com/o/oauth2/auth?client_id=${process.env.REACT_APP_GOOGLE_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/google&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&response_type=code`}
-          >
-            <StyledSocialImg src="socialLoginImg/google.png" alt="google" />
-          </a>
-        </StyledOutLine>
-      </StyledInputLayout>
-    </StyledContainer>
+    <Background>
+      <StyledContainer>
+        <StyledInputLayout>
+          <StyledOutLine>
+            <StyledInputContainer>
+              <StyledTextField
+                id="email-input"
+                label="email"
+                type="email"
+                autoComplete="current-email"
+                variant="standard"
+                color="secondary"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+              {!isValid && (
+                <StyledWarningMessage>
+                  이메일 혹은 패스워드가 유효하지 않습니다.
+                </StyledWarningMessage>
+              )}
+            </StyledInputContainer>
+            <StyledInputContainer>
+              <StyledTextField
+                id="password-input"
+                label="password"
+                type="password"
+                autoComplete="current-password"
+                variant="standard"
+                color="secondary"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+              {!isValid && (
+                <StyledWarningMessage>
+                  이메일 혹은 패스워드가 유효하지 않습니다.
+                </StyledWarningMessage>
+              )}
+            </StyledInputContainer>
+            <StyledButtonWrapper>
+              <StyledButton onClick={handleOnClickLogin} type="submit">
+                로그인
+              </StyledButton>
+              <StyledButton onClick={handleOnClickRegister}>
+                회원가입
+              </StyledButton>
+            </StyledButtonWrapper>
+            <a
+              href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/kakao`}
+            >
+              <StyledSocialImg src="socialLoginImg/kakao.png" alt="kakao" />
+            </a>
+            <a
+              href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/naver`}
+            >
+              <StyledSocialImg src="socialLoginImg/naver.png" alt="naver" />
+            </a>
+            <a
+              href={`https://accounts.google.com/o/oauth2/auth?client_id=${process.env.REACT_APP_GOOGLE_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/google&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&response_type=code`}
+            >
+              <StyledSocialImg src="socialLoginImg/google.png" alt="google" />
+            </a>
+          </StyledOutLine>
+        </StyledInputLayout>
+      </StyledContainer>
+    </Background>
   );
 }
 

@@ -1,6 +1,22 @@
 import { Box, Button, Container, TextField } from "@mui/material";
 import styled from "styled-components";
 
+export const Background = styled.div`
+  width: auto;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(
+      to right,
+      rgba(20, 20, 20, 0) 10%,
+      rgba(20, 20, 20, 0.25) 25%,
+      rgba(20, 20, 20, 0.5) 50%,
+      rgba(20, 20, 20, 0.75) 75%,
+      rgba(20, 20, 20, 0.8) 100%
+    ),
+    url(/imgs/exercise_background.jpg);
+  background-size: cover;
+`;
+
 export const StyledContainer = styled(Container)`
   display: flex;
   justify-content: center;
@@ -12,11 +28,13 @@ export const StyledInputLayout = styled(Box)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 15vh;
+  width: 50vh;
+  height: 70vh;
 
-  width: 100%;
-  height: 80vh;
-
-  border: 1px solid rosybrown;
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 40px;
 `;
 
 export const StyledSocialImg = styled.img`
