@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import { List, ListWrapper, P } from "./ScrollList.style";
 
-const ScrollList = ({ handleOnClick, scrollNames }) => {
-  const [clickedNum, setClickedNum] = useState(0);
-
+const ScrollList = ({ handleOnClick, scrollNames, curIndex }) => {
   const handleClickList = (num) => {
     return () => {
       handleOnClick(num);
-      setClickedNum(num);
     };
   };
   return (
@@ -18,7 +15,7 @@ const ScrollList = ({ handleOnClick, scrollNames }) => {
             <List
               key={"scroll" + index}
               onClick={handleClickList(index)}
-              className={clickedNum === index ? "clicked" : ""}
+              className={curIndex === index ? "clicked" : ""}
             >
               <P>{n}</P>
             </List>

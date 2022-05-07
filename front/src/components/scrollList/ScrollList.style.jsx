@@ -35,12 +35,13 @@ export const List = styled.li`
   ::before {
     position: absolute;
     top: 0.67rem;
-    left: -1.2rem;
+    left: -0.8rem;
     transition: all 0.3s ease;
     transform: scale(0);
-    width: 10px;
-    height: 10px;
-    /* outline: solid red; */
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
     content: "";
     ${({ theme }) => {
       return css`

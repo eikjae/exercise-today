@@ -9,11 +9,12 @@ import {
   MealWrapper,
   FormWrapper,
   Form,
-  SubmitImageButton,
+  ImageWrapper,
+  DeleteImgButton,
 } from "./MealSection.style";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
-import { get, post, postImage } from "../../../../api";
+import * as Api from "../../../../api";
 import {
   CalendarMealWarning,
   CalendarSuccess,
@@ -34,11 +35,11 @@ const MealSection = ({
   const [meal, setMeal] = useState(null);
   const [count, setCount] = useState(0);
 
-  const [image, setImage] = useState(null);
+  const [imageId, setImageId] = useState(null);
 
   // api
   const getFoods = useCallback(async () => {
-    const res = await get("foods");
+    const res = await Api.get("foods");
     setMealOptions(res.data);
     console.log(res.data);
   }, []);
@@ -51,7 +52,7 @@ const MealSection = ({
     setMeal(null);
     setCount(0);
     try {
-      const res = await post("foods/calories", [
+      const res = await Api.post("foods/calories", [
         {
           category: meal,
           volume: count,
@@ -88,16 +89,25 @@ const MealSection = ({
   };
 
   const handleSubmitImage = async (e) => {
-    // e.preventDefault();
     try {
-      // setImage();
       const formData = new FormData();
       formData.append("whenDate", strDate);
       formData.append("type", type);
       formData.append("dietImg", e.target.files[0]);
 
-      const res = await postImage("dietimage", formData);
+      const res = await Api.postImage("dietimage", formData);
       setUrl(res.data.imgurl);
+      setImageId(res.data.itemId);
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  const handleDeleteImage = async (e) => {
+    try {
+      await Api.delete(`dietimage/item/${imageId}`);
+      setImageId(null);
+      setUrl(null);
     } catch (e) {
       throw new Error(e);
     }
@@ -117,9 +127,8 @@ const MealSection = ({
     <MealContainer>
       <h5>{title}</h5>
       <MealWrapper>
-        <MealInfoContainer>
+        <ImageWrapper>
           <FormWrapper>
-            {/* action="dietimage" method="post" */}
             {imgUrl === null ? (
               <Form>
                 <label>
@@ -135,23 +144,46 @@ const MealSection = ({
                   />
                   <div
                     style={{
-                      display: "inline",
+                      display: "flex",
+                      cursor: "pointer",
+                      width: "80px",
+                      height: "80px",
                     }}
                   >
-                    <span>이미지</span> <br />
-                    <span>업로드</span>
+                    <p
+                      style={{
+                        marginBottom: "0",
+                        width: "100%",
+                        height: "100%",
+                        lineHeight: "40px",
+                      }}
+                    >
+                      이미지 <br /> 업로드
+                    </p>
                   </div>
                 </label>
-                {/* <SubmitImageButton type="submit">확인</SubmitImageButton> */}
               </Form>
             ) : (
               <img
                 alt="temp"
                 src={imgUrl}
-                style={{ width: "100px", height: "100pxpx" }}
+                style={{ width: "100px", height: "100px" }}
+                // onClick={(e) => {
+                //   if (imgUrl) {
+                //     setUrl(null);
+                //   }
+                // }}
               ></img>
             )}
           </FormWrapper>
+          <DeleteImgButton
+            onClick={handleDeleteImage}
+            // disabled={imageId === null}
+          >
+            삭제
+          </DeleteImgButton>
+        </ImageWrapper>
+        <MealInfoContainer>
           <InputWrapper>
             <Autocomplete
               disablePortal
@@ -188,8 +220,8 @@ const MealSection = ({
             </CountWrapper>
             {/* <StyeldAddCircleOutlineIcon onClick={getTotalCal} /> */}
           </InputWrapper>
+          <StyledButton onClick={getTotalCal}>등록</StyledButton>
         </MealInfoContainer>
-        <StyledButton onClick={getTotalCal}>등록</StyledButton>
       </MealWrapper>
     </MealContainer>
   );

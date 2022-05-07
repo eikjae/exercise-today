@@ -33,6 +33,19 @@ html {
   margin: 0;
 }
 
+.body {
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: 0; /* Firefox */
+}
+::-webkit-scrollbar {
+   /* Chrome, Safari, Opera */
+  /* height: 0px; */
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #584491;
+}
 /* # =================================================================
    # General elements
    # ================================================================= */

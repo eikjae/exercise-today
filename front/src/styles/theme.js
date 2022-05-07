@@ -21,10 +21,17 @@ const navbar = {
   height: "5rem",
 };
 
+const fadeTime = {
+  image: "0.8s",
+  title: "1.2s",
+  content: "1.6",
+};
+
 export const myTheme = {
   colors,
   fontSize,
   navbar,
+  fadeTime,
 };
 
 export default myTheme;

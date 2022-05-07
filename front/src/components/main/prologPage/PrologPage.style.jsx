@@ -3,8 +3,43 @@ import styled, { css } from "styled-components";
 
 export const PageWrapper = styled.div`
   width: 100%;
-  /* max-width: 1600px; */
-  min-width: 1000px;
+  width: 1800px;
+  ${({ theme }) => {
+    return css`
+      margin: ${theme.navbar.height} auto 0 auto;
+    `;
+  }}
+`;
+
+export const B = styled.b`
+  ${({ theme }) => {
+    return css`
+      color: ${theme.colors.identityColor};
+    `;
+  }}
+`;
+
+export const RightTitle = styled.h1`
+  font-size: 2.8rem;
+
+  ${({ theme }) => {
+    return css``;
+  }}
+
+  margin-bottom: 2rem;
+`;
+
+export const LeftTitle = styled.h1`
+  font-size: 2.5rem;
+  ${({ theme }) => {
+    return css``;
+  }}
+
+  margin-bottom: 2rem;
+`;
+
+export const P = styled.p`
+  font-size: 1.6rem;
 `;
 
 export const SectionWrapper = styled.div`
@@ -16,23 +51,14 @@ export const SectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  ${({ theme }) => theme.laptop`
-        width: 70%;
-    `}
 `;
 
 export const Section = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-
   width: 100%;
   height: 100vh;
-
-  ${({ theme }) => theme.laptop`
-        flex-direction: column;
-    `}
 `;
 
 export const Section2 = styled.section`
@@ -47,18 +73,14 @@ export const Section2 = styled.section`
 
 export const FirstSectionLeft = styled.div`
   margin-bottom: 10rem;
-  ${({ theme }) => theme.laptop`
-        margin-bottom: 0;
-    `}
 `;
 export const FirstSectionRight = styled.div`
   margin-top: 20rem;
-  ${({ theme }) => theme.laptop`
-        margin-top: 0;
-    `}
 `;
 export const SecondSectionLeft = styled.div``;
-export const SecondSectionRight = styled.div``;
+export const SecondSectionRight = styled.div`
+  margin-top: 1rem;
+`;
 
 export const ThirdSectionLeft = styled.div``;
 export const ThirdSectionRight = styled.div``;
@@ -69,6 +91,29 @@ export const FourthSectionRight = styled.div``;
 export const GraphWrapper = styled.div`
   width: 100%;
   display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const GraphWrapperWithTitle = styled.div`
+  margin-bottom: 1.5rem;
+  width: 50%;
+  height: 50%;
+  &:nth-child(1) {
+    position: relative;
+    top: -3rem;
+    left: 4rem;
+  }
+  &:nth-child(2) {
+    position: relative;
+    bottom: -4rem;
+    left: 5rem;
+  }
+  &:nth-child(3) {
+    position: relative;
+    top: -3rem;
+    left: 5rem;
+  }
 `;
 
 export const LastSectionWrapper = styled.div`
@@ -80,6 +125,7 @@ export const StyledButton = styled(Button)`
   height: 60px;
   color: white;
   font-weight: 700;
+  font-size: 20px;
   border-radius: 10px;
   margin-top: 1rem;
   ${({ theme }) => {

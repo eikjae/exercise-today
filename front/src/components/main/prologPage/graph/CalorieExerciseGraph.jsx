@@ -49,8 +49,8 @@ export default function CalorieExerciseGraph() {
   return (
     <ComposedChart
       layout="vertical"
-      width={400}
-      height={350}
+      width={370}
+      height={320}
       data={data}
       margin={{
         top: 20,
@@ -75,7 +75,13 @@ export default function CalorieExerciseGraph() {
       <Tooltip />
       <Legend />
       {/* <Area dataKey="amt" fill="#8884d8" stroke="#8884d8" /> */}
-      <Bar dataKey="운동개수" barSize={30} fill="#413ea0">
+      <Bar
+        dataKey="운동개수"
+        barSize={30}
+        fill="#413ea0"
+        isAnimationActive={true}
+        key={Math.random()}
+      >
         {data.map((entry, index) => (
           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
         ))}

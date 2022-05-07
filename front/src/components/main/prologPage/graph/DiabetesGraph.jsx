@@ -27,6 +27,8 @@ export default function DiabetesGraph() {
   return (
     <div className="App">
       <BarChart
+        isAnimationActive={true}
+        key={Math.random()}
         width={400}
         height={300}
         data={DiabetesData}
@@ -43,7 +45,7 @@ export default function DiabetesGraph() {
           label={{
             value: "사람 (만 명)",
             angle: -90,
-            position: "insideCenter",
+            position: "insideLeft",
             fill: "grey",
           }}
         />

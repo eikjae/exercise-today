@@ -42,8 +42,8 @@ class exerciseService {
 
     // 최대 8개의 exercise를 랜덤하게 원소로 저장
     exerciseList.sort(() => Math.random() - Math.random());
-    if (length > 8) {
-      exerciseList = exerciseList.slice(0, 8);
+    if (length > 5) {
+      exerciseList = exerciseList.slice(0, 5);
     }
 
     let timeList = exerciseList.map((exercise) => {

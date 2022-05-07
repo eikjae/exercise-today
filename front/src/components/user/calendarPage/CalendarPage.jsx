@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { get, post } from "../../../api";
 import Calendar from "../../calendar/Calendar";
+import { UserStateContext } from "../../../App";
 import {
   CalendarLayout,
   CalendarBodyLayout,
@@ -23,10 +24,13 @@ import {
   CalendarSuccess,
   CalendarWeightWarning,
 } from "../like/cardSection/calendarButtonSection/CalendarButtonComp";
+import { useNavigate } from "react-router-dom";
 
 const CalendarPage = (props) => {
   const newDate = new Date();
   const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+  const userState = useContext(UserStateContext);
+  const navigate = useNavigate();
   const [date, setDate] = useState("");
   const [strDate, setStrDate] = useState("");
   const [totalExerciseCalrorie, setTotalExerciseCalrorie] = useState(0);
@@ -196,6 +200,14 @@ const CalendarPage = (props) => {
       behavior: "smooth",
     });
   };
+
+  // 미로그인 접근 방지
+  useEffect(() => {
+    if (!userState.user) {
+      navigate("/login", { replace: true });
+      return;
+    }
+  }, [navigate, userState.user]);
 
   // 오늘자 날짜 저장하기
   useEffect(() => {
