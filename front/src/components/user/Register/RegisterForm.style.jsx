@@ -39,7 +39,7 @@ export const ActivateInputWrapper = styled.div`
 `;
 
 export const EmailField = styled(StyledTextField)`
-  width: 73%;
+  width: 71%;
 `;
 
 export const SubmitActivateButton = styled(Button)`

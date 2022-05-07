@@ -23,7 +23,34 @@ export const List = styled.li`
     `;
   }}
 
+  position: relative;
+  left: 10px;
+
   margin-bottom: 0.5rem;
+
+  &.clicked::before {
+    transform: scale(1);
+  }
+
+  ::before {
+    position: absolute;
+    top: 0.67rem;
+    left: -1.2rem;
+    transition: all 0.3s ease;
+    transform: scale(0);
+    width: 10px;
+    height: 10px;
+    /* outline: solid red; */
+    content: "";
+    ${({ theme }) => {
+      return css`
+        color: ${theme.colors.identityColor};
+        background-color: ${theme.colors.identityColor};
+      `;
+    }}
+    display:inline-block;
+    text-decoration: none;
+  }
 `;
 
 export const P = styled.p`

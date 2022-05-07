@@ -10,14 +10,12 @@ import {
 
 import HealthAndHappinessGraph from "./graph/HealthAndHappinessGraph.png";
 import ScrollList from "../../scrollList/ScrollList";
-import queryString from "query-string";
 import {
   FirstSectionLeft,
   FirstSectionRight,
   FourthSectionLeft,
   GraphWrapper,
   LastSectionWrapper,
-  ListWrapper,
   PageWrapper,
   SecondSectionLeft,
   SecondSectionRight,
@@ -39,8 +37,6 @@ export default function PrologPage() {
   const section_4 = useRef();
   const section_5 = useRef();
 
-  const location = useLocation();
-  const dispatch = useContext(DispatchContext);
   const scrollNames = [
     "행복과 건강",
     "당뇨와 운동",

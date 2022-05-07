@@ -88,7 +88,7 @@ const StartPage = (props) => {
             단련하고 싶은 부위를 알려주시면 <B>1500개의</B> 부위별,
             <br />
             <br /> 도구별 운동 데이터를 기반으로 관련된 운동을 <br />{" "}
-            추천해드립니다!
+            <B>추천</B>해드립니다!
           </H5>
         </SecondSectionLeft>
         <SecondSectionRight>
@@ -114,7 +114,9 @@ const StartPage = (props) => {
             <B>운동</B>을 할 수 있다는 스포츠 심리학 연구결과가 있습니다. <br />{" "}
             <br />
             <B>3000개</B>의 음악 데이터를 기반으로 사용자가 더 운동할 수 <br />{" "}
-            <ThirdSpan>있도록 음악을 추천해드립니다.</ThirdSpan>
+            <ThirdSpan>
+              있도록 음악을 <B>추천</B>해드립니다.
+            </ThirdSpan>
           </H5>
         </ThirdSectionLeft>
         <ThirdSectionRight>
