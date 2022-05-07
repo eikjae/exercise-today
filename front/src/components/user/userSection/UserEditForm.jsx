@@ -92,6 +92,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     }
   };
 
+  // 미리보기, 이미지 파일 전송을 위한 준비
   const handleFileChange = (e) => {
     const img = {
       preview: URL.createObjectURL(e.target.files[0]),
@@ -101,6 +102,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     setIsDefaultImage(false);
   };
 
+  // 기본 이미지 세팅을 원할 경우 사용
   const handleClickDefaultImg = async (e) => {
     const res = await Api.put(`users/${user.id}/defaultProfileImage`);
     setOriginImage(res.data.imageLink);
