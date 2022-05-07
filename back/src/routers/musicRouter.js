@@ -12,7 +12,7 @@ musicRouter.get("/musics", async function (req, res, next) {
   }
 });
 
-musicRouter.post("/musics/filtered/", async function (req, res, next) {
+musicRouter.post("/musics/filtered", async function (req, res, next) {
   try {
     music_filtered_validation(req.body);
 
