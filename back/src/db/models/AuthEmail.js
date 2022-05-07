@@ -25,4 +25,7 @@ export class AuthEmail {
     const AuthEmail = await AuthEmailModel.findOne({ email });
     return AuthEmail;
   }
+  static async isAuthenticated({ email }) {
+    return await AuthEmailModel.exists({ email, status: 1 });
+  }
 }
