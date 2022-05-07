@@ -209,9 +209,9 @@ export default function PartExercisePage() {
         <H2>운동을 원하는 부위를 선택해주세요</H2>
         <SelectBodyWrapper>
           <StyledBodyFormControl>
-            <InputLabel>BodyPart</InputLabel>
+            <InputLabel>부위</InputLabel>
             <StyledSelect
-              label="BodyPart"
+              label="부위"
               value={bodyPart || ""}
               onChange={handleChangeBodyPart}
             >
@@ -223,9 +223,9 @@ export default function PartExercisePage() {
             </StyledSelect>
           </StyledBodyFormControl>
           <StyledBodyFormControl>
-            <InputLabel>Target</InputLabel>
+            <InputLabel>상세부위</InputLabel>
             <StyledSelect
-              label="Target"
+              label="상세부위"
               value={target || ""}
               onChange={handleChangeTarget}
             >
@@ -383,9 +383,9 @@ export default function PartExercisePage() {
       <RightWrapper>
         <H2>사용할 기구를 선택해주세요</H2>
         <StyledMuscleFormControl>
-          <InputLabel>Equipment</InputLabel>
+          <InputLabel>기구</InputLabel>
           <StyledSelect
-            label="Equipment"
+            label="기구"
             value={equipment || ""}
             onChange={handleChangeEquipment}
           >
@@ -398,10 +398,10 @@ export default function PartExercisePage() {
         </StyledMuscleFormControl>
         <H2Margin>추천 운동</H2Margin>
         <StyledMuscleFormControl>
-          <InputLabel>Exercise</InputLabel>
+          <InputLabel>추천 운동</InputLabel>
           <ExerciseWrapper>
             <SelectExercise
-              label="Exercise"
+              label="추천 운동"
               value={exerciseName || ""}
               onChange={handleChangeExercise}
             >
