@@ -52,7 +52,7 @@ const contentFade = keyframes`
 export const StyledContainer = styled.div`
   padding: 3rem;
   padding-top: 0;
-  width: 1200px;
+  width: 1400px;
   ${({ theme }) => {
     return css`
       margin: ${theme.navbar.height} auto 0 auto;
@@ -62,24 +62,34 @@ export const StyledContainer = styled.div`
 
 export const Image = styled.img`
   border-radius: 20px;
-  animation: 1s ${imageFade} ease;
+  &.target {
+    animation: 1.5s ${imageFade} ease;
+  }
 `;
 
 export const Section = styled.section`
-  width: 80%;
-  height: 600px;
+  width: 100%;
+  ${({ theme }) => {
+    return css`
+      height: calc(100vh - ${theme.navbar.height});
+    `;
+  }}
 
   display: flex;
   align-items: center;
-  margin: 0 auto 3rem auto;
+  margin: 0 auto 0 auto;
   padding: 2rem;
   margin-left: 10rem;
   border-radius: 15px;
-  ${({ theme }) => {
-    return css`
-      border: 2px solid ${theme.colors.identityColor};
-    `;
-  }};
+
+  transition: opacity 0.3s ease;
+  &.target {
+    opacity: 1;
+  }
+
+  &.non-target {
+    opacity: 0;
+  }
 `;
 
 export const B = styled.b`
@@ -91,26 +101,52 @@ export const B = styled.b`
   }}
 `;
 
-export const RightH2 = styled.h2`
-  animation: 2s ${titleRightToLeftFade} ease;
+export const RightTitle = styled.h1`
+  font-size: 2.8rem;
+
+  &.target {
+    animation: 2s ${titleRightToLeftFade} ease;
+  }
+
   margin-bottom: 2rem;
 `;
 
-export const LeftH2 = styled.h2`
-  animation: 2s ${titleLeftToRightFade} ease;
+export const LeftTitle = styled.h1`
+  font-size: 2.5rem;
+
+  &.target {
+    animation: 2s ${titleLeftToRightFade} ease;
+  }
+
   margin-bottom: 2rem;
 `;
 
-export const H5 = styled.h5`
-  animation: 3s ${contentFade} ease;
+export const P = styled.p`
+  font-size: 1.6rem;
 `;
 
 export const FirstSectionLeft = styled.div`
   padding: 3rem;
 `;
 export const FirstSectionRight = styled.div`
-  /* padding-top: 1rem; */
-  /* padding-left: 2rem; */
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+`;
+
+export const FirstSectionContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 80%;
+  &.target {
+    animation: 2.5s ${contentFade} ease;
+  }
+`;
+
+export const FirstSectionSecondContent = styled(P)`
+  position: relative;
+  left: 130px;
 `;
 
 export const ExerciseSpan = styled.span`
@@ -123,30 +159,36 @@ export const ExerciseSpan = styled.span`
 
 export const SecondSectionLeft = styled.div`
   text-align: end;
-  /* padding-top: 1.5rem; */
   padding-right: 2rem;
 `;
-export const SecondSectionRight = styled.div`
-  /* padding-top: 1.5rem; */
+export const SecondSectionRight = styled.div``;
+
+export const SecondSectionContentWrapper = styled.div`
+  &.target {
+    animation: 2.5s ${contentFade} ease;
+  }
 `;
 
 export const ThirdSectionLeft = styled.div`
   text-align: end;
-  /* padding-top: 2rem; */
   padding-right: 2rem;
 `;
-export const ThirdSectionRight = styled.div`
-  /* padding-top: 2rem; */
+export const ThirdSectionRight = styled.div``;
+export const ThirdSectionContentWrapper = styled.div`
+  &.target {
+    animation: 2.5s ${contentFade} ease;
+  }
 `;
 
-export const ThirdSpan = styled.span`
-  /* margin-right: 18rem; */
-`;
+export const ThirdSpan = styled.span``;
 
-export const LastSectionLeft = styled.div`
-  /* padding-top: 1rem; */
-`;
+export const LastSectionLeft = styled.div``;
 export const LastSectionRight = styled.div`
-  /* padding-top: 1rem; */
   padding-left: 2rem;
+`;
+
+export const FourthSectionContentWrapper = styled.div`
+  &.target {
+    animation: 2.5s ${contentFade} ease;
+  }
 `;
