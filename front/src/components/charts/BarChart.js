@@ -5,7 +5,6 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   Cell,
 } from "recharts";
@@ -17,7 +16,6 @@ const tickFormatter = (name) => {
 };
 
 const BarChart = ({ data, colors }) => {
-  // console.log(data);
   return (
     <ResponsiveContainer width="100%" height="100%">
       <Barchart

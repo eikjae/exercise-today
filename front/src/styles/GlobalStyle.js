@@ -56,6 +56,13 @@ ul {
 
 }
 
+.recharts-label {
+  font-size: 1.3rem;
+}
+.recharts-cartesian-axis-tick-value {
+  font-size: 1.1rem;
+}
+
 hr {
   overflow: visible; /* Show the overflow in Edge and IE */
   height: 0; /* Add the correct box sizing in Firefox */
