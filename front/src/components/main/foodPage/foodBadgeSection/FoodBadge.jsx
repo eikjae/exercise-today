@@ -23,9 +23,9 @@ export default function FoodBadge({
   likedFoods,
 }) {
   const [count, setCount] = useState(0);
-  // 유저 로그인 확인용 상태
-  const userState = useContext(UserStateContext);
   const [isLiked, setIsLiked] = useState(false);
+
+  const userState = useContext(UserStateContext);
 
   const deepClone = (arg) => JSON.parse(JSON.stringify(arg));
 
