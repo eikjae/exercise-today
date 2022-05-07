@@ -71,6 +71,7 @@ export default function LikePage() {
   const userState = useContext(UserStateContext);
   const [pageUserName, setPageUserName] = useState("");
   const [isEditable, setIsEditable] = useState(false);
+  const [endLoading, setEndLoading] = useState(false);
 
   useEffect(async () => {
     try {
@@ -116,9 +117,21 @@ export default function LikePage() {
     setValue(index);
   };
 
+  // 로딩 화면 렌더링
+  useEffect(() => {
+    const timer = renderingLoading();
+    return () => clearTimeout(timer);
+  }, [endLoading]);
+
+  const renderingLoading = () => {
+    return setTimeout(() => {
+      setEndLoading(true);
+    }, 500);
+  };
+
   return (
     <Layout>
-      {likedFriends.length === 0 ? <Loading /> : <></>}
+      {endLoading === false ? <Loading /> : <></>}
       <LeftRowGrid>
         <User
           myPageOwnerId={userId}
@@ -146,7 +159,11 @@ export default function LikePage() {
             />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <LikedFoodTab likedFoods={likedFoods} isEditable={isEditable} />
+            <LikedFoodTab
+              likedFoods={likedFoods}
+              isEditable={isEditable}
+              updateLikedFoods={setLikedFoods}
+            />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
             <LikedExerciseTab
