@@ -16,6 +16,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
 import * as Api from "../../../../api";
 import {
+  CalendarImageDelete,
+  CalendarImageSuccess,
   CalendarMealWarning,
   CalendarSuccess,
 } from "../../like/cardSection/calendarButtonSection/CalendarButtonComp";
@@ -26,6 +28,8 @@ const MealSection = ({
   strDate,
   imgUrl,
   setUrl,
+  imgId,
+  setImgId,
   setFoodList,
   setMealCalrorie,
 }) => {
@@ -34,9 +38,6 @@ const MealSection = ({
   // 선택한 음식
   const [meal, setMeal] = useState(null);
   const [count, setCount] = useState(0);
-
-  const [imageId, setImageId] = useState(null);
-
   // api
   const getFoods = useCallback(async () => {
     const res = await Api.get("foods");
@@ -57,11 +58,6 @@ const MealSection = ({
           volume: count,
         },
       ]);
-      // console.log(typeof strDate);
-      // const img = await get("dietimage/items/date", {
-      //   whenDate: strDate,
-      // });
-      // console.log(img.data);
 
       setFoodList((current) => {
         const temp = [...current];
@@ -96,7 +92,8 @@ const MealSection = ({
 
       const res = await Api.postImage("dietimage", formData);
       setUrl(res.data.imgurl);
-      setImageId(res.data.itemId);
+      setImgId(res.data.itemId);
+      CalendarImageSuccess();
     } catch (e) {
       throw new Error(e);
     }
@@ -104,9 +101,10 @@ const MealSection = ({
 
   const handleDeleteImage = async (e) => {
     try {
-      await Api.delete(`dietimage/item/${imageId}`);
-      setImageId(null);
+      await Api.delete(`dietimage/item/${imgId}`);
+      setImgId(null);
       setUrl(null);
+      CalendarImageDelete();
     } catch (e) {
       throw new Error(e);
     }
@@ -175,12 +173,7 @@ const MealSection = ({
               ></img>
             )}
           </FormWrapper>
-          <DeleteImgButton
-            onClick={handleDeleteImage}
-            // disabled={imageId === null}
-          >
-            삭제
-          </DeleteImgButton>
+          <DeleteImgButton onClick={handleDeleteImage}>삭제</DeleteImgButton>
         </ImageWrapper>
         <MealInfoContainer>
           <InputWrapper>

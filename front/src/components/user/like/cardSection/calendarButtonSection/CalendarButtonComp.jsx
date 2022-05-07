@@ -17,6 +17,16 @@ export function CalendarMealWarning() {
   return toast.error(message);
 }
 
+export function CalendarImageSuccess() {
+  const message = "⭕사진이 업로드 되었습니다!";
+  return toast.success(message);
+}
+
+export function CalendarImageDelete() {
+  const message = "⭕사진이 삭제 되었습니다!";
+  return toast.success(message);
+}
+
 export function CalendarExerciseWarning() {
   const message = "❌운동 또는 시간을 채워주세요!";
   return toast.error(message);
