@@ -314,6 +314,20 @@ progress {
   align-items: center;
 }
 
+// 스크롤바 안 보이게 하기
+.body {
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: 0; /* Firefox */
+}
+::-webkit-scrollbar {
+   /* Chrome, Safari, Opera */
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #584491;
+}
+
 `;
 
 export default GlobalStyle;

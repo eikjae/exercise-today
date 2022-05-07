@@ -41,6 +41,8 @@ export const TitleIcon = styled(DirectionsRunIcon)`
 export const StyledLink = styled(Link)`
   text-decoration: none;
   padding: 1rem;
+  /* display: absolute;
+  top: 10px; */
   color: #281461;
   font-weight: bold;
   &:hover {
@@ -50,6 +52,8 @@ export const StyledLink = styled(Link)`
 
 export const StyledNavContainer = styled(Box)`
   font-size: 17px;
+  display: flex;
+  align-items: center;
 `;
 
 export const StyledeMenuIcon = styled(MenuIcon)`
