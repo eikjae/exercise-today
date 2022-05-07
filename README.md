@@ -66,7 +66,7 @@
 
 
 ## 4. 프로젝트 구성도
-  - 와이어프레임/스토리보드 추가
+  - [오늘도 운동 와이어프레임](https://www.figma.com/file/aqjh4XO6Ivdjs8hcNmk94L/%EC%98%A4%EB%8A%98%EB%8F%84-%EC%9A%B4%EB%8F%99?node-id=0%3A1)
 
 
 
