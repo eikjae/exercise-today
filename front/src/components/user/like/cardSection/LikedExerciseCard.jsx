@@ -16,7 +16,7 @@ export default function LikedExerciseCard({ exercise, isEditable }) {
   };
   return (
     <Layout>
-      <LikeImg src={exercise.gifUrl} />
+      <LikeImg src={exercise?.gifUrl} />
       <SmallTitle>{exercise.name}</SmallTitle>
       {isEditable && <LikeButtonComp isLiked={isLiked} onClick={handleClick} />}
     </Layout>

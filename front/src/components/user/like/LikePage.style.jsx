@@ -4,9 +4,10 @@ import { Tabs } from "@mui/material";
 
 export const Layout = styled.div`
   margin-top: 100px;
+  margin-left: 100px;
   display: flex;
   flex-direction: row;
-  max-width: 100%;
+  /* max-width: 100%; */
   text-align: center;
 `;
 
@@ -22,15 +23,17 @@ export const ColGrid = styled.div`
 `;
 
 export const RightRowGrid = styled.div`
-  width: 80rem;
+  width: 85rem;
   height: 100%;
   margin-left: 10px;
-  margin-right: 50px;
+  margin-right: 100px;
 `;
 
 export const UserName = styled.h2`
   margin-bottom: 20px;
   text-align: center;
+  font-weight: bold;
+  color: #281461;
 `;
 
 export const LikeTabs = styledMui((props) => (
