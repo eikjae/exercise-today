@@ -146,10 +146,11 @@ const CalendarPage = (props) => {
   };
 
   const handleOnClickCalendar = async (clickDate) => {
-    setEndLoading(false);
-
     try {
       const res = await get(`calendar/items/${clickDate}`);
+      if (res.data.weight !== null) {
+        setEndLoading(false);
+      }
       setImageUrlWhenUpdate(res.data);
       setChangeListWhenUpdate(res.data);
       setWeightWhenUpdate(res.data);
