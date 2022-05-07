@@ -62,9 +62,13 @@ export const StyledContainer = styled.div`
 
 export const Image = styled.img`
   border-radius: 20px;
-  &.target {
-    animation: 1.5s ${imageFade} ease;
-  }
+  ${({ theme }) => {
+    return css`
+      &.target {
+        animation: ${theme.fadeTime.image} ${imageFade} ease;
+      }
+    `;
+  }}
 `;
 
 export const Section = styled.section`
@@ -104,19 +108,26 @@ export const B = styled.b`
 export const RightTitle = styled.h1`
   font-size: 2.8rem;
 
-  &.target {
-    animation: 2s ${titleRightToLeftFade} ease;
-  }
+  ${({ theme }) => {
+    return css`
+      &.target {
+        animation: 2s ${titleRightToLeftFade} ease;
+      }
+    `;
+  }}
 
   margin-bottom: 2rem;
 `;
 
 export const LeftTitle = styled.h1`
   font-size: 2.5rem;
-
-  &.target {
-    animation: 2s ${titleLeftToRightFade} ease;
-  }
+  ${({ theme }) => {
+    return css`
+      &.target {
+        animation: 2s ${titleLeftToRightFade} ease;
+      }
+    `;
+  }}
 
   margin-bottom: 2rem;
 `;
@@ -139,9 +150,13 @@ export const FirstSectionContentWrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
   height: 80%;
-  &.target {
-    animation: 2.5s ${contentFade} ease;
-  }
+  ${({ theme }) => {
+    return css`
+      &.target {
+        animation: 2.5s ${contentFade} ease;
+      }
+    `;
+  }}
 `;
 
 export const FirstSectionSecondContent = styled(P)`
@@ -164,9 +179,13 @@ export const SecondSectionLeft = styled.div`
 export const SecondSectionRight = styled.div``;
 
 export const SecondSectionContentWrapper = styled.div`
-  &.target {
-    animation: 2.5s ${contentFade} ease;
-  }
+  ${({ theme }) => {
+    return css`
+      &.target {
+        animation: 2.5s ${contentFade} ease;
+      }
+    `;
+  }}
 `;
 
 export const ThirdSectionLeft = styled.div`
@@ -175,9 +194,13 @@ export const ThirdSectionLeft = styled.div`
 `;
 export const ThirdSectionRight = styled.div``;
 export const ThirdSectionContentWrapper = styled.div`
-  &.target {
-    animation: 2.5s ${contentFade} ease;
-  }
+  ${({ theme }) => {
+    return css`
+      &.target {
+        animation: 2.5s ${contentFade} ease;
+      }
+    `;
+  }}
 `;
 
 export const ThirdSpan = styled.span``;
@@ -188,7 +211,11 @@ export const LastSectionRight = styled.div`
 `;
 
 export const FourthSectionContentWrapper = styled.div`
-  &.target {
-    animation: 2.5s ${contentFade} ease;
-  }
+  ${({ theme }) => {
+    return css`
+      &.target {
+        animation: 2.5s ${contentFade} ease;
+      }
+    `;
+  }}
 `;

@@ -7,6 +7,37 @@ export const PageWrapper = styled.div`
   min-width: 1000px;
 `;
 
+export const B = styled.b`
+  ${({ theme }) => {
+    return css`
+      color: ${theme.colors.identityColor};
+    `;
+  }}
+`;
+
+export const RightTitle = styled.h1`
+  font-size: 2.8rem;
+
+  ${({ theme }) => {
+    return css``;
+  }}
+
+  margin-bottom: 2rem;
+`;
+
+export const LeftTitle = styled.h1`
+  font-size: 2.5rem;
+  ${({ theme }) => {
+    return css``;
+  }}
+
+  margin-bottom: 2rem;
+`;
+
+export const P = styled.p`
+  font-size: 1.6rem;
+`;
+
 export const SectionWrapper = styled.div`
   margin-left: 200px;
   padding: 1rem 0 1rem 0;

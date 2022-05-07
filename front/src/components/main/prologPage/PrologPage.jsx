@@ -17,11 +17,13 @@ import {
 import HealthAndHappinessGraph from "./graph/HealthAndHappinessGraph.png";
 import ScrollList from "../../scrollList/ScrollList";
 import {
+  B,
   FirstSectionLeft,
   FirstSectionRight,
   FourthSectionLeft,
   GraphWrapper,
   LastSectionWrapper,
+  LeftTitle,
   PageWrapper,
   SecondSectionLeft,
   SecondSectionRight,
@@ -32,7 +34,6 @@ import {
   ThirdSectionLeft,
   ThirdSectionRight,
 } from "./PrologPage.style";
-import { DispatchContext } from "../../../App";
 
 export default function PrologPage() {
   const navigate = useNavigate();
@@ -98,7 +99,9 @@ export default function PrologPage() {
       <SectionWrapper>
         <Section ref={section_1}>
           <FirstSectionLeft>
-            <h1>행복과 건강</h1>
+            <LeftTitle>
+              <B>행복</B>과 <B>건강</B>
+            </LeftTitle>
             <h3>건강 수명이 높은 사람들은 행복해질 확률이 높습니다</h3>
             <p>우리가 높은 건강 수명을 갖기 위해서 무엇을 할 수 있을까요?</p>
             <p>
