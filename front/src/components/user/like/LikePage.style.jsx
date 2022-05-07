@@ -3,7 +3,7 @@ import { styled as styledMui } from "@mui/material/styles";
 import { Tabs } from "@mui/material";
 
 export const Layout = styled.div`
-  margin-top: 10px;
+  margin-top: 100px;
   display: flex;
   flex-direction: row;
   max-width: 100%;

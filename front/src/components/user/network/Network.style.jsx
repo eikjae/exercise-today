@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Layout = styled.div`
+  margin-top: 100px;
   width: 100%;
   height: 100%;
   /* border: 2px solid #462a53; */
