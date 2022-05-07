@@ -12,10 +12,7 @@ export const Layout = styled(Container)`
   text-align: center;
 `;
 
-export const LeftRowGrid = styled(Grid)`
-  /* margin-left: 120px; */
-  /* width: 100%; */
-`;
+export const LeftRowGrid = styled(Grid)``;
 
 export const ColGrid = styled(Grid)`
   flex-direction: column;
@@ -34,7 +31,6 @@ export const RightColGrid = styled(Grid)`
 `;
 
 export const ContentWrapper = styled.div`
-  /* width: 100%; */
   padding: 10px;
   height: 150px;
   border: 2px solid #281461;
