@@ -8,8 +8,8 @@ import {
   getInfoFromNaver,
   getInfoFromGoogle,
 } from "../utils/authEmail";
-import { getRequiredInfoFromData } from "../utils/user";
 import { likeService } from "../services/likeService";
+import { getRequiredInfoFromData } from "../utils/user";
 const querystring = require("querystring");
 const qs = require("qs");
 const fetch = require("node-fetch");
@@ -133,6 +133,7 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
     // console.log("asd: ", userInfo);
 
     let result;
+    // console.log(userInfo);
     if (coperation === "kakao") {
       result = getInfoFromKakao(userInfo);
     } else if (coperation === "naver") {
@@ -140,19 +141,22 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
     } else {
       result = getInfoFromGoogle(userInfo);
     }
-    const userById = await User.findById({ user_id: result.id });
-    if (userById) {
-      if (userById.deleted === true) {
+    const user = await User.findById({
+      user_id: result.id,
+    });
+    if (user) {
+      if (user.deleted === true) {
         throw new Error("해당 소셜계정은 이미 회원탈퇴하셨습니다.");
       }
       const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
       const token = jwt.sign({ user_id: result.id }, secretKey);
 
-      const resultData = getRequiredInfoFromData(userById);
-      resultData.token = token;
+      //   console.log(user);
 
       //   console.log(querystring.parse(query));
-      res.json(resultData);
+      const resultUser = getRequiredInfoFromData(user);
+      resultUser.token = token;
+      res.json(resultUser);
     } else {
       const password = generateRandomPassword();
       result.password = password;
@@ -161,13 +165,14 @@ oauthRouter.get("/oauth/:coperation", async (req, res, next) => {
 
       const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
       const token = jwt.sign({ user_id: result.id }, secretKey);
-      const resultData = getRequiredInfoFromData(createdUser);
-      resultData.token = token;
+      createdUser.token = token;
       await likeService.addLike({
         user_id: result.id,
       });
       //   console.log(querystring.parse(query));
-      res.json(resultData);
+      const resultUser = getRequiredInfoFromData(createdUser);
+      resultUser.token = token;
+      res.json(resultUser);
     }
   } catch (error) {
     next(error);
