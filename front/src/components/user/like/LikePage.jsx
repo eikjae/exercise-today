@@ -22,6 +22,7 @@ import { useTheme } from "@mui/material/styles";
 import { AppBar, Tab, Box } from "@mui/material";
 import { UserStateContext } from "../../../App";
 import User from "../userSection/User";
+import Loading from "../../loading/Loading";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -117,6 +118,7 @@ export default function LikePage() {
 
   return (
     <Layout>
+      {likedFriends.length === 0 ? <Loading /> : <></>}
       <LeftRowGrid>
         <User
           myPageOwnerId={userId}

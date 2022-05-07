@@ -25,6 +25,7 @@ import {
   CalendarWeightWarning,
 } from "../like/cardSection/calendarButtonSection/CalendarButtonComp";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../loading/Loading";
 
 const CalendarPage = (props) => {
   const newDate = new Date();
@@ -262,6 +263,11 @@ const CalendarPage = (props) => {
 
   return (
     <CalendarLayout>
+      {exerciseList.lenght === 0 || dinnerList.length === 0 ? (
+        <Loading />
+      ) : (
+        <></>
+      )}
       <StyledArrow onClick={handleClickArrow} />
       <div>
         <Calendar

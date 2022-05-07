@@ -41,7 +41,6 @@ const MealSection = ({
   const getFoods = useCallback(async () => {
     const res = await Api.get("foods");
     setMealOptions(res.data);
-    console.log(res.data);
   }, []);
 
   const getTotalCal = async () => {

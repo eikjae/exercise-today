@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { UserStateContext, DispatchContext } from "../../App";
 import {
   StyledLink,
@@ -7,7 +7,6 @@ import {
   StyledNavContainer,
   StyledTitle,
   TitleIcon,
-  StyledeMenuIcon,
 } from "./Header.style";
 import { ROUTE } from "./route";
 import MyPageMenu from "./menuSection/PageMenu";
@@ -19,7 +18,6 @@ function Header() {
   const dispatch = useContext(DispatchContext);
 
   const [navbarIsTop, setNavbarIsTop] = useState(null);
-  const [isClicked, setIsClick] = useState(false);
   const navbarRef = useRef();
 
   // 전역상태에서 user가 null이 아니라면 로그인 성공 상태임.
@@ -42,10 +40,6 @@ function Header() {
     }
   };
 
-  const handleClickMenuIcon = () => {
-    setIsClick(!isClicked);
-  };
-
   useEffect(() => {
     window.addEventListener("scroll", checkIsNavbarTop);
     return () => window.removeEventListener("scroll", checkIsNavbarTop);
@@ -53,10 +47,6 @@ function Header() {
 
   return (
     <StyledNav ref={navbarRef} navbarIsTop={navbarIsTop}>
-      <StyledeMenuIcon
-        onClick={handleClickMenuIcon}
-        isclicked={isClicked + ""}
-      />
       <StyledTitle
         onClick={() => {
           navigate("/");

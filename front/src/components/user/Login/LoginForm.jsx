@@ -130,7 +130,11 @@ function LoginForm() {
           <a
             href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/kakao`}
           >
-            <StyledSocialImg src="socialLoginImg/kakao.png" alt="kakao" />
+            <StyledSocialImg
+              src="socialLoginImg/kakao.png"
+              alt="kakao"
+              style={{ width: "200px", height: "auto" }}
+            />
           </a>
           <a
             href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/naver`}
