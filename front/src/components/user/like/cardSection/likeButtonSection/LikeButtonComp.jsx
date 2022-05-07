@@ -21,6 +21,7 @@ export function LikePageButtonComp({ onClick }) {
 export function LikeButtonComp({ isLiked, onClick }) {
   const handleClickLike = () => {
     onClick();
+    // 좋아요 취소, 완료를 알리는 toast
     let message = "";
     if (isLiked) {
       message = "❌좋아요가 취소되었습니다!";
