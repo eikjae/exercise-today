@@ -45,8 +45,23 @@ class Music {
     return filteredMusics;
   }
 
-  static async findAll() {
+  static async findAllField() {
     const musics = await MusicModel.find({}).lean();
+    return musics;
+  }
+  static async findAllRequiredField() {
+    const musics = await MusicModel.find(
+      {},
+      {
+        _id: false,
+        musicId: true,
+        title: true,
+        artists: true,
+        artist_ids: true,
+        year: true,
+        image_link: true,
+      }
+    );
     return musics;
   }
 
