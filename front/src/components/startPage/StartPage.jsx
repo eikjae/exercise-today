@@ -44,7 +44,7 @@ const StartPage = (props) => {
     "얼마나 해야 할까?",
     "어떻게 해야 할까?",
     "음악 추천 기능",
-    "기록 기능",
+    "캘린더 기능",
     "오늘의 칼로리 확인",
   ];
   const handleOnClick = (num) => {
