@@ -1,7 +1,7 @@
 export const titleList = ["아침  +", "점심  +", "저녁  +", "운동  -"];
 export const startList = ["T08:00:00", "T13:00:00", "T18:00:00", "T20:00:00"];
 export const colorList = ["yellow", "pink", "orange", "red"];
-export const typeList = ["breakfast", "lunch", "dinner"];
+export const typeList = ["breakfast", "lunch", "dinner", "workout"];
 export const foodCategoryList = [
   "견과류",
   "치즈",
