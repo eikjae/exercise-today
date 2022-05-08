@@ -21,6 +21,7 @@ import {
   BodyInfoLabel,
   WarningText,
 } from "./FoodPage.style";
+import { toast } from "react-toastify";
 
 export default function FoodPage() {
   const navigate = useNavigate();
@@ -53,6 +54,7 @@ export default function FoodPage() {
       navigate(`/${res.data.calories}/${height}/${weight}`);
     } catch (err) {
       console.error(err);
+      toast.error("음식을 선택해주세요!");
     }
   };
 
