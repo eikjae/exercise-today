@@ -2,7 +2,6 @@ import { Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
-import MenuIcon from "@mui/icons-material/Menu";
 
 export const StyledNav = styled.nav`
   position: fixed;
@@ -41,6 +40,8 @@ export const TitleIcon = styled(DirectionsRunIcon)`
 export const StyledLink = styled(Link)`
   text-decoration: none;
   padding: 1rem;
+  /* display: absolute;
+  top: 10px; */
   color: #281461;
   font-weight: bold;
   &:hover {
@@ -50,13 +51,6 @@ export const StyledLink = styled(Link)`
 
 export const StyledNavContainer = styled(Box)`
   font-size: 17px;
-`;
-
-export const StyledeMenuIcon = styled(MenuIcon)`
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin: 1rem 1rem 0 0;
-  font-size: 2rem;
-  display: none;
+  display: flex;
+  align-items: center;
 `;

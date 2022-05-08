@@ -12,31 +12,31 @@ import {
 
 const data = [
   {
-    name: "1 ~ 2",
+    name: "~1",
     // uv: 590,
     운동개수: 55,
     // amt: 1400,
   },
   {
-    name: "2 ~ 3",
+    name: "1~2",
     // uv: 868,
     운동개수: 102,
     // amt: 1506,
   },
   {
-    name: "300 이하",
+    name: "2~3",
     // uv: 1397,
     운동개수: 66,
     // amt: 989,
   },
   {
-    name: "400 이하",
+    name: "3~4",
     // uv: 1480,
     운동개수: 17,
     // amt: 1228,
   },
   {
-    name: "500 이하",
+    name: "4~5",
     // uv: 1520,
     운동개수: 8,
     // amt: 1100,
@@ -49,8 +49,8 @@ export default function CalorieExerciseGraph() {
   return (
     <ComposedChart
       layout="vertical"
-      width={400}
-      height={350}
+      width={370}
+      height={320}
       data={data}
       margin={{
         top: 20,
@@ -75,7 +75,13 @@ export default function CalorieExerciseGraph() {
       <Tooltip />
       <Legend />
       {/* <Area dataKey="amt" fill="#8884d8" stroke="#8884d8" /> */}
-      <Bar dataKey="운동개수" barSize={30} fill="#413ea0">
+      <Bar
+        dataKey="운동개수"
+        barSize={30}
+        fill="#413ea0"
+        isAnimationActive={true}
+        key={Math.random()}
+      >
         {data.map((entry, index) => (
           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
         ))}

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { get, post } from "../../../api";
 import Calendar from "../../calendar/Calendar";
+import { UserStateContext } from "../../../App";
 import {
   CalendarLayout,
   CalendarBodyLayout,
@@ -23,10 +24,14 @@ import {
   CalendarSuccess,
   CalendarWeightWarning,
 } from "../like/cardSection/calendarButtonSection/CalendarButtonComp";
+import { useNavigate } from "react-router-dom";
+import Loading from "../../loading/Loading";
 
 const CalendarPage = (props) => {
   const newDate = new Date();
   const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+  const userState = useContext(UserStateContext);
+  const navigate = useNavigate();
   const [date, setDate] = useState("");
   const [strDate, setStrDate] = useState("");
   const [totalExerciseCalrorie, setTotalExerciseCalrorie] = useState(0);
@@ -45,8 +50,15 @@ const CalendarPage = (props) => {
   const [lunchUrl, setLunchUrl] = useState(null);
   const [dinnerUrl, setDinnerUrl] = useState(null);
 
+  // 이미지 id
+  const [breakfastId, setBreakfastId] = useState(null);
+  const [lunchId, setLunchId] = useState(null);
+  const [dinnerId, setDinnerId] = useState(null);
+
   // 캘린더 데이터
   const [calendarData, setCalendarData] = useState([]);
+
+  const [endLoading, setEndLoading] = useState(false);
 
   // const weightRef = useRef();
   const [weight, setWeight] = useState(0);
@@ -103,18 +115,24 @@ const CalendarPage = (props) => {
     } else {
       if (data.dietimage[0]) {
         setBreakfastUrl(data.dietimage[0].imgurl);
+        setBreakfastId(data.dietimage[0].itemId);
       } else {
         setBreakfastUrl(null);
+        setBreakfastId(null);
       }
       if (data.dietimage[1]) {
         setLunchUrl(data.dietimage[1].imgurl);
+        setLunchId(data.dietimage[1].itemId);
       } else {
         setLunchUrl(null);
+        setLunchId(null);
       }
       if (data.dietimage[2]) {
         setDinnerUrl(data.dietimage[2].imgurl);
+        setDinnerId(data.dietimage[2].itemId);
       } else {
         setDinnerUrl(null);
+        setDinnerId(null);
       }
     }
   };
@@ -130,6 +148,9 @@ const CalendarPage = (props) => {
   const handleOnClickCalendar = async (clickDate) => {
     try {
       const res = await get(`calendar/items/${clickDate}`);
+      if (res.data.weight !== null) {
+        setEndLoading(false);
+      }
       setImageUrlWhenUpdate(res.data);
       setChangeListWhenUpdate(res.data);
       setWeightWhenUpdate(res.data);
@@ -197,6 +218,14 @@ const CalendarPage = (props) => {
     });
   };
 
+  // 미로그인 접근 방지
+  useEffect(() => {
+    if (!userState.user) {
+      navigate("/login", { replace: true });
+      return;
+    }
+  }, [navigate, userState.user]);
+
   // 오늘자 날짜 저장하기
   useEffect(() => {
     getTodayDate();
@@ -248,8 +277,21 @@ const CalendarPage = (props) => {
     }
   }, []);
 
+  // 로딩 화면 렌더링
+  useEffect(() => {
+    const timer = renderingLoading();
+    return () => clearTimeout(timer);
+  }, [endLoading]);
+
+  const renderingLoading = () => {
+    return setTimeout(() => {
+      setEndLoading(true);
+    }, 500);
+  };
+
   return (
     <CalendarLayout>
+      {endLoading === false ? <Loading /> : <></>}
       <StyledArrow onClick={handleClickArrow} />
       <div>
         <Calendar
@@ -284,6 +326,8 @@ const CalendarPage = (props) => {
             strDate={strDate}
             imgUrl={breakfastUrl}
             setUrl={setBreakfastUrl}
+            imgId={breakfastId}
+            setImgId={setBreakfastId}
             setFoodList={setBreakfastList}
             setMealCalrorie={setBreakfastCalrorie}
           />
@@ -301,6 +345,8 @@ const CalendarPage = (props) => {
             strDate={strDate}
             imgUrl={lunchUrl}
             setUrl={setLunchUrl}
+            imgId={lunchId}
+            setImgId={setLunchId}
             setFoodList={setLunchList}
             setMealCalrorie={setLunchCalrorie}
           />
@@ -317,6 +363,8 @@ const CalendarPage = (props) => {
             type={"dinner"}
             strDate={strDate}
             imgUrl={dinnerUrl}
+            imgId={dinnerId}
+            setImgId={setDinnerId}
             setUrl={setDinnerUrl}
             setFoodList={setDinnerList}
             setMealCalrorie={setDinnerCalrorie}

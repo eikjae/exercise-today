@@ -9,6 +9,7 @@ export const StyledContainer = styled(Container)`
   max-width: 1800px;
   width: 100%;
   height: 100%;
+  margin-top: 100px;
 `;
 
 export const Title = styled.h1`

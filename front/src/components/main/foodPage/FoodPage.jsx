@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import * as Api from "../../../api";
 import { UserStateContext } from "../../../App";
 import FoodBadge from "./foodBadgeSection/FoodBadge";
+import Loading from "../../loading/Loading";
 import {
   StyledContainer,
   Title,
@@ -82,6 +83,7 @@ export default function FoodPage() {
 
   return (
     <StyledContainer>
+      {foods.length === 0 ? <Loading /> : <></>}
       <header>
         <Title>🍴 오늘 무엇을 드셨나요? 🍴</Title>
       </header>

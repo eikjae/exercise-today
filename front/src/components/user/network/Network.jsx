@@ -5,6 +5,7 @@ import * as Api from "../../../api";
 import UserCard from "../userSection/UserCard";
 import { UserStateContext } from "../../../App";
 import { Layout } from "./Network.style";
+import Loading from "../../loading/Loading";
 
 function Network() {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ function Network() {
 
   return (
     <Layout>
+      {users.length === 0 ? <Loading /> : <></>}
       {users.map((user) => (
         <UserCard key={user.id} user={user} likedUsers={likedUsers} isNetwork />
       ))}

@@ -5,7 +5,6 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   Cell,
 } from "recharts";
@@ -17,11 +16,9 @@ const tickFormatter = (name) => {
 };
 
 const BarChart = ({ data, colors }) => {
-  // console.log(data);
   return (
     <ResponsiveContainer width="100%" height="100%">
       <Barchart
-        // key={Math.round(Math.random() * 10000)}
         data={data}
         margin={{
           top: 5,
@@ -30,11 +27,16 @@ const BarChart = ({ data, colors }) => {
           bottom: 5,
         }}
       >
-        {/* <CartesianGrid strokeDasharray="3 3" /> */}
         <XAxis dataKey="name" tickFormatter={tickFormatter} interval={0} />
-        <YAxis label={{ value: "hour", angle: -90, position: "insideLeft" }} />
+        <YAxis
+          label={{
+            value: "시간",
+            angle: -90,
+            position: "insideLeft",
+            fill: "grey",
+          }}
+        />
         <Tooltip />
-        <Legend />
         <Bar
           isAnimationActive
           dataKey="hour"

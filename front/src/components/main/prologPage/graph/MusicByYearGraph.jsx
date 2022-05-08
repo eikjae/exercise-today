@@ -1,5 +1,5 @@
 import React from "react";
-import { PieChart, Pie, Tooltip, Cell, Text, LabelList } from "recharts";
+import { PieChart, Pie, Tooltip, Cell, Text } from "recharts";
 
 export default function MusicByYearGraph() {
   // 연도별 음악 개수
@@ -39,7 +39,7 @@ export default function MusicByYearGraph() {
 
   return (
     <div className="App">
-      <PieChart width={400} height={400}>
+      <PieChart width={370} height={370}>
         <Tooltip />
         <Pie
           dataKey="value"

@@ -33,6 +33,19 @@ html {
   margin: 0;
 }
 
+.body {
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: 0; /* Firefox */
+}
+::-webkit-scrollbar {
+   /* Chrome, Safari, Opera */
+  /* height: 0px; */
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #584491;
+}
 /* # =================================================================
    # General elements
    # ================================================================= */
@@ -41,6 +54,13 @@ ul {
   margin-bottom: 0;
   list-style: none;
 
+}
+
+.recharts-label {
+  font-size: 1.3rem;
+}
+.recharts-cartesian-axis-tick-value {
+  font-size: 1.1rem;
 }
 
 hr {
@@ -312,6 +332,20 @@ progress {
 .fc-icon{
   display: flex;
   align-items: center;
+}
+
+// 스크롤바 안 보이게 하기
+.body {
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: 0; /* Firefox */
+}
+::-webkit-scrollbar {
+   /* Chrome, Safari, Opera */
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #584491;
 }
 
 `;
