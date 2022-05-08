@@ -44,14 +44,15 @@ export const FriendTitle = styled.h4`
 export const CardSubTitle = styled.h6`
   color: #a0a0a0;
   margin-bottom: 5px;
-  overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const CardTextWrapper = styled.div`
   width: 250px;
   height: 22%;
   margin-bottom: 10px;
-  overflow: auto;
+  overflow: scroll;
 `;
 
 export const EditButton = styled.button`
