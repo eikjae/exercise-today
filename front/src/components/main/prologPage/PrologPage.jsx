@@ -146,7 +146,7 @@ export default function PrologPage() {
               <br /> <B>운동을 하지 않는 사람들</B> 중 당뇨병 환자의 비율은 약 <B style={{fontSize: "2rem"}}>0.21%</B>이며,
             </h4>
             <h4>
-              <B>운동을 하는 사람들</B> 중 당뇨병 환지의 비율은 <B style={{fontSize: "2rem"}}>0.12%</B>입니다.
+              <B>운동을 하는 사람들</B> 중 당뇨병 환자의 비율은 <B style={{fontSize: "2rem"}}>0.12%</B>입니다.
             </h4>
 
           </SecondSectionRight>
