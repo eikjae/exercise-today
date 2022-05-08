@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   FoodListContainer,
   ListWrapper,
@@ -28,6 +28,7 @@ const EatFoodList = ({
   return (
     <FoodListContainer>
       <Accordion
+        defaultExpanded={true}
         style={{
           boxShadow:
             "box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
@@ -44,8 +45,8 @@ const EatFoodList = ({
           <ol>
             {foodList?.map((f, index) => {
               return (
-                <>
-                  <Li key={index}>
+                <Fragment key={("foodList_", index)}>
+                  <Li>
                     <ListWrapper>
                       <H5>{f.category}</H5>
                       <IconWrapper>
@@ -102,7 +103,7 @@ const EatFoodList = ({
                     </ListWrapper>
                   </Li>
                   <Hr />
-                </>
+                </Fragment>
               );
             })}
           </ol>

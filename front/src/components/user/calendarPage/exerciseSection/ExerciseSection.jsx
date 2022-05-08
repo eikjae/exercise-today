@@ -13,6 +13,7 @@ import { get, post } from "../../../../api";
 import {
   CalendarExerciseWarning,
   CalendarSuccess,
+  CalendarWeightWarning,
 } from "../../like/cardSection/calendarButtonSection/CalendarButtonComp";
 
 const ExerciseSection = ({
@@ -20,6 +21,7 @@ const ExerciseSection = ({
   setExerciseList,
   totalExerciseCalrorie,
   handleSetTotalExerciseCalrorie,
+  scrollToTop,
 }) => {
   // 운동 리스트
   const [categoryOptions, setCategoryOptions] = useState([]);
@@ -40,6 +42,12 @@ const ExerciseSection = ({
   }, []);
 
   const getTotalExerciseCalrorie = async () => {
+    console.log(weight);
+    if (weight === 0) {
+      scrollToTop();
+      CalendarWeightWarning();
+      return;
+    }
     if (hour === 0 || !exerciseCategory || !exercise) {
       CalendarExerciseWarning();
       return;
@@ -67,7 +75,6 @@ const ExerciseSection = ({
         }
         return temp;
       });
-
       handleSetTotalExerciseCalrorie(res.data);
       CalendarSuccess();
     } catch (e) {
@@ -137,16 +144,8 @@ const ExerciseSection = ({
           <h4 style={{ marginBottom: "0" }}>시간</h4>
         </HourTextFieldWrapper>
         <StyledButton onClick={getTotalExerciseCalrorie}>등록</StyledButton>
-        {/* <AddCircleOutlineIcon onClick={getTotalExerciseCalrorie} /> */}
       </AutocompleteWrapper>
-      <ExerciseCategoriesWrapper>
-        {/* <ExerciseTotalWrapper>
-          <ExerciseTotal>총 칼로리:</ExerciseTotal>
-        </ExerciseTotalWrapper> */}
-        {/* <ExerciseTotalWrapper>
-          <ExerciseTotal>{totalExerciseCalrorie}kcal</ExerciseTotal>
-        </ExerciseTotalWrapper> */}
-      </ExerciseCategoriesWrapper>
+      <ExerciseCategoriesWrapper></ExerciseCategoriesWrapper>
     </ExerciseLayout>
   );
 };

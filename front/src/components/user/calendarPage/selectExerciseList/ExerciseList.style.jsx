@@ -22,10 +22,7 @@ export const H6 = styled.h6`
 
 export const IconWrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
-  width: 100%;
   align-items: center;
-  margin-bottom: 0.4rem;
 `;
 
 export const TotalWrapper = styled.div`

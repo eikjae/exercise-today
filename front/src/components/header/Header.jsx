@@ -33,7 +33,6 @@ function Header() {
 
   const checkIsNavbarTop = () => {
     if (window.scrollY === 0) {
-      console.log("끝임");
       setNavbarIsTop(true);
     } else {
       setNavbarIsTop(false);

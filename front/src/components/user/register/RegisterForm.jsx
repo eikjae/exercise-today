@@ -247,10 +247,10 @@ function RegisterForm() {
           <OutLine>
             <InputContainer>
               <StyledTextField
-                id="id-input"
-                label="id"
+                id="name-input"
+                label="name"
                 type="text"
-                autoComplete="current-id"
+                autoComplete="current-name"
                 variant="standard"
                 color="secondary"
                 inputRef={idRef}
@@ -355,7 +355,7 @@ function RegisterForm() {
                 <WarningMessage>{msg.msg}</WarningMessage>
               )}
             </InputContainer>
-            <InputContainer>
+            {/* <InputContainer>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DesktopDatePicker
                   label="Date desktop"
@@ -365,7 +365,7 @@ function RegisterForm() {
                   renderInput={(params) => <TextField {...params} />}
                 />
               </LocalizationProvider>
-            </InputContainer>
+            </InputContainer> */}
             <StyledButtonGroup
               variant="outlined"
               aria-label="outlined button group"

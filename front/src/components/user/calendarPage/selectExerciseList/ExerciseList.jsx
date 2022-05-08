@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   ExerciseListContainer,
   ListWrapper,
@@ -44,8 +44,8 @@ const ExerciseList = ({
           <ol>
             {exerciseList?.map((e, index) => {
               return (
-                <>
-                  <li key={index}>
+                <Fragment key={("exerciseList_", index)}>
+                  <li>
                     <ListWrapper>
                       <H6>{e.name}</H6>
                       <IconWrapper>
@@ -82,13 +82,22 @@ const ExerciseList = ({
                                 time: 1,
                               });
                               setTotalExerciseCalrorie((current) => {
+                                if (
+                                  current -
+                                    Number(Number(res.data).toFixed(0)) ===
+                                    1 ||
+                                  current -
+                                    Number(Number(res.data).toFixed(0)) ===
+                                    2
+                                ) {
+                                  return 0;
+                                }
                                 return (
                                   current - Number(Number(res.data).toFixed(0))
                                 );
                               });
                               const temp = [...exerciseList];
                               if (e.time === 1) {
-                                setTotalExerciseCalrorie(0);
                                 temp.splice(index, 1);
                                 setExerciseList([...temp]);
                                 CalendarDeleteList(e.name);
@@ -106,7 +115,7 @@ const ExerciseList = ({
                     </ListWrapper>
                   </li>
                   <Hr />
-                </>
+                </Fragment>
               );
             })}
           </ol>

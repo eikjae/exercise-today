@@ -140,11 +140,7 @@ export const P = styled.p`
 export const FirstSectionLeft = styled.div`
   padding: 3rem;
 `;
-export const FirstSectionRight = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 50%;
-`;
+export const FirstSectionRight = styled.div``;
 
 export const FirstSectionContentWrapper = styled.div`
   display: flex;
@@ -176,8 +172,15 @@ export const ExerciseSpan = styled.span`
 export const SecondSectionLeft = styled.div`
   text-align: end;
   padding-right: 2rem;
+  position: relative;
+  left: -40px;
+  top: -55px;
 `;
-export const SecondSectionRight = styled.div``;
+export const SecondSectionRight = styled.div`
+  position: relative;
+  left: -40px;
+  top: -55px;
+`;
 
 export const SecondSectionContentWrapper = styled.div`
   ${({ theme }) => {
@@ -192,8 +195,14 @@ export const SecondSectionContentWrapper = styled.div`
 export const ThirdSectionLeft = styled.div`
   text-align: end;
   padding-right: 2rem;
+
+  position: relative;
+  top: -70px;
 `;
-export const ThirdSectionRight = styled.div``;
+export const ThirdSectionRight = styled.div`
+  position: relative;
+  top: -70px;
+`;
 export const ThirdSectionContentWrapper = styled.div`
   ${({ theme }) => {
     return css`

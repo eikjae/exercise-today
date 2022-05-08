@@ -13,6 +13,7 @@ import {
   WeightTitle,
   StyledButton,
   StyledArrow,
+  P,
 } from "./CalendarPage.style";
 import EatFoodList from "./eatFoodList/EatFoodList";
 import ExerciseSection from "./exerciseSection/ExerciseSection";
@@ -169,6 +170,8 @@ const CalendarPage = (props) => {
   };
 
   const postDateData = async () => {
+    scrollToTop();
+
     try {
       await post("calendar/items", {
         whenDate: strDate,
@@ -193,8 +196,6 @@ const CalendarPage = (props) => {
       setCalendarData(res.data);
 
       CalendarSuccess();
-
-      scrollToTop();
     } catch (e) {
       if (!weight || weight === 0) {
         CalendarWeightWarning();
@@ -320,6 +321,7 @@ const CalendarPage = (props) => {
               <WeightTitle>kg</WeightTitle>
             </TodayWeight>
           </TodayChecked>
+          <P>100g(ml) 단위로 평균 칼로리가 계산됩니다.</P>
           <MealSection
             title={"아침"}
             type={"breakfast"}
@@ -382,6 +384,7 @@ const CalendarPage = (props) => {
             setExerciseList={setExerciseList}
             totalExerciseCalrorie={totalExerciseCalrorie}
             handleSetTotalExerciseCalrorie={handleSetTotalExerciseCalrorie}
+            scrollToTop={scrollToTop}
           />
           <ExerciseList
             title={"운동 리스트"}

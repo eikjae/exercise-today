@@ -4,6 +4,7 @@ import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 export const CalendarLayout = styled.div`
   display: flex;
   justify-content: center;
+  text-align: center;
 
   width: 1600px;
   ${({ theme }) => {
@@ -35,6 +36,8 @@ export const TitleWrapper = styled.div`
 
   border-radius: 10px;
 `;
+
+export const P = styled.p``;
 
 export const BodyWrapper = styled.section`
   flex: 0.9;
