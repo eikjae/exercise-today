@@ -154,7 +154,7 @@ export default function PrologPage() {
         <Section ref={section_3}>
           <ThirdSectionLeft>
             <h1>
-              <B>비만</B>과 <B>심장병</B>의 관계
+              <B>비만</B>과 <B>심장병</B>의 상관관계
             </h1>
             <br />
             <h3><B>맥킨지 앤드 컴퍼니</B>의 <B>EHR</B>(전자 건강 기록) 자료입니다.</h3>
