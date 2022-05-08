@@ -29,6 +29,9 @@ export const CardTitle = styled.h4`
   font-weight: bold;
   color: #281461;
   margin-bottom: 8px;
+  height: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const FriendTitle = styled.h4`
@@ -41,6 +44,7 @@ export const FriendTitle = styled.h4`
 export const CardSubTitle = styled.h6`
   color: #a0a0a0;
   margin-bottom: 5px;
+  overflow: ellipsis;
 `;
 
 export const CardTextWrapper = styled.div`
