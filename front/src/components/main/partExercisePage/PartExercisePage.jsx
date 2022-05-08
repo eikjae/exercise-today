@@ -22,6 +22,7 @@ import {
   LikeButton,
   NotLikeIcon,
   LikeIcon,
+  HiddenImg,
   StyledH5,
 } from "./PartExercise.style";
 
@@ -50,7 +51,7 @@ import {
 import Loading from "../../loading/Loading";
 
 export default function PartExercisePage() {
-  // 부위 카테고리, 상세 부위, 기구, 운동
+  // 부위 카테고리, 상세 부위, 기구, 운동, 좋아요
   const [bodyPartList, setBodyPartList] = useState([]);
   const [bodyPart, setBodyPart] = useState("");
   const [targetList, setTargetList] = useState([]);
@@ -59,6 +60,7 @@ export default function PartExercisePage() {
   const [equipment, setEquipment] = useState("");
   const [exerciseList, setExerciseList] = useState([]);
   const [exercise, setExercise] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
 
   // 실제 운동 이미지
   const [exerciseImg, setExerciseImg] = useState(null);
@@ -68,7 +70,6 @@ export default function PartExercisePage() {
   const [partClick, setPartClick] = useState("not-click");
 
   const userState = useContext(UserStateContext);
-  const [isLiked, setIsLiked] = useState(false);
 
   // 처음 렌더링시 GET 요청으로 bodyPart 카테고리를 가져옴
   useEffect(() => {
@@ -241,8 +242,8 @@ export default function PartExercisePage() {
         </SelectBodyWrapper>
         <SvgWrapper>
           <svg
-            style={{ width: "100%", height: "100%", border: "1px" }}
-            viewBox="50 -50 413 400"
+            style={{ width: "700px", height: "100%" }}
+            viewBox="45 -50 413 400"
           >
             <Body />
             <Cardiovascular
@@ -426,10 +427,9 @@ export default function PartExercisePage() {
               style={{ width: "100%" }}
             />
           ) : (
-            <img
+            <HiddenImg
               src="http://d205bpvrqc9yn1.cloudfront.net/0150.gif"
               alt="빈 이미지"
-              style={{ width: "100%", visibility: "hidden" }}
             />
           )}
           {exercise ? (

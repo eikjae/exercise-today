@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as Api from "../../../api";
 import {
+  Background,
   RegitserButton,
   StyledContainer,
   StyledTextField,
@@ -26,6 +27,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { TextField } from "@mui/material";
 import dayjs from "dayjs";
+import Loading from "../../loading/Loading";
 
 function RegisterForm() {
   const navigate = useNavigate();
@@ -36,6 +38,8 @@ function RegisterForm() {
   const [password, setPassword] = useState("");
   const [certification, seCertification] = useState(false);
   const [checkOverlap, setCheckOverlap] = useState(false);
+
+  const [endLoading, setEndLoading] = useState(false);
 
   const status = {
     WARNING: "WARNING",
@@ -223,183 +227,198 @@ function RegisterForm() {
     }
   };
 
+  // 로딩 화면 렌더링
+  useEffect(() => {
+    const timer = renderingLoading();
+    return () => clearTimeout(timer);
+  }, [endLoading]);
+
+  const renderingLoading = () => {
+    return setTimeout(() => {
+      setEndLoading(true);
+    }, 500);
+  };
+
   return (
-    <StyledContainer>
-      <InputLayout>
-        <OutLine>
-          <InputContainer>
-            <StyledTextField
-              id="id-input"
-              label="id"
-              type="text"
-              autoComplete="current-id"
-              variant="standard"
-              color="secondary"
-              inputRef={idRef}
-            />
-            {msg.type === NOT_VALID_ID.type && (
-              <WarningMessage>{msg.msg}</WarningMessage>
-            )}
-          </InputContainer>
-          <InputContainer>
-            <ActivateInputWrapper>
-              <EmailField
-                id="email-input"
-                label="email"
-                type="email"
-                autoComplete="current-email"
+    <Background>
+      {endLoading === false ? <Loading /> : <></>}
+      <StyledContainer>
+        <InputLayout>
+          <OutLine>
+            <InputContainer>
+              <StyledTextField
+                id="id-input"
+                label="id"
+                type="text"
+                autoComplete="current-id"
                 variant="standard"
                 color="secondary"
-                inputRef={emailRef}
+                inputRef={idRef}
               />
-              {msg.type === ABLE_REGISTER_EMAIL.type ? (
-                <SubmitActivateButton
-                  onClick={async () => {
-                    setMsg(CHECK_ACTIVATE_KEY);
-                    await Api.post(
-                      `user/authEmail/${emailRef.current.value}/activateKey`
-                    );
-                  }}
-                >
-                  인증
-                </SubmitActivateButton>
-              ) : (
-                <SubmitActivateButton
-                  onClick={() => {
-                    checkEmail();
-                  }}
-                >
-                  중복 확인
-                </SubmitActivateButton>
+              {msg.type === NOT_VALID_ID.type && (
+                <WarningMessage>{msg.msg}</WarningMessage>
               )}
-            </ActivateInputWrapper>
-            {msg.type === ALREADY_REGISTER_EMAIL.type && (
-              <WarningMessage>{msg.msg}</WarningMessage>
-            )}
-            {msg.type === ABLE_REGISTER_EMAIL.type && (
-              <NoticeMessage>{msg.msg}</NoticeMessage>
-            )}
-            {msg.type === NOT_VALID_EMAIL.type && (
-              <WarningMessage>{msg.msg}</WarningMessage>
-            )}
-            {msg.type === FAIL_ACTIVATE_KEY.type && (
-              <WarningMessage>{msg.msg}</WarningMessage>
-            )}
-          </InputContainer>
-          {msg.type === CHECK_ACTIVATE_KEY.type && (
+            </InputContainer>
             <InputContainer>
               <ActivateInputWrapper>
-                <StyledTextField
-                  id="key-input"
-                  label="activate key"
-                  type="text"
-                  autoComplete="current-key"
+                <EmailField
+                  id="email-input"
+                  label="email"
+                  type="email"
+                  autoComplete="current-email"
                   variant="standard"
                   color="secondary"
-                  inputRef={keyRef}
-                  disabled={msg.type !== CHECK_ACTIVATE_KEY.type}
+                  inputRef={emailRef}
                 />
-                <SubmitActivateButton onClick={checkActivateKey}>
-                  확인
-                </SubmitActivateButton>
+                {msg.type === ABLE_REGISTER_EMAIL.type ? (
+                  <SubmitActivateButton
+                    onClick={async () => {
+                      setMsg(CHECK_ACTIVATE_KEY);
+                      await Api.post(
+                        `user/authEmail/${emailRef.current.value}/activateKey`
+                      );
+                    }}
+                  >
+                    인증
+                  </SubmitActivateButton>
+                ) : (
+                  <SubmitActivateButton
+                    onClick={() => {
+                      checkEmail();
+                    }}
+                  >
+                    중복 확인
+                  </SubmitActivateButton>
+                )}
               </ActivateInputWrapper>
-              <NoticeMessage>{msg.msg}</NoticeMessage>
+              {msg.type === ALREADY_REGISTER_EMAIL.type && (
+                <WarningMessage>{msg.msg}</WarningMessage>
+              )}
+              {msg.type === ABLE_REGISTER_EMAIL.type && (
+                <NoticeMessage>{msg.msg}</NoticeMessage>
+              )}
+              {msg.type === NOT_VALID_EMAIL.type && (
+                <WarningMessage>{msg.msg}</WarningMessage>
+              )}
+              {msg.type === FAIL_ACTIVATE_KEY.type && (
+                <WarningMessage>{msg.msg}</WarningMessage>
+              )}
             </InputContainer>
-          )}
-          <InputContainer>
-            <StyledTextField
-              id="password-input"
-              label="password"
-              type="password"
-              autoComplete="current-password"
-              variant="standard"
-              color="secondary"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            {msg.type === NOT_VALID_PASSWORD.type && (
-              <WarningMessage>{msg.msg}</WarningMessage>
+            {msg.type === CHECK_ACTIVATE_KEY.type && (
+              <InputContainer>
+                <ActivateInputWrapper>
+                  <StyledTextField
+                    id="key-input"
+                    label="activate key"
+                    type="text"
+                    autoComplete="current-key"
+                    variant="standard"
+                    color="secondary"
+                    inputRef={keyRef}
+                    disabled={msg.type !== CHECK_ACTIVATE_KEY.type}
+                  />
+                  <SubmitActivateButton onClick={checkActivateKey}>
+                    확인
+                  </SubmitActivateButton>
+                </ActivateInputWrapper>
+                <NoticeMessage>{msg.msg}</NoticeMessage>
+              </InputContainer>
             )}
-          </InputContainer>
-          <InputContainer>
-            <StyledTextField
-              id="password-check-input"
-              label="password check"
-              type="password"
-              autoComplete="current-password-check"
-              variant="standard"
-              color="secondary"
-              inputRef={confirmPasswordRef}
-              disabled={password.length < 4}
-            />
-            {msg.type === NOT_SAME_PASSWORD.type && (
-              <WarningMessage>{msg.msg}</WarningMessage>
-            )}
-          </InputContainer>
-          <InputContainer>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DesktopDatePicker
-                label="Date desktop"
-                inputFormat="MM/dd/yyyy"
-                value={birthday}
-                onChange={handleChangeBirthday}
-                renderInput={(params) => <TextField {...params} />}
+            <InputContainer>
+              <StyledTextField
+                id="password-input"
+                label="password"
+                type="password"
+                autoComplete="current-password"
+                variant="standard"
+                color="secondary"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
               />
-            </LocalizationProvider>
-          </InputContainer>
-          <StyledButtonGroup
-            variant="outlined"
-            aria-label="outlined button group"
-          >
-            <SexButton
-              isclicksexbtn={isClickSexBtn + ""}
-              onClick={() => {
-                setIsClickSexBtn(true);
-              }}
+              {msg.type === NOT_VALID_PASSWORD.type && (
+                <WarningMessage>{msg.msg}</WarningMessage>
+              )}
+            </InputContainer>
+            <InputContainer>
+              <StyledTextField
+                id="password-check-input"
+                label="password check"
+                type="password"
+                autoComplete="current-password-check"
+                variant="standard"
+                color="secondary"
+                inputRef={confirmPasswordRef}
+                disabled={password.length < 4}
+              />
+              {msg.type === NOT_SAME_PASSWORD.type && (
+                <WarningMessage>{msg.msg}</WarningMessage>
+              )}
+            </InputContainer>
+            <InputContainer>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DesktopDatePicker
+                  label="Date desktop"
+                  inputFormat="MM/dd/yyyy"
+                  value={birthday}
+                  onChange={handleChangeBirthday}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </InputContainer>
+            <StyledButtonGroup
+              variant="outlined"
+              aria-label="outlined button group"
             >
-              남자
-            </SexButton>
-            <SexButton
-              isclicksexbtn={!isClickSexBtn + ""}
-              onClick={() => {
-                setIsClickSexBtn(false);
-              }}
-            >
-              여자
-            </SexButton>
-          </StyledButtonGroup>
-          <HWInfo>
-            <HeightInput
-              id="height"
-              label="height"
-              type="number"
-              autoComplete="current-height"
-              variant="standard"
-              color="secondary"
-              inputRef={heightRef}
-            />
-            <WeightInput
-              id="weight"
-              label="weight"
-              type="number"
-              autoComplete="current-weight"
-              variant="standard"
-              color="secondary"
-              inputRef={weightRef}
-            />
-          </HWInfo>
-          <ButtonWrapper>
-            <RegitserButton
-              onClick={handleOnClickRegister}
-              // disabled={msg.type !== ALL_VALID.type}
-            >
-              가입하기
-            </RegitserButton>
-          </ButtonWrapper>
-        </OutLine>
-      </InputLayout>
-    </StyledContainer>
+              <SexButton
+                isclicksexbtn={isClickSexBtn + ""}
+                onClick={() => {
+                  setIsClickSexBtn(true);
+                }}
+              >
+                남자
+              </SexButton>
+              <SexButton
+                isclicksexbtn={!isClickSexBtn + ""}
+                onClick={() => {
+                  setIsClickSexBtn(false);
+                }}
+              >
+                여자
+              </SexButton>
+            </StyledButtonGroup>
+            <HWInfo>
+              <HeightInput
+                id="height"
+                label="height"
+                type="number"
+                autoComplete="current-height"
+                variant="standard"
+                color="secondary"
+                inputRef={heightRef}
+              />
+              <WeightInput
+                id="weight"
+                label="weight"
+                type="number"
+                autoComplete="current-weight"
+                variant="standard"
+                color="secondary"
+                inputRef={weightRef}
+              />
+            </HWInfo>
+            <ButtonWrapper>
+              <RegitserButton
+                onClick={handleOnClickRegister}
+                // disabled={msg.type !== ALL_VALID.type}
+              >
+                가입하기
+              </RegitserButton>
+            </ButtonWrapper>
+          </OutLine>
+        </InputLayout>
+      </StyledContainer>
+    </Background>
   );
 }
 

@@ -34,13 +34,6 @@ export const FoodLabelWrapper = styled.div`
 `;
 
 export const FoodLabel = styled.label`
-  /* margin-left: 14.5px;
-  font-size: 15px;
-  font-weight: bold;
-  width: 90px;
-  position: absolute;
-  margin-top: 5.5px;
-  text-align: center; */
   font-size: 15px;
   font-weight: bold;
 `;

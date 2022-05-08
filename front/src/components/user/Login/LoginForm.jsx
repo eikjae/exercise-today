@@ -1,9 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import * as Api from "../../../api";
 import { DispatchContext } from "../../../App";
 import {
+  Background,
   StyledButton,
   StyledContainer,
   StyledTextField,
@@ -15,6 +16,7 @@ import {
   StyledSocialImg,
   SocialLoginWrapper,
 } from "./LoginForm.style";
+import Loading from "../../loading/Loading";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -24,6 +26,8 @@ function LoginForm() {
   const [password, setPassword] = useState("");
 
   const [isValid, setIsValid] = useState(true);
+
+  const [endLoading, setEndLoading] = useState(false);
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -80,86 +84,102 @@ function LoginForm() {
   const handleOnClickRegister = () => {
     navigate("/register");
   };
+
+  // 로딩 화면 렌더링
+  useEffect(() => {
+    const timer = renderingLoading();
+    return () => clearTimeout(timer);
+  }, [endLoading]);
+
+  const renderingLoading = () => {
+    return setTimeout(() => {
+      setEndLoading(true);
+    }, 500);
+  };
+
   return (
-    <StyledContainer>
-      <StyledInputLayout>
-        <StyledOutLine>
-          <StyledInputContainer>
-            <StyledTextField
-              id="email-input"
-              label="email"
-              type="email"
-              autoComplete="current-email"
-              variant="standard"
-              color="secondary"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-            {!isValid && (
-              <StyledWarningMessage>
-                이메일 혹은 패스워드가 유효하지 않습니다.
-              </StyledWarningMessage>
-            )}
-          </StyledInputContainer>
-          <StyledInputContainer>
-            <StyledTextField
-              id="password-input"
-              label="password"
-              type="password"
-              autoComplete="current-password"
-              variant="standard"
-              color="secondary"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-            {!isValid && (
-              <StyledWarningMessage>
-                이메일 혹은 패스워드가 유효하지 않습니다.
-              </StyledWarningMessage>
-            )}
-          </StyledInputContainer>
-          <StyledButtonWrapper>
-            <StyledButton onClick={handleOnClickLogin} type="submit">
-              로그인
-            </StyledButton>
-            <StyledButton onClick={handleOnClickRegister}>
-              회원가입
-            </StyledButton>
-          </StyledButtonWrapper>
-          <SocialLoginWrapper>
-            <a
-              href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/kakao`}
-            >
-              <StyledSocialImg
-                src="socialLoginImg/kakao.png"
-                alt="kakao"
-                style={{ width: "250px", height: "auto" }}
+    <Background>
+      {endLoading === false ? <Loading /> : <></>}
+      <StyledContainer>
+        <StyledInputLayout>
+          <StyledOutLine>
+            <StyledInputContainer>
+              <StyledTextField
+                id="email-input"
+                label="email"
+                type="email"
+                autoComplete="current-email"
+                variant="standard"
+                color="secondary"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
               />
-            </a>
-            <a
-              href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/naver`}
-            >
-              <StyledSocialImg
-                src="socialLoginImg/naver.png"
-                alt="naver"
-                style={{ width: "250px", height: "auto" }}
+              {!isValid && (
+                <StyledWarningMessage>
+                  이메일 혹은 패스워드가 유효하지 않습니다.
+                </StyledWarningMessage>
+              )}
+            </StyledInputContainer>
+            <StyledInputContainer>
+              <StyledTextField
+                id="password-input"
+                label="password"
+                type="password"
+                autoComplete="current-password"
+                variant="standard"
+                color="secondary"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
               />
-            </a>
-            <a
-              href={`https://accounts.google.com/o/oauth2/auth?client_id=${process.env.REACT_APP_GOOGLE_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/google&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&response_type=code`}
-            >
-              <StyledSocialImg
-                src="socialLoginImg/google.png"
-                alt="google"
-                style={{ width: "250px", height: "auto" }}
-              />
-            </a>
-          </SocialLoginWrapper>
-        </StyledOutLine>
-      </StyledInputLayout>
-    </StyledContainer>
+              {!isValid && (
+                <StyledWarningMessage>
+                  이메일 혹은 패스워드가 유효하지 않습니다.
+                </StyledWarningMessage>
+              )}
+            </StyledInputContainer>
+            <StyledButtonWrapper>
+              <StyledButton onClick={handleOnClickLogin} type="submit">
+                로그인
+              </StyledButton>
+              <StyledButton onClick={handleOnClickRegister}>
+                회원가입
+              </StyledButton>
+            </StyledButtonWrapper>
+            <SocialLoginWrapper>
+              <a
+                href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/kakao`}
+              >
+                <StyledSocialImg
+                  src="socialLoginImg/kakao.png"
+                  alt="kakao"
+                  style={{ width: "250px", height: "auto" }}
+                />
+              </a>
+              <a
+                href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.REACT_APP_NAVER_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/naver`}
+              >
+                <StyledSocialImg
+                  src="socialLoginImg/naver.png"
+                  alt="naver"
+                  style={{ width: "250px", height: "auto" }}
+                />
+              </a>
+              <a
+                href={`https://accounts.google.com/o/oauth2/auth?client_id=${process.env.REACT_APP_GOOGLE_ID}&redirect_uri=${process.env.REACT_APP_HOST}/oauth/google&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile&response_type=code`}
+              >
+                <StyledSocialImg
+                  src="socialLoginImg/google.png"
+                  alt="google"
+                  style={{ width: "250px", height: "auto" }}
+                />
+              </a>
+            </SocialLoginWrapper>
+          </StyledOutLine>
+        </StyledInputLayout>
+      </StyledContainer>
+    </Background>
   );
 }
 

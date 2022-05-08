@@ -6,7 +6,7 @@ export const StyledContainer = styled(Container)`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  max-width: 1800px;
+  max-width: 2000px;
   width: 100%;
   height: 100%;
   margin-top: 100px;
@@ -100,20 +100,3 @@ export const WarningText = styled.h6`
   color: #e45454;
   margin-top: 10px;
 `;
-
-// 이후에 칼로리 계산기로 재사용
-// const CalorieWrapper = styled.div`
-//   margin-top: 40px;
-//   display: flex;
-//   align-items: center;
-//   justify-content: flex-end;
-//   width: 50%;
-//   height: 100px;
-//   background-color: #61ac77;
-//   border-radius: 10px;
-// `;
-
-// const CalorieResult = styled.h2`
-//   margin-right: 30px;
-//   font-weight: bold;
-// `;

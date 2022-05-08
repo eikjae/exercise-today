@@ -6,7 +6,6 @@ export const LikePageWrapper = styled.div`
   width: 100%;
   height: 40px;
   display: flex;
-  /* justify-content: center; */
   margin-top: auto;
   margin-bottom: 20px;
 `;

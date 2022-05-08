@@ -17,7 +17,7 @@ export const StyledNav = styled.nav`
     `;
   }}
   padding: 0.3rem;
-  background: linear-gradient(90deg, #c0a5ff 80%, #e981cf);
+  background: #4d2eb2;
   margin-bottom: 10px;
 `;
 
@@ -27,9 +27,11 @@ export const StyledTitle = styled.h4`
   padding-right: 1rem;
   font-weight: bold;
   font-size: 25px;
-  color: #281461;
+  color: white;
   &:hover {
     cursor: pointer;
+    color: #ce7aff;
+    transition: color 0.3s;
   }
 `;
 
@@ -40,12 +42,11 @@ export const TitleIcon = styled(DirectionsRunIcon)`
 export const StyledLink = styled(Link)`
   text-decoration: none;
   padding: 1rem;
-  /* display: absolute;
-  top: 10px; */
-  color: #281461;
+  color: white;
   font-weight: bold;
   &:hover {
-    color: #585ac7;
+    color: #ce7aff;
+    transition: color 0.3s;
   }
 `;
 

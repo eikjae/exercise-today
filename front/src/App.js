@@ -5,9 +5,9 @@ import * as Api from "./api";
 import { loginReducer } from "./reducer";
 
 import Header from "./components/header/Header";
-import LoginForm from "./components/user/Login/LoginForm";
+import LoginForm from "./components/user/login/LoginForm";
 import Network from "./components/user/network/Network";
-import RegisterForm from "./components/user/Register/RegisterForm";
+import RegisterForm from "./components/user/register/RegisterForm";
 
 import FoodPage from "./components/main/foodPage/FoodPage";
 import PrologPage from "./components/main/prologPage/PrologPage";
