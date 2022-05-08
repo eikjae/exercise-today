@@ -124,7 +124,7 @@ const StartPage = (props) => {
               <br /> 우리가 먹은 음식이 지방이 되지 못하도록,
               <br /> <B>칼로리를 소모</B>하는 가장 좋은 방법은, 바로{" "}
               <B>'운동'</B>입니다. <br /> 하지만,{" "}
-              <B style={{ fontSize: "2rem" }}>'얼마나'</B> 운동을 해야 하는지는
+              <B style={{ fontSize: "2rem" }}>'얼마나'</B> 운동을 해야 하는지도
               잘 알고 있나요? <br />
             </FirstSectionSecondContent>
             <P>
