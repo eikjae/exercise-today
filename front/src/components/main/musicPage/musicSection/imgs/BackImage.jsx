@@ -46,6 +46,7 @@ const BackImage = ({ music }) => {
   // 검색 버튼이 클릭 될 때마다 각 music의 like 상태를 확인함
   useEffect(async () => {
     try {
+      console.log(music);
       const isExistMusic = likedMusics.findIndex(
         (currentMusicId) => currentMusicId === music.musicId
       );

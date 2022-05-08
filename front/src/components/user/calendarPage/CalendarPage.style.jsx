@@ -1,6 +1,6 @@
 import { Button, TextField } from "@mui/material";
 import styled, { css } from "styled-components";
-
+import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 export const CalendarLayout = styled.div`
   display: flex;
   justify-content: center;
@@ -79,6 +79,35 @@ export const StyledTextField = styled(TextField)`
 `;
 
 export const StyledButton = styled(Button)`
-  color: black;
+  color: white;
+  font-weight: 700;
   margin-top: 1rem;
+
+  ${({ theme }) => {
+    return css`
+      background-color: ${theme.colors.identityColor};
+      &:hover {
+        background-color: ${theme.colors.hoverIdentityColor};
+      }
+    `;
+  }}
+`;
+
+export const StyledArrow = styled(ArrowCircleUpIcon)`
+  position: fixed;
+  cursor: pointer;
+  opacity: 0.3;
+  transition: opacity 0.4s ease;
+  ${({ theme }) => {
+    return css`
+      right: 3rem;
+      bottom: 3rem;
+    `;
+  }}
+  font-size: 5rem;
+  z-index: 10;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;

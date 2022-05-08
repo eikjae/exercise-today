@@ -22,6 +22,7 @@ import {
   LikeButton,
   NotLikeIcon,
   LikeIcon,
+  HiddenImg,
   StyledH5,
 } from "./PartExercise.style";
 
@@ -47,9 +48,10 @@ import {
   Abductors,
   Levator_scapulae,
 } from "./bodySection/all_body";
+import Loading from "../../loading/Loading";
 
 export default function PartExercisePage() {
-  // 부위 카테고리, 상세 부위, 기구, 운동
+  // 부위 카테고리, 상세 부위, 기구, 운동, 좋아요
   const [bodyPartList, setBodyPartList] = useState([]);
   const [bodyPart, setBodyPart] = useState("");
   const [targetList, setTargetList] = useState([]);
@@ -58,6 +60,7 @@ export default function PartExercisePage() {
   const [equipment, setEquipment] = useState("");
   const [exerciseList, setExerciseList] = useState([]);
   const [exercise, setExercise] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
 
   // 실제 운동 이미지
   const [exerciseImg, setExerciseImg] = useState(null);
@@ -67,7 +70,6 @@ export default function PartExercisePage() {
   const [partClick, setPartClick] = useState("not-click");
 
   const userState = useContext(UserStateContext);
-  const [isLiked, setIsLiked] = useState(false);
 
   // 처음 렌더링시 GET 요청으로 bodyPart 카테고리를 가져옴
   useEffect(() => {
@@ -205,13 +207,14 @@ export default function PartExercisePage() {
 
   return (
     <StyledContainer>
+      {bodyPartList.length === 0 ? <Loading /> : <></>}
       <LeftWrapper>
         <H2>운동을 원하는 부위를 선택해주세요</H2>
         <SelectBodyWrapper>
           <StyledBodyFormControl>
-            <InputLabel>BodyPart</InputLabel>
+            <InputLabel>부위</InputLabel>
             <StyledSelect
-              label="BodyPart"
+              label="부위"
               value={bodyPart || ""}
               onChange={handleChangeBodyPart}
             >
@@ -223,9 +226,9 @@ export default function PartExercisePage() {
             </StyledSelect>
           </StyledBodyFormControl>
           <StyledBodyFormControl>
-            <InputLabel>Target</InputLabel>
+            <InputLabel>상세부위</InputLabel>
             <StyledSelect
-              label="Target"
+              label="상세부위"
               value={target || ""}
               onChange={handleChangeTarget}
             >
@@ -239,8 +242,8 @@ export default function PartExercisePage() {
         </SelectBodyWrapper>
         <SvgWrapper>
           <svg
-            style={{ width: "100%", height: "100%", border: "1px" }}
-            viewBox="50 -50 413 400"
+            style={{ width: "700px", height: "100%" }}
+            viewBox="45 -50 413 400"
           >
             <Body />
             <Cardiovascular
@@ -383,9 +386,9 @@ export default function PartExercisePage() {
       <RightWrapper>
         <H2>사용할 기구를 선택해주세요</H2>
         <StyledMuscleFormControl>
-          <InputLabel>Equipment</InputLabel>
+          <InputLabel>기구</InputLabel>
           <StyledSelect
-            label="Equipment"
+            label="기구"
             value={equipment || ""}
             onChange={handleChangeEquipment}
           >
@@ -398,10 +401,10 @@ export default function PartExercisePage() {
         </StyledMuscleFormControl>
         <H2Margin>추천 운동</H2Margin>
         <StyledMuscleFormControl>
-          <InputLabel>Exercise</InputLabel>
+          <InputLabel>추천 운동</InputLabel>
           <ExerciseWrapper>
             <SelectExercise
-              label="Exercise"
+              label="추천 운동"
               value={exerciseName || ""}
               onChange={handleChangeExercise}
             >
@@ -424,10 +427,9 @@ export default function PartExercisePage() {
               style={{ width: "100%" }}
             />
           ) : (
-            <img
+            <HiddenImg
               src="http://d205bpvrqc9yn1.cloudfront.net/0150.gif"
               alt="빈 이미지"
-              style={{ width: "100%", visibility: "hidden" }}
             />
           )}
           {exercise ? (

@@ -6,7 +6,6 @@ import generateRandomPassword from "../utils/generate-random-password";
 import { likeService } from "../services/likeService";
 import { User } from "../db";
 import { authEmailService } from "../services/authEmailService";
-import { getRequiredInfoFromData } from "../utils/user";
 import bcrypt from "bcrypt";
 
 const { userImageUpload } = require("../utils/s3");
@@ -30,8 +29,7 @@ userAuthRouter.put(
       if (updatedUser.errorMessage) {
         throw new Error(updatedUser.errorMessage);
       }
-      const resultData = getRequiredInfoFromData(updatedUser);
-      res.json(resultData);
+      res.json(updatedUser);
     } catch (error) {
       next(error);
     }
@@ -48,7 +46,7 @@ userAuthRouter.put(
       }
       const user = await userAuthService.getUserInfo({ user_id });
       if (user.errorMessage) {
-        throw new Error(updatedUser.errorMessage);
+        throw new Error(user.errorMessage);
       }
       const toUpdate = {};
       if (user.gender === "male") {
@@ -70,8 +68,7 @@ userAuthRouter.put(
       if (updatedUser.errorMessage) {
         throw new Error(updatedUser.errorMessage);
       }
-      const resultData = getRequiredInfoFromData(updatedUser);
-      res.json(resultData);
+      res.json(updatedUser);
     } catch (error) {
       next(error);
     }
@@ -171,8 +168,7 @@ userAuthRouter.post("/user/register", async function (req, res, next) {
     if (newLike.errorMessage) {
       throw new Error(newLike.errorMessage);
     }
-    const resultData = getRequiredInfoFromData(newUser);
-    res.status(201).json(resultData);
+    res.status(201).json(newUser);
   } catch (error) {
     next(error);
   }
@@ -206,8 +202,7 @@ userAuthRouter.get(
     try {
       // 전체 사용자 목록을 얻음
       const users = await userAuthService.getUsers();
-      const resultData = users.map((user) => getRequiredInfoFromData(user));
-      res.status(200).send(resultData);
+      res.status(200).send(users);
     } catch (error) {
       next(error);
     }
@@ -228,8 +223,7 @@ userAuthRouter.get(
       if (currentUserInfo.errorMessage) {
         throw new Error(currentUserInfo.errorMessage);
       }
-      const resultData = getRequiredInfoFromData(currentUserInfo);
-      res.json(resultData);
+      res.json(currentUserInfo);
     } catch (error) {
       next(error);
     }
@@ -262,8 +256,8 @@ userAuthRouter.put(
       if (updatedUser.errorMessage) {
         throw new Error(updatedUser.errorMessage);
       }
-      const resultData = getRequiredInfoFromData(updatedUser);
-      res.status(200).json(resultData);
+
+      res.status(200).json(updatedUser);
     } catch (error) {
       next(error);
     }
@@ -282,8 +276,7 @@ userAuthRouter.get(
         throw new Error(userInfo.errorMessage);
       }
 
-      const resultData = getRequiredInfoFromData(userInfo);
-      res.status(200).json(resultData);
+      res.status(200).json(userInfo);
     } catch (error) {
       next(error);
     }
@@ -338,6 +331,7 @@ userAuthRouter.post(
       if (user_id != req.currentUserId) {
         throw new Error("다른 소유자의 소유물을 변경할 권한이 없습니다.");
       }
+      //추후 service단으로 빠질 예정입니다.
       const user = await User.findById({ user_id });
 
       if (!user) {
@@ -348,6 +342,8 @@ userAuthRouter.post(
       const email = user.email;
       //8개 무작위 숫자 string
       const newPassword = generateRandomPassword();
+      console.log(newPassword);
+      //   console.log(newPassword);
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       const toUpdate = { password: hashedPassword };
       const updatedUser = await userAuthService.setUser({ user_id, toUpdate });

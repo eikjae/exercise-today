@@ -13,12 +13,26 @@ export class User {
 
   static async findById({ user_id }) {
     const user = await UserModel.findOne({ id: user_id }).lean();
+
     return user;
   }
 
   static async findAll() {
     //회원탈퇴한 유저는 제외
-    const users = await UserModel.find({ deleted: false });
+    const users = await UserModel.find(
+      { deleted: false },
+      {
+        _id: false,
+        id: true,
+        email: true,
+        name: true,
+        description: true,
+        height: true,
+        weight: true,
+        gender: true,
+        imageLink: true,
+      }
+    );
     return users;
   }
 
@@ -59,5 +73,8 @@ export class User {
       "email id name description type gender imageLink"
     );
     return user;
+  }
+  static async isEmailExists({ email, type }) {
+    return await UserModel.exists({ email, type });
   }
 }

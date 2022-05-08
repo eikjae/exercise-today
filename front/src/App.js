@@ -4,11 +4,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import * as Api from "./api";
 import { loginReducer } from "./reducer";
 
-import Header from "./components/Header";
-import LoginForm from "./components/user/Login/LoginForm";
+import Header from "./components/header/Header";
+import LoginForm from "./components/user/login/LoginForm";
 import Network from "./components/user/network/Network";
-import RegisterForm from "./components/user/Register/RegisterForm";
-import Portfolio from "./components/Portfolio";
+import RegisterForm from "./components/user/register/RegisterForm";
 
 import FoodPage from "./components/main/foodPage/FoodPage";
 import PrologPage from "./components/main/prologPage/PrologPage";
@@ -21,17 +20,12 @@ import ErrorPage from "./components/main/errorSection/ErrorPage";
 import OuathPage from "./components/oauthPage/OauthPage";
 
 import { ToastContainer } from "react-toastify";
-import { atom, RecoilRoot } from "recoil";
+import { RecoilRoot } from "recoil";
 import CalendarPage from "./components/user/calendarPage/CalendarPage";
 import StartPage from "./components/startPage/StartPage";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
-
-// export const userState = atom({
-//   key: "userState",
-//   default: null,
-// });
 
 function App() {
   // useReducer 훅을 통해 userState 상태와 dispatch함수를 생성함.

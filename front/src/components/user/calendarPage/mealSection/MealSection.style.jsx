@@ -16,7 +16,6 @@ export const MealContainer = styled.article`
 
 export const MealWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -28,6 +27,33 @@ export const MealWrapper = styled.div`
   ${({ theme }) => {
     return css`
       border: 2px solid ${theme.colors.identityColor};
+    `;
+  }}
+`;
+
+export const ImageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  flex: 0.4;
+
+  width: 90%;
+
+  border-right: 1px solid gray;
+`;
+
+export const DeleteImgButton = styled(Button)`
+  color: white;
+  font-weight: 700;
+  margin-top: 0.8rem;
+  width: 75%;
+  ${({ theme }) => {
+    return css`
+      background-color: ${theme.colors.identityColor};
+      &:hover {
+        background-color: ${theme.colors.hoverIdentityColor};
+      }
     `;
   }}
 `;
@@ -59,14 +85,14 @@ export const SubmitImageButton = styled(Button)`
 
 export const MealInfoContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
-  width: 100%;
-  /* margin: 0 0.5rem 0.2rem 0.5rem; */
-  /* background-color: red; */
+  align-items: center;
+  flex: 0.6;
 `;
 
 export const InputWrapper = styled.div`
-  width: 50%;
+  width: 80%;
   align-items: center;
 `;
 
@@ -92,7 +118,7 @@ export const CountWrapper = styled.div`
 `;
 
 export const StyledButton = styled(Button)`
-  width: 60%;
+  width: 90%;
   color: white;
   font-weight: 700;
   ${({ theme }) => {

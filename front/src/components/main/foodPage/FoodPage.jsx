@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import * as Api from "../../../api";
 import { UserStateContext } from "../../../App";
 import FoodBadge from "./foodBadgeSection/FoodBadge";
+import Loading from "../../loading/Loading";
 import {
   StyledContainer,
   Title,
@@ -25,10 +26,10 @@ export default function FoodPage() {
   const navigate = useNavigate();
   const [foods, setFoods] = useState([]);
   const [foodsInfo, setFoodsInfo] = useState([]);
-  // const [calories, setCalories] = useState(0);
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [likedFoods, setLikedFoods] = useState([]);
+
   const userState = useContext(UserStateContext);
 
   const isHeightValid = height.length > 0;
@@ -47,13 +48,15 @@ export default function FoodPage() {
       // POST 요청을 통해 칼로리 계산값을 받아옴
       const res = await Api.post("foods/calories", copyFoodsInfo);
       setFoodsInfo([...copyFoodsInfo]);
-      // setCalories(res.data.calories);
+
+      // 칼로리에 따른 운동 추천 페이지로 이동
       navigate(`/${res.data.calories}/${height}/${weight}`);
     } catch (err) {
       console.error(err);
     }
   };
 
+  // setFoodsInfo를 더 직관적으로 명명
   const updateFoodsInfo = (data) => {
     setFoodsInfo([...data]);
   };
@@ -77,11 +80,9 @@ export default function FoodPage() {
     }
   }, []);
 
-  // + 버튼이 눌리면 일단 foodsInfo에 정보를 넣음
-  // submit(계산) 버튼을 누를시 volumne이 0인 값은 배열 filter하여 제거하고 POST 요청
-
   return (
     <StyledContainer>
+      {foods.length === 0 ? <Loading /> : <></>}
       <header>
         <Title>🍴 오늘 무엇을 드셨나요? 🍴</Title>
       </header>
@@ -130,9 +131,6 @@ export default function FoodPage() {
       ) : (
         <WarningText style={{ visibility: "hidden" }}>입력 완료</WarningText>
       )}
-      {/* <CalorieWrapper>
-        <CalorieResult>{calories} kcal</CalorieResult>
-      </CalorieWrapper> */}
     </StyledContainer>
   );
 }

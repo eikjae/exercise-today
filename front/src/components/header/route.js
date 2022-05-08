@@ -14,4 +14,13 @@ export const ROUTE = {
   PROLOG: {
     link: "prolog",
   },
+  EXERCISE: {
+    link: "exercise",
+  },
+  MUSIC: {
+    link: "music",
+  },
+  FOOD: {
+    link: "food",
+  },
 };

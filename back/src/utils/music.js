@@ -220,9 +220,9 @@ function deepCopy(arr) {
 
 export function getRequiredComponentMusics(arr) {
   const result = arr.map((music) => {
-    const { id, title, artists, artist_ids, year, image_link } = music;
+    const { musicId, title, artists, artist_ids, year, image_link } = music;
     return {
-      id,
+      musicId,
       title,
       artists,
       artist_ids,

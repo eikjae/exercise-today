@@ -1,6 +1,6 @@
 import { AuthEmail } from "../db";
 import sendMail from "../utils/send-mail";
-import { generateRandomNumberString } from "../utils/authEMail.js";
+import { generateRandomNumberString } from "../utils/authEmail.js";
 
 class authEmailService {
   static async addAuthEmail({ email }) {

@@ -13,7 +13,13 @@ export default function HeartStrokeGraph() {
 
   return (
     <div className="App">
-      <BarChart width={400} height={400} data={StrokesData}>
+      <BarChart
+        width={400}
+        height={400}
+        data={StrokesData}
+        isAnimationActive={true}
+        key={Math.random()}
+      >
         <Tooltip />
         <Legend />
         <Bar barSize={30} dataKey="체중" fill="#8884d8">

@@ -1,10 +1,4 @@
-import {
-  Autocomplete,
-  Button,
-  FormControl,
-  Input,
-  RadioGroup,
-} from "@mui/material";
+import { Autocomplete, Button, FormControl, RadioGroup } from "@mui/material";
 import styled, { css } from "styled-components";
 
 export const StyledTopSection = styled.section`

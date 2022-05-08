@@ -11,15 +11,13 @@ import {
 
 class musicService {
   static async getMusics() {
-    const musics = await Music.findAll();
+    const musics = await Music.findAllRequiredField();
 
     if (!musics) {
       const errorMessage = "노래가 비어있습니다.";
       return { errorMessage };
     }
-    const result = getRequiredComponentMusics(musics);
-
-    return { musics: result };
+    return { musics };
   }
 
   static async getMusicsBy({ filter, orderby, limit }) {
@@ -46,7 +44,7 @@ class musicService {
     });
     const { CaloriesPerLb } = exerciseInfo;
     const properFactor = calculateProperFactor(CaloriesPerLb);
-    let musics = await Music.findAll();
+    let musics = await Music.findAllField();
     const socredMusics = getScoredMusics(musics, properFactor);
     const orderedScoredMusics = scoreMergeSort(socredMusics);
     const result = orderedScoredMusics.slice(0, limit);

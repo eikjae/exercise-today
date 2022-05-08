@@ -9,11 +9,18 @@ import {
   MealWrapper,
   FormWrapper,
   Form,
-  SubmitImageButton,
+  ImageWrapper,
+  DeleteImgButton,
 } from "./MealSection.style";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
-import { get, post, postImage } from "../../../../api";
+import * as Api from "../../../../api";
+import {
+  CalendarImageDelete,
+  CalendarImageSuccess,
+  CalendarMealWarning,
+  CalendarSuccess,
+} from "../../like/cardSection/calendarButtonSection/CalendarButtonComp";
 
 const MealSection = ({
   title,
@@ -21,6 +28,8 @@ const MealSection = ({
   strDate,
   imgUrl,
   setUrl,
+  imgId,
+  setImgId,
   setFoodList,
   setMealCalrorie,
 }) => {
@@ -29,32 +38,26 @@ const MealSection = ({
   // 선택한 음식
   const [meal, setMeal] = useState(null);
   const [count, setCount] = useState(0);
-
-  const [image, setImage] = useState(null);
-
   // api
   const getFoods = useCallback(async () => {
-    const res = await get("foods");
+    const res = await Api.get("foods");
     setMealOptions(res.data);
-    console.log(res.data);
   }, []);
 
   const getTotalCal = async () => {
-    if (count === 0) return;
+    if (count === 0 || !meal) {
+      CalendarMealWarning();
+      return;
+    }
     setMeal(null);
     setCount(0);
     try {
-      const res = await post("foods/calories", [
+      const res = await Api.post("foods/calories", [
         {
           category: meal,
           volume: count,
         },
       ]);
-      // console.log(typeof strDate);
-      // const img = await get("dietimage/items/date", {
-      //   whenDate: strDate,
-      // });
-      // console.log(img.data);
 
       setFoodList((current) => {
         const temp = [...current];
@@ -74,22 +77,34 @@ const MealSection = ({
       setMealCalrorie((current) => {
         return current + res.data.calories;
       });
+      CalendarSuccess();
     } catch (e) {
       throw new Error(e);
     }
   };
 
   const handleSubmitImage = async (e) => {
-    // e.preventDefault();
     try {
-      // setImage();
       const formData = new FormData();
       formData.append("whenDate", strDate);
       formData.append("type", type);
       formData.append("dietImg", e.target.files[0]);
 
-      const res = await postImage("dietimage", formData);
+      const res = await Api.postImage("dietimage", formData);
       setUrl(res.data.imgurl);
+      setImgId(res.data.itemId);
+      CalendarImageSuccess();
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  const handleDeleteImage = async (e) => {
+    try {
+      await Api.delete(`dietimage/item/${imgId}`);
+      setImgId(null);
+      setUrl(null);
+      CalendarImageDelete();
     } catch (e) {
       throw new Error(e);
     }
@@ -109,9 +124,8 @@ const MealSection = ({
     <MealContainer>
       <h5>{title}</h5>
       <MealWrapper>
-        <MealInfoContainer>
+        <ImageWrapper>
           <FormWrapper>
-            {/* action="dietimage" method="post" */}
             {imgUrl === null ? (
               <Form>
                 <label>
@@ -127,23 +141,41 @@ const MealSection = ({
                   />
                   <div
                     style={{
-                      display: "inline",
+                      display: "flex",
+                      cursor: "pointer",
+                      width: "80px",
+                      height: "80px",
                     }}
                   >
-                    <span>이미지</span> <br />
-                    <span>업로드</span>
+                    <p
+                      style={{
+                        marginBottom: "0",
+                        width: "100%",
+                        height: "100%",
+                        lineHeight: "40px",
+                      }}
+                    >
+                      이미지 <br /> 업로드
+                    </p>
                   </div>
                 </label>
-                <SubmitImageButton type="submit">확인</SubmitImageButton>
               </Form>
             ) : (
               <img
                 alt="temp"
                 src={imgUrl}
-                style={{ width: "100px", height: "100pxpx" }}
+                style={{ width: "100px", height: "100px" }}
+                // onClick={(e) => {
+                //   if (imgUrl) {
+                //     setUrl(null);
+                //   }
+                // }}
               ></img>
             )}
           </FormWrapper>
+          <DeleteImgButton onClick={handleDeleteImage}>삭제</DeleteImgButton>
+        </ImageWrapper>
+        <MealInfoContainer>
           <InputWrapper>
             <Autocomplete
               disablePortal
@@ -180,8 +212,8 @@ const MealSection = ({
             </CountWrapper>
             {/* <StyeldAddCircleOutlineIcon onClick={getTotalCal} /> */}
           </InputWrapper>
+          <StyledButton onClick={getTotalCal}>등록</StyledButton>
         </MealInfoContainer>
-        <StyledButton onClick={getTotalCal}>추가</StyledButton>
       </MealWrapper>
     </MealContainer>
   );

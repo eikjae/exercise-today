@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 import sendMail from "../utils/send-mail";
 import { AuthEmail } from "../db";
+import { getRequiredInfoFromData } from "../utils/user";
 
 class userAuthService {
   static async addUser({
@@ -19,16 +20,18 @@ class userAuthService {
   }) {
     //일반회원가입일때
     if (type === "TodayExercise") {
-      const user = await User.findByEmail({ email, type });
+      const emailExits = await User.isEmailExists({ email, type });
       //일반회원중에서 이메일이 존재하는지 체크
-      if (user) {
+      //   console.log(emailExits);
+      if (emailExits) {
         const errorMessage =
           "이 이메일은 현재 가입이력이 있는 이메일입니다. 다른 이메일을 이용해주세요.";
         return { errorMessage };
       }
       //이메일이 인증완료된 이메일인지 체크
-      const authEmail = await AuthEmail.findByEmail({ email });
-      if (!authEmail || authEmail.status === 0) {
+      const authEmailExists = await AuthEmail.isAuthenticated({ email });
+      //   console.log(authEmailResult);
+      if (!authEmailExists) {
         const errorMessage =
           "인증이 완료되지 않은 이메일입니다.인증번호 발급후 인증을 완료해주세요.";
         return { errorMessage };
@@ -66,8 +69,9 @@ class userAuthService {
 
     // db에 저장
     const createdNewUser = await User.create({ newUser });
+    const resultUser = getRequiredInfoFromData(createdNewUser);
 
-    return createdNewUser;
+    return resultUser;
   }
 
   static async getUser({ email, password, type }) {
@@ -98,26 +102,10 @@ class userAuthService {
     // 로그인 성공 -> JWT 웹 토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
     const token = jwt.sign({ user_id: user.id }, secretKey);
-
+    // console.log(user);
     // 반환할 loginuser 객체를 위한 변수 설정
-    const id = user.id;
-    const name = user.name;
-    const description = user.description;
-    const height = user.height;
-    const weight = user.weight;
-    const imageLink = user.imageLink;
-    const gender = user.gender;
-    const loginUser = {
-      token,
-      id,
-      email,
-      name,
-      height,
-      weight,
-      description,
-      imageLink,
-      gender,
-    };
+    const loginUser = getRequiredInfoFromData(user);
+    loginUser.token = token;
 
     return loginUser;
   }
@@ -140,31 +128,38 @@ class userAuthService {
       const errorMessage = "해당 계정은 이미 탈퇴하였습니다.";
       return { errorMessage };
     }
-    const setter = {};
-    // 업데이트 대상에 name이 있다면, 즉 name 값이 null 이 아니라면 업데이트 진행
-    if (toUpdate.name) {
-      setter.name = toUpdate.name;
-    }
-    if (toUpdate.weight) {
-      setter.weight = toUpdate.weight;
-    }
-    if (toUpdate.height) {
-      setter.height = toUpdate.height;
-    }
-    if (toUpdate.gender) {
-      setter.gender = toUpdate.gender;
-    }
-    if (toUpdate.password) {
-      setter.password = toUpdate.password;
-    }
-    if (toUpdate.imageLink) {
-      setter.imageLink = toUpdate.imageLink;
-    }
-    if (toUpdate.description) {
-      setter.description = toUpdate.description;
-    }
-    const updatedUser = await User.updateAll({ user_id, setter });
-    return updatedUser;
+    Object.keys(toUpdate).forEach((key) => {
+      if (toUpdate[key] === undefined || toUpdate[key] === null) {
+        delete toUpdate[key];
+      }
+    });
+    // const setter = {};
+    // // 업데이트 대상에 name이 있다면, 즉 name 값이 null 이 아니라면 업데이트 진행
+
+    // if (toUpdate.name) {
+    //   setter.name = toUpdate.name;
+    // }
+    // if (toUpdate.weight) {
+    //   setter.weight = toUpdate.weight;
+    // }
+    // if (toUpdate.height) {
+    //   setter.height = toUpdate.height;
+    // }
+    // if (toUpdate.gender) {
+    //   setter.gender = toUpdate.gender;
+    // }
+    // if (toUpdate.password) {
+    //   setter.password = toUpdate.password;
+    // }
+    // if (toUpdate.imageLink) {
+    //   setter.imageLink = toUpdate.imageLink;
+    // }
+    // if (toUpdate.description) {
+    //   setter.description = toUpdate.description;
+    // }
+    const updatedUser = await User.updateAll({ user_id, setter: toUpdate });
+    const resultUser = getRequiredInfoFromData(updatedUser);
+    return resultUser;
   }
 
   static async getUserInfo({ user_id }) {
@@ -180,7 +175,8 @@ class userAuthService {
       const errorMessage = "해당 계정은 이미 탈퇴하였습니다.";
       return { errorMessage };
     }
-    return user;
+    const resultUser = getRequiredInfoFromData(user);
+    return resultUser;
   }
 
   static async checkPassword({ user_id, password }) {
