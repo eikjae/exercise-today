@@ -85,7 +85,7 @@ export default function MyPageMenu({ isRecommendPage, isMyPage }) {
                   onMouseLeave={handleClose}
                 >
                   {isRecommendPage && (
-                    <>
+                    <div>
                       <MenuItem onClick={handleClose}>
                         <StyledLink to={ROUTE.FOOD.link}>음식</StyledLink>
                       </MenuItem>
@@ -97,10 +97,10 @@ export default function MyPageMenu({ isRecommendPage, isMyPage }) {
                       <MenuItem onClick={handleClose}>
                         <StyledLink to={ROUTE.MUSIC.link}>음악</StyledLink>
                       </MenuItem>
-                    </>
+                    </div>
                   )}
                   {isMyPage && (
-                    <>
+                    <div>
                       <MenuItem onClick={handleClose}>
                         <StyledLink
                           to={ROUTE.MYPAGE.link + `/${userState.user?.id}`}
@@ -111,7 +111,7 @@ export default function MyPageMenu({ isRecommendPage, isMyPage }) {
                       <MenuItem onClick={handleClose}>
                         <StyledLink to={ROUTE.CALENDAR.link}>캘린더</StyledLink>
                       </MenuItem>
-                    </>
+                    </div>
                   )}
                 </MenuList>
               </ClickAwayListener>
