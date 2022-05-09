@@ -11,8 +11,8 @@
   - [Spotify 1.2M+ Songs](https://www.kaggle.com/datasets/rodolfofigueroa/spotify-12m-songs): spotify api로 얻은 120만곡의 음악 데이터  
   - [Top Spotify songs from 2010-2019 - BY YEAR](https://www.kaggle.com/datasets/leonardopena/top-spotify-songs-from-20102019-by-year):  spotify 연도별 1위 음악 데이터(2010 ~ 2019)  
   - [Starter: World Happiness Report 3e383691-d](https://www.kaggle.com/code/tmai56/starter-world-happiness-report-3e383691-d): 행복한 국가 순위 분석 데이터(2021)  
-  - [당뇨와 운동](링크): 당뇨와 운동  
-  - [체중별 심장병 발병률](링크): 체중별 심장병 발병률  
+  - [당뇨와 운동](https://www.kaggle.com/code/bayunova/diabetes-health-indicators): 당뇨와 운동  
+  - [체중별 심장병 발병률](https://www.kaggle.com/code/bhuvanchennoju/data-storytelling-auc-focus-on-strokes): 체중별 심장병 발병률  
 
 ### 기술 스택
   - JavaScript
