@@ -20,10 +20,10 @@ export const StyledNav = styled.nav`
   padding: 0.3rem;
   background: linear-gradient(90deg, #c0a5ff 80%, #e981cf);
   margin-bottom: 10px;
-  /* ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.tablet`
       padding: 0;
         flex-direction: column;
-    `} */
+    `}
 `;
 
 export const StyledTitle = styled.h4`
@@ -36,9 +36,9 @@ export const StyledTitle = styled.h4`
   &:hover {
     cursor: pointer;
   }
-  /* ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.tablet`
         margin-top:15px;
-    `} */
+    `}
 `;
 
 export const TitleIcon = styled(DirectionsRunIcon)`
@@ -65,7 +65,7 @@ export const StyledLink = styled(Link)`
 export const StyledNavContainer = styled(Box)`
   font-size: 17px;
 
-  /* ${(props) => props.theme.tablet`
+  ${(props) => props.theme.tablet`
         display: flex;
         width: 100%;
         flex-direction: column;
@@ -73,12 +73,8 @@ export const StyledNavContainer = styled(Box)`
         text-align:center;
 
         background: linear-gradient(90deg, #c0a5ff 80%, #e981cf);
-        ${(props) => {
-          return css`
-            width: ${props.isClicked ? "0" : "100%"};
-          `;
-        }}
-    `} */
+
+    `}
 `;
 
 export const StyledeMenuIcon = styled(MenuIcon)`
@@ -89,9 +85,9 @@ export const StyledeMenuIcon = styled(MenuIcon)`
   font-size: 2rem;
   display: none;
 
-  /* ${({ theme }) => theme.tablet`
+  ${({ theme }) => theme.tablet`
       display: block;
       cursor: pointer;
 
-    `} */
+    `}
 `;
