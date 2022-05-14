@@ -1,4 +1,4 @@
-gitlab에서 진행된 엘리스 AI 2차 프로젝트를 github로 mirroring하였습니다. (원본 프로젝트는 gitlab에서 확인 가능합니다.)
+gitlab에서 진행된 프로젝트입니다. (mirroring을 통해 github로 이동)
 
 기술 문서(API 레퍼런스, 시스템 아키텍쳐, ERD, 스타일 가이드 등)관련 내용은 1팀의 GitLab Wiki에 업로드되었습니다.
 
