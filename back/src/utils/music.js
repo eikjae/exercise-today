@@ -17,7 +17,7 @@ const YearFactor = 0.1;
 const EnergyFactor = 0.3;
 
 function filterAuth(arr) {
-  for (var i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {
     if (typeof arr[i] !== "number") {
       return false;
     }
@@ -94,7 +94,7 @@ export function music_filtered_validation(body) {
 }
 
 export function calculateProperFactor(caloriesPerLb) {
-  let properFactor = {
+  const properFactor = {
     Tempo: 0,
     Dnce: 0,
     Energy: 0,
@@ -220,9 +220,9 @@ function deepCopy(arr) {
 
 export function getRequiredComponentMusics(arr) {
   const result = arr.map((music) => {
-    const { id, title, artists, artist_ids, year, image_link } = music;
+    const { musicId, title, artists, artist_ids, year, image_link } = music;
     return {
-      id,
+      musicId,
       title,
       artists,
       artist_ids,

@@ -1,51 +1,110 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
   MealContainer,
-  Image,
   MealInfoContainer,
-  StyledTotalCalrorie,
-  PWrapper,
-  IconWrapper,
-  StyeldAddCircleOutlineIcon,
   InputWrapper,
+  CountWrapper,
+  StyledTextField,
+  StyledButton,
+  MealWrapper,
+  FormWrapper,
+  Form,
+  ImageWrapper,
+  DeleteImgButton,
 } from "./MealSection.style";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
-import { get, post } from "../../../../api";
+import * as Api from "../../../../api";
+import {
+  CalendarImageDelete,
+  CalendarImageSuccess,
+  CalendarMealWarning,
+  CalendarSuccess,
+} from "../../like/cardSection/calendarButtonSection/CalendarButtonComp";
 
-const MealSection = ({ title, getTotalMealCalrorie, strDate }) => {
+const MealSection = ({
+  title,
+  type,
+  strDate,
+  imgUrl,
+  setUrl,
+  imgId,
+  setImgId,
+  setFoodList,
+  setMealCalrorie,
+}) => {
   // 음식 리스트
   const [mealOptions, setMealOptions] = useState([]);
   // 선택한 음식
-  const [meal, setMeal] = useState("");
+  const [meal, setMeal] = useState(null);
   const [count, setCount] = useState(0);
-
-  const [totalMealCalrorie, setTotalMealCalrorie] = useState(0);
-
   // api
   const getFoods = useCallback(async () => {
-    const res = await get("foods");
+    const res = await Api.get("foods");
     setMealOptions(res.data);
   }, []);
 
   const getTotalCal = async () => {
+    if (count === 0 || !meal) {
+      CalendarMealWarning();
+      return;
+    }
+    setMeal(null);
+    setCount(0);
     try {
-      const res = await post("foods/calories", [
+      const res = await Api.post("foods/calories", [
         {
           category: meal,
           volume: count,
         },
       ]);
-      // console.log(typeof strDate);
-      // const img = await get("dietimage/items/date", {
-      //   whenDate: strDate,
-      // });
-      // console.log(img.data);
 
-      setTotalMealCalrorie((current) => {
+      setFoodList((current) => {
+        const temp = [...current];
+        const find = temp.findIndex((ele) => ele.category === meal);
+        if (find < 0) {
+          temp.push({
+            type,
+            category: meal,
+            volume: Number(count),
+          });
+        } else {
+          temp[find].volume += Number(count);
+        }
+
+        return temp;
+      });
+      setMealCalrorie((current) => {
         return current + res.data.calories;
       });
-      getTotalMealCalrorie(res.data.calories);
+      CalendarSuccess();
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  const handleSubmitImage = async (e) => {
+    try {
+      const formData = new FormData();
+      formData.append("whenDate", strDate);
+      formData.append("type", type);
+      formData.append("dietImg", e.target.files[0]);
+
+      const res = await Api.postImage("dietimage", formData);
+      setUrl(res.data.imgurl);
+      setImgId(res.data.itemId);
+      CalendarImageSuccess();
+    } catch (e) {
+      throw new Error(e);
+    }
+  };
+
+  const handleDeleteImage = async (e) => {
+    try {
+      await Api.delete(`dietimage/item/${imgId}`);
+      setImgId(null);
+      setUrl(null);
+      CalendarImageDelete();
     } catch (e) {
       throw new Error(e);
     }
@@ -59,44 +118,103 @@ const MealSection = ({ title, getTotalMealCalrorie, strDate }) => {
     }
   }, []);
 
+  useEffect(() => {}, []);
+
   return (
     <MealContainer>
-      <Image />
-      <MealInfoContainer>
-        <h5>{title}</h5>
-        <InputWrapper>
-          <Autocomplete
-            disablePortal
-            id="food-combo-box"
-            sx={{ width: "100%" }}
-            renderInput={(params) => <TextField {...params} label="Food" />}
-            options={mealOptions}
-            size="small"
-            onChange={(e, value) => {
-              setMeal(value);
-            }}
-          />
-          <TextField
-            id="count-meal"
-            label="개수"
-            variant="outlined"
-            size="small"
-            type="number"
-            InputProps={{
-              inputProps: { min: 0 },
-            }}
-            onChange={(e) => {
-              setCount(e.target.value);
-            }}
-          />
-          <StyeldAddCircleOutlineIcon onClick={getTotalCal} />
-        </InputWrapper>
-        <IconWrapper></IconWrapper>
-        <PWrapper>
-          <StyledTotalCalrorie>총 칼로리</StyledTotalCalrorie>
-          <StyledTotalCalrorie>{`${totalMealCalrorie}kcal`}</StyledTotalCalrorie>
-        </PWrapper>
-      </MealInfoContainer>
+      <h5>{title}</h5>
+      <MealWrapper>
+        <ImageWrapper>
+          <FormWrapper>
+            {imgUrl === null ? (
+              <Form>
+                <label>
+                  <input
+                    type="file"
+                    style={{
+                      display: "none",
+                    }}
+                    accept="image/*"
+                    onChange={(e) => {
+                      handleSubmitImage(e);
+                    }}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      cursor: "pointer",
+                      width: "80px",
+                      height: "80px",
+                    }}
+                  >
+                    <p
+                      style={{
+                        marginBottom: "0",
+                        width: "100%",
+                        height: "100%",
+                        lineHeight: "40px",
+                      }}
+                    >
+                      이미지 <br /> 업로드
+                    </p>
+                  </div>
+                </label>
+              </Form>
+            ) : (
+              <img
+                alt="temp"
+                src={imgUrl}
+                style={{ width: "100px", height: "100px" }}
+                // onClick={(e) => {
+                //   if (imgUrl) {
+                //     setUrl(null);
+                //   }
+                // }}
+              ></img>
+            )}
+          </FormWrapper>
+          <DeleteImgButton onClick={handleDeleteImage}>삭제</DeleteImgButton>
+        </ImageWrapper>
+        <MealInfoContainer>
+          <InputWrapper>
+            <Autocomplete
+              disablePortal
+              id="food-combo-box"
+              sx={{ width: "100%" }}
+              renderInput={(params) => (
+                <TextField {...params} label="Food" variant="standard" />
+              )}
+              options={mealOptions}
+              size="small"
+              value={meal}
+              style={{ backgroundColor: "transparent" }}
+              onChange={(e, value) => {
+                setMeal(value);
+              }}
+            />
+            <CountWrapper>
+              <StyledTextField
+                id="count-meal"
+                label="개수"
+                variant="standard"
+                size="small"
+                type="number"
+                value={count}
+                style={{ backgroundColor: "transparent" }}
+                InputProps={{
+                  inputProps: { min: 0 },
+                }}
+                onChange={(e) => {
+                  setCount(e.target.value);
+                }}
+              />
+              <h4 style={{ marginBottom: "0" }}>개</h4>
+            </CountWrapper>
+            {/* <StyeldAddCircleOutlineIcon onClick={getTotalCal} /> */}
+          </InputWrapper>
+          <StyledButton onClick={getTotalCal}>등록</StyledButton>
+        </MealInfoContainer>
+      </MealWrapper>
     </MealContainer>
   );
 };

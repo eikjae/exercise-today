@@ -1,14 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-pascal-case */
-import React, { useState, useEffect } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import React, { useState, useEffect, useContext } from "react";
+import { InputLabel, MenuItem } from "@mui/material";
 import * as Api from "../../../api";
+import { UserStateContext } from "../../../App";
+import { toast } from "react-toastify";
 
-import { Container } from "@mui/material";
-import styled from "styled-components";
+import {
+  StyledContainer,
+  LeftWrapper,
+  H2,
+  H2Margin,
+  SelectBodyWrapper,
+  SvgWrapper,
+  RightWrapper,
+  StyledBodyFormControl,
+  StyledSelect,
+  StyledMuscleFormControl,
+  ExerciseWrapper,
+  SelectExercise,
+  LikeButton,
+  NotLikeIcon,
+  LikeIcon,
+  HiddenImg,
+  StyledH5,
+} from "./PartExercise.style";
 
 import {
   Body,
@@ -31,69 +47,11 @@ import {
   Serratus_anterior,
   Abductors,
   Levator_scapulae,
-} from "./body/all_body";
-
-const StyledContainer = styled(Container)`
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  max-width: 1200px;
-  max-height: 1000px;
-`;
-
-const StyledLeftContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const StyledH2 = styled.h2`
-  color: #281461;
-  margin-bottom: 15px;
-`;
-
-const StyledH2Margin = styled.h2`
-  color: #281461;
-  margin-top: 30px;
-  margin-bottom: 15px;
-`;
-
-const StyledSelectBodyContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const StyledSvgContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  border: 3px solid #281461;
-  border-radius: 5px;
-  margin-top: 20px;
-`;
-
-const StyledRightContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* justify-content: space-between; */
-  align-items: center;
-  margin-left: 20px;
-`;
-
-const StyledBodyFormControl = styled(FormControl)`
-  width: 45%;
-`;
-
-const StyledMuscleFormControl = styled(FormControl)`
-  width: 100%;
-`;
-
-const StyledH5 = styled.h5`
-  text-align: center;
-`;
+} from "./bodySection/all_body";
+import Loading from "../../loading/Loading";
 
 export default function PartExercisePage() {
-  // 부위 카테고리, 상세 부위, 기구, 운동
+  // 부위 카테고리, 상세 부위, 기구, 운동, 좋아요
   const [bodyPartList, setBodyPartList] = useState([]);
   const [bodyPart, setBodyPart] = useState("");
   const [targetList, setTargetList] = useState([]);
@@ -101,13 +59,17 @@ export default function PartExercisePage() {
   const [equipmentList, setEquipmentList] = useState([]);
   const [equipment, setEquipment] = useState("");
   const [exerciseList, setExerciseList] = useState([]);
-  const [exercise, setExercise] = useState("");
+  const [exercise, setExercise] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
 
   // 실제 운동 이미지
   const [exerciseImg, setExerciseImg] = useState(null);
+  const [exerciseName, setExerciseName] = useState("");
 
   // 클릭된 부분 확인용
-  const [click, setClick] = useState("not-click");
+  const [partClick, setPartClick] = useState("not-click");
+
+  const userState = useContext(UserStateContext);
 
   // 처음 렌더링시 GET 요청으로 bodyPart 카테고리를 가져옴
   useEffect(() => {
@@ -124,7 +86,8 @@ export default function PartExercisePage() {
 
   // 운동을 원하는 신체부위 클릭시 bodyPart와 target을 알게 됨
   // POST 요청을 통해 targetList와 equipmentList를 가져옴
-  const handleClick = async (bodyPart, target) => {
+  // Equipment와 ExerciseName이 초기화 되도록 함
+  const handleClickPart = async (bodyPart, target) => {
     try {
       setBodyPart(bodyPart);
       setTarget(target);
@@ -138,6 +101,8 @@ export default function PartExercisePage() {
         target,
       });
       setEquipmentList(res.data);
+      setEquipment("");
+      setExerciseName("");
     } catch (err) {
       console.error(err);
     }
@@ -160,7 +125,7 @@ export default function PartExercisePage() {
   const handleChangeTarget = async (e) => {
     try {
       setTarget(e.target.value);
-      setClick(e.target.value);
+      setPartClick(e.target.value);
       const res = await Api.post("exercise/findequipments", {
         bodyPart,
         target: e.target.value,
@@ -189,8 +154,52 @@ export default function PartExercisePage() {
   // exercise를 선택하면 이미지를 세팅함
   const handleChangeExercise = async (e) => {
     try {
-      setExercise(e.target.value);
-      setExerciseImg(e.target.value.gifUrl);
+      const selectedExercise = exerciseList.find(
+        (exercise) => exercise.name === e.target.value
+      );
+      setExercise(selectedExercise);
+      setExerciseImg(selectedExercise.gifUrl);
+      setExerciseName(selectedExercise.name);
+
+      // 로그인 했을시, GET 요청으로 이미 Like 됐는지 확인
+      // res를 이용하여 setIsLiked()를 세팅
+      if (userState.user) {
+        const res = await Api.get("like/exercise");
+        const likedExercises = res.data;
+        const isExistExercise = likedExercises.findIndex(
+          (currentExerciseName) => currentExerciseName === selectedExercise.name
+        );
+        if (isExistExercise !== -1) {
+          // 있으면 true
+          setIsLiked(true);
+        } else {
+          // 없으면 false
+          setIsLiked(false);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleClickLike = async (e) => {
+    try {
+      // 로그인한 사용자가 아닐시 좋아요 기능을 사용할 수 없음
+      if (!userState.user) {
+        return toast.error("로그인 후 사용 가능한 서비스입니다.");
+      }
+      // 로그인 했을 경우 좋아요 항목에 추가/삭제 요청
+      await Api.put("like/exercise", { exercise: exercise.name });
+      setIsLiked((prev) => !prev);
+
+      // 좋아요 완료를 보여주는 toast
+      let message = "";
+      if (isLiked) {
+        message = "❌좋아요가 취소되었습니다!";
+      } else {
+        message = "⭕좋아요가 완료되었습니다!";
+      }
+      return toast.success(message);
     } catch (err) {
       console.error(err);
     }
@@ -198,31 +207,28 @@ export default function PartExercisePage() {
 
   return (
     <StyledContainer>
-      <StyledLeftContainer>
-        <StyledH2>운동을 원하는 부위를 선택해주세요</StyledH2>
-        <StyledSelectBodyContainer>
+      {bodyPartList.length === 0 ? <Loading /> : <></>}
+      <LeftWrapper>
+        <H2>운동을 원하는 부위를 선택해주세요</H2>
+        <SelectBodyWrapper>
           <StyledBodyFormControl>
-            <InputLabel id="demo-simple-select-label">BodyPart</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="BodyPart"
+            <InputLabel>부위</InputLabel>
+            <StyledSelect
+              label="부위"
               value={bodyPart || ""}
               onChange={handleChangeBodyPart}
             >
               {bodyPartList.map((bodyPart) => (
-                <MenuItem key={bodyPart} value={bodyPart}>
+                <MenuItem key={bodyPart} value={bodyPart || ""}>
                   {bodyPart}
                 </MenuItem>
               ))}
-            </Select>
+            </StyledSelect>
           </StyledBodyFormControl>
           <StyledBodyFormControl>
-            <InputLabel id="demo-simple-select-label">Target</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="Target"
+            <InputLabel>상세부위</InputLabel>
+            <StyledSelect
+              label="상세부위"
               value={target || ""}
               onChange={handleChangeTarget}
             >
@@ -231,160 +237,158 @@ export default function PartExercisePage() {
                   {target}
                 </MenuItem>
               ))}
-            </Select>
+            </StyledSelect>
           </StyledBodyFormControl>
-        </StyledSelectBodyContainer>
-        <StyledSvgContainer>
+        </SelectBodyWrapper>
+        <SvgWrapper>
           <svg
-            style={{ width: "100%", height: "100%", border: "1px" }}
-            viewBox="50 -50 413 400"
+            style={{ width: "700px", height: "100%" }}
+            viewBox="45 -50 413 400"
           >
             <Body />
             <Cardiovascular
-              fill={click === "cardiovascular system" ? "#FF6666" : undefined}
+              fill={partClick === "심혈관계" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("cardio", "cardiovascular system");
-                setClick("cardiovascular system");
+                handleClickPart("전신", "심혈관계");
+                setPartClick("심혈관계");
               }}
             />
             <Quads
-              fill={click === "quads" ? "#FF6666" : undefined}
+              fill={partClick === "허벅지 앞근육" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper legs", "quads");
-                setClick("quads");
+                handleClickPart("윗 다리", "허벅지 앞근육");
+                setPartClick("허벅지 앞근육");
               }}
             />
             <Calves
-              fill={click === "calves" ? "#FF6666" : undefined}
+              fill={partClick === "종아리 근육" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("lower legs", "calves");
-                setClick("calves");
+                handleClickPart("아랫 다리", "종아리 근육");
+                setPartClick("종아리 근육");
               }}
             />
             <Pectorals
-              fill={click === "pectorals" ? "#FF6666" : undefined}
+              fill={partClick === "가슴근육" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("chest", "pectorals");
-                setClick("pectorals");
+                handleClickPart("가슴", "가슴근육");
+                setPartClick("가슴근육");
               }}
             />
             <Glutes
-              fill={click === "glutes" ? "#FF6666" : undefined}
+              fill={partClick === "둔근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper legs", "glutes");
-                setClick("glutes");
+                handleClickPart("윗 다리", "둔근");
+                setPartClick("둔근");
               }}
             />
             <Hamstrings
-              fill={click === "hamstrings" ? "#FF6666" : undefined}
+              fill={partClick === "허벅지 뒷근육" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper legs", "hamstrings");
-                setClick("hamstrings");
+                handleClickPart("윗 다리", "허벅지 뒷근육");
+                setPartClick("허벅지 뒷근육");
               }}
             />
             <Adductors
-              fill={click === "adductors" ? "#FF6666" : undefined}
+              fill={partClick === "내전근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper legs", "adductors");
-                setClick("adductors");
+                handleClickPart("윗 다리", "내전근");
+                setPartClick("내전근");
               }}
             />
 
             <Triceps
-              fill={click === "triceps" ? "#FF6666" : undefined}
+              fill={partClick === "삼두근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper arms", "triceps");
-                setClick("triceps");
+                handleClickPart("윗 팔", "삼두근");
+                setPartClick("삼두근");
               }}
             />
             <Spine
-              fill={click === "spine" ? "#FF6666" : undefined}
+              fill={partClick === "척추" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("back", "spine");
-                setClick("spine");
+                handleClickPart("등", "척추");
+                setPartClick("척추");
               }}
             />
             <Upper_back
-              fill={click === "upper back" ? "#FF6666" : undefined}
+              fill={partClick === "등 상부" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("back", "upper back");
-                setClick("upper back");
+                handleClickPart("등", "등 상부");
+                setPartClick("등 상부");
               }}
             />
             <Biceps
-              fill={click === "biceps" ? "#FF6666" : undefined}
+              fill={partClick === "이두근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper arms", "biceps");
-                setClick("biceps");
+                handleClickPart("윗 팔", "이두근");
+                setPartClick("이두근");
               }}
             />
             <Delts
-              fill={click === "delts" ? "#FF6666" : undefined}
+              fill={partClick === "삼각근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("shoulders", "delts");
-                setClick("delts");
+                handleClickPart("어깨", "삼각근");
+                setPartClick("삼각근");
               }}
             />
             <Forearms
-              fill={click === "forearms" ? "#FF6666" : undefined}
+              fill={partClick === "팔뚝" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("lower arms", "forearms");
-                setClick("forearms");
+                handleClickPart("아랫 팔", "팔뚝");
+                setPartClick("팔뚝");
               }}
             />
             <Traps
-              fill={click === "traps" ? "#FF6666" : undefined}
+              fill={partClick === "상모근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("back", "traps");
-                setClick("traps");
+                handleClickPart("등", "상모근");
+                setPartClick("상모근");
               }}
             />
             <Serratus_anterior
-              fill={click === "serratus anterior" ? "#FF6666" : undefined}
+              fill={partClick === "전거근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("chest", "serratus anterior");
-                setClick("serratus anterior");
+                handleClickPart("가슴", "전거근");
+                setPartClick("전거근");
               }}
             />
             <Abductors
-              fill={click === "abductors" ? "#FF6666" : undefined}
+              fill={partClick === "외전근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("upper legs", "abductors");
-                setClick("abductors");
+                handleClickPart("윗 다리", "외전근");
+                setPartClick("외전근");
               }}
             />
             <Levator_scapulae
-              fill={click === "levator scapulae" ? "#FF6666" : undefined}
+              fill={partClick === "견갑거근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("neck", "levator scapulae");
-                setClick("levator scapulae");
+                handleClickPart("목", "견갑거근");
+                setPartClick("견갑거근");
               }}
             />
             <Abs
-              fill={click === "abs" ? "#FF6666" : undefined}
+              fill={partClick === "복근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("waist", "abs");
-                setClick("abs");
+                handleClickPart("허리", "복근");
+                setPartClick("복근");
               }}
             />
             <Lats
-              fill={click === "lats" ? "#FF6666" : undefined}
+              fill={partClick === "광배근" ? "#FF6666" : undefined}
               onClick={() => {
-                handleClick("back", "lats");
-                setClick("lats");
+                handleClickPart("등", "광배근");
+                setPartClick("광배근");
               }}
             />
           </svg>
-        </StyledSvgContainer>
-      </StyledLeftContainer>
-      <StyledRightContainer>
-        <StyledH2>사용할 기구를 선택해주세요</StyledH2>
+        </SvgWrapper>
+      </LeftWrapper>
+      <RightWrapper>
+        <H2>사용할 기구를 선택해주세요</H2>
         <StyledMuscleFormControl>
-          <InputLabel id="demo-simple-select-label">Equipment</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Equipment"
+          <InputLabel>기구</InputLabel>
+          <StyledSelect
+            label="기구"
             value={equipment || ""}
             onChange={handleChangeEquipment}
           >
@@ -393,26 +397,29 @@ export default function PartExercisePage() {
                 {equipment}
               </MenuItem>
             ))}
-          </Select>
+          </StyledSelect>
         </StyledMuscleFormControl>
-        <StyledH2Margin>추천 운동</StyledH2Margin>
+        <H2Margin>추천 운동</H2Margin>
         <StyledMuscleFormControl>
-          <InputLabel id="demo-simple-select-label">Exercise</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Exercise"
-            value={exercise.name || ""}
-            onChange={handleChangeExercise}
-          >
-            {exerciseList.map((exercise) => (
-              <MenuItem key={exercise.name} value={exercise}>
-                {exercise.name}
-              </MenuItem>
-            ))}
-          </Select>
+          <InputLabel>추천 운동</InputLabel>
+          <ExerciseWrapper>
+            <SelectExercise
+              label="추천 운동"
+              value={exerciseName || ""}
+              onChange={handleChangeExercise}
+            >
+              {exerciseList.map((exercise) => (
+                <MenuItem key={exercise.name} value={exercise.name}>
+                  {exercise.name}
+                </MenuItem>
+              ))}
+            </SelectExercise>
+            <LikeButton onClick={handleClickLike}>
+              {isLiked ? <LikeIcon /> : <NotLikeIcon />}
+            </LikeButton>
+          </ExerciseWrapper>
         </StyledMuscleFormControl>
-        <StyledSvgContainer>
+        <SvgWrapper>
           {exerciseImg !== null ? (
             <img
               src={exerciseImg}
@@ -420,15 +427,18 @@ export default function PartExercisePage() {
               style={{ width: "100%" }}
             />
           ) : (
-            <img
+            <HiddenImg
               src="http://d205bpvrqc9yn1.cloudfront.net/0150.gif"
               alt="빈 이미지"
-              style={{ width: "100%", visibility: "hidden" }}
             />
           )}
-          <StyledH5>{exercise.name}</StyledH5>
-        </StyledSvgContainer>
-      </StyledRightContainer>
+          {exercise ? (
+            <StyledH5>{exercise?.name}</StyledH5>
+          ) : (
+            <StyledH5 style={{ visibility: "hidden" }}>빈 운동</StyledH5>
+          )}
+        </SvgWrapper>
+      </RightWrapper>
     </StyledContainer>
   );
 }

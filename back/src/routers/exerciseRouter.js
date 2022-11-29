@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { exerciseService } from "../services/exerciseService";
+import { categoryList } from "../lists/categoryList";
 
 const exerciseRouter = Router();
 
@@ -66,5 +67,34 @@ exerciseRouter.post("/exercise/timeinfo", async function (req, res, next) {
     next(error);
   }
 });
+
+exerciseRouter.get("/exercise/categorylist", async function (req, res, next) {
+  try {
+    res.status(200).json(categoryList());
+  } catch (error) {
+    next(error);
+  }
+});
+
+exerciseRouter.get(
+  "/exercise/exerciselist/:category",
+  async function (req, res, next) {
+    try {
+      const category = req.params.category;
+
+      const exerciseList = await exerciseService.exerciseList({
+        category,
+      });
+
+      if (exerciseList.errorMessage) {
+        throw new Error(exerciseList.errorMessage);
+      }
+
+      res.status(200).json(exerciseList);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 export { exerciseRouter };

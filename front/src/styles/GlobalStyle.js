@@ -10,12 +10,16 @@ html {
   tab-size: 4;
 }
 
-*,
+* {
+  background-repeat: no-repeat;
+  box-sizing: inherit;
+  font-family: "Elice Digital Baeum", sans-serif;
+}
 ::before,
 ::after {
   background-repeat: no-repeat;
   box-sizing: inherit;
-  font-family: "Elice Digital Baeum", sans-serif;
+  /* font-family: "Elice Digital Baeum", sans-serif; */
 }
 
 ::before,
@@ -29,9 +33,35 @@ html {
   margin: 0;
 }
 
+.body {
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: 0; /* Firefox */
+}
+::-webkit-scrollbar {
+   /* Chrome, Safari, Opera */
+  /* height: 0px; */
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #584491;
+}
 /* # =================================================================
    # General elements
    # ================================================================= */
+
+ul {
+  margin-bottom: 0;
+  list-style: none;
+
+}
+
+.recharts-label {
+  font-size: 1.3rem;
+}
+.recharts-cartesian-axis-tick-value {
+  font-size: 1.1rem;
+}
 
 hr {
   overflow: visible; /* Show the overflow in Edge and IE */
@@ -279,6 +309,44 @@ progress {
   cursor: default;
 }
 
+.fc .fc-col-header-cell-cushion {
+  display: inline-block;
+  padding: 2px 4px;
+  text-decoration: none;
+  color: black;
+}
+
+.fc .fc-daygrid-day-number {
+  position: relative;
+  z-index: 4;
+  padding: 4px;
+  text-decoration: none;
+  color: black;
+}
+
+
+.fc-event-title {
+  color: black;
+}
+
+.fc-icon{
+  display: flex;
+  align-items: center;
+}
+
+// 스크롤바 안 보이게 하기
+.body {
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: 0; /* Firefox */
+}
+::-webkit-scrollbar {
+   /* Chrome, Safari, Opera */
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #584491;
+}
 
 `;
 
